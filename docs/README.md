@@ -3,20 +3,23 @@ layout: home
 permalink: index.html
 
 # Please update this with your repository name and project title
-repository-name: eYY-3yp-project-template
-title: Project Template
+repository-name: e19-3yp-impact-tracker
+title: Impact Tracker
 ---
 
 [comment]: # "This is the standard layout for the project, but you can clean this and use your own template"
 
-# Project Title
+# Impact Response Tracker
 
 ---
 
 ## Team
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
+-  E/19/094, Mansitha Eashwara
+-  E/19/124, Hirushi Gunasekara
+-  E/19/129, Kanishka Gunawardena
+-  E/19/372, Kaushitha Silva
+-  E/19/408, Sanduni Ubayasiri
+  
 
 <!-- Image (photo/drawing of the final hardware) should be here -->
 
@@ -64,8 +67,8 @@ What was achieved, future developments, commercialization plans
 
 ## Links
 
-- [Project Repository](https://github.com/cepdnaclk/{{ page.repository-name }}){:target="_blank"}
-- [Project Page](https://cepdnaclk.github.io/{{ page.repository-name}}){:target="_blank"}
+- [Project Repository](https://github.com/cepdnaclk/{{ page.e19-3yp-impact-tracker }}){:target="_blank"}
+- [Project Page](https://cepdnaclk.github.io/{{ page.imapct-tracker}}){:target="_blank"}
 - [Department of Computer Engineering](http://www.ce.pdn.ac.lk/)
 - [University of Peradeniya](https://eng.pdn.ac.lk/)
 
