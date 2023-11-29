@@ -1,3 +1,4 @@
+@use "../../variables.scss" as *;
 $hover-cl: #c34444;
 .menuItem {
   list-style-type: none;
@@ -42,7 +43,7 @@ $hover-cl: #c34444;
 
   &.active {
     .icon {
-      color: #ff2a2a;
+      color: $primary-red;
     }
   }
 }
