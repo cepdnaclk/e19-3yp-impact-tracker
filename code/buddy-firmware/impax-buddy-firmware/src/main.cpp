@@ -44,8 +44,8 @@
 //   delay(5000);
 // }
 
-const char* ssid = "Dialog 4G 629";
-const char* password = "189FFF07";
+const char* ssid = "Dialog 4G 629123";
+const char* password = "189FFF07123";
 
 void setup(){
     Serial.begin(9600);
