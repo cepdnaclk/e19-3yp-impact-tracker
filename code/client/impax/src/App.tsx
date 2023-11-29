@@ -1,15 +1,13 @@
-import './App.css'
-import Header from './components/Test' 
-import Sidebar from './components/Sidebar'
+import "./App.css";
+import Header from "./components/Test";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 function App() {
-
   return (
     <>
-<Sidebar/>
-      
+      <Sidebar />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
