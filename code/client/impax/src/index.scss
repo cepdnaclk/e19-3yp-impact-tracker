@@ -35,3 +35,9 @@ main {
   left: $nav-width;
   padding: 4em 4em;
 }
+
+button {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}

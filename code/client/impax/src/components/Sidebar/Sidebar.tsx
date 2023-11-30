@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import styles from "./Sidebar.module.scss";
 import { BsBroadcast } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -7,7 +6,6 @@ import MenuItem from "./MenuItem";
 import { useAppState } from "../../store/appState";
 
 const Sidebar = () => {
-  // type activePage = "live" | "devices" | "analytics" | "profile";
   const activePage = useAppState((state) => state.activePage);
   const setActivePage = useAppState((state) => state.setActivePage);
   return (
