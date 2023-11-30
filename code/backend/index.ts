@@ -17,6 +17,10 @@ app.use(express.json());
 
 const port = process.env.PORT||5000;
 
+
+import exampleRoutes from "./src/routes/example";
+app.use(exampleRoutes);
+
 const swaggerSpec = swaggerJSDoc(apiInfo);
 
 app.get('/', (req: Request, res: Response) => {
