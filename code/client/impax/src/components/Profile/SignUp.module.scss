@@ -1,0 +1,28 @@
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0;
+  height: 100dvh;
+}
+
+.hero {
+  //position: fixed;
+  overflow: hidden;
+
+  .coverImg {
+    height: 100dvh;
+
+    //width: 100%;
+    position: relative;
+    &::after {
+      content: " ";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 1);
+      z-index: 100;
+    }
+  }
+}

@@ -1,15 +1,21 @@
-import './App.css'
-import Header from './components/Test' 
-import Sidebar from './components/Sidebar'
+import "./App.css";
+import Sidebar from "./components/Sidebar/Sidebar";
+import Live from "./components/Live/Live";
+import Test from "./components/Test/Test";
+import Content from "./components/Content/Content";
 
 function App() {
+  // type selectedPage = "live" | "devices" | "analytics" | "profile";
 
   return (
     <>
-<Sidebar/>
-      
+      <Sidebar />
+      <Content />
+      {/* <Live /> */}
+
+      {/* <Test /> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
