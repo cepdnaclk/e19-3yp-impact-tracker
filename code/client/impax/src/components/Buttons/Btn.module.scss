@@ -1,0 +1,25 @@
+button {
+  padding: 0.4em 1.2em;
+  font-weight: 500;
+  border-radius: 0.5em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6em;
+  .icon {
+    font-size: 1.4em;
+  }
+}
+
+.primaryBtn {
+  background-color: rgb(14, 61, 127);
+  color: white;
+  //border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.secondaryBtn {
+  background-color: #313131;
+  //border: 2px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
