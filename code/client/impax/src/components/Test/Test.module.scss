@@ -1,0 +1,43 @@
+@use "../../variables.scss" as *;
+* {
+  //   outline: 1px solid red;
+}
+.main {
+  color: rgb(232, 232, 232);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-left: 2em;
+  margin-bottom: 1em;
+  h1 {
+    font-family: "MADE Outer Sans", sans-serif;
+    font-size: 2em;
+    letter-spacing: 0.05ch;
+    color: rgb(232, 232, 232);
+  }
+
+  .icon {
+    height: 2em;
+    width: 2em;
+    aspect-ratio: 1;
+    color: $primary-red;
+  }
+}
+
+.session {
+  padding: 1em 2em;
+  background-color: #1f1f1f;
+  border-radius: 0.6em;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  h2 {
+    color: rgb(220, 220, 220);
+    font-size: 1.3em;
+  }
+  span {
+    color: rgb(170, 170, 170);
+  }
+}
