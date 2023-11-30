@@ -1,3 +1,4 @@
+@use "../../variables.scss" as *;
 .main {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -7,7 +8,8 @@
 
 .content {
   margin: auto auto;
-  width: max-content;
+  width: min(55%, 24em);
+  font-size: 1em;
   .heading {
     text-align: center;
     margin: 0 auto;
@@ -30,63 +32,66 @@
   }
 }
 
-.toggleSwitch {
-  background-color: #434343;
-  width: fit-content;
-  padding: 0.8em 1.4em;
+form {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  border-radius: 5em;
-  gap: 2em;
-  margin-top: 1em;
-  cursor: pointer;
-  user-select: none;
-  //box-shadow: 0px 13px 20px -9px rgba(0, 0, 0, 0.1);
-  position: relative;
-
-  .toggleItem {
-    display: inline-block;
-    font-size: 1em;
-    z-index: 10;
-    color: white;
-    font-weight: 600;
-  }
-
-  .toggleItem:last-child {
-    color: rgb(180, 180, 180);
-    font-weight: 400;
-  }
-
-  &.manager {
-    .toggleItem:first-child {
-      color: rgb(180, 180, 180);
-      font-weight: 400;
-    }
-
-    .toggleItem:last-child {
-      color: white;
+  flex-direction: column;
+  gap: 1em;
+  .inputContainer {
+    label {
+      position: relative;
+      font-size: 0.9em;
       font-weight: 600;
+      left: 0.6em;
     }
 
-    &::before {
-      width: 19ch;
-      transform: translateY(-50%) translateX(3.8ch);
+    input,
+    textarea {
+      width: 100%;
+      display: block;
+      border: 0;
+      padding: 0.8rem 1rem;
+      background-color: rgba(123, 123, 123, 0.26);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 0.6rem;
+      margin-top: 0.6rem;
+      margin-bottom: 0.2rem;
+      font-size: 1em;
+      color: $body-color;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      &:focus {
+        outline: none;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        background-color: black;
+      }
+
+      &.invalid {
+        border: 1px solid #d63131;
+      }
     }
   }
+}
 
-  &::before {
-    content: " ";
-    position: absolute;
-    width: 9ch;
-    /* padding: 0 2em; */
-    height: 85%;
-    border-radius: 5em;
-    top: 50%;
-    transform: translateY(-50%) translateX(-8.8ch);
-    background-color: rgb(36, 36, 36);
-    transition: transform 300ms cubic-bezier(0.18, 0.89, 0.35, 1.15),
-      width 50ms ease-in-out, background-color 250ms ease-in-out;
+.nextBtn {
+  width: 100%;
+  background-color: rgb(32, 48, 103);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgb(211, 216, 255);
+  font-size: 1em;
+  font-weight: 600;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  padding: 1rem;
+}
+
+.loginText {
+  text-align: center;
+  margin-top: 1em;
+  span {
+    font-weight: 600;
+    cursor: pointer;
   }
 }
