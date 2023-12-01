@@ -10,7 +10,6 @@ const SignUp = () => {
     teamId: string;
     email: string;
   }
-  // const [role, setRole] = useState<role>("manager");
   const [formData, setFormData] = useState<formData>({
     role: "manager",
     teamId: "",
@@ -32,7 +31,6 @@ const SignUp = () => {
 
   //TODO: Disable Next button if the two inputs are empty
   const toggleRole = () => {
-    // setRole((prevRole) => (prevRole === "player" ? "manager" : "player"));
     setFormData((prevData) => ({
       ...prevData,
       role: prevData.role === "player" ? "manager" : "player",
