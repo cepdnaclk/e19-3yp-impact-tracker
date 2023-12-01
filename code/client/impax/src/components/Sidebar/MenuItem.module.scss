@@ -1,0 +1,49 @@
+@use "../../variables.scss" as *;
+$hover-cl: #c34444;
+.menuItem {
+  list-style-type: none;
+  position: relative;
+  cursor: pointer;
+  .name {
+    visibility: hidden;
+    position: absolute;
+    opacity: 0;
+    top: 50%;
+    left: 5em;
+    transform: translate(-20%, -50%);
+    width: max-content;
+    padding: 0.4em 0.8em;
+    border-radius: 0.4em;
+    color: rgb(230, 230, 230);
+    background-color: #2e2e2e;
+    font-weight: 500;
+    font-size: 0.9em;
+  }
+
+  .icon {
+    color: rgba(255, 255, 255, 0.7);
+    width: 100%;
+    aspect-ratio: 1;
+    height: 2em;
+    transition: color 100ms ease-in-out;
+  }
+
+  &:hover {
+    .name {
+      visibility: visible;
+      opacity: 1;
+      transform: translate(0, -50%);
+      transition: all 100ms ease-in-out;
+    }
+
+    .icon {
+      color: white;
+    }
+  }
+
+  &.active {
+    .icon {
+      color: $primary-red;
+    }
+  }
+}

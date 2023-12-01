@@ -1,0 +1,103 @@
+@use "../../variables.scss" as *;
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0;
+  height: 100dvh;
+}
+
+.content {
+  margin: auto auto;
+  width: min(55%, 24em);
+  font-size: 1em;
+  .heading {
+    text-align: center;
+    margin: 0 auto;
+    font-weight: 600;
+    img {
+      margin-left: 0.4em;
+      position: relative;
+      top: 0.3em;
+      display: inline;
+      height: 1em;
+    }
+  }
+
+  .selectorContainer {
+    margin: 2em auto;
+    width: fit-content;
+    h4 {
+      text-align: center;
+    }
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  .inputContainer {
+    label {
+      position: relative;
+      font-size: 0.9em;
+      font-weight: 600;
+      left: 0.6em;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      display: block;
+      border: 0;
+      padding: 0.8rem 1rem;
+      background-color: rgba(123, 123, 123, 0.26);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 0.6rem;
+      margin-top: 0.6rem;
+      margin-bottom: 0.2rem;
+      font-size: 1em;
+      color: $body-color;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      &:focus {
+        outline: none;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        background-color: black;
+      }
+
+      &.invalid {
+        border: 1px solid #d63131;
+      }
+    }
+  }
+}
+
+.nextBtn {
+  width: 100%;
+  background-color: rgb(32, 48, 103);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgb(211, 216, 255);
+  font-size: 1em;
+  font-weight: 600;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  padding: 1rem;
+}
+
+.loginText {
+  text-align: center;
+  margin-top: 1em;
+  span {
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+}
