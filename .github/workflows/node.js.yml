@@ -1,0 +1,32 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set Node.js version and Install Dependencies
+      run: |
+        cd code/backend
+        npm ci
+      shell: bash
+      env:
+        NODE_VERSION: ${{ matrix.node-version }}
+
+    - name: Build and Run
+      run: |
+        npm run build --if-present
+      working-directory: code/backend
