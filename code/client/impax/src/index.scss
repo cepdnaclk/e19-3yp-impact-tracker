@@ -1,0 +1,43 @@
+@use "./variables.scss" as *;
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  // outline: 1px solid red;
+  font-family: $primary-font-family;
+}
+
+@font-face {
+  font-family: "Raleway";
+  src: url("/src/assets/fonts/Raleway-VariableFont_wght.ttf");
+}
+@font-face {
+  font-family: "MADE Outer Sans";
+  src: url("/src/assets/fonts/Made Outer Sans Bold.otf");
+}
+
+body {
+  background-color: #121212;
+  color: rgb(240, 240, 240);
+}
+ol,
+ul {
+  list-style-type: none;
+}
+aside {
+  width: $nav-width;
+}
+main {
+  position: absolute;
+  width: calc(100% - $nav-width);
+  left: $nav-width;
+  padding: 4em 4em;
+}
+
+button {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
