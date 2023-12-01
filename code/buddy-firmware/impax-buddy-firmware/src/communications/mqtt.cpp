@@ -11,7 +11,6 @@ void BuddyMQTT::init(){
     client.setServer(mqtt_broker, mqtt_port);
 
     while (!client.connected()) {
-        Serial.println(250);
         String client_id = "esp32-client-";
         client_id += String(WiFi.macAddress());
         Serial.printf("The client %s connects to the public MQTT broker\n", client_id.c_str());
