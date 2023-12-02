@@ -7,7 +7,10 @@ import apiInfo from './src/config/config';
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 
+import { connectToDatabase } from './src/db/connectdb'; // Adjust the path
+
 const app: Express = express();
+connectToDatabase();
 
 dotenv.config();
 app.use(bodyParser.json());

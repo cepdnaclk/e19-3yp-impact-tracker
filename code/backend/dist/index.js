@@ -11,7 +11,9 @@ const corsOptions_1 = __importDefault(require("./src/config/corsOptions"));
 const config_1 = __importDefault(require("./src/config/config"));
 const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const connectdb_1 = require("./src/db/connectdb"); // Adjust the path
 const app = (0, express_1.default)();
+(0, connectdb_1.connectToDatabase)();
 dotenv_1.default.config();
 app.use(body_parser_1.default.json());
 app.use((0, cors_1.default)(corsOptions_1.default));
