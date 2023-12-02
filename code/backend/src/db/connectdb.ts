@@ -1,5 +1,5 @@
 import { MongoClient, MongoClientOptions, ServerApiVersion } from 'mongodb';
-const uri = "mongodb+srv://impax-user:impax1234@3ypcluster.grcuqte.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://impax-user:impax1234@3ypcluster.grcuqte.mongodb.net/impax?retryWrites=true&w=majority";
 
 // Define the serverApi options
 const serverApiOptions = {

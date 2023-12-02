@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.client = exports.connectToDatabase = void 0;
 const mongodb_1 = require("mongodb");
-const uri = "mongodb+srv://impax-user:impax1234@3ypcluster.grcuqte.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://impax-user:impax1234@3ypcluster.grcuqte.mongodb.net/impax?retryWrites=true&w=majority";
 // Define the serverApi options
 const serverApiOptions = {
     version: mongodb_1.ServerApiVersion.v1,
