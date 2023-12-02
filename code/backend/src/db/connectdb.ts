@@ -6,13 +6,13 @@ const serverApiOptions = {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  };
+};
   
-  // Create a MongoClient with the combined MongoClientOptions
-  const client = new MongoClient(uri, {
-    serverApi: serverApiOptions,
-    // Other MongoClientOptions properties can be included here
-  } as MongoClientOptions);
+// Create a MongoClient with the combined MongoClientOptions
+const client = new MongoClient(uri, {
+  serverApi: serverApiOptions,
+  // Other MongoClientOptions properties can be included here
+} as MongoClientOptions);
 
 async function connectToDatabase() {
   try {
