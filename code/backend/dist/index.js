@@ -18,8 +18,8 @@ app.use((0, cors_1.default)(corsOptions_1.default));
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(express_1.default.json());
 const port = process.env.PORT || 5000;
-const example_1 = __importDefault(require("./src/routes/example"));
-app.use(example_1.default);
+const team_route_1 = __importDefault(require("./src/routes/team.route"));
+app.use("/team", team_route_1.default);
 const swaggerSpec = (0, swagger_jsdoc_1.default)(config_1.default);
 app.get('/', (req, res) => {
     res.send(config_1.default.definition.info);

@@ -1,11 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const router = (0, express_1.Router)();
+import { Router } from "express";
+import {Request, Response } from 'express';
+import {checkTeamExist, checkTeamEmailExist, createTeam} from '../controllers/team.controller'
+import {TeamIdExistsResponse, TeamManagerInterface, TeamIdEmailExistsResponse, Team} from "../models/team.model";
+
+const router = Router();
+
 /**
  * @swagger
- * /example:
- *      post:
+ * /team:
+ *      get:
  *          summary: Send the text to the server
  *          tags:
  *              - ExampleEndpoints
@@ -36,7 +39,26 @@ const router = (0, express_1.Router)();
  *              500:
  *                  description: Internal server error
  */
-router.post("/example", (req, res) => {
-    res.send("Example");
+
+router.get("/teamId/:id", (req: Request, res: Response) => {
+    res.send(new TeamIdExistsResponse(checkTeamExist(req.params.id)));
 });
-exports.default = router;
+
+
+router.get("/", (req: Request<{}, {}, {}, TeamManagerInterface>, res: Response) => {
+
+    const teamId = req.query.teamId;
+    const email = req.query.email;
+
+    res.send(new TeamIdEmailExistsResponse(checkTeamEmailExist(teamId, email)));
+    
+});
+
+router.post("/", (req: Request, res: Response) => {
+    
+    const team:Team = req.body;
+    
+    res.send(createTeam(team));
+});
+
+export default router;
