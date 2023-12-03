@@ -10,6 +10,4 @@ class LoginResquest{
 
 }
 
-
-
 export {LoginResquest};
