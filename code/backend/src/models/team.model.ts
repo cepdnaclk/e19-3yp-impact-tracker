@@ -13,20 +13,20 @@ interface TeamManagerInterface {
 }
 
 class TeamIdEmailExistsResponse{
-    private status: string;
+    public teamExists: boolean = false;
+    public managerExists: boolean = false;
   
-    public constructor(status: string) {
-      this.status = status;
+    public constructor() {
     }
 }
 
 class Team{
     public teamId: string;
-    public name: string;
+    public teamName: string;
   
-    public constructor(teamId: string, name: string) {
+    public constructor(teamId: string, teamName: string) {
       this.teamId = teamId;
-      this.name = name;
+      this.teamName = teamName;
     }
 }
 

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createTeam = exports.checkTeamEmailExist = exports.checkTeamExist = void 0;
+const team_model_1 = require("../models/team.model");
 function checkTeamExist(teamId) {
     // check team exists
     return true;
@@ -15,7 +16,9 @@ function checkTeamEmailExist(teamId, email) {
     //     teamExists: true,
     //     managerExists :true
     // }
-    return "log";
+    const teamIdEmailExistsResponse = new team_model_1.TeamIdEmailExistsResponse();
+    teamIdEmailExistsResponse.managerExists = true;
+    return teamIdEmailExistsResponse;
 }
 exports.checkTeamEmailExist = checkTeamEmailExist;
 function createTeam(team) {

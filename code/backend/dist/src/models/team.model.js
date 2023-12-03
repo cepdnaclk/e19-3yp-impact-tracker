@@ -8,15 +8,16 @@ class TeamIdExistsResponse {
 }
 exports.TeamIdExistsResponse = TeamIdExistsResponse;
 class TeamIdEmailExistsResponse {
-    constructor(status) {
-        this.status = status;
+    constructor() {
+        this.teamExists = false;
+        this.managerExists = false;
     }
 }
 exports.TeamIdEmailExistsResponse = TeamIdEmailExistsResponse;
 class Team {
-    constructor(teamId, name) {
+    constructor(teamId, teamName) {
         this.teamId = teamId;
-        this.name = name;
+        this.teamName = teamName;
     }
 }
 exports.Team = Team;

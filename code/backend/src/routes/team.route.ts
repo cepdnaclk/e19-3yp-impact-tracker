@@ -1,17 +1,32 @@
 import { Router } from "express";
 import {Request, Response } from 'express';
-import {checkTeamExist, checkTeamEmailExist, createTeam} from '../controllers/team.controller'
+import {checkTeamExist, checkTeamEmailExist, createTeam} from '../controllers/team.controller';
 import {TeamIdExistsResponse, TeamManagerInterface, TeamIdEmailExistsResponse, Team} from "../models/team.model";
+import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
+import { validateEmail } from "../utils/utils";
 
 const router = Router();
 
 // validate the Tean ID exits
 router.get("/exists/teamId/:id", (req: Request, res: Response) => {
 
-    const exists:boolean = checkTeamExist(req.params.id);
-    const existsResponse:TeamIdExistsResponse = new TeamIdExistsResponse(exists);
+    if (!req.params.id){
+        console.log(HttpMsg.BAD_REQUEST);
+        res.status(HttpCode.BAD_REQUEST).send({message: HttpMsg.BAD_REQUEST});
+        return;
+    }
 
-    res.send(existsResponse);
+    try{
+        const exists:boolean = checkTeamExist(req.params.id);
+        const existsResponse:TeamIdExistsResponse = new TeamIdExistsResponse(exists);
+    
+        res.send(existsResponse);
+
+    } catch (err) {
+        console.log(err);
+        res.status(HttpCode.BAD_REQUEST).send({message: HttpMsg.BAD_REQUEST});
+    }
+
 });
 
 
@@ -21,21 +36,54 @@ router.get("/exists", (req: Request<{}, {}, {}, TeamManagerInterface>, res: Resp
     const teamId = req.query.teamId;
     const email = req.query.email;
 
-    const status:string = checkTeamEmailExist(teamId, email);
-    const teamIdEmailExistResponse:TeamIdEmailExistsResponse = new TeamIdEmailExistsResponse(status);
+    if (!teamId || !email) {
+        console.log(HttpMsg.BAD_REQUEST);
+        res.status(HttpCode.BAD_REQUEST).send({message: HttpMsg.BAD_REQUEST});
+        return;
+    }
 
-    res.send(teamIdEmailExistResponse);
+    if (!validateEmail(email)) {
+        console.log(HttpMsg.INVALID_EMAIL);
+        res.status(HttpCode.BAD_REQUEST).send({message: HttpMsg.INVALID_EMAIL});
+        return;
+    }
+
+    try{
+        const teamIdEmailExistResponse:TeamIdEmailExistsResponse = checkTeamEmailExist(teamId, email);
+    
+        res.send(teamIdEmailExistResponse);
+
+    } catch (err) {
+        console.log(err);
+        res.status(HttpCode.BAD_REQUEST).send(HttpMsg.BAD_REQUEST);
+    }
     
 });
 
 // create a Team
 router.post("/", (req: Request, res: Response) => {
 
-    const team:Team = req.body;
+    const teamId = req.body.teamId;
+    const teamName = req.body.teamName;
 
-    const TeamResponse:Team = createTeam(team);
-    
-    res.send(TeamResponse);
+    if (!teamId || !teamName) {
+        console.log(HttpMsg.BAD_REQUEST);
+        res.status(HttpCode.BAD_REQUEST).send({message: HttpMsg.BAD_REQUEST});
+        return;
+    }
+
+    try{
+        const team:Team = new Team(teamId, teamName);
+
+        const TeamResponse:Team = createTeam(team);
+        
+        res.send(TeamResponse);
+
+    } catch (err) {
+        console.log(err);
+        res.status(HttpCode.BAD_REQUEST).send(HttpMsg.BAD_REQUEST);
+    }
+
 });
 
 export default router;

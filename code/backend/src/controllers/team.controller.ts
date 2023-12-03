@@ -1,5 +1,6 @@
 import {Request, Response } from 'express';
 import { Team } from '../models/team.model';
+import {TeamIdEmailExistsResponse} from '../models/team.model'
 
 function checkTeamExist(teamId: string): boolean {
 
@@ -8,7 +9,7 @@ function checkTeamExist(teamId: string): boolean {
     return true;
 }
 
-function checkTeamEmailExist(teamId: string, email: string): string {
+function checkTeamEmailExist(teamId: string, email: string): TeamIdEmailExistsResponse {
 
     // check team ID and email of the manager matchers
 
@@ -21,7 +22,10 @@ function checkTeamEmailExist(teamId: string, email: string): string {
     //     managerExists :true
     // }
 
-    return "log";
+    const teamIdEmailExistsResponse:TeamIdEmailExistsResponse = new TeamIdEmailExistsResponse();
+    teamIdEmailExistsResponse.managerExists = true;
+
+    return teamIdEmailExistsResponse;
 }
 
 function createTeam(team: Team): Team{
