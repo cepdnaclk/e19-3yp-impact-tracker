@@ -2,6 +2,19 @@
   background-color: #1f1f1f;
   padding: 1em 2em;
   border-radius: 1em;
+  position: relative;
+
+  .actionBtn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 1.4em;
+    padding: 2px;
+    cursor: pointer;
+    background-color: rgb(66, 66, 66);
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.7);
+  }
 }
 
 .playerInfo {
@@ -22,5 +35,22 @@
   .device {
     font-size: 0.9em;
     color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+.metrics {
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  margin-top: 0.4em;
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+
+    .icon {
+      font-size: 1.2em;
+    }
   }
 }
