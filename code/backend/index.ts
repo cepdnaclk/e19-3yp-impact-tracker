@@ -18,7 +18,12 @@ app.use(express.json());
 const port = process.env.PORT||5000;
 
 import teamRoutes from "./src/routes/team.route";
+import managerRoutes from "./src/routes/manager.route";
+import login from "./src/routes/login.route";
+
 app.use("/team" ,teamRoutes);
+app.use("/manager" ,managerRoutes);
+app.use("/login" ,login);
 
 const swaggerSpec = swaggerJSDoc(apiInfo);
 

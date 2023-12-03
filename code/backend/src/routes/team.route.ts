@@ -5,60 +5,37 @@ import {TeamIdExistsResponse, TeamManagerInterface, TeamIdEmailExistsResponse, T
 
 const router = Router();
 
-/**
- * @swagger
- * /team:
- *      get:
- *          summary: Send the text to the server
- *          tags:
- *              - ExampleEndpoints
- *          description: Send a message to the server and get a response added to the original text.
- *          requestBody:
- *              required: true
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              responseText:
- *                                  type: string
- *                                  example: This is some example string! This is an endpoint
- *          responses:
- *              201:
- *                  description: Success
- *                  content:
- *                      application/json:
- *                          schema:
- *                              type: object
- *                              properties:
- *                                  text:
- *                                      type: string
- *                                      example: This is some example string!
- *              404:
- *                  description: Not found
- *              500:
- *                  description: Internal server error
- */
+// validate the Tean ID exits
+router.get("/exists/teamId/:id", (req: Request, res: Response) => {
 
-router.get("/teamId/:id", (req: Request, res: Response) => {
-    res.send(new TeamIdExistsResponse(checkTeamExist(req.params.id)));
+    const exists:boolean = checkTeamExist(req.params.id);
+    const existsResponse:TeamIdExistsResponse = new TeamIdExistsResponse(exists);
+
+    res.send(existsResponse);
 });
 
 
-router.get("/", (req: Request<{}, {}, {}, TeamManagerInterface>, res: Response) => {
+// validate both Team ID and email 
+router.get("/exists", (req: Request<{}, {}, {}, TeamManagerInterface>, res: Response) => {
 
     const teamId = req.query.teamId;
     const email = req.query.email;
 
-    res.send(new TeamIdEmailExistsResponse(checkTeamEmailExist(teamId, email)));
+    const status:string = checkTeamEmailExist(teamId, email);
+    const teamIdEmailExistResponse:TeamIdEmailExistsResponse = new TeamIdEmailExistsResponse(status);
+
+    res.send(teamIdEmailExistResponse);
     
 });
 
+// create a Team
 router.post("/", (req: Request, res: Response) => {
-    
+
     const team:Team = req.body;
+
+    const TeamResponse:Team = createTeam(team);
     
-    res.send(createTeam(team));
+    res.send(TeamResponse);
 });
 
 export default router;

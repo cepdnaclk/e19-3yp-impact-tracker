@@ -1,10 +1,10 @@
-
 class TeamIdExistsResponse{
     private teamExists: boolean;
   
     public constructor(teamExists: boolean) {
       this.teamExists = teamExists;
     }
+    
 }
 
 interface TeamManagerInterface {

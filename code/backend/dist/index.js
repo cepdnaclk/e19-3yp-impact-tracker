@@ -19,7 +19,11 @@ app.use(express_1.default.urlencoded({ extended: false }));
 app.use(express_1.default.json());
 const port = process.env.PORT || 5000;
 const team_route_1 = __importDefault(require("./src/routes/team.route"));
+const manager_route_1 = __importDefault(require("./src/routes/manager.route"));
+const login_route_1 = __importDefault(require("./src/routes/login.route"));
 app.use("/team", team_route_1.default);
+app.use("/manager", manager_route_1.default);
+app.use("/login", login_route_1.default);
 const swaggerSpec = (0, swagger_jsdoc_1.default)(config_1.default);
 app.get('/', (req, res) => {
     res.send(config_1.default.definition.info);
