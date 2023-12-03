@@ -2,7 +2,7 @@
   background-color: #1f1f1f;
   border-radius: 1em;
   position: relative;
-
+  max-width: 26em;
   padding: 1em 0em;
   .actionBtn {
     position: absolute;
@@ -72,7 +72,7 @@
   justify-content: space-between;
   padding: 1em 1.4em;
   margin: 1.2em 1em;
-  background-color: rgb(37, 44, 61);
+  background-color: rgb(37, 55, 87);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1em;
 
@@ -80,6 +80,11 @@
     .label {
       font-size: 0.9em;
       color: rgb(179, 188, 255, 0.8);
+
+      span {
+        color: rgb(214, 219, 255);
+        font-weight: 600;
+      }
     }
 
     .value {
@@ -99,8 +104,40 @@
       }
     }
   }
+
+  &.newImpact {
+    background-color: rgb(160, 54, 54);
+    .impact {
+      .label,
+      .direction {
+        color: #e09f9f;
+      }
+
+      .value {
+        color: #ffd1d1;
+      }
+
+      span {
+        color: #ffcfcf;
+      }
+    }
+  }
+
+  &.critical {
+    animation: 240ms ease infinite alternate pulse;
+  }
 }
 
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    background-color: rgb(160, 54, 54);
+  }
+  to {
+    transform: scale(1.03);
+    background-color: saturate($color: rgb(160, 54, 54), $amount: 30);
+  }
+}
 .actions {
   display: flex;
   align-items: center;
@@ -109,6 +146,6 @@
 
   button {
     font-size: 0.9em;
-    padding: 1em 1.2em;
+    padding: 0.7em 1.2em;
   }
 }

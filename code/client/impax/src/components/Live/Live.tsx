@@ -6,6 +6,12 @@ import { IoMdExit } from "react-icons/io";
 import Btn from "../Buttons/Btn";
 import MonitorCard from "./MonitorCard";
 const Live = () => {
+  //Time object of 15 mins and 5 mins before for testing
+  const currentDate = new Date();
+  const fifteenMinutesBefore = new Date(currentDate.getTime() - 15 * 60 * 1000);
+  const fiveMinutesBefore = new Date(currentDate.getTime() - 4 * 60 * 1000);
+  const eightMinutesBefore = new Date(currentDate.getTime() - 8 * 60 * 1000);
+
   return (
     <main className={styles.main}>
       <div className={styles.title}>
@@ -29,11 +35,61 @@ const Live = () => {
       <div className={styles.monitoring}>
         <h3>Monitoring Players</h3>
         <div className={styles.grid}>
-          <MonitorCard />
-          <MonitorCard />
-          <MonitorCard />
-          <MonitorCard />
-          <MonitorCard />
+          <MonitorCard
+            key={69}
+            playerInfo={{
+              device: "#123",
+              jerseyNo: 69,
+              name: "Angelo Mathews",
+            }}
+            metrics={{
+              speed: 13,
+              distance: 200,
+            }}
+            latestImpact={{
+              value: 10,
+              direction: "TOP",
+              time: fifteenMinutesBefore,
+            }}
+            totalImpact={12}
+          />
+
+          <MonitorCard
+            key={23}
+            playerInfo={{
+              device: "#112",
+              jerseyNo: 23,
+              name: "TM Dilshan",
+            }}
+            metrics={{
+              speed: 8,
+              distance: 450,
+            }}
+            latestImpact={{
+              value: 50,
+              direction: "FRONT",
+              time: fiveMinutesBefore,
+            }}
+            totalImpact={120}
+          />
+          <MonitorCard
+            key={7}
+            playerInfo={{
+              device: "#12",
+              jerseyNo: 7,
+              name: "Dasun Shanaka",
+            }}
+            metrics={{
+              speed: 3,
+              distance: 50,
+            }}
+            latestImpact={{
+              value: 10,
+              direction: "TOP",
+              time: eightMinutesBefore,
+            }}
+            totalImpact={90}
+          />
         </div>
       </div>
     </main>
