@@ -8,20 +8,20 @@ import { FaHistory } from "react-icons/fa";
 
 interface MonitorCardProps {
   playerInfo: {
-    jerseyNo: Number;
+    jerseyNo: number;
     name: string;
     device: string;
   };
   metrics: {
-    speed: Number;
-    distance: Number;
+    speed: number;
+    distance: number;
   };
   latestImpact: {
-    value: Number;
+    value: number;
     time: Date;
     direction: "TOP" | "BOTTOM" | "LEFT" | "RIGHT" | "FRONT" | "BACK";
   };
-  totalImpact: Number;
+  totalImpact: number;
 }
 
 const MonitorCard = ({
