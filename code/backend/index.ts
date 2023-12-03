@@ -10,6 +10,9 @@ import swaggerUi from "swagger-ui-express";
 // Create an instance of the Express application
 const app: Express = express();
 
+import { connectToDatabase } from './src/db/connectdb'; // Adjust the path
+connectToDatabase();
+
 // Load environment variables from a .env file
 dotenv.config();
 

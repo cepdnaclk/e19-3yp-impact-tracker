@@ -34,10 +34,16 @@ const cors_1 = __importDefault(require("cors"));
 const corsOptions_1 = __importDefault(require("./src/config/corsOptions"));
 const config_1 = __importDefault(require("./src/config/config"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+
 // Create an instance of the Express application
 const app = (0, express_1.default)();
+
+const connectdb_1 = require("./src/db/connectdb"); // Adjust the path
+(0, connectdb_1.connectToDatabase)();
+
 // Load environment variables from a .env file
 dotenv_1.default.config();
+
 // Middleware setup
 app.use(body_parser_1.default.json());
 app.use((0, cors_1.default)(corsOptions_1.default));
