@@ -59,8 +59,8 @@
   .grid {
     margin: 2em 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    column-gap: 2em;
-    row-gap: 2em;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    column-gap: 2.4em;
+    row-gap: 2.4em;
   }
 }
