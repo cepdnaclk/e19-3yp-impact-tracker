@@ -1,65 +1,70 @@
-// (c) Michael Schoeffler 2017, http://www.mschoeffler.de
 
-#include "Wire.h" // This library allows you to communicate with I2C devices.
+
+#include <Wire.h>
 #include <Arduino.h>
 
-const int MPU_ADDR = 0x68; // I2C address of the MPU-6050. If AD0 pin is set to HIGH, the I2C address will be 0x69.
-
-int16_t accelerometer_x, accelerometer_y, accelerometer_z; // variables for accelerometer raw data
-int16_t gyro_x, gyro_y, gyro_z;                            // variables for gyro raw data
-int16_t temperature;                                       // variables for temperature data
-
-char tmp_str[7]; // temporary variable used in convert function
-
-char *convert_int16_to_str(int16_t i)
-{ // converts int16 to string. Moreover, resulting strings will have the same length in the debug monitor.
-  sprintf(tmp_str, "%6d", i);
-  return tmp_str;
+float RateRoll, RatePitch, RateYaw;
+float AccX, AccY, AccZ;
+float AngleRoll, AnglePitch;
+float LoopTimer;
+void gyro_signals(void)
+{
+  Wire.beginTransmission(0x68);
+  Wire.write(0x1A);
+  Wire.write(0x05);
+  Wire.endTransmission();
+  Wire.beginTransmission(0x68);
+  Wire.write(0x1C);
+  Wire.write(0x10);
+  Wire.endTransmission();
+  Wire.beginTransmission(0x68);
+  Wire.write(0x3B);
+  Wire.endTransmission();
+  Wire.requestFrom(0x68, 6);
+  int16_t AccXLSB = Wire.read() << 8 | Wire.read();
+  int16_t AccYLSB = Wire.read() << 8 | Wire.read();
+  int16_t AccZLSB = Wire.read() << 8 | Wire.read();
+  Wire.beginTransmission(0x68);
+  Wire.write(0x1B);
+  Wire.write(0x8);
+  Wire.endTransmission();
+  Wire.beginTransmission(0x68);
+  Wire.write(0x43);
+  Wire.endTransmission();
+  Wire.requestFrom(0x68, 6);
+  int16_t GyroX = Wire.read() << 8 | Wire.read();
+  int16_t GyroY = Wire.read() << 8 | Wire.read();
+  int16_t GyroZ = Wire.read() << 8 | Wire.read();
+  RateRoll = (float)GyroX / 65.5;
+  RatePitch = (float)GyroY / 65.5;
+  RateYaw = (float)GyroZ / 65.5;
+  AccX = (float)AccXLSB / 4096 - 0.29;
+  AccY = (float)AccYLSB / 4096 + 0.06;
+  AccZ = (float)AccZLSB / 4096 - 0.03;
+  AngleRoll = atan(AccY / sqrt(AccX * AccX + AccZ * AccZ)) * 1 / (3.142 / 180);
+  AnglePitch = -atan(AccX / sqrt(AccY * AccY + AccZ * AccZ)) * 1 / (3.142 / 180);
 }
-
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(57600);
+  pinMode(13, OUTPUT);
+  digitalWrite(13, HIGH);
+  Wire.setClock(400000);
   Wire.begin();
-  Wire.beginTransmission(MPU_ADDR); // Begins a transmission to the I2C slave (GY-521 board)
-  Wire.write(0x6B);                 // PWR_MGMT_1 register
-  Wire.write(0);                    // set to zero (wakes up the MPU-6050)
-  Wire.endTransmission(true);
+  delay(250);
+  Wire.beginTransmission(0x68);
+  Wire.write(0x6B);
+  Wire.write(0x00);
+  Wire.endTransmission();
 }
 void loop()
 {
-  Wire.beginTransmission(MPU_ADDR);
-  Wire.write(0x3B);                        // starting with register 0x3B (ACCEL_XOUT_H) [MPU-6000 and MPU-6050 Register Map and Descriptions Revision 4.2, p.40]
-  Wire.endTransmission(false);             // the parameter indicates that the Arduino will send a restart. As a result, the connection is kept active.
-  Wire.requestFrom(MPU_ADDR, 7 * 2, true); // request a total of 7*2=14 registers
-
-  // "Wire.read()<<8 | Wire.read();" means two registers are read and stored in the same variable
-  accelerometer_x = Wire.read() << 8 | Wire.read(); // reading registers: 0x3B (ACCEL_XOUT_H) and 0x3C (ACCEL_XOUT_L)
-  accelerometer_y = Wire.read() << 8 | Wire.read(); // reading registers: 0x3D (ACCEL_YOUT_H) and 0x3E (ACCEL_YOUT_L)
-  accelerometer_z = Wire.read() << 8 | Wire.read(); // reading registers: 0x3F (ACCEL_ZOUT_H) and 0x40 (ACCEL_ZOUT_L)
-  temperature = Wire.read() << 8 | Wire.read();     // reading registers: 0x41 (TEMP_OUT_H) and 0x42 (TEMP_OUT_L)
-  gyro_x = Wire.read() << 8 | Wire.read();          // reading registers: 0x43 (GYRO_XOUT_H) and 0x44 (GYRO_XOUT_L)
-  gyro_y = Wire.read() << 8 | Wire.read();          // reading registers: 0x45 (GYRO_YOUT_H) and 0x46 (GYRO_YOUT_L)
-  gyro_z = Wire.read() << 8 | Wire.read();          // reading registers: 0x47 (GYRO_ZOUT_H) and 0x48 (GYRO_ZOUT_L)
-
-  // print out data
-  Serial.print("aX = ");
-  Serial.print(convert_int16_to_str(accelerometer_x));
-  Serial.print(" | aY = ");
-  Serial.print(convert_int16_to_str(accelerometer_y));
-  Serial.print(" | aZ = ");
-  Serial.print(convert_int16_to_str(accelerometer_z));
-  // the following equation was taken from the documentation [MPU-6000/MPU-6050 Register Map and Description, p.30]
-  Serial.print(" | tmp = ");
-  Serial.print(temperature / 340.00 + 36.53);
-  Serial.print(" | gX = ");
-  Serial.print(convert_int16_to_str(gyro_x));
-  Serial.print(" | gY = ");
-  Serial.print(convert_int16_to_str(gyro_y));
-  Serial.print(" | gZ = ");
-  Serial.print(convert_int16_to_str(gyro_z));
-  Serial.println();
-
-  // delay
-  delay(1000);
+  gyro_signals();
+  Serial.print("Acceleration X [g]= ");
+  Serial.print(AccX);
+  Serial.print(" Acceleration Y [g]= ");
+  Serial.print(AccY);
+  Serial.print(" Acceleration Z [g]= ");
+  Serial.println(AccZ);
+  delay(50);
 }
