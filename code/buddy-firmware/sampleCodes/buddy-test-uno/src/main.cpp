@@ -60,11 +60,19 @@ void setup()
 void loop()
 {
   gyro_signals();
-  Serial.print("Acceleration X [g]= ");
-  Serial.print(AccX);
-  Serial.print(" Acceleration Y [g]= ");
-  Serial.print(AccY);
-  Serial.print(" Acceleration Z [g]= ");
-  Serial.println(AccZ);
+  // Acceleration Values
+  // Serial.print("Acceleration X [g]= ");
+  // Serial.print(AccX);
+  // Serial.print(" Acceleration Y [g]= ");
+  // Serial.print(AccY);
+  // Serial.print(" Acceleration Z [g]= ");
+  // Serial.println(AccZ);
+
+  // Angles
+  Serial.print("Roll Angle in Degrees = ");
+  Serial.print(AngleRoll);
+  Serial.print("  Pitch Angle in Degrees = ");
+  Serial.print(AnglePitch);
+  Serial.println();
   delay(50);
 }
