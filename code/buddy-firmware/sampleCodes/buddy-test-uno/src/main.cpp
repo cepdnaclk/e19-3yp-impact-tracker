@@ -38,9 +38,9 @@ void gyro_signals(void)
   RateRoll = (float)GyroX / 65.5;
   RatePitch = (float)GyroY / 65.5;
   RateYaw = (float)GyroZ / 65.5;
-  AccX = (float)AccXLSB / 4096;
-  AccY = (float)AccYLSB / 4096;
-  AccZ = (float)AccZLSB / 4096;
+  AccX = (float)AccXLSB / 4096 - 0.26;
+  AccY = (float)AccYLSB / 4096 + 0.06;
+  AccZ = (float)AccZLSB / 4096 - 0.04;
   AngleRoll = atan(AccY / sqrt(AccX * AccX + AccZ * AccZ)) * 1 / (3.142 / 180);
   AnglePitch = -atan(AccX / sqrt(AccY * AccY + AccZ * AccZ)) * 1 / (3.142 / 180);
 }
