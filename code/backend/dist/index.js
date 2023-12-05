@@ -34,16 +34,13 @@ const cors_1 = __importDefault(require("cors"));
 const corsOptions_1 = __importDefault(require("./src/config/corsOptions"));
 const config_1 = __importDefault(require("./src/config/config"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
-
+const mongoose_1 = __importDefault(require("mongoose"));
 // Create an instance of the Express application
 const app = (0, express_1.default)();
-
-const connectdb_1 = require("./src/db/connectdb"); // Adjust the path
-(0, connectdb_1.connectToDatabase)();
-
+// import { connectToDatabase } from './src/db/connectdb'; // Adjust the path
+// connectToDatabase();
 // Load environment variables from a .env file
 dotenv_1.default.config();
-
 // Middleware setup
 app.use(body_parser_1.default.json());
 app.use((0, cors_1.default)(corsOptions_1.default));
@@ -69,4 +66,14 @@ app.get('/', (req, res) => {
 // Start the server and listen on the specified port
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
+});
+const uri = "mongodb+srv://impax-user:impax1234@3ypcluster.grcuqte.mongodb.net/impax?retryWrites=true&w=majority";
+mongoose_1.default.Promise = Promise;
+mongoose_1.default.connect(uri);
+mongoose_1.default.connection.on('connected', () => {
+    console.log("Connected to MongoDB!!!");
+});
+// Event listener for connection errors
+mongoose_1.default.connection.on('error', (error) => {
+    console.error("Error connecting to MongoDB:", error);
 });
