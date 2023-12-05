@@ -1,18 +1,10 @@
 import React from "react";
-import styles from "./LiveCard.module.scss";
-import { MdClose, MdSpeed } from "react-icons/md";
+import styles from "./MonitoringElements.module.scss";
+import { MdSpeed } from "react-icons/md";
 import { IoFootstepsSharp } from "react-icons/io5";
 import { PiWarningOctagonFill } from "react-icons/pi";
-import Btn from "../Buttons/Btn";
+import Btn from "../../Buttons/Btn";
 import { FaHistory } from "react-icons/fa";
-
-// TODO: Refactor the monitor card and active card properly
-
-type playerInfo = {
-  jerseyNo: number;
-  name: string;
-  device: string;
-};
 
 type metrics = {
   speed: number;
@@ -23,63 +15,6 @@ type latestImpact = {
   value: number;
   time: Date;
   direction: "TOP" | "BOTTOM" | "LEFT" | "RIGHT" | "FRONT" | "BACK";
-};
-
-interface LiveCardProps {
-  isMonitoring?: boolean;
-  playerInfo: playerInfo;
-  metrics?: metrics;
-  latestImpact?: latestImpact;
-  totalImpact?: number;
-}
-const LiveCard = ({
-  isMonitoring = true,
-  playerInfo,
-  metrics,
-  latestImpact,
-  totalImpact,
-}: LiveCardProps) => {
-  return (
-    <div className={styles.card}>
-      {/* If active render the close button, else the add button */}
-      {isMonitoring ? (
-        <MdClose className={styles.actionBtn} />
-      ) : (
-        <MdClose className={styles.actionBtn} />
-      )}
-
-      <div className={styles.playerInfo}>
-        <p className={styles.jerseyNo}>{playerInfo.jerseyNo.toString()}</p>
-        <div className={styles.name}>
-          <p className={styles.playerName}>{playerInfo.name}</p>
-          <p className={styles.device}>Device {playerInfo.device}</p>
-        </div>
-      </div>
-
-      {/* If active render the rest of the monitoring */}
-      {isMonitoring && (
-        <MonitoringElements
-          metrics={metrics}
-          totalImpact={totalImpact}
-          latestImpact={latestImpact}
-        />
-      )}
-    </div>
-  );
-};
-
-export default LiveCard;
-
-const MetricItem: React.FC<{ Icon: React.ElementType; value: string }> = ({
-  Icon,
-  value,
-}) => {
-  return (
-    <div className={styles.item}>
-      <Icon className={styles.icon} />
-      <span className={styles.value}>{value}</span>
-    </div>
-  );
 };
 
 const MonitoringElements: React.FC<{
@@ -103,7 +38,7 @@ const MonitoringElements: React.FC<{
         className={`${styles.impactContainer} ${
           elapsedTimeInMins < threshold && styles.newImpact
         }
-          ${elapsedTimeInMins < threshold / 2 && styles.critical}`}
+            ${elapsedTimeInMins < threshold / 2 && styles.critical}`}
       >
         <div className={`${styles.impact} ${styles.latest}`}>
           <p className={styles.label}>
@@ -134,3 +69,17 @@ const MonitoringElements: React.FC<{
     </>
   );
 };
+
+const MetricItem: React.FC<{ Icon: React.ElementType; value: string }> = ({
+  Icon,
+  value,
+}) => {
+  return (
+    <div className={styles.item}>
+      <Icon className={styles.icon} />
+      <span className={styles.value}>{value}</span>
+    </div>
+  );
+};
+
+export default MonitoringElements;

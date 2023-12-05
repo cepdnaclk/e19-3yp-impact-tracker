@@ -1,0 +1,21 @@
+.playerInfo {
+  display: flex;
+  flex-direction: row;
+  padding: 0em 2em;
+  align-items: center;
+  gap: 1.4em;
+  .jerseyNo {
+    font-size: 3em;
+    font-family: "MADE Outer Sans", sans-serif;
+  }
+
+  .playerName {
+    font-weight: 600;
+    font-size: 1.2em;
+  }
+
+  .device {
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.7);
+  }
+}

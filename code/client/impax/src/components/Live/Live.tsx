@@ -4,7 +4,8 @@ import { BsBroadcast } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import { IoMdExit } from "react-icons/io";
 import Btn from "../Buttons/Btn";
-import LiveCard from "./LiveCard";
+import MonitoringCard from "./Card/MonitoringCard";
+import ActiveCard from "./Card/ActiveCard";
 const Live = () => {
   //Time object of 15 mins and 5 mins before for testing
   const currentDate = new Date();
@@ -35,7 +36,7 @@ const Live = () => {
       <div className={styles.monitoring}>
         <h3>Monitoring Players</h3>
         <div className={styles.grid}>
-          <LiveCard
+          <MonitoringCard
             key={69}
             playerInfo={{
               device: "#123",
@@ -54,7 +55,7 @@ const Live = () => {
             totalImpact={12}
           />
 
-          <LiveCard
+          <MonitoringCard
             key={23}
             playerInfo={{
               device: "#112",
@@ -72,7 +73,7 @@ const Live = () => {
             }}
             totalImpact={120}
           />
-          <LiveCard
+          <MonitoringCard
             key={7}
             playerInfo={{
               device: "#12",
@@ -94,14 +95,13 @@ const Live = () => {
         <div className={styles.active}>
           <h3>Active Players</h3>
           <div className={styles.grid}>
-            <LiveCard
+            <ActiveCard
               key={11}
               playerInfo={{
                 device: "#22",
                 jerseyNo: 11,
                 name: "Kumar Sangakkara",
               }}
-              isMonitoring={false}
             />
           </div>
         </div>
