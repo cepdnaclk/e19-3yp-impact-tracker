@@ -1,44 +1,53 @@
 import React from "react";
-import styles from "./MonitorCard.module.scss";
+import styles from "./LiveCard.module.scss";
 import { MdClose, MdSpeed } from "react-icons/md";
 import { IoFootstepsSharp } from "react-icons/io5";
 import { PiWarningOctagonFill } from "react-icons/pi";
 import Btn from "../Buttons/Btn";
 import { FaHistory } from "react-icons/fa";
 
-interface MonitorCardProps {
-  playerInfo: {
-    jerseyNo: number;
-    name: string;
-    device: string;
-  };
-  metrics: {
-    speed: number;
-    distance: number;
-  };
-  latestImpact: {
-    value: number;
-    time: Date;
-    direction: "TOP" | "BOTTOM" | "LEFT" | "RIGHT" | "FRONT" | "BACK";
-  };
-  totalImpact: number;
-}
+// TODO: Refactor the monitor card and active card properly
 
-const MonitorCard = ({
+type playerInfo = {
+  jerseyNo: number;
+  name: string;
+  device: string;
+};
+
+type metrics = {
+  speed: number;
+  distance: number;
+};
+
+type latestImpact = {
+  value: number;
+  time: Date;
+  direction: "TOP" | "BOTTOM" | "LEFT" | "RIGHT" | "FRONT" | "BACK";
+};
+
+interface LiveCardProps {
+  isMonitoring?: boolean;
+  playerInfo: playerInfo;
+  metrics?: metrics;
+  latestImpact?: latestImpact;
+  totalImpact?: number;
+}
+const LiveCard = ({
+  isMonitoring = true,
   playerInfo,
   metrics,
   latestImpact,
   totalImpact,
-}: MonitorCardProps) => {
-  const timeDiff = new Date().getTime() - latestImpact.time.getTime();
-
-  // Convert the time difference to minutes
-  const elapsedTimeInMins = Math.floor(timeDiff / (1000 * 60));
-  const threshold = 10;
-
+}: LiveCardProps) => {
   return (
     <div className={styles.card}>
-      <MdClose className={styles.actionBtn} />
+      {/* If active render the close button, else the add button */}
+      {isMonitoring ? (
+        <MdClose className={styles.actionBtn} />
+      ) : (
+        <MdClose className={styles.actionBtn} />
+      )}
+
       <div className={styles.playerInfo}>
         <p className={styles.jerseyNo}>{playerInfo.jerseyNo.toString()}</p>
         <div className={styles.name}>
@@ -46,11 +55,50 @@ const MonitorCard = ({
           <p className={styles.device}>Device {playerInfo.device}</p>
         </div>
       </div>
+
+      {/* If active render the rest of the monitoring */}
+      {isMonitoring && (
+        <MonitoringElements
+          metrics={metrics}
+          totalImpact={totalImpact}
+          latestImpact={latestImpact}
+        />
+      )}
+    </div>
+  );
+};
+
+export default LiveCard;
+
+const MetricItem: React.FC<{ Icon: React.ElementType; value: string }> = ({
+  Icon,
+  value,
+}) => {
+  return (
+    <div className={styles.item}>
+      <Icon className={styles.icon} />
+      <span className={styles.value}>{value}</span>
+    </div>
+  );
+};
+
+const MonitoringElements: React.FC<{
+  metrics?: metrics;
+  latestImpact?: latestImpact;
+  totalImpact?: number;
+}> = ({ metrics, latestImpact, totalImpact }) => {
+  if (!metrics || !latestImpact || !totalImpact) return null;
+  const timeDiff = new Date().getTime() - latestImpact.time.getTime();
+
+  // Convert the time difference to minutes
+  const elapsedTimeInMins = Math.floor(timeDiff / (1000 * 60));
+  const threshold = 10;
+  return (
+    <>
       <div className={styles.metrics}>
         <MetricItem Icon={MdSpeed} value={`${metrics.speed} kmph`} />
         <MetricItem Icon={IoFootstepsSharp} value={`${metrics.distance} m`} />
       </div>
-
       <div
         className={`${styles.impactContainer} ${
           elapsedTimeInMins < threshold && styles.newImpact
@@ -83,20 +131,6 @@ const MonitorCard = ({
           Impact History
         </Btn>
       </div>
-    </div>
-  );
-};
-
-export default MonitorCard;
-
-const MetricItem: React.FC<{ Icon: React.ElementType; value: string }> = ({
-  Icon,
-  value,
-}) => {
-  return (
-    <div className={styles.item}>
-      <Icon className={styles.icon} />
-      <span className={styles.value}>{value}</span>
-    </div>
+    </>
   );
 };
