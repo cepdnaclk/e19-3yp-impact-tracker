@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Card.module.scss";
-import { MdClose } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
 import PlayerInfo from "./PlayerInfo";
 
 type playerInfo = {
@@ -15,7 +15,7 @@ interface ActiveCardProps {
 const ActiveCard = ({ playerInfo }: ActiveCardProps) => {
   return (
     <div className={styles.card}>
-      <MdClose className={styles.actionBtn} />
+      <MdAdd className={styles.actionBtn} />
       <PlayerInfo playerInfo={playerInfo} />
     </div>
   );
