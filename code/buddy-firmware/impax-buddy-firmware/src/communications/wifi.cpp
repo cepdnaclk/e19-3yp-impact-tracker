@@ -27,3 +27,4 @@ void BuddyWIFI::init(){
     Serial.println(WiFi.localIP());
 
 }
+

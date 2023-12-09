@@ -1,17 +1,8 @@
 #include "define.h"
 
-const char* ssid = "Dialog 4G 629";
-const char* password = "189FFF07";
-
-// MQTT Broker
-const char *mqtt_broker = "broker.emqx.io";
-const char *topic = "emqx/esp32";
-const char *mqtt_username = "emqx";
-const char *mqtt_password = "public";
-const int mqtt_port = 1883;
-
 BuddyWIFI buddyWIFI(ssid, password);
 BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port);
+Topics topics;
 
 
 void callback(char *topic, byte *payload, unsigned int length) {
@@ -25,22 +16,40 @@ void callback(char *topic, byte *payload, unsigned int length) {
     Serial.println("-----------------------");
 }
 
+void initEEPROM(){
+    EEPROM.begin(EEPROM_SIZE);
+    // EEPROM.write(EEPROM_START_ADDRESS, ID);
+    // EEPROM.commit();
+    BUDDY_ID += EEPROM.read(EEPROM_START_ADDRESS);
+}
+
+void updateTopics(){
+    topics.TEST = "/" + BUDDY_ID + topics.TEST;
+}
+
 void setup(){
     Serial.begin(BAUD_RATE);
 
-    buddyWIFI.init();
+    initEEPROM();
+    updateTopics();
 
+    buddyWIFI.init();
     buddyMQTT.client.setCallback(callback);
+
     buddyMQTT.init();
+    buddyMQTT.subscribe(topics.TEST.c_str());
+
+    Serial.println("Buddy ID: " + BUDDY_ID);
+    Serial.println("Setup done");
 }
 
 void loop() {
     if (!buddyMQTT.client.connected()) {
         buddyMQTT.reconnect();
     }
-    
+
     buddyMQTT.client.loop();
 
-
-
+    buddyMQTT.publish(topics.TEST.c_str(), "test");
+    delay(1000);
 }

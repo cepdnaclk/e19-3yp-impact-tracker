@@ -29,3 +29,11 @@ void BuddyMQTT::reconnect(){
         }
     }
 }
+
+void BuddyMQTT::publish(const char * topic, const char * msg){
+    client.publish(topic, msg);
+}
+
+void BuddyMQTT::subscribe(const char * topic){
+    client.subscribe(topic);
+}

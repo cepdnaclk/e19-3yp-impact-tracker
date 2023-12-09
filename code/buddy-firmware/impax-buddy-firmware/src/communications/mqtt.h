@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <PubSubClient.h>
 #include "wifi.h"
+#include "topics.h"
 
 #define TIME_DELAY_RECONNECT 2000
 
@@ -23,6 +24,8 @@ public:
 
     void init();
     void reconnect();
+    void publish(const char *, const char *);
+    void subscribe(const char *);
 
 private:
 
