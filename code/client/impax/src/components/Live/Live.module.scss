@@ -1,7 +1,5 @@
 @use "../../variables.scss" as *;
-* {
-  //   outline: 1px solid red;
-}
+
 .main {
   color: rgb(232, 232, 232);
 }
@@ -50,17 +48,18 @@
   }
 }
 
-.monitoring {
+.monitoring,
+.active {
   margin: 3em 0;
   h3 {
     margin-left: 2em;
   }
-
   .grid {
+    width: 100%;
     margin: 2em 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    column-gap: 2em;
-    row-gap: 2em;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 26em));
+    column-gap: 2.4em;
+    row-gap: 2.4em;
   }
 }

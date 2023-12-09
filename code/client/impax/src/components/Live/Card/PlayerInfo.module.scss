@@ -1,12 +1,7 @@
-.card {
-  background-color: #1f1f1f;
-  padding: 1em 2em;
-  border-radius: 1em;
-}
-
 .playerInfo {
   display: flex;
   flex-direction: row;
+  padding: 0em 2em;
   align-items: center;
   gap: 1.4em;
   .jerseyNo {

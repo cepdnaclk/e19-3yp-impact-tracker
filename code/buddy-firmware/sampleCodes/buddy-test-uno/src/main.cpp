@@ -1,99 +1,78 @@
+
+
+#include <Wire.h>
 #include <Arduino.h>
 
-/**！
- * @file getAcceleration.ino
- * @brief Get the acceleration in the three directions of xyz, the range can be ±100g or ±200g
- * @n When using SPI, chip select pin can be modified by changing the value of macro H3LIS200DL_CS
- * @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
- * @license     The MIT License (MIT)
- * @author [fengli](li.feng@dfrobot.com)
- * @version  V1.0
- * @date  2021-01-16
- * @url https://github.com/DFRobot/DFRobot_LIS
- */
-
-#include <DFRobot_LIS.h>
-
-// When using I2C communication, use the following program to construct an object by DFRobot_H3LIS200DL_I2C
-/*!
- * @brief Constructor
- * @param pWire I2c controller
- * @param addr  I2C address(0x18/0x19)
- */
-// DFRobot_H3LIS200DL_I2C acce(&Wire,0x18);
-DFRobot_H3LIS200DL_I2C acce;
-
-// When using SPI communication, use the following program to construct an object by DFRobot_H3LIS200DL_SPI
-#if defined(ESP32) || defined(ESP8266)
-#define H3LIS200DL_CS D3
-#elif defined(__AVR__) || defined(ARDUINO_SAM_ZERO)
-#define H3LIS200DL_CS 3
-#elif (defined NRF5)
-#define H3LIS200DL_CS 2 // The pin on the development board with the corresponding silkscreen printed as P2
-#endif
-/*!
- * @brief Constructor
- * @param cs  Chip selection pinChip selection pin
- * @param spi  SPI controller
- */
-// DFRobot_H3LIS200DL_SPI acce(/*cs = */H3LIS200DL_CS);
-
-void setup(void)
+float RateRoll, RatePitch, RateYaw;
+float AccX, AccY, AccZ;
+float AngleRoll, AnglePitch;
+float LoopTimer;
+void gyro_signals(void)
 {
-
-  Serial.begin(9600);
-  // Chip initialization
-  while (!acce.begin())
-  {
-    Serial.println("Initialization failed, please check the connection and I2C address settings");
-    delay(1000);
-  }
-  // Get chip id
-  Serial.print("chip id : ");
-  Serial.println(acce.getID(), HEX);
-
-  /**
-    set range:Range(g)
-              eH3lis200dl_100g,/< ±100g>/
-              eH3lis200dl_200g,/< ±200g>/
-  */
-  acce.setRange(/*Range = */ DFRobot_LIS::eH3lis200dl_100g);
-
-  /**
-    Set data measurement rate：
-      ePowerDown_0HZ = 0,
-      eLowPower_halfHZ,
-      eLowPower_1HZ,
-      eLowPower_2HZ,
-      eLowPower_5HZ,
-      eLowPower_10HZ,
-      eNormal_50HZ,
-      eNormal_100HZ,
-      eNormal_400HZ,
-      eNormal_1000HZ,
-  */
-  acce.setAcquireRate(/*Rate = */ DFRobot_LIS::eNormal_50HZ);
-  Serial.print("Acceleration:\n");
-  delay(1000);
+  Wire.beginTransmission(0x68);
+  Wire.write(0x1A);
+  Wire.write(0x05);
+  Wire.endTransmission();
+  Wire.beginTransmission(0x68);
+  Wire.write(0x1C);
+  Wire.write(0x10);
+  Wire.endTransmission();
+  Wire.beginTransmission(0x68);
+  Wire.write(0x3B);
+  Wire.endTransmission();
+  Wire.requestFrom(0x68, 6);
+  int16_t AccXLSB = Wire.read() << 8 | Wire.read();
+  int16_t AccYLSB = Wire.read() << 8 | Wire.read();
+  int16_t AccZLSB = Wire.read() << 8 | Wire.read();
+  Wire.beginTransmission(0x68);
+  Wire.write(0x1B);
+  Wire.write(0x8);
+  Wire.endTransmission();
+  Wire.beginTransmission(0x68);
+  Wire.write(0x43);
+  Wire.endTransmission();
+  Wire.requestFrom(0x68, 6);
+  int16_t GyroX = Wire.read() << 8 | Wire.read();
+  int16_t GyroY = Wire.read() << 8 | Wire.read();
+  int16_t GyroZ = Wire.read() << 8 | Wire.read();
+  RateRoll = (float)GyroX / 65.5;
+  RatePitch = (float)GyroY / 65.5;
+  RateYaw = (float)GyroZ / 65.5;
+  AccX = (float)AccXLSB / 4096 - 0.26;
+  AccY = (float)AccYLSB / 4096 + 0.06;
+  AccZ = (float)AccZLSB / 4096 - 0.04;
+  AngleRoll = atan(AccY / sqrt(AccX * AccX + AccZ * AccZ)) * 1 / (3.142 / 180);
+  AnglePitch = -atan(AccX / sqrt(AccY * AccY + AccZ * AccZ)) * 1 / (3.142 / 180);
 }
-
-void loop(void)
+void setup()
 {
+  Serial.begin(57600);
+  pinMode(13, OUTPUT);
+  digitalWrite(13, HIGH);
+  Wire.setClock(400000);
+  Wire.begin();
+  delay(250);
+  Wire.beginTransmission(0x68);
+  Wire.write(0x6B);
+  Wire.write(0x00);
+  Wire.endTransmission();
+}
+void loop()
+{
+  gyro_signals();
+  // Acceleration Values
+  // Serial.print("Acceleration X [g]= ");
+  // Serial.print(AccX);
+  // Serial.print(" Acceleration Y [g]= ");
+  // Serial.print(AccY);
+  // Serial.print(" Acceleration Z [g]= ");
+  // Serial.println(AccZ);
 
-  // Get the acceleration in the three directions of xyz
-  long ax, ay, az;
-  // The measurement range can be ±100g or ±200g set by the setRange() function
-  ax = acce.readAccX(); // Get the acceleration in the x direction
-  ay = acce.readAccY(); // Get the acceleration in the y direction
-  az = acce.readAccZ(); // Get the acceleration in the z direction
-  // acce.getAcceFromXYZ(/*accx = */ax,/*accy = */ay,/*accz = */az);//The second method to obtain acceleration in three directions
-  // Print acceleration
-  Serial.print("x: ");
-  Serial.print(ax);
-  Serial.print(" g\t  y: ");
-  Serial.print(ay);
-  Serial.print(" g\t  z: ");
-  Serial.print(az);
-  Serial.println(" g");
-  delay(300);
+  // Angles
+  Serial.print("Roll Angle in Degrees = ");
+  Serial.print(AngleRoll);
+  Serial.print("  Pitch Angle in Degrees = ");
+  Serial.print(AnglePitch);
+  Serial.println();
+  delay(50);
 }

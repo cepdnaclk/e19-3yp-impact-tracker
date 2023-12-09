@@ -41,3 +41,19 @@ button {
   border: none;
   box-shadow: none;
 }
+
+//Custom Scrollbar
+body::-webkit-scrollbar {
+  width: 0.6em;
+  position: absolute;
+}
+
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(77, 77, 77);
+  // outline: 1px solid slategrey;
+  border-radius: 1em;
+}
