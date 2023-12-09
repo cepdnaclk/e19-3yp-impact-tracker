@@ -5,6 +5,8 @@
 #include <PubSubClient.h>
 #include "wifi.h"
 
+#define TIME_DELAY_RECONNECT 2000
+
 class BuddyMQTT
 {
 public:
@@ -20,7 +22,7 @@ public:
     PubSubClient client = PubSubClient(espClient);
 
     void init();
-    // void callback(char *, byte *, unsigned int);
+    void reconnect();
 
 private:
 

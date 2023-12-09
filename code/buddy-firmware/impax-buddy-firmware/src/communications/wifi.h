@@ -2,10 +2,9 @@
 #define WIFI_H
 
 #include <Arduino.h>
-#include <ESP8266WiFi.h>
 #include <WiFi.h>
-#include <ESP8266WebServer.h>
-#include <DNSServer.h>
+
+#define DELAY_WIFI_RECONNECT 100
 
 class BuddyWIFI
 {

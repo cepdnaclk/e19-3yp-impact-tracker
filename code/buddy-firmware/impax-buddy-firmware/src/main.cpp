@@ -1,7 +1,7 @@
 #include "define.h"
 
-const char* ssid = "Dialog 4G 629123";
-const char* password = "189FFF07123";
+const char* ssid = "Dialog 4G 629";
+const char* password = "189FFF07";
 
 // MQTT Broker
 const char *mqtt_broker = "broker.emqx.io";
@@ -26,7 +26,7 @@ void callback(char *topic, byte *payload, unsigned int length) {
 }
 
 void setup(){
-    Serial.begin(9600);
+    Serial.begin(BAUD_RATE);
 
     buddyWIFI.init();
 
@@ -35,5 +35,12 @@ void setup(){
 }
 
 void loop() {
-    // buddyMQTT.client.loop();
+    if (!buddyMQTT.client.connected()) {
+        buddyMQTT.reconnect();
+    }
+    
+    buddyMQTT.client.loop();
+
+
+
 }

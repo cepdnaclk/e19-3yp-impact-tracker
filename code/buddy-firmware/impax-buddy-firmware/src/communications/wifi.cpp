@@ -19,7 +19,7 @@ void BuddyWIFI::init(){
     Serial.println("\nConnecting");
     while(WiFi.status() != WL_CONNECTED){
         Serial.print(".");
-        delay(100);
+        delay(DELAY_WIFI_RECONNECT);
     }
 
     Serial.println("\nConnected to the WiFi network");

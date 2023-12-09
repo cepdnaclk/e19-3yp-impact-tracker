@@ -10,6 +10,11 @@ BuddyMQTT::BuddyMQTT(const char* mqtt_broker, const char* mqtt_username, const c
 void BuddyMQTT::init(){
     client.setServer(mqtt_broker, mqtt_port);
 
+    reconnect();
+}
+
+void BuddyMQTT::reconnect(){
+
     while (!client.connected()) {
         String client_id = "esp32-client-";
         client_id += String(WiFi.macAddress());
@@ -20,12 +25,7 @@ void BuddyMQTT::init(){
         } else {
             Serial.print("failed with state ");
             Serial.print(client.state());
-            delay(2000);
+            delay(TIME_DELAY_RECONNECT);
         }
     }
-
-    // Publish and subscribe
-    // client.publish(topic, "Hi, I'm ESP32 ^^");
-    // client.subscribe(topic);
-
 }
