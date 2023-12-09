@@ -1,19 +1,19 @@
 #pragma once
 
 #include <Arduino.h>
-#include <EEPROM.h>
 
 #include "communications/wifi.h"
 #include "communications/mqtt.h"
+#include "utils/eeprom.h"
 
 #define BAUD_RATE 9600
-// define the number of bytes you want to access
-#define EEPROM_SIZE 1
-#define EEPROM_START_ADDRESS 0
 #define ID 1
 
-const char* ssid = "Dialog 4G 629";
-const char* password = "189FFF07";
+String ssid = "SLT-Fiber";
+String password = "5CF@606a";
+
+String ssid_default = "Dialog 4G 629";
+String password_defalt = "189FFF07";
 
 // MQTT Broker
 const char *mqtt_broker = "broker.emqx.io";
