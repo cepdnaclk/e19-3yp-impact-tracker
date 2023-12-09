@@ -9,11 +9,11 @@
 #define BAUD_RATE 9600
 #define ID 1
 
-String ssid = "SLT-Fiber";
-String password = "5CF@606a";
+String ssid = "";
+String password = "";
 
-String ssid_default = "Dialog 4G 629";
-String password_defalt = "189FFF07";
+String ssid_default = "";
+String password_defalt = "";
 
 // MQTT Broker
 const char *mqtt_broker = "broker.emqx.io";
