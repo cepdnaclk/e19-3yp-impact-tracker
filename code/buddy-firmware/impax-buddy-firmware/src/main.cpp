@@ -28,7 +28,7 @@ void setup()
     Serial.begin(BAUD_RATE);
 
     initEEPROM(ssid_default, password_defalt, BUDDY_ID, ID);
-    setCustomeSSIDAndPasswordEEPROM(ssid, password);
+    // setCustomeSSIDAndPasswordEEPROM(ssid, password);
 
     // buddyWIFI.init();
     // buddyWIFI.setSsidPassword(ssid_default.c_str(), password_defalt.c_str());
