@@ -11,7 +11,13 @@
 class BuddyMQTT
 {
 public:
-    BuddyMQTT(const char*, const char*, const char*, int);
+    BuddyMQTT(const char *, const char *, const char *, int);
+
+    WiFiClient espClient = WiFiClient();
+    PubSubClient client = PubSubClient(espClient);
+
+    String id;
+    Topics topics;
 
     const char *mqtt_broker;
     const char *topic;
@@ -19,19 +25,17 @@ public:
     const char *mqtt_password;
     int mqtt_port;
 
-    WiFiClient espClient = WiFiClient();
-    PubSubClient client = PubSubClient(espClient);
-
-    void init();
+    void init(String id);
     void reconnect();
     void publish(const char *, const char *);
     void subscribe(const char *);
+    void setBroker(const char *, const char *, const char *, int);
+
+    void updateTopics();
 
 private:
-
-
 };
 
-
+void callback(char *topic, byte *payload, unsigned int length);
 
 #endif
