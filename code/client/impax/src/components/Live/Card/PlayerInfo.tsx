@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./PlayerInfo.module.scss";
-
+import Battery from "../../Battery/Battery";
 type playerInfo = {
   jerseyNo: number;
   name: string;
@@ -13,7 +13,9 @@ const PlayerInfo: React.FC<{ playerInfo: playerInfo }> = ({ playerInfo }) => {
       <p className={styles.jerseyNo}>{playerInfo.jerseyNo.toString()}</p>
       <div className={styles.name}>
         <p className={styles.playerName}>{playerInfo.name}</p>
-        <p className={styles.device}>Device {playerInfo.device}</p>
+        <div className={styles.device}>
+          Device {playerInfo.device} <Battery batteryLevel={60} />
+        </div>
       </div>
     </div>
   );
