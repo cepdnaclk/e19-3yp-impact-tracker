@@ -1,0 +1,16 @@
+@use "../../variables.scss" as *;
+.summary {
+  padding: 0em 2em;
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.mapped {
+  @include gridBlock;
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
