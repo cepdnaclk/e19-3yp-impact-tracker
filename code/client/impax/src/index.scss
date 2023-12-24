@@ -12,12 +12,10 @@
 @font-face {
   font-family: "Raleway";
   src: url("./assets/fonts/Raleway-VariableFont_wght.ttf");
-
 }
 @font-face {
   font-family: "MADE Outer Sans";
   src: url("./assets/fonts/Made\ Outer\ Sans\ Bold.OTF");
-
 }
 
 body {
@@ -36,6 +34,7 @@ main {
   width: calc(100% - $nav-width);
   left: $nav-width;
   padding: 4em 4em;
+  color: $body-color;
 }
 
 button {
