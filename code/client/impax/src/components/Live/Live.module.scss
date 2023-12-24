@@ -1,30 +1,5 @@
 @use "../../variables.scss" as *;
 
-.main {
-  color: rgb(232, 232, 232);
-}
-
-.title {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-  margin-left: 2em;
-  margin-bottom: 1em;
-  h1 {
-    font-family: "MADE Outer Sans", sans-serif;
-    font-size: 2em;
-    letter-spacing: 0.05ch;
-    color: rgb(232, 232, 232);
-  }
-
-  .icon {
-    height: 2em;
-    width: 2em;
-    aspect-ratio: 1;
-    color: $primary-red;
-  }
-}
-
 .session {
   padding: 1em 2em;
   background-color: #1f1f1f;
@@ -38,28 +13,23 @@
       font-size: 1.1em;
     }
     span {
-      color: rgb(170, 170, 170);
+      color: $grey-color;
     }
   }
 
   .controls {
     display: flex;
     gap: 1em;
+    Button {
+      font-size: 0.9rem;
+    }
   }
 }
 
 .monitoring,
 .active {
-  margin: 3em 0;
-  h3 {
-    margin-left: 2em;
-  }
+  @include gridBlock;
   .grid {
-    width: 100%;
-    margin: 2em 0;
-    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(340px, 26em));
-    column-gap: 2.4em;
-    row-gap: 2.4em;
   }
 }

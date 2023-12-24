@@ -4,6 +4,7 @@ import { BsBroadcast } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import { IoMdExit } from "react-icons/io";
 import Btn from "../Buttons/Btn";
+import Title from "../Title/Title";
 import MonitoringCard from "./Card/MonitoringCard";
 import ActiveCard from "./Card/ActiveCard";
 const Live = () => {
@@ -15,11 +16,7 @@ const Live = () => {
 
   return (
     <main className={styles.main}>
-      <div className={styles.title}>
-        <BsBroadcast className={styles.icon} />
-
-        <h1>Live Dashboard</h1>
-      </div>
+      <Title title="Live Dashboard" Icon={BsBroadcast} />
       <div className={styles.session}>
         <div className={styles.info}>
           <h2>Practice Session at Main Ground</h2>
@@ -32,7 +29,6 @@ const Live = () => {
           <Btn Icon={IoMdExit}>Exit Session</Btn>
         </div>
       </div>
-
       <div className={styles.monitoring}>
         <h3>Monitoring Players</h3>
         <div className={styles.grid}>
@@ -92,18 +88,18 @@ const Live = () => {
             totalImpact={90}
           />
         </div>
-        <div className={styles.active}>
-          <h3>Active Players</h3>
-          <div className={styles.grid}>
-            <ActiveCard
-              key={11}
-              playerInfo={{
-                device: "#22",
-                jerseyNo: 11,
-                name: "Kumar Sangakkara",
-              }}
-            />
-          </div>
+      </div>{" "}
+      <div className={styles.active}>
+        <h3>Active Players</h3>
+        <div className={styles.grid}>
+          <ActiveCard
+            key={11}
+            playerInfo={{
+              device: "#22",
+              jerseyNo: 11,
+              name: "Kumar Sangakkara",
+            }}
+          />
         </div>
       </div>
     </main>
