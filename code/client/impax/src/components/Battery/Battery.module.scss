@@ -1,0 +1,27 @@
+$battery-border-color: #cfcfcf;
+.batteryContainer {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  .batteryOuter {
+    border-radius: 2px;
+    border: 2px solid $battery-border-color;
+    padding: 1px;
+    width: 1.2em;
+    aspect-ratio: 1.6;
+
+    .batteryLevel {
+      width: 20%;
+      height: 100%;
+      background-color: green;
+    }
+  }
+
+  .batteryBump {
+    border-radius: 2px;
+    background-color: $battery-border-color;
+    margin: 2px;
+    width: 2px;
+    height: 5px;
+  }
+}
