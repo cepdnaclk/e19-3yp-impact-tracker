@@ -17,10 +17,10 @@ const Devices: React.FC = () => {
       <div className={styles.mapped}>
         <h3>Mapped Devices</h3>
         <div className={styles.grid}>
-          <MappedDevice />
-          <MappedDevice />
-          <MappedDevice />
-          <MappedDevice />
+          <MappedDevice batteryLevel={10} deviceID="#124" />
+          <MappedDevice batteryLevel={100} deviceID="#42" />
+          <MappedDevice batteryLevel={40} deviceID="#12" />
+          <MappedDevice batteryLevel={80} deviceID="#213" />
         </div>
       </div>
     </main>
