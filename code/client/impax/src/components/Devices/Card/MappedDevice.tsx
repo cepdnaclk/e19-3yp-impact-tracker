@@ -5,9 +5,9 @@ import Battery from "../../Battery/Battery";
 const MappedDevice = () => {
   return (
     <div className={styles.card}>
-      <p className={styles.deviceID}>
-        Device #1234 <Battery batteryLevel={66} />
-      </p>
+      <div className={styles.deviceID}>
+        Device #1234 <Battery batteryLevel={10} />
+      </div>
       <p>
         <span>Mapped To:</span>
       </p>
