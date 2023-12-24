@@ -1,9 +1,6 @@
+@use "../../../variables.scss" as *;
 .card {
-  background-color: #1f1f1f;
-  border-radius: 1em;
-  position: relative;
-  max-width: 26em;
-  padding: 1em 0em;
+  @include card;
   .actionBtn {
     position: absolute;
     top: 2rem;
