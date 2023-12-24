@@ -1,4 +1,5 @@
 button {
+  font-size: 1em;
   padding: 0.4em 1.2em;
   font-weight: 500;
   border-radius: 0.5em;
@@ -6,8 +7,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.6em;
+  gap: 0.5em;
   .icon {
+    margin-left: -0.2em; //Offest for icon padding
     font-size: 1.4em;
   }
 }
