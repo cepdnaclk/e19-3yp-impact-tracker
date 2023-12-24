@@ -39,6 +39,16 @@ $bg-color: #313131;
     background-color: darken($color: $bg-color, $amount: 5);
   }
 }
+
+// .selectValueContainer {
+//   caret-color: white;
+//   color: $body-color;
+// }
+
+.selectInput {
+  color: $body-color !important;
+}
+
 .selectValueContainerHasValue {
   div:first-child {
     color: $body-color;
