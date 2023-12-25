@@ -3,6 +3,7 @@
 $bg-color: #313131;
 
 .selectContainer {
+  cursor: pointer;
   font-size: 0.9em;
   margin-top: 0.6rem;
   outline: none;
@@ -47,6 +48,7 @@ $bg-color: #313131;
 
 .selectInput {
   color: $body-color !important;
+  cursor: pointer;
 }
 
 .selectValueContainerHasValue {
