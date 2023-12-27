@@ -38,6 +38,7 @@ $hover-cl: #c34444;
       transition: all 100ms ease-in-out;
     }
   }
+
   // &:focus {
   //   outline: 2px solid $hover-cl;
   // }
@@ -51,6 +52,9 @@ $hover-cl: #c34444;
   &.active {
     .icon {
       color: $primary-red;
+    }
+    .name {
+      visibility: hidden;
     }
   }
 }
