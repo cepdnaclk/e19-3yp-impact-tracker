@@ -24,7 +24,11 @@ const Devices: React.FC = () => {
 
       {/* Add Device Modal */}
       <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
-        Test
+        <div
+          style={{ width: "200px", height: "400px", backgroundColor: "red" }}
+        >
+          Test
+        </div>
       </Modal>
 
       <div className={styles.mapped}>
