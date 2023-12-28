@@ -60,7 +60,7 @@ const MonitoringElements: React.FC<{
         </Btn>
         <Btn
           Icon={FaHistory}
-          buttonType="secondary"
+          buttonStyle="secondary"
           bgColor="rgba(125,125,125,0.2)"
         >
           Impact History
