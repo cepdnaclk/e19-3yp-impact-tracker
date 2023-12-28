@@ -1,7 +1,7 @@
 #include <highG.h>
 #include <highGCalibrated.h>
 #include <Arduino.h>
-HighG highG;
+// HighG highG;w
 HighGCalibrated highGCalibrated;
 
 void setup()
@@ -14,9 +14,9 @@ void setup()
 void loop()
 {
   // Read acceleration values
-  float ax = highG.readAccX();
-  float ay = highG.readAccY();
-  float az = highG.readAccZ();
+  float ax = highGCalibrated.readAccX();
+  float ay = highGCalibrated.readAccY();
+  float az = highGCalibrated.readAccZ();
 
   // Print acceleration values
   Serial.print("x: ");
