@@ -1,6 +1,6 @@
 import styles from "./Sidebar.module.scss";
 import { BsBroadcast } from "react-icons/bs";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaRegUserCircle, FaUsers } from "react-icons/fa";
 import { MdDeviceHub, MdBarChart } from "react-icons/md";
 import MenuItem from "./MenuItem";
 import { useAppState } from "../../store/appState";
@@ -28,6 +28,12 @@ const Sidebar = () => {
           name="Analytics"
           active={activePage === "analytics"}
           onClick={() => setActivePage("analytics")}
+        />
+        <MenuItem
+          icon={FaUsers}
+          name="Player Management"
+          active={activePage === "player-management"}
+          onClick={() => setActivePage("player-management")}
         />
       </nav>
 

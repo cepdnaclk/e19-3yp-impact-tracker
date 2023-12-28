@@ -1,6 +1,12 @@
 import { create } from "zustand";
 
-type activePage = "live" | "devices" | "analytics" | "profile" | "test";
+type activePage =
+  | "live"
+  | "devices"
+  | "analytics"
+  | "profile"
+  | "test"
+  | "player-management";
 
 interface AppState {
   activePage: activePage;

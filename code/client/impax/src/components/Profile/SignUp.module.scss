@@ -49,28 +49,8 @@ form {
       width: 100%;
       display: block;
       border: 0;
-      padding: 0.8rem 1rem;
-      background-color: rgba(123, 123, 123, 0.26);
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-radius: 0.6rem;
-      margin-top: 0.6rem;
-      margin-bottom: 0.2rem;
-      font-size: 1em;
-      color: $body-color;
 
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.4);
-      }
-
-      &:focus {
-        outline: none;
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        background-color: black;
-      }
-
-      &.invalid {
-        border: 1px solid #d63131;
-      }
+      @include inputText;
     }
   }
 }
