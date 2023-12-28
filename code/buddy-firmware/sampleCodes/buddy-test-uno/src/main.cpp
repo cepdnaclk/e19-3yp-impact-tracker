@@ -8,6 +8,7 @@ void setup()
 {
   // highG.begin();
   highGCalibrated.begin();
+  highGCalibrated.calibrate();
 }
 
 void loop()
