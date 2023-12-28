@@ -82,31 +82,11 @@ void loop(void)
   long ax, ay, az;
   // The measurement range can be ±100g or ±200g set by the setRange() function
 
-  // Bias Vector
-  long offsetX = -1.025, offsetY = -0.946, offsetZ = 1.204;
+  long offsetX = 0, offsetY = 0, offsetZ = 0;
 
-  ax = acce.readAccX() - offsetX; // Get the acceleration in the x direction
-  ay = acce.readAccY() - offsetY; // Get the acceleration in the y direction
-  az = acce.readAccZ() - offsetZ; // Get the acceleration in the z direction
-
-  // Scale Matrix
-  long s11, s12, s13, s21, s22, s23, s31, s32, s33;
-
-  s11 = 1.123;
-  s12 = 0.002;
-  s13 = -0.058;
-  s21 = 0.002;
-  s22 = 1.223;
-  s23 = 0.104;
-  s31 = -0.058;
-  s32 = 0.104;
-  s33 = 0.918;
-
-  long cx, cy, cz;
-
-  cx = s11 * ax + s12 * ay + s13 * az;
-  cy = s21 * ax + s22 * ay + s23 * az;
-  cz = s31 * ax + s32 * ay + s33 * az;
+  ax = acce.readAccX() + offsetX; // Get the acceleration in the x direction
+  ay = acce.readAccY() + offsetY; // Get the acceleration in the y direction
+  az = acce.readAccZ() + offsetZ; // Get the acceleration in the z direction
 
   // long resultant = sqrt(ax * ax + ay * ay + az * az);
 
@@ -122,11 +102,11 @@ void loop(void)
   //  Serial.print(resultant);
   //  Serial.println(" g");
 
-  Serial.print(cx);
+  Serial.print(ax);
   Serial.print(",");
-  Serial.print(cy);
+  Serial.print(ay);
   Serial.print(",");
-  Serial.println(cz);
+  Serial.println(az);
 
-  delay(1000);
+  delay(1);
 }

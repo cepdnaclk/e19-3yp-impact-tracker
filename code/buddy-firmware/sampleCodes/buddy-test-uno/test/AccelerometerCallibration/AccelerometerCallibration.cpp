@@ -108,5 +108,5 @@ void loop(void)
   Serial.print(",");
   Serial.println(az);
 
-  delay(100);
+  delay(1000);
 }

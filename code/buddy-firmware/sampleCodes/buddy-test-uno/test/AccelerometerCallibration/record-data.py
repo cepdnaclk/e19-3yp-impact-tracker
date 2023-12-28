@@ -79,7 +79,7 @@ class SerialPort:
         self.ser.close()
 
 
-def RecordDataPt(ser: SerialPort) -> tuple:
+def RecordDataPt(ser: SerialPort, tried = 0) -> tuple:
     """Record data from serial port and return averaged result."""
     # do a few readings and average the result
     ax = ay = az = 0.0
@@ -93,7 +93,10 @@ def RecordDataPt(ser: SerialPort) -> tuple:
             az_now = float(data[2])
         except:
             ser.Close()
-            raise SystemExit("[ERROR]: Error reading serial connection.")
+            tried += 1
+            if tried > 10000:
+                raise SystemExit("[ERROR]: Error reading serial connection.")
+            else: RecordDataPt(ser, tried)
         ax += ax_now
         ay += ay_now
         az += az_now
@@ -131,6 +134,8 @@ def main():
             print('[INFO]: Avgd Readings: {:.4f}, {:.4f}, {:.4f} Magnitude: {:.4f}'.format(
                 ax, ay, az, magn))
             data.append([ax, ay, az])
+            List2DelimFile(data, FILENAME, delimiter='\t')
+            
         elif user == 'q':
             # save, then quit
             print('[INFO]: Saving data and exiting...')
