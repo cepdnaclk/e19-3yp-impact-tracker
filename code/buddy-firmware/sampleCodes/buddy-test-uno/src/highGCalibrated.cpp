@@ -4,7 +4,6 @@
 
 HighG::HighG()
 {
-    // DFRobot_H3LIS200DL_I2C acce;
 
 // When using SPI communication, use the following program to construct an object by DFRobot_H3LIS200DL_SPI
 #if defined(ESP32) || defined(ESP8266)
