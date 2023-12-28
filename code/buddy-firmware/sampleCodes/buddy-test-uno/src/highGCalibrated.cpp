@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <DFRobot_LIS.h>
 
-HighG::HighG()
+HighGCalibrated::HighGCalibrated()
 {
 
 // When using SPI communication, use the following program to construct an object by DFRobot_H3LIS200DL_SPI
@@ -15,7 +15,7 @@ HighG::HighG()
 #endif
 }
 
-void HighG::begin()
+void HighGCalibrated::begin()
 {
     Serial.begin(9600);
     // Chip initialization
@@ -51,7 +51,7 @@ void HighG::begin()
     acce.setAcquireRate(/*Rate = */ DFRobot_LIS::eNormal_50HZ);
 }
 
-void HighG::calibrate()
+void HighGCalibrated::calibrate()
 {
     // The measurement range can be ±100g or ±200g set by the setRange() function
 
@@ -86,17 +86,17 @@ void HighG::calibrate()
     az = cz;
 }
 
-float HighG::readAccX()
+float HighGCalibrated::readAccX()
 {
     return ax;
 }
 
-float HighG::readAccY()
+float HighGCalibrated::readAccY()
 {
     return ay;
 }
 
-float HighG::readAccZ()
+float HighGCalibrated::readAccZ()
 {
     return az;
 }

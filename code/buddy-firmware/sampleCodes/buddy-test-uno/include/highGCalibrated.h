@@ -1,13 +1,13 @@
-#ifndef HIGHG_H
-#define HIGHG_H
+#ifndef HIGHGCALIBRATED_H
+#define HIGHGCALIBRATED_H
 
 #include <Arduino.h>
 #include <DFRobot_LIS.h>
 
-class HighG
+class HighGCalibrated
 {
 public:
-    HighG();
+    HighGCalibrated();
     void begin();
     float readAccX();
     float readAccY();

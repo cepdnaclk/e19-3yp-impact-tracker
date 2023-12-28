@@ -1,9 +1,13 @@
 #include <highG.h>
+#include <highGCalibrated.h>
+#include <Arduino.h>
 HighG highG;
+HighGCalibrated highGCalibrated;
 
 void setup()
 {
-  highG.begin();
+  // highG.begin();
+  highGCalibrated.begin();
 }
 
 void loop()
