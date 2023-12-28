@@ -52,6 +52,37 @@ void HighG::begin()
     acce.setAcquireRate(/*Rate = */ DFRobot_LIS::eNormal_50HZ);
 }
 
+void HighG::calibrate(float &ax, float &ay, float &az)
+{
+    // The measurement range can be ±100g or ±200g set by the setRange() function
+
+    // Bias Vector
+    float offsetX = -1.025, offsetY = -0.946, offsetZ = 1.204;
+
+    ax = (float)acce.readAccX() - offsetX; // Get the acceleration in the x direction
+    ay = (float)acce.readAccY() - offsetY; // Get the acceleration in the y direction
+    az = (float)acce.readAccZ() - offsetZ; // Get the acceleration in the z direction
+
+    // Scale Matrix
+    float s11, s12, s13, s21, s22, s23, s31, s32, s33;
+
+    s11 = 1.123;
+    s12 = 0.002;
+    s13 = -0.058;
+    s21 = 0.002;
+    s22 = 1.223;
+    s23 = 0.104;
+    s31 = -0.058;
+    s32 = 0.104;
+    s33 = 0.918;
+
+    float cx, cy, cz;
+
+    cx = s11 * ax + s12 * ay + s13 * az;
+    cy = s21 * ax + s22 * ay + s23 * az;
+    cz = s31 * ax + s32 * ay + s33 * az;
+}
+
 float HighG::readAccX()
 {
     return acce.readAccX();

@@ -12,6 +12,7 @@ public:
     float readAccX();
     float readAccY();
     float readAccZ();
+    void calibrate();
 
 private:
     DFRobot_H3LIS200DL_I2C acce;
