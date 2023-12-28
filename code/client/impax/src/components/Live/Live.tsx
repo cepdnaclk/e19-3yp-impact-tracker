@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { BsBroadcast } from "react-icons/bs";
 
 import Title from "../Title/Title";
-
-import ActiveSession from "./activeSession";
+import ActiveSession from "./ActiveSession.tsx";
 import StartSession from "./StartSession";
 
 const Live = () => {
