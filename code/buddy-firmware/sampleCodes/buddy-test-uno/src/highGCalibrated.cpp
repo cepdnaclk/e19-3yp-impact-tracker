@@ -4,7 +4,7 @@
 
 HighG::HighG()
 {
-    DFRobot_H3LIS200DL_I2C acce;
+    // DFRobot_H3LIS200DL_I2C acce;
 
 // When using SPI communication, use the following program to construct an object by DFRobot_H3LIS200DL_SPI
 #if defined(ESP32) || defined(ESP8266)
@@ -59,9 +59,9 @@ void HighG::calibrate()
     // Bias Vector
     float offsetX = -1.025, offsetY = -0.946, offsetZ = 1.204;
 
-    float ax = (float)acce.readAccX() - offsetX; // Get the acceleration in the x direction
-    float ay = (float)acce.readAccY() - offsetY; // Get the acceleration in the y direction
-    float az = (float)acce.readAccZ() - offsetZ; // Get the acceleration in the z direction
+    ax = (float)acce.readAccX() - offsetX; // Get the acceleration in the x direction
+    ay = (float)acce.readAccY() - offsetY; // Get the acceleration in the y direction
+    az = (float)acce.readAccZ() - offsetZ; // Get the acceleration in the z direction
 
     // Scale Matrix
     float s11, s12, s13, s21, s22, s23, s31, s32, s33;
@@ -81,19 +81,23 @@ void HighG::calibrate()
     cx = s11 * ax + s12 * ay + s13 * az;
     cy = s21 * ax + s22 * ay + s23 * az;
     cz = s31 * ax + s32 * ay + s33 * az;
+
+    ax = cx;
+    ay = cy;
+    az = cz;
 }
 
 float HighG::readAccX()
 {
-    return acce.readAccX();
+    return ax;
 }
 
 float HighG::readAccY()
 {
-    return acce.readAccY();
+    return ay;
 }
 
 float HighG::readAccZ()
 {
-    return acce.readAccZ();
+    return az;
 }

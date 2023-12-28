@@ -16,6 +16,7 @@ public:
 
 private:
     DFRobot_H3LIS200DL_I2C acce;
+    float ax, ay, az;
 };
 
 #endif // HIGHG_H
