@@ -17,7 +17,7 @@ const Devices: React.FC = () => {
           Icon={IoAdd}
           onClick={() => setOpen(true)}
           children="Add new device"
-          buttonType="secondary"
+          buttonStyle="secondary"
         />
         <p className="devicesTotal">9 Devices Connected</p>
       </div>
