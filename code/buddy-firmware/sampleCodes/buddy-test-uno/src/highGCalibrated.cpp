@@ -1,4 +1,4 @@
-#include <highG.h>
+#include <highGCalibrated.h>
 #include <Arduino.h>
 #include <DFRobot_LIS.h>
 
@@ -52,16 +52,16 @@ void HighG::begin()
     acce.setAcquireRate(/*Rate = */ DFRobot_LIS::eNormal_50HZ);
 }
 
-void HighG::calibrate(float &ax, float &ay, float &az)
+void HighG::calibrate()
 {
     // The measurement range can be ±100g or ±200g set by the setRange() function
 
     // Bias Vector
     float offsetX = -1.025, offsetY = -0.946, offsetZ = 1.204;
 
-    ax = (float)acce.readAccX() - offsetX; // Get the acceleration in the x direction
-    ay = (float)acce.readAccY() - offsetY; // Get the acceleration in the y direction
-    az = (float)acce.readAccZ() - offsetZ; // Get the acceleration in the z direction
+    float ax = (float)acce.readAccX() - offsetX; // Get the acceleration in the x direction
+    float ay = (float)acce.readAccY() - offsetY; // Get the acceleration in the y direction
+    float az = (float)acce.readAccZ() - offsetZ; // Get the acceleration in the z direction
 
     // Scale Matrix
     float s11, s12, s13, s21, s22, s23, s31, s32, s33;
