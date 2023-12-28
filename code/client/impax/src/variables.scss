@@ -25,3 +25,46 @@ $grey-color: rgb(170, 170, 170);
   max-width: 26em;
   padding: 1em 0em;
 }
+
+@mixin inputText {
+  padding: 0.8rem 1rem;
+  background-color: rgba(123, 123, 123, 0.26);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.6rem;
+  color: $body-color;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  &:focus {
+    outline: none;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  &.invalid {
+    border: 1px solid #d63131;
+  }
+}
+
+@mixin banner {
+  padding: 1em 2em;
+  background-color: #1f1f1f;
+  border-radius: 0.6em;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    h2 {
+      color: rgb(220, 220, 220);
+      font-size: 1.1em;
+    }
+    span {
+      color: $grey-color;
+    }
+  }
+}
