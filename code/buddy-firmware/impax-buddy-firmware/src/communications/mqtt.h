@@ -35,6 +35,7 @@ public:
     void reconnect();
     void publish(const char *, const char *);
     void subscribe(const char *);
+
     void setBroker(const char *, const char *, const char *, int);
 
     void updateTopics();

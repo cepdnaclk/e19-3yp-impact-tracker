@@ -5,6 +5,7 @@
 #include "communications/wifi.h"
 #include "communications/mqtt.h"
 #include "utils/eeprom.h"
+#include "utils/led.h"
 
 #define BAUD_RATE 9600
 #define ID 1
@@ -24,21 +25,21 @@ const int mqtt_port = 1883;
 
 String BUDDY_ID = "buddy-";
 
-const char *CA_cert =
+String CA_cert =
     "-----BEGIN CERTIFICATE-----\n"
     "################################################################\n"
     "################################################################\n"
     "################################################################\n"
     "-----END CERTIFICATE-----";
 
-const char *ESP_CA_cert =
+String ESP_CA_cert =
     "-----BEGIN CERTIFICATE-----\n"
     "################################################################\n"
     "################################################################\n"
     "################################################################\n"
     "-----END CERTIFICATE-----";
 
-const char *ESP_RSA_key =
+String ESP_RSA_key =
     "-----BEGIN RSA PRIVATE KEY-----\n"
     "################################################################\n"
     "################################################################\n"

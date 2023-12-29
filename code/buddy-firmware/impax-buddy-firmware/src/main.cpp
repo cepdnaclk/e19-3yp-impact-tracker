@@ -1,13 +1,18 @@
 #include "define.h"
 
 BuddyWIFI buddyWIFI;
-BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port, CA_cert, ESP_CA_cert, ESP_RSA_key);
+BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port, CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
 
 void connect()
 {
     if (WiFi.status() != WL_CONNECTED)
     {
+        // turnOff_LED_WIFI();
         buddyWIFI.initWIFIMulti();
+    }
+    else
+    {
+        // turnOn_LED_WIFI();
     }
 
     if (!buddyMQTT.client.connected())
@@ -41,8 +46,15 @@ void setup()
     buddyMQTT.client.setCallback(callback);
     buddyMQTT.init(BUDDY_ID);
 
+    if (readMQTTPrivateKeyEEPROM(ESP_RSA_key))
+        buddyMQTT.setCertificates(CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
+
     Serial.println("Buddy ID: " + BUDDY_ID);
     Serial.println("Setup done");
+
+    // leds
+    initLED();
+    turnOn_LED_ON();
 
     buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
     buddyMQTT.subscribe(buddyMQTT.topics.SAY_HELLO.c_str());
