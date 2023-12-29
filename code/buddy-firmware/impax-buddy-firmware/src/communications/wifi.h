@@ -5,27 +5,32 @@
 #include <WiFi.h>
 #include <WiFiMulti.h>
 
+// Define delays for Wi-Fi reconnection attempts
 #define DELAY_WIFI_RECONNECT 100
 #define DELAY_WIFI_RECONNECT_MULTI 2000
 
+// Declaration of the BuddyWIFI class
 class BuddyWIFI
 {
 public:
-    BuddyWIFI(const char *, const char *);
-    BuddyWIFI();
+    // Constructors
+    BuddyWIFI(const char *, const char *); // Constructor with parameters for setting Wi-Fi credentials
+    BuddyWIFI();                           // Default constructor
 
+    // Wi-FiMulti object for managing multiple Wi-Fi connections
     WiFiMulti wifiMulti = WiFiMulti();
 
-    const char *ssid;
-    const char *password;
-    const char *localIP;
+    // Public data members
+    const char *ssid;     // Wi-Fi SSID
+    const char *password; // Wi-Fi password
+    const char *localIP;  // Local IP address (unused in the code)
 
-    void setSsidPassword(const char *, const char *);
-    void init();
-
-    void addWIFIMulti(const char *, const char *);
-    void initWIFIMulti();
-    void reconnectWIFIMulti();
+    // Public member functions
+    void setSsidPassword(const char *, const char *); // Set Wi-Fi credentials
+    void init();                                      // Initialize Wi-Fi in single mode
+    void addWIFIMulti(const char *, const char *);    // Add Wi-Fi credentials to the multi-mode Wi-Fi manager
+    void initWIFIMulti();                             // Initialize Wi-Fi in multi-mode
+    void reconnectWIFIMulti();                        // Reconnect to Wi-Fi in multi-mode
 
 private:
 };
