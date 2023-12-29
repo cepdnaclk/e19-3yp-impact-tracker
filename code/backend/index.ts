@@ -1,10 +1,10 @@
 // Import necessary libraries and modules
-import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import options from './src/config/corsOptions';
-import apiInfo from './src/config/config';
+import express, { Express, Request, Response } from "express";
+import dotenv from "dotenv";
+import bodyParser from "body-parser";
+import cors from "cors";
+import options from "./src/config/corsOptions";
+import apiInfo from "./src/config/config";
 import swaggerUi from "swagger-ui-express";
 import mongoose  from 'mongoose';
 
@@ -41,7 +41,7 @@ import * as swaggerDocument from "./swagger.json";
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Define a basic route for the root endpoint
-app.get('/', (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response) => {
   res.send(apiInfo.definition.info);
 });
 
