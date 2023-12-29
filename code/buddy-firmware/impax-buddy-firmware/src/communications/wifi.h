@@ -25,12 +25,12 @@ public:
     const char *password; // Wi-Fi password
     const char *localIP;  // Local IP address (unused in the code)
 
-    // Public member functions
-    void setSsidPassword(const char *, const char *); // Set Wi-Fi credentials
-    void init();                                      // Initialize Wi-Fi in single mode
-    void addWIFIMulti(const char *, const char *);    // Add Wi-Fi credentials to the multi-mode Wi-Fi manager
-    void initWIFIMulti();                             // Initialize Wi-Fi in multi-mode
-    void reconnectWIFIMulti();                        // Reconnect to Wi-Fi in multi-mode
+    void setSsidPassword(const char *, const char *);
+    void init();
+
+    void addWIFIMulti(const char *, const char *);
+    void initWIFIMulti(void (*func)());
+    void reconnectWIFIMulti();
 
 private:
 };

@@ -6,6 +6,8 @@
 #include "utils/eeprom.h"
 #include "utils/util.h"
 
+#include "communications/com.h"
+
 #define BAUD_RATE 9600
 #define ID 1
 String BUDDY_ID = "buddy-";
