@@ -24,7 +24,7 @@ public:
     void init();
 
     void addWIFIMulti(const char *, const char *);
-    void initWIFIMulti();
+    void initWIFIMulti(void (*func)());
     void reconnectWIFIMulti();
 
 private:
