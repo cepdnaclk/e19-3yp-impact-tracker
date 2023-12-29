@@ -1,4 +1,4 @@
-import { app, BrowserWindow ,Session,PermissionCheckHandlerHandlerDetails,USBDevice} from 'electron'
+import { app, BrowserWindow ,Session,PermissionCheckHandlerHandlerDetails,USBDevice, HIDDevice, DevicePermissionHandlerHandlerDetails} from 'electron'
 import path from 'node:path'
 
 // The built directory structure
@@ -27,32 +27,39 @@ function createWindow() {
   })
 
   // ************** WebUSB API START **************
-  let grantedDeviceThroughPermHandler;
+  let grantedDeviceThroughPermHandler: Electron.USBDevice | Electron.HIDDevice | Electron.SerialPort;
 
   win.webContents.session.on(
     "select-usb-device",
     (event, details, callback) => {
       // Add events to handle devices being added or removed before the callback on
       // `select-usb-device` is called.
-      win.webContents.session.on("usb-device-added", (event, device) => {
-        console.log("usb-device-added FIRED WITH", device);
-        // Optionally update details.deviceList
-      });
-
-      win.webContents.session.on(
-        "usb-device-removed",
-        (event, device) => {
-          console.log("usb-device-removed FIRED WITH", device);
+      if (win) {
+        win.webContents.session.on("usb-device-added", (event, device) => {
+          console.log("usb-device-added FIRED WITH", device);
           // Optionally update details.deviceList
-        }
-      );
+        });
 
+        win.webContents.session.on(
+          "usb-device-removed",
+          (event, device) => {
+            console.log("usb-device-removed FIRED WITH", device);
+            // Optionally update details.deviceList
+          }
+        );
+      }
+
+      interface DeviceWithId {
+        deviceId: string;
+      }
+      
+      let grantedDeviceThroughPermHandler: USBDevice | HIDDevice | DeviceWithId;
       event.preventDefault();
       if (details.deviceList && details.deviceList.length > 0) {
         const deviceToReturn = details.deviceList.find((device) => {
           return (
             !grantedDeviceThroughPermHandler ||
-            device.deviceId !== grantedDeviceThroughPermHandler.deviceId
+            device .deviceId !== grantedDeviceThroughPermHandler.deviceId
           );
         });
         if (deviceToReturn) {
@@ -64,22 +71,22 @@ function createWindow() {
     }
   );
 
-  win.webContents.session.setPermissionCheckHandler(
-    (webContents, permission, requestingOrigin, details) => {
-      if (permission === "usb" && details.securityOrigin === "file:///") {
-        return true;
-      }
+  (webContents: Electron.WebContents | null, permission: string, _requestingOrigin: string, details: PermissionCheckHandlerHandlerDetails) => {
+    if (permission === "usb" && details.securityOrigin === "file:///") {
+      return true;
     }
-  );
+  };
 
-  win.webContents.session.setDevicePermissionHandler((details) => {
+  (win.webContents.session as Session).setDevicePermissionHandler((details:DevicePermissionHandlerHandlerDetails) => {
     if (details.deviceType === "usb" && details.origin === "file://") {
       if (!grantedDeviceThroughPermHandler) {
-        grantedDeviceThroughPermHandler = details.device;
+        grantedDeviceThroughPermHandler = details.device as USBDevice;
         return true;
       } else {
         return false;
       }
+    }else{
+      return false;
     }
   });
 
