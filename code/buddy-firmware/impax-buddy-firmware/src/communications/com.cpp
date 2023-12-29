@@ -17,7 +17,7 @@ void Com::checkCom()
     }
 }
 
-void Com::communicate()
+bool Com::communicate()
 {
     int count = 0;
     Serial.println(ACK);
@@ -54,15 +54,19 @@ void Com::communicate()
     if (state == DISCONNECTED)
     {
         Serial.println(NACK);
+        return false;
     }
     else if (state == DONE)
     {
         Serial.println(ACK);
         state = DISCONNECTED;
+        return true;
     }
+
+    return false;
 }
 
-void Com::comInit()
+bool Com::comInit()
 {
     state = DISCONNECTED;
 
@@ -70,8 +74,10 @@ void Com::comInit()
 
     if (state == HANDSHAKE)
     {
-        communicate();
+        return communicate();
     }
+
+    return false;
 }
 
 bool Com::dataDecode(String *ssid, String *password, String *key)

@@ -29,7 +29,7 @@ public:
     void init();
 
     void addWIFIMulti(const char *, const char *);
-    void initWIFIMulti(void (*func)());
+    void initWIFIMulti(bool (*communicationDashboard)());
     void reconnectWIFIMulti();
 
 private:

@@ -44,15 +44,14 @@ void BuddyWIFI::addWIFIMulti(const char *ssid, const char *password)
     wifiMulti.addAP(ssid, password);
 }
 
-
-void BuddyWIFI::initWIFIMulti(void (*func)())
+void BuddyWIFI::initWIFIMulti(bool (*communicationDashboard)())
 {
     WiFi.mode(WIFI_STA);
 
     Serial.println("\nConnecting");
     while (wifiMulti.run() != WL_CONNECTED)
     {
-        func();
+        communicationDashboard();
         Serial.print(".");
         delay(DELAY_WIFI_RECONNECT);
     }

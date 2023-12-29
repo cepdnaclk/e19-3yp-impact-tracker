@@ -33,8 +33,8 @@ public:
     int mqtt_port; // MQTT broker port
 
     // Public member functions
-    void init(String id);                                           // Initialize the MQTT client
-    void reconnect();                                               // Reconnect to the MQTT broker
+    void init(String id, bool (*communicationDashboard)());         // Initialize the MQTT client
+    void reconnect(bool (*communicationDashboard)());               // Reconnect to the MQTT broker
     void publish(const char *, const char *);                       // Publish a message to an MQTT topic
     void subscribe(const char *);                                   // Subscribe to an MQTT topic
     void setBroker(const char *, const char *, const char *, int);  // Set MQTT broker details

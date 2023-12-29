@@ -23,9 +23,9 @@ public:
 
     void checkCom();
 
-    void communicate();
+    bool communicate();
 
-    void comInit();
+    bool comInit();
 
     bool dataDecode(String *ssid, String *password, String *key);
 };
