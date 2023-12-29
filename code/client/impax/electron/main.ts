@@ -26,8 +26,57 @@ function createWindow() {
     },
   })
 
-  // WebUSB API
-  let grantedDeviceThroughPermHandler;
+  // ************** WebUSB API START **************
+  let grantedDeviceThroughPermHandler: { deviceId: string };
+
+  win.webContents.session.on(
+    "select-usb-device",
+    (event, details, callback) => {
+      // Add events to handle devices being added or removed before the callback on
+      // `select-usb-device` is called.
+      if (win) {
+        win.webContents.session.on("usb-device-added", (event, device) => {
+          console.log("usb-device-added FIRED WITH", device);
+          // Optionally update details.deviceList
+        });
+
+        win.webContents.session.on(
+          "usb-device-removed",
+          (event, device) => {
+            console.log("usb-device-removed FIRED WITH", device);
+            // Optionally update details.deviceList
+          }
+        );
+      }
+      event.preventDefault();
+      if (details.deviceList && details.deviceList.length > 0) {
+        const deviceToReturn = details.deviceList.find((device) => {
+          return (
+            !grantedDeviceThroughPermHandler ||
+            device.deviceId !== grantedDeviceThroughPermHandler.deviceId
+          );
+        });
+        if (deviceToReturn) {
+          callback(deviceToReturn.deviceId);
+        } else {
+          callback();
+        }
+      }
+    }
+  );
+
+
+
+
+
+
+
+
+
+
+
+
+  // ******** WebUSB API END ********
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
