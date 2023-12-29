@@ -1,7 +1,7 @@
 #include "define.h"
 
 BuddyWIFI buddyWIFI;
-BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port);
+BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port, CA_cert, ESP_CA_cert, ESP_RSA_key);
 
 void connect()
 {
@@ -32,6 +32,7 @@ void setup()
 
     // Multi WIFI connection
     buddyWIFI.addWIFIMulti(ssid_default.c_str(), password_defalt.c_str());
+
     if (getCustomeSSIDAndPasswordEEPROM(ssid, password))
         buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
 

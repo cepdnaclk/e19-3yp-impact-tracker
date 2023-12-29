@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include <PubSubClient.h>
-#include "wifi.h"
+#include "WiFiClientSecure.h"
 #include "topics.h"
 
 #define TIME_DELAY_RECONNECT 2000
@@ -11,9 +11,10 @@
 class BuddyMQTT
 {
 public:
-    BuddyMQTT(const char *, const char *, const char *, int);
+    BuddyMQTT(const char *, const char *, const char *, int, const char *, const char *, const char *);
 
     WiFiClient espClient = WiFiClient();
+    // WiFiClientSecure espClient = WiFiClientSecure();
     PubSubClient client = PubSubClient(espClient);
 
     String id;
@@ -23,6 +24,11 @@ public:
     const char *topic;
     const char *mqtt_username;
     const char *mqtt_password;
+
+    const char *CA_cert;
+    const char *ESP_CA_cert;
+    const char *ESP_RSA_key;
+
     int mqtt_port;
 
     void init(String id);
@@ -32,6 +38,8 @@ public:
     void setBroker(const char *, const char *, const char *, int);
 
     void updateTopics();
+
+    void setCertificates(const char *, const char *, const char *);
 
 private:
 };
