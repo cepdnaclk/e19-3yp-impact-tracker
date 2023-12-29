@@ -1,32 +1,48 @@
-function getDeviceDetails(device) {
-  return device.productName || `Unknown device ${device.deviceId}`;
-}
+import * as usb from "usb.d.ts";
+// function getDeviceDetails(device) {
+//   return device.productName || `Unknown device ${device.deviceId}`;
+// }
 
-async function testIt() {
-  const noDevicesFoundMsg = "No devices found";
-  const grantedDevices = await navigator.usb.getDevices();
-  let grantedDeviceList = "";
-  if (grantedDevices.length > 0) {
-    for (const device of grantedDevices) {
-      grantedDeviceList += `<hr>${getDeviceDetails(device)}</hr>`;
-    }
-  } else {
-    grantedDeviceList = noDevicesFoundMsg;
-  }
-  document.getElementById("granted-devices").innerHTML = grantedDeviceList;
+// async function testIt() {
+//   const noDevicesFoundMsg = "No devices found";
+//   const grantedDevices = await navigator.usb.getDevices();
+//   let grantedDeviceList = "";
+//   if (grantedDevices.length > 0) {
+//     for (const device of grantedDevices) {
+//       grantedDeviceList += `<hr>${getDeviceDetails(device)}</hr>`;
+//     }
+//   } else {
+//     grantedDeviceList = noDevicesFoundMsg;
+//   }
+//   document.getElementById("granted-devices").innerHTML = grantedDeviceList;
 
-  grantedDeviceList = "";
+//   grantedDeviceList = "";
+//   try {
+//     const grantedDevice = await navigator.usb.requestDevice({
+//       filters: [],
+//     });
+//     grantedDeviceList += `<hr>${getDeviceDetails(grantedDevice)}</hr>`;
+//   } catch (ex) {
+//     if (ex.name === "NotFoundError") {
+//       grantedDeviceList = noDevicesFoundMsg;
+//     }
+//   }
+//   document.getElementById("granted-devices2").innerHTML = grantedDeviceList;
+// }
+
+// document.getElementById("clickme").addEventListener("click", testIt);
+
+async function logConnectedUSBDevices() {
   try {
-    const grantedDevice = await navigator.usb.requestDevice({
-      filters: [],
-    });
-    grantedDeviceList += `<hr>${getDeviceDetails(grantedDevice)}</hr>`;
-  } catch (ex) {
-    if (ex.name === "NotFoundError") {
-      grantedDeviceList = noDevicesFoundMsg;
+    const devices = await usb.getDeviceList();
+    console.log("Connected USB devices:");
+    for (const device of devices) {
+      console.log(device);
     }
+  } catch (error) {
+    console.error("Error getting USB device list:", error);
   }
-  document.getElementById("granted-devices2").innerHTML = grantedDeviceList;
 }
 
-document.getElementById("clickme").addEventListener("click", testIt);
+// Call the function early in your main.ts file
+logConnectedUSBDevices();
