@@ -32,7 +32,7 @@
 // }
 
 // document.getElementById("clickme").addEventListener("click", testIt);
-console.log(devices);
+// console.log(devices);
 // async function logConnectedUSBDevices() {
 //   try {
 //     const devices = await usb.getDeviceList();
