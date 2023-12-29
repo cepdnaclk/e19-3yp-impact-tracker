@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow ,Session,PermissionCheckHandlerHandlerDetails} from 'electron'
 import path from 'node:path'
 
 // The built directory structure
@@ -62,6 +62,15 @@ function createWindow() {
           callback();
         }
       }
+    }
+  );
+ 
+  (win.webContents.session as Session).setPermissionCheckHandler(
+    (webContents: Electron.WebContents |null, permission: string, requestingOrigin: string, details: PermissionCheckHandlerHandlerDetails) => {
+      if (permission === "usb" && details.securityOrigin === "file:///") {
+        return true;
+      }
+      return false;
     }
   );
 
