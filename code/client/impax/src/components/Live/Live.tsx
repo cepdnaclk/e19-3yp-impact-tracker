@@ -6,7 +6,7 @@ import ActiveSession from "./ActiveSession.tsx";
 import StartSession from "./StartSession";
 
 const Live = () => {
-  const [isSession, setSession] = useState<Boolean>(false);
+  const [isSession, setSession] = useState<boolean>(false);
 
   return (
     <main>
