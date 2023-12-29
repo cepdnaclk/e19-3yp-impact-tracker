@@ -1,4 +1,4 @@
-import { app, BrowserWindow ,Session,PermissionCheckHandlerHandlerDetails} from 'electron'
+import { app, BrowserWindow ,Session,PermissionCheckHandlerHandlerDetails,USBDevice} from 'electron'
 import path from 'node:path'
 
 // The built directory structure
@@ -27,27 +27,26 @@ function createWindow() {
   })
 
   // ************** WebUSB API START **************
-  let grantedDeviceThroughPermHandler: { deviceId: string };
+  let grantedDeviceThroughPermHandler;
 
   win.webContents.session.on(
     "select-usb-device",
     (event, details, callback) => {
       // Add events to handle devices being added or removed before the callback on
       // `select-usb-device` is called.
-      if (win) {
-        win.webContents.session.on("usb-device-added", (event, device) => {
-          console.log("usb-device-added FIRED WITH", device);
-          // Optionally update details.deviceList
-        });
+      win.webContents.session.on("usb-device-added", (event, device) => {
+        console.log("usb-device-added FIRED WITH", device);
+        // Optionally update details.deviceList
+      });
 
-        win.webContents.session.on(
-          "usb-device-removed",
-          (event, device) => {
-            console.log("usb-device-removed FIRED WITH", device);
-            // Optionally update details.deviceList
-          }
-        );
-      }
+      win.webContents.session.on(
+        "usb-device-removed",
+        (event, device) => {
+          console.log("usb-device-removed FIRED WITH", device);
+          // Optionally update details.deviceList
+        }
+      );
+
       event.preventDefault();
       if (details.deviceList && details.deviceList.length > 0) {
         const deviceToReturn = details.deviceList.find((device) => {
@@ -64,19 +63,32 @@ function createWindow() {
       }
     }
   );
- 
-  (win.webContents.session as Session).setPermissionCheckHandler(
-    (webContents: Electron.WebContents |null, permission: string, requestingOrigin: string, details: PermissionCheckHandlerHandlerDetails) => {
+
+  win.webContents.session.setPermissionCheckHandler(
+    (webContents, permission, requestingOrigin, details) => {
       if (permission === "usb" && details.securityOrigin === "file:///") {
         return true;
       }
-      return false;
     }
   );
 
+  win.webContents.session.setDevicePermissionHandler((details) => {
+    if (details.deviceType === "usb" && details.origin === "file://") {
+      if (!grantedDeviceThroughPermHandler) {
+        grantedDeviceThroughPermHandler = details.device;
+        return true;
+      } else {
+        return false;
+      }
+    }
+  });
 
-
-
+  win.webContents.session.setUSBProtectedClassesHandler((details) => {
+    return details.protectedClasses.filter((usbClass) => {
+      // Exclude classes except for audio classes
+      return usbClass.indexOf("audio") === -1;
+    });
+  });
 
 
 
