@@ -1,4 +1,5 @@
-import * as usb from "usb.d.ts";
+// import { usb, getDeviceList } from "usb";
+// const devices: usb.Device[] = getDeviceList();
 // function getDeviceDetails(device) {
 //   return device.productName || `Unknown device ${device.deviceId}`;
 // }
@@ -31,18 +32,18 @@ import * as usb from "usb.d.ts";
 // }
 
 // document.getElementById("clickme").addEventListener("click", testIt);
+console.log(devices);
+// async function logConnectedUSBDevices() {
+//   try {
+//     const devices = await usb.getDeviceList();
+//     console.log("Connected USB devices:");
+//     for (const device of devices) {
+//       console.log(device);
+//     }
+//   } catch (error) {
+//     console.error("Error getting USB device list:", error);
+//   }
+// }
 
-async function logConnectedUSBDevices() {
-  try {
-    const devices = await usb.getDeviceList();
-    console.log("Connected USB devices:");
-    for (const device of devices) {
-      console.log(device);
-    }
-  } catch (error) {
-    console.error("Error getting USB device list:", error);
-  }
-}
-
-// Call the function early in your main.ts file
-logConnectedUSBDevices();
+// // Call the function early in your main.ts file
+// await logConnectedUSBDevices();

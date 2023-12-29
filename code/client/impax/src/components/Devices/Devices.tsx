@@ -6,12 +6,9 @@ import Btn from "../Buttons/Btn";
 import { IoAdd } from "react-icons/io5";
 import MappedDevice from "./Card/MappedDevice";
 import Modal from "../Modal/Modal";
-import * as usb from "usb";
-import util from "util";
-// import { usb, getDeviceList } from "usb";
-const Devices: React.FC = () => {
-  const [isOpen, setOpen] = useState<Boolean>(false);
 
+const Devices: React.FC = () => {
+  const [isOpen, setOpen] = useState<boolean>(false);
   // const [connectedDevices, setConnectedDevices] = useState<unknown[]>([]);
 
   // useEffect(() => {
