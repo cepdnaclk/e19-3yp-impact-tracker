@@ -6,6 +6,8 @@
 #include "communications/mqtt.h"
 #include "utils/eeprom.h"
 
+#include "communications/com.h"
+
 #define BAUD_RATE 9600
 #define ID 1
 

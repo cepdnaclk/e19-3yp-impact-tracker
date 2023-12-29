@@ -3,6 +3,8 @@
 BuddyWIFI buddyWIFI;
 BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port);
 
+Com com;
+
 void connect()
 {
     if (WiFi.status() != WL_CONNECTED)
@@ -47,13 +49,13 @@ void setup()
     buddyMQTT.subscribe(buddyMQTT.topics.SAY_HELLO.c_str());
 }
 
+String key = "";
+
 void loop()
 {
-    connect();
+    com.comInit();
+    com.dataDecode(&ssid, &password, &key);
 
-    buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), "test");
-    buddyMQTT.publish(buddyMQTT.topics.SAY_HELLO.c_str(), BUDDY_ID.c_str());
-    delay(1000);
-
-    Serial.println("Loop");
+    Serial.println(ssid + ": " + password + ": " + key);
+    delay(100);
 }
