@@ -9,8 +9,6 @@ describe("APP ROOT", () => {
       .set("Accept", "application/json");
 
     expect(response.status).toBe(HttpCode.OK);
-    // expect(response.body).toHaveProperty("title", "Team Manager API");
-    // expect(response.body).toHaveProperty("version", "1.0.0");
   });
 
   it("should return a 404 Not Found for an invalid endpoint", async () => {
@@ -19,6 +17,5 @@ describe("APP ROOT", () => {
       .set("Accept", "application/json");
 
     expect(response.status).toBe(HttpCode.NOT_FOUND);
-    // expect(response.body).toHaveProperty("message", HttpMsg.NOT_FOUND);
   });
 });
