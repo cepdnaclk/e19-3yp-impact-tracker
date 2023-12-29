@@ -7,12 +7,12 @@ void connect()
 {
     if (WiFi.status() != WL_CONNECTED)
     {
-        // turnOff_LED_WIFI();
+        turnOff_LED_WIFI();
         buddyWIFI.initWIFIMulti();
     }
     else
     {
-        // turnOn_LED_WIFI();
+        turnOn_LED_WIFI();
     }
 
     if (!buddyMQTT.client.connected())
