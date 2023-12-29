@@ -9,7 +9,7 @@
 #define LED_WIFI_BLINK 1000
 
 // Define battery-related constants
-#define BATTERY_READ 25
+#define BATTERY_READ 32
 const float Vmax = 4.2;
 
 // Function declarations

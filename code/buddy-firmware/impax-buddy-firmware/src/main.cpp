@@ -60,6 +60,11 @@ void connect()
     buddyMQTT.client.loop();
 }
 
+void batteryStatusSend()
+{
+    buddyMQTT.publish(buddyMQTT.topics.BATTERY.c_str(), ((String)getBatteryStatus()).c_str());
+}
+
 void setup()
 {
     // leds
@@ -95,13 +100,16 @@ void setup()
 
     buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
     buddyMQTT.subscribe(buddyMQTT.topics.SAY_HELLO.c_str());
+    buddyMQTT.subscribe(buddyMQTT.topics.BATTERY.c_str());
 }
 
 void loop()
 {
     connect();
     communicationDashboard();
+    batteryStatusSend();
 
     buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), "Hello from ESP32");
+    buddyMQTT.publish(buddyMQTT.topics.SAY_HELLO.c_str(), BUDDY_ID.c_str());
     delay(1000);
 }
