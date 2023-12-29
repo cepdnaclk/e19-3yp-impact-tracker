@@ -3,11 +3,11 @@
 
 #include <Arduino.h>
 
-struct Topics{
+struct Topics
+{
     String TEST = "/test";
     String SAY_HELLO = "/say-hello";
-
+    String BATTERY = "/battery";
 };
-
 
 #endif

@@ -1,7 +1,8 @@
 #include "define.h"
 
+// initialize the library instance
 BuddyWIFI buddyWIFI;
-BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port);
+BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port, CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
 
 Com com;
 
@@ -21,7 +22,13 @@ void connect()
 {
     if (WiFi.status() != WL_CONNECTED)
     {
+        turnOff_LED_WIFI();
+
         buddyWIFI.initWIFIMulti(communicationForWifiMQTT);
+    }
+    else
+    {
+        turnOn_LED_WIFI();
     }
 
     if (!buddyMQTT.client.connected())
@@ -35,24 +42,33 @@ void connect()
 
 void setup()
 {
+    // leds
+    initLED();
+    turnOn_LED_ON();
+    blink_LED_WIFI();
+
+    // serial monitor
     Serial.begin(BAUD_RATE);
 
+    // EEPROM
     initEEPROM(ssid_default, password_defalt, BUDDY_ID, ID);
     // setCustomeSSIDAndPasswordEEPROM(ssid, password);
 
-    // Direct WIFI connection
-    // buddyWIFI.init();
-    // buddyWIFI.setSsidPassword(ssid_default.c_str(), password_defalt.c_str());
-
     // Multi WIFI connection
     buddyWIFI.addWIFIMulti(ssid_default.c_str(), password_defalt.c_str());
+
     if (getCustomeSSIDAndPasswordEEPROM(ssid, password))
         buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
 
     buddyWIFI.initWIFIMulti(communicationForWifiMQTT);
 
+    // MQTT
     buddyMQTT.client.setCallback(callback);
     buddyMQTT.init(BUDDY_ID);
+
+    // get the certificates from EEPROM
+    if (readMQTTPrivateKeyEEPROM(ESP_RSA_key))
+        buddyMQTT.setCertificates(CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
 
     Serial.println("Buddy ID: " + BUDDY_ID);
     Serial.println("Setup done");
