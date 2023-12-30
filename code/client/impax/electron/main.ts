@@ -30,6 +30,8 @@ function createWindow() {
 
     
   })
+//  Web Serial API - Permission handling
+
 
   win.webContents.session.on('select-serial-port', (event, portList, webContents, callback) => {
     // Add listeners to handle ports being added or removed before the callback for `select-serial-port`
