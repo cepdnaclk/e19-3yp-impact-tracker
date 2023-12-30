@@ -7,6 +7,7 @@ interface BtnProps {
   onClick?: () => void;
   bgColor?: string;
   type?: "button" | "submit" | "reset";
+  iconSizeEm?: number;
   children: string | JSX.Element;
 }
 
@@ -16,6 +17,7 @@ const Btn: React.FC<BtnProps> = ({
   onClick = () => {},
   bgColor = buttonStyle == "primary" ? "rgb(14, 61, 127)" : "#313131",
   type = "button",
+  iconSizeEm = 1.4,
   children,
 }) => {
   const btnClass =
@@ -28,7 +30,7 @@ const Btn: React.FC<BtnProps> = ({
       style={{ backgroundColor: bgColor }}
       type={type}
     >
-      <Icon className={styles.icon} />
+      <Icon className={styles.icon} style={{ fontSize: `${iconSizeEm}em` }} />
       {children}
     </button>
   );
