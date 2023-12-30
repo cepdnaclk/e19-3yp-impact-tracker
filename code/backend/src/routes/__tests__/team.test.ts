@@ -1,6 +1,27 @@
 import app from "../../../app";
 import { HttpCode, HttpMsg } from "../../exceptions/appErrorsDefine";
 import request from "supertest";
+import mongoose from "mongoose";
+import { MongoMemoryServer } from "mongodb-memory-server";
+
+beforeAll(async () => {
+  // Create a in memory server
+  const mongoServer = await MongoMemoryServer.create();
+  // Get the connection string
+  const mongoUri = mongoServer.getUri();
+  // Connect to the in memory server
+
+  try {
+    await mongoose.connect(mongoUri);
+    console.log("Connected to in-memory database");
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+afterAll(async () => {
+  await mongoose.disconnect();
+});
 
 /**
  * Team Routes Test Suite
