@@ -16,17 +16,47 @@ async function testIt() {
     // console.log(ports);
     await port.open({ baudRate: 115200 });
     console.log("Port Opened");
+    // Read Data
+    // while (port.readable) {
+    //   const reader = port.readable.getReader();
+    //   try {
+    //     while (true) {
+    //       const { value, done } = await reader.read();
+    //       if (done) {
+    //         // |reader| has been canceled.
+    //         break;
+    //       }
+    //       console.log(decoder.decode(value.buffer));
+    //       // Do something with |value|...
+    //     }
+    //   } catch (error) {
+    //     // Handle |error|...
+    //   } finally {
+    //     reader.releaseLock();
+    //   }
+    // }
+
+    // Write Data
+
+    const encoder = new TextEncoder();
+    const writer = port.writable.getWriter();
+    await writer.write(new Uint8Array([65]));
+    writer.releaseLock();
+
+    // Read Data
     while (port.readable) {
       const reader = port.readable.getReader();
       try {
         while (true) {
           const { value, done } = await reader.read();
           if (done) {
+            reader.releaseLock();
             // |reader| has been canceled.
             break;
           }
-          console.log(decoder.decode(value.buffer));
+          // console.log(decoder.decode(value.buffer));
           // Do something with |value|...
+          console.log(value);
         }
       } catch (error) {
         // Handle |error|...
@@ -34,6 +64,7 @@ async function testIt() {
         reader.releaseLock();
       }
     }
+
     const portInfo = port.getInfo();
     // console.log(portInfo);
     document.getElementById(
