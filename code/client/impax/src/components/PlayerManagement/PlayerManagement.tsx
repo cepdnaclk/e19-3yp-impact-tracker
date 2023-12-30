@@ -6,7 +6,7 @@ import PlayersTable from "./PlayersTable/PlayersTable";
 const PlayerManagement = () => {
   return (
     <main>
-      <Title title="Player Mangement" Icon={FaUsers} />
+      <Title title="Player Management" Icon={FaUsers} />
       <PlayersTable />
     </main>
   );
