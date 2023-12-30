@@ -8,7 +8,6 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-
   "dependencies": {
     "@tanstack/react-table": "^8.11.2",
     "react": "^18.2.0",
@@ -16,18 +15,21 @@
     "react-icons": "^4.12.0",
     "react-select": "^5.8.0",
     "sass": "^1.69.5",
+    "serialport": "^12.0.0",
     "usb": "^2.11.0",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.7",
+    "@types/serialport": "^8.0.5",
     "@types/usb": "^2.0.5",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
     "@vitejs/plugin-react": "^4.0.4",
     "electron": "^26.1.0",
     "electron-builder": "^24.6.4",
+    "electron-rebuild": "^3.2.9",
     "eslint": "^8.48.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
