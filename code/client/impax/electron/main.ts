@@ -19,20 +19,6 @@ let win: BrowserWindow | null
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 
-// async function logConnectedUSBDevices() {
-//   try {
-//     const devices = await usb.getDeviceList();
-//     console.log("Connected USB devices:");
-//     for (const device of devices) {
-//       console.log(device);
-//     }
-//   } catch (error) {
-//     console.error("Error getting USB device list:", error);
-//   }
-// }
-
-// // Call the function early in your main.ts file
-// logConnectedUSBDevices();
 
 function createWindow() {
   win = new BrowserWindow({
