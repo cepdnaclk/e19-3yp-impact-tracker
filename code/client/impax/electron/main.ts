@@ -54,22 +54,7 @@ function createWindow() {
     }
 
   })
-  // win.webContents.session.setPermissionCheckHandler((webContents, permission, requestingOrigin, details) => {
-    
-  //   if (permission === 'serial' && details.securityOrigin === 'file:///') {
-  //     return true
-  //   }
-
-  //   return false
-  // })
-
-  // win.webContents.session.setDevicePermissionHandler((details) => {
-  //   if (details.deviceType === 'serial' && details.origin === 'file://') {
-  //     return true
-  //   }
-
-  //   return false
-  // })
+ 
   win.webContents.session.setPermissionCheckHandler((webContents, permission, requestingOrigin, details) => {
     // console.log('setPermissionCheckHandler grant ', details);
     return true;
