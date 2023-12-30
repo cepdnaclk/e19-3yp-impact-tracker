@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Title from "../Title/Title";
 import { MdDeviceHub } from "react-icons/md";
 import styles from "./Devices.module.scss";
@@ -9,33 +9,6 @@ import Modal from "../Modal/Modal";
 
 const Devices: React.FC = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
-  // const [connectedDevices, setConnectedDevices] = useState<unknown[]>([]);
-
-  // useEffect(() => {
-  //   async function listUsbDevices() {
-  //     try {
-  //       // const devices = getDeviceList();
-
-  //       // for (const device of devices) {
-  //       //   console.log(device); // Legacy device
-  //       // }
-  //       const devices = await usb.getDeviceList();
-  //       const deviceInfo = devices.map((device) => ({
-  //         vendorId: device.deviceDescriptor.idVendor,
-  //         productId: device.deviceDescriptor.idProduct,
-  //         description: device.deviceDescriptor.iProduct,
-  //         manufacturer: device.deviceDescriptor.iManufacturer,
-  //         serialNumber: device.deviceDescriptor.iSerialNumber,
-  //       }));
-  //       console.log(deviceInfo);
-  //       // setConnectedDevices(deviceInfo);
-  //     } catch (error) {
-  //       console.error("Error retrieving USB devices:", error);
-  //     }
-  //   }
-
-  //   listUsbDevices();
-  // }, []);
 
   return (
     <main className="main">

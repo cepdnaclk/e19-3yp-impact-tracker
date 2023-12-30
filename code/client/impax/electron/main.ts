@@ -1,4 +1,4 @@
-import { app, BrowserWindow ,Session,PermissionCheckHandlerHandlerDetails,USBDevice, HIDDevice, DevicePermissionHandlerHandlerDetails} from 'electron'
+import { app, BrowserWindow } from 'electron'
 import path from 'node:path'
 // import * as usb from "usb";
 
@@ -27,18 +27,6 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
     },
   })
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
