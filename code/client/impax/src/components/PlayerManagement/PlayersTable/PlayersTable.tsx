@@ -1,11 +1,16 @@
 import React from "react";
+import styles from "./PlayersTable.module.scss";
 
 import {
+  ColumnDef,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+
+import PlayerActions from "./PlayerActions/PlayerActions";
+import { Verification } from "./Verification/Verification";
 
 type Player = {
   jerseyId: number;
@@ -27,21 +32,53 @@ const defaultData: Player[] = [
     email: "dilshan@gmail.com",
     verification: "pending",
   },
+  {
+    name: "Dasun Shanaka",
+    jerseyId: 7,
+    email: "shanaka@gmail.com",
+    verification: "rejected",
+  },
 ];
 
 const columnHelper = createColumnHelper<Player>();
 
-const columns = [
-  columnHelper.accessor("name", {
-    header: () => "name",
-    cell: (info) => info.getValue(),
-    footer: (info) => info.column.id,
-  }),
+const columns: ColumnDef<Player>[] = [
+  {
+    accessorKey: "jerseyId",
+    header: "Jersey No.",
+    cell: ({ row }) => {
+      const jerseyId: number = row.getValue("jerseyId");
+      return (
+        <div className={styles.jerseyId}>
+          {String(jerseyId).padStart(2, "0")}
+        </div>
+      );
+    },
+  },
+
+  {
+    accessorKey: "name",
+    header: "Name",
+  },
+
+  {
+    accessorKey: "email",
+    header: "Email Address",
+  },
+  {
+    accessorKey: "verification",
+    header: "Verification",
+    cell: ({ row }) => <Verification status={row.getValue("verification")} />,
+  },
+  {
+    accessorKey: "edit",
+    header: "",
+    cell: ({ row }) => <PlayerActions jerseyId={row.getValue("jerseyId")} />,
+  },
 ];
 
 const PlayersTable = () => {
   const [data, setData] = React.useState(() => [...defaultData]);
-  const rerender = React.useReducer(() => ({}), {})[1];
 
   const table = useReactTable({
     data,
@@ -50,7 +87,7 @@ const PlayersTable = () => {
   });
 
   return (
-    <div className="p-2">
+    <div className={styles.container}>
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -79,22 +116,6 @@ const PlayersTable = () => {
             </tr>
           ))}
         </tbody>
-        <tfoot>
-          {table.getFooterGroups().map((footerGroup) => (
-            <tr key={footerGroup.id}>
-              {footerGroup.headers.map((header) => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.footer,
-                        header.getContext()
-                      )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </tfoot>
       </table>
     </div>
   );
