@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { BsBroadcast } from "react-icons/bs";
 
 import Title from "../Title/Title";
-
-import ActiveSession from "./activeSession";
+import ActiveSession from "./ActiveSession.tsx";
 import StartSession from "./StartSession";
 
 const Live = () => {
-  const [isSession, setSession] = useState<Boolean>(false);
+  const [isSession, setSession] = useState<boolean>(false);
 
   return (
     <main>
