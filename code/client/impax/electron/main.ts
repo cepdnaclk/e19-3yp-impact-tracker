@@ -28,7 +28,6 @@ function createWindow() {
     },
   })
 
-/* */
 
 
 
@@ -43,88 +42,11 @@ function createWindow() {
 
 
 
-/**/
-
-
-  // ************** WebUSB API START **************
-  let grantedDeviceThroughPermHandler: Electron.USBDevice | Electron.HIDDevice | Electron.SerialPort;
-
-  win.webContents.session.on(
-    "select-usb-device",
-    (event, details, callback) => {
-      // Add events to handle devices being added or removed before the callback on
-      // `select-usb-device` is called.
-      if (win) {
-        win.webContents.session.on("usb-device-added", (event, device) => {
-          console.log("usb-device-added FIRED WITH", device);
-          // Optionally update details.deviceList
-        });
-
-        win.webContents.session.on(
-          "usb-device-removed",
-          (event, device) => {
-            console.log("usb-device-removed FIRED WITH", device);
-            // Optionally update details.deviceList
-          }
-        );
-      }
-
-      interface DeviceWithId {
-        deviceId: string;
-      }
-      
-      let grantedDeviceThroughPermHandler: USBDevice | HIDDevice | DeviceWithId;
-      event.preventDefault();
-      if (details.deviceList && details.deviceList.length > 0) {
-        const deviceToReturn = details.deviceList.find((device) => {
-          return (
-            !grantedDeviceThroughPermHandler ||
-            device .deviceId !== grantedDeviceThroughPermHandler.deviceId
-          );
-        });
-        if (deviceToReturn) {
-          callback(deviceToReturn.deviceId);
-        } else {
-          callback();
-        }
-      }
-    }
-  );
-
-  (webContents: Electron.WebContents | null, permission: string, _requestingOrigin: string, details: PermissionCheckHandlerHandlerDetails) => {
-    if (permission === "usb" && details.securityOrigin === "file:///") {
-      return true;
-    }
-  };
-
-  (win.webContents.session as Session).setDevicePermissionHandler((details:DevicePermissionHandlerHandlerDetails) => {
-    if (details.deviceType === "usb" && details.origin === "file://") {
-      if (!grantedDeviceThroughPermHandler) {
-        grantedDeviceThroughPermHandler = details.device as USBDevice;
-        return true;
-      } else {
-        return false;
-      }
-    }else{
-      return false;
-    }
-  });
-
-  win.webContents.session.setUSBProtectedClassesHandler((details) => {
-    return details.protectedClasses.filter((usbClass) => {
-      // Exclude classes except for audio classes
-      return usbClass.indexOf("audio") === -1;
-    });
-  });
 
 
 
 
 
-
-
-
-  // ******** WebUSB API END ********
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
