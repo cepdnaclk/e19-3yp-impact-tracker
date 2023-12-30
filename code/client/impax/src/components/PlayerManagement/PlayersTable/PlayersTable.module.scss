@@ -18,22 +18,6 @@ table {
     tr {
       //border-bottom: 1px solid #757575;
       background-color: #2e2e2e;
-      .actions {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 1em;
-        button {
-          font-size: 0.9em;
-        }
-
-        button:last-child {
-          .icon {
-            outline: 1px solid red;
-            font-size: 0.8em;
-          }
-        }
-      }
     }
     tr:nth-of-type(even) {
       border-radius: 1em;
