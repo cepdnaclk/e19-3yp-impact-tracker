@@ -11,8 +11,8 @@ import mongoose  from 'mongoose';
 // Create an instance of the Express application
 const app: Express = express();
 
-// import { connectToDatabase } from './src/db/connectdb'; // Adjust the path
-// connectToDatabase();
+import { connectToDatabase } from './src/db/connectdb'; // Adjust the path
+connectToDatabase();
 
 // Load environment variables from a .env file
 dotenv.config();
@@ -50,14 +50,14 @@ app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
 
-const uri = "mongodb+srv://impax-user:impax1234@3ypcluster.grcuqte.mongodb.net/impax?retryWrites=true&w=majority";
-mongoose.Promise = Promise;
-mongoose.connect(uri);
-mongoose.connection.on('connected', () => {
-  console.log("Connected to MongoDB!!!");
-});
+// const uri = "mongodb+srv://impax-user:impax1234@3ypcluster.grcuqte.mongodb.net/impax?retryWrites=true&w=majority";
+// mongoose.Promise = Promise;
+// mongoose.connect(uri);
+// mongoose.connection.on('connected', () => {
+//   console.log("Connected to MongoDB!!!");
+// });
 
-// Event listener for connection errors
-mongoose.connection.on('error', (error) => {
-  console.error("Error connecting to MongoDB:", error);
-});
+// // Event listener for connection errors
+// mongoose.connection.on('error', (error) => {
+//   console.error("Error connecting to MongoDB:", error);
+// });

@@ -1,6 +1,6 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
-interface Manager extends Document {
+interface ManagerDocument extends Document {
   teamId: string;
   firstName: string;
   lastName: string;
@@ -8,14 +8,13 @@ interface Manager extends Document {
   password: string;
 }
 
-const managerSchema = new Schema<Manager>({
-  teamId: { type: String, required: true },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+const managerSchema = new Schema({
+  firstName: String,
+  lastName: String,
+  teams: [{ type: Schema.Types.ObjectId, ref: 'Team' }],
+  authentication: { email: String, password: String },
 });
 
-const ManagerModel = mongoose.model<Manager>('Manager', managerSchema);
+const ManagerModel = mongoose.model<ManagerDocument>('Manager', managerSchema);
 
 export default ManagerModel;

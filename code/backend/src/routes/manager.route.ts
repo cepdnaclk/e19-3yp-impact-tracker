@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { Request, Response } from 'express';
 import { ManagerExistsResponse, Manager, ManagerResponse } from "../models/manager.model";
-import { checkEmailExist, createManager } from "../controllers/manager.controller";
+import { checkManagerExists, createManager, addManagerToTeam, getManager} from "../controllers/manager.controller";
 import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
 import { validateEmail } from "../utils/utils";
 import { checkTeamExist } from '../controllers/team.controller';
@@ -10,7 +10,7 @@ import { checkTeamExist } from '../controllers/team.controller';
 const router = Router();
 
 // Endpoint to check if a manager with a specific email exists
-router.get("/exists/email/:email", (req: Request, res: Response) => {
+router.get("/exists/email/:email",async (req: Request, res: Response) => {
   // Extract email parameter from the request
   const email = req.params.email;
 
@@ -30,7 +30,7 @@ router.get("/exists/email/:email", (req: Request, res: Response) => {
 
   try {
     // Check if a manager with the given email exists
-    const exists: boolean = checkEmailExist(req.params.email);
+    const exists: boolean = await checkManagerExists(email);
     const existsResponse: ManagerExistsResponse = new ManagerExistsResponse(exists);
 
     res.send(existsResponse);
@@ -42,7 +42,7 @@ router.get("/exists/email/:email", (req: Request, res: Response) => {
 });
 
 // Endpoint to create a new manager
-router.post("/", (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   // Extract manager details from the request body
   const teamId = req.body.teamId;
   const firstName = req.body.firstName;
@@ -76,9 +76,13 @@ router.post("/", (req: Request, res: Response) => {
     const manager: Manager = new Manager(teamId, firstName, lastName, email, password);
 
     // Create the manager and get the response
-    const managerResponse: ManagerResponse = createManager(manager);
+    const managerResponse: ManagerResponse | undefined = await createManager(manager);
 
-    res.send(managerResponse);
+    if (managerResponse) {
+      res.send(managerResponse);
+    } else {
+      throw new Error("Failed to create manager.");
+    }
 
   } catch (err) {
     console.log(err);
