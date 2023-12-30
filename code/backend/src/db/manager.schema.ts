@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from "mongoose";
 
 interface ManagerDocument extends Document {
   teamId: string;
@@ -9,12 +9,13 @@ interface ManagerDocument extends Document {
 }
 
 const managerSchema = new Schema({
+  teamId: String,
   firstName: String,
   lastName: String,
-  teams: [{ type: Schema.Types.ObjectId, ref: 'Team' }],
-  authentication: { email: String, password: String },
+  email: String,
+  password: String,
 });
 
-const ManagerModel = mongoose.model<ManagerDocument>('Manager', managerSchema);
+const ManagerModel = mongoose.model<ManagerDocument>("Manager", managerSchema);
 
 export default ManagerModel;
