@@ -14,29 +14,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'"
-    />
-    <title>WebUSB API</title>
-  </head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Web Serial API</title>
   <body>
-    <h1>WebUSB API</h1>
+    <h1>Web Serial API</h1>
 
-    <button id="clickme">Test WebUSB</button>
+    <button id="clickme">Test Web Serial API</button>
 
-    <h3>
-      USB devices automatically granted access via
-      <i>setDevicePermissionHandler</i>
-    </h3>
-    <div id="granted-devices"></div>
+    <p>Matching Arduino Uno device: <strong id="device-name""></strong></p>
 
-    <h3>
-      USB devices automatically granted access via <i>select-usb-device</i>
-    </h3>
-    <div id="granted-devices2"></div>
-
-    <script src="./renderer.ts"></script>
+    <script src="./renderer.js"></script>
   </body>
 </html>
