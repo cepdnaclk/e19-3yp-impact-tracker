@@ -5,11 +5,14 @@ import {
   checkTeamEmailExist,
   createTeam
 } from '../controllers/team.controller';
+import ManagerModel  from "../db/manager.schema";
+
 import {
   TeamIdExistsResponse,
   TeamManagerInterface,
   TeamIdEmailExistsResponse,
-  Team
+  Team,
+  TeamResponse
 } from "../models/team.model";
 import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
 import { validateEmail } from "../utils/utils";
@@ -18,7 +21,7 @@ import { validateEmail } from "../utils/utils";
 const router = Router();
 
 // Endpoint to validate if a Team ID exists
-router.get("/exists/teamId/:id", (req: Request, res: Response) => {
+router.get("/exists/teamId/:id", async (req: Request, res: Response) => {
   // Check if the Team ID parameter is missing
   if (!req.params.id) {
     console.log(HttpMsg.BAD_REQUEST);
@@ -28,7 +31,7 @@ router.get("/exists/teamId/:id", (req: Request, res: Response) => {
 
   try {
     // Check if the Team ID exists
-    const exists: boolean = checkTeamExist(req.params.id);
+    const exists: boolean = await checkTeamExist(req.params.id);
     const existsResponse: TeamIdExistsResponse = new TeamIdExistsResponse(exists);
 
     res.send(existsResponse);
@@ -40,7 +43,8 @@ router.get("/exists/teamId/:id", (req: Request, res: Response) => {
 });
 
 // Endpoint to validate both Team ID and email existence
-router.get("/exists", (req: Request<{}, {}, {}, TeamManagerInterface>, res: Response) => {
+//Doubt???? --> BAD Request
+router.get("/exists", async (req: Request<{}, {}, {}, TeamManagerInterface>, res: Response) => {
   // Extract Team ID and email from query parameters
   const teamId = req.query.teamId;
   const email = req.query.email;
@@ -61,7 +65,7 @@ router.get("/exists", (req: Request<{}, {}, {}, TeamManagerInterface>, res: Resp
 
   try {
     // Check if Team ID and email combination exists
-    const teamIdEmailExistResponse: TeamIdEmailExistsResponse = checkTeamEmailExist(teamId, email);
+    const teamIdEmailExistResponse: TeamIdEmailExistsResponse = await checkTeamEmailExist(teamId, email);
 
     res.send(teamIdEmailExistResponse);
 
@@ -73,7 +77,7 @@ router.get("/exists", (req: Request<{}, {}, {}, TeamManagerInterface>, res: Resp
 });
 
 // Endpoint to create a Team
-router.post("/", (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   // Extract Team ID and Team Name from the request body
   const teamId = req.body.teamId;
   const teamName = req.body.teamName;
@@ -90,9 +94,9 @@ router.post("/", (req: Request, res: Response) => {
     const team: Team = new Team(teamId, teamName);
 
     // Create the Team and get the response
-    const TeamResponse: Team = createTeam(team);
+    const teamResponse: TeamResponse | undefined = await createTeam(team);
 
-    res.send(TeamResponse);
+    res.send(teamResponse);
 
   } catch (err) {
     console.log(err);

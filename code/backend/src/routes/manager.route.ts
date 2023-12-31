@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { Request, Response } from 'express';
 import { ManagerExistsResponse, Manager, ManagerResponse } from "../models/manager.model";
-import { checkManagerExists, createManager, addManagerToTeam, getManager} from "../controllers/manager.controller";
+import { checkManagerExists, createManager} from "../controllers/manager.controller";
 import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
 import { validateEmail } from "../utils/utils";
 import { checkTeamExist } from '../controllers/team.controller';

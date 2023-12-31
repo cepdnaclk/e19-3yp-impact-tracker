@@ -16,7 +16,9 @@ class TeamIdEmailExistsResponse{
     public teamExists: boolean = false;
     public managerExists: boolean = false;
   
-    public constructor() {
+    public constructor(teamExists: boolean, managerExists: boolean) {
+      this.teamExists = teamExists;
+      this.managerExists = managerExists;
     }
 }
 
@@ -30,4 +32,15 @@ class Team{
     }
 }
 
-export {TeamIdExistsResponse, TeamManagerInterface, TeamIdEmailExistsResponse, Team};
+class TeamResponse {
+  private teamId: string;
+  private teamName: string;
+
+  public constructor(team: Team) {
+      this.teamId = team.teamId;
+      this.teamName = team.teamName;
+
+  }
+}
+
+export {TeamIdExistsResponse, TeamManagerInterface, TeamIdEmailExistsResponse, Team, TeamResponse};

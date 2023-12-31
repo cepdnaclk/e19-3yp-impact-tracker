@@ -1,4 +1,4 @@
-import { ManagerRequestBody, Manager, ManagerResponse, ManagerExistsResponse } from "../models/manager.model";
+import { ManagerRequestBody, ManagerResponse, ManagerExistsResponse } from "../models/manager.model";
 import ManagerModel  from "../db/manager.schema";
 
 class ManagerService {
@@ -32,65 +32,8 @@ class ManagerService {
       throw new Error('Error creating manager');
     }
   }
-
-  async addManagerToTeam(currentManagerTeamId: string, managerRequestBody: ManagerRequestBody): Promise<ManagerResponse> {
-    try {
-      // Create a new instance of the Manager model with the provided team ID
-      const managerInstance = new ManagerModel({
-        teamId: currentManagerTeamId,
-        firstName: managerRequestBody.firstName,
-        lastName: managerRequestBody.lastName,
-        email: managerRequestBody.email,
-        password: managerRequestBody.password,
-      });
   
-      // Save the manager to the database
-      const savedManager = await managerInstance.save();
-
-      // Create a ManagerResponse object
-      const managerResponse = new ManagerResponse({
-        teamId: savedManager.teamId,
-        firstName: savedManager.firstName,
-        lastName: savedManager.lastName,
-        email: savedManager.email,
-        // It's generally not recommended to return the password in the response
-        password: "##########",
-      });
   
-      return managerResponse;
-    } catch (error) {
-      console.error(error);
-      throw new Error('Error creating manager');
-    }
-  }
-
-  // Get Manager
-  async getManager(managerId: string): Promise<ManagerResponse> {
-    try {
-      // Find the manager by ID
-      const manager = await ManagerModel.findById(managerId);
-  
-      if (!manager) {
-        throw new Error('Manager not found');
-      }
-  
-      // Create a ManagerResponse object
-      const managerResponse = new ManagerResponse({
-        teamId: manager.teamId,
-        firstName: manager.firstName,
-        lastName: manager.lastName,
-        email: manager.email,
-        password: "##########",
-      });
-  
-      return managerResponse;
-    } catch (error) {
-      console.error(error);
-      throw new Error('Error getting manager');
-    }
-  }
-
-  //Done
   async checkManagerExists(email: string): Promise<ManagerExistsResponse> {
     try {
       const existingManager = await ManagerModel.findOne({ email });
