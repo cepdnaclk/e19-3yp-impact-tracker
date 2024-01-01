@@ -24,11 +24,7 @@ const options = {
         },
       ],
     },
-    apis: [
-      "./routes/*.js",
-      `${__dirname}src/routes/example.ts`,
-      "./dist/src/routes/example.js"
-    ],
+    
   };
 
   export default options;

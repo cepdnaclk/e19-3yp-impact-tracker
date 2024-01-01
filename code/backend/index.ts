@@ -1,34 +1,16 @@
-import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import options from './src/config/corsOptions';
-import apiInfo from './src/config/config';
-import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
+// Import app
+import app from "./app";
+import mongoose from "mongoose";
 
-const app: Express = express();
+import { connectToDatabase } from "./src/db/connectdb"; // Adjust the path
+connectToDatabase();
 
-dotenv.config();
-app.use(bodyParser.json());
-app.use(cors(options));
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+// Define the port for the server to listen on
+const port = process.env.PORT || 5000;
 
-const port = process.env.PORT||5000;
-
-
-import exampleRoutes from "./src/routes/example";
-app.use(exampleRoutes);
-
-const swaggerSpec = swaggerJSDoc(apiInfo);
-
-app.get('/', (req: Request, res: Response) => {
-  res.send(apiInfo.definition.info);
-});
-
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
+mongoose.connection.on("connected", () => {
+  console.log("Connected to MongoDB!!!");
+  app.listen(port, () => {
+    console.log(`[server]: Server is  running at http://localhost:${port}`);
+  });
 });
