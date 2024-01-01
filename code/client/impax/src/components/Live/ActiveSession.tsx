@@ -1,10 +1,10 @@
 import styles from "./ActiveSession.module.scss";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTimes } from "react-icons/fa";
 import { IoMdExit } from "react-icons/io";
 import Btn from "../Buttons/Btn";
 import MonitoringCard from "./Card/MonitoringCard";
 import ActiveCard from "./Card/ActiveCard";
-
+import AlertModal from "../Modal/AlertModal";
 const ActiveSession = () => {
   //Time object of 15 mins and 5 mins before for testing
   const currentDate = new Date();
@@ -22,7 +22,13 @@ const ActiveSession = () => {
           <Btn Icon={FaEdit} buttonStyle="secondary">
             Edit Session
           </Btn>
-          <Btn Icon={IoMdExit}>Exit Session</Btn>
+          <AlertModal
+            trigger={<Btn Icon={IoMdExit}>Exit Session</Btn>}
+            title="Are you sure to exit session?"
+            description="sample"
+            action={<Btn Icon={IoMdExit}>Confirm Exit</Btn>}
+            cancel={<Btn Icon={FaTimes}>Cancel</Btn>}
+          />
         </div>
       </div>
       <div className={styles.monitoring}>
