@@ -85,7 +85,7 @@ router.post("/", async (req: Request, res: Response) => {
   const exists: boolean = await checkManagerExists(email);
 
   if (exists) {
-    console.log(HttpMsg.INVALID_TEAMID);
+    console.log(HttpMsg.MANAGER_EXISTS);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.MANAGER_EXISTS });
     return;
   }
