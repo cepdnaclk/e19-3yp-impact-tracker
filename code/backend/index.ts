@@ -45,23 +45,9 @@ app.get("/", (req: Request, res: Response) => {
   res.send(apiInfo.definition.info);
 });
 
-// Start the server and listen on the specified port
-// app.listen(port, () => {
-//   console.log(`[server]: Server is running at http://localhost:${port}`);
-// });
-
-// const uri = "mongodb+srv://impax-user:impax1234@3ypcluster.grcuqte.mongodb.net/impax?retryWrites=true&w=majority";
-// mongoose.Promise = Promise;
-// mongoose.connect(uri);
-
 mongoose.connection.on("connected", () => {
   console.log("Connected to MongoDB!!!");
   app.listen(port, () => {
-    console.log(`[server]: Server is running at http://localhost:${port}`);
+    console.log(`[server]: Server is  running at http://localhost:${port}`);
   });
 });
-
-// // Event listener for connection errors
-// mongoose.connection.on('error', (error) => {
-//   console.error("Error connecting to MongoDB:", error);
-// });
