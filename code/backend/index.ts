@@ -6,6 +6,7 @@ import cors from "cors";
 import options from "./src/config/corsOptions";
 import apiInfo from "./src/config/config";
 import swaggerUi from "swagger-ui-express";
+import mongoose from "mongoose";
 
 // Create an instance of the Express application
 const app: Express = express();
@@ -44,7 +45,9 @@ app.get("/", (req: Request, res: Response) => {
   res.send(apiInfo.definition.info);
 });
 
-// Start the server and listen on the specified port
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
+mongoose.connection.on("connected", () => {
+  console.log("Connected to MongoDB!!!");
+  app.listen(port, () => {
+    console.log(`[server]: Server is  running at http://localhost:${port}`);
+  });
 });
