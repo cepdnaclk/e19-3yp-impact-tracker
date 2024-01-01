@@ -42,6 +42,16 @@ afterAll(async () => {
 
 describe("Manager Routes", () => {
   it("should create a new manager", async () => {
+    const teamData = {
+      teamId: "exampleTeamId",
+      teamName: "Example Team",
+    };
+
+    const responseTeam = await request(app)
+      .post("/team")
+      .send(teamData)
+      .set("Accept", "application/json");
+
     const managerData = {
       teamId: "exampleTeamId",
       firstName: "John",

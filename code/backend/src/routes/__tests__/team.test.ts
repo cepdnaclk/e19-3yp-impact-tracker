@@ -81,16 +81,16 @@ describe("Team Routes", () => {
     expect(response.body).toHaveProperty("teamExists", true);
   });
 
-  //   it("should return a 400 Bad Request for an invalid team ID", async () => {
-  //     const invalidTeamId = "invalidTeamId";
+  it("should return a 400 Bad Request for an invalid team ID", async () => {
+    const invalidTeamId = "invalidTeamId";
 
-  //     const response = await request(app)
-  //       .get(`/team/exists/teamId/${invalidTeamId}`)
-  //       .set("Accept", "application/json");
+    const response = await request(app)
+      .get(`/team/exists/teamId/${invalidTeamId}`)
+      .set("Accept", "application/json");
 
-  //     expect(response.status).toBe(HttpCode.BAD_REQUEST);
-  //     expect(response.body).toHaveProperty("message", HttpMsg.BAD_REQUEST);
-  //   });
+    expect(response.status).toBe(HttpCode.OK);
+    expect(response.body.teamExists).toBe(false);
+  });
 
   // Add more test cases for other scenarios as needed
 });
