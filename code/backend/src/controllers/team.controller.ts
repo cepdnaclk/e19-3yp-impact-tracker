@@ -3,6 +3,7 @@ import TeamModel  from "../db/team.schema";
 import ManagerModel  from "../db/manager.schema";
 
 import {
+    TeamIdExistsResponse,
     TeamIdEmailExistsResponse, 
     TeamResponse,
     Team
@@ -12,17 +13,17 @@ import teamService from "../services/team.service";
 
 
 
-export async function checkTeamExist(teamId: string): Promise<boolean> {
+export async function checkTeamExist(teamId: string): Promise<TeamIdExistsResponse> {
 
     // check team exists
 
     try {
-        // Check if team exists
-        const team = await TeamModel.findById(teamId);
-        return !!team;
-    } catch (error) {
-        console.error(error);
-        throw new Error('Error checking team existence');
+        // Check if Team ID and email combination exists
+        const teamIdExistResponse: TeamIdExistsResponse = await teamService.checkTeamExist(teamId);
+        return teamIdExistResponse;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Error checking Team existence.');
     }
 }
 
@@ -39,32 +40,16 @@ export async function checkTeamEmailExist(teamId: string, email: string): Promis
     //     managerExists :true
     // }
 
-
-    // Initialize response with both flags set to false
-    // TeamIdEmailExistsResponse constuctor
-    const teamIdEmailExistsResponse = new TeamIdEmailExistsResponse(false, false);
-
     try {
-        // Check if team exists
-        const team = await TeamModel.findById(teamId);
-        if (team) {
-            teamIdEmailExistsResponse.teamExists = true;
-
-            // Check if manager with provided email exists and is authorized for the team
-            const manager = await ManagerModel.findOne({ email, teamId });
-            if (manager) {
-                teamIdEmailExistsResponse.managerExists = true;
-            }
-        }
-    } catch (error) {
-        console.error(error);
-        throw new Error('Error checking team and manager existence');
+            // Check if Team ID and email combination exists
+            const teamIdEmailExistResponse: TeamIdEmailExistsResponse = await teamService.checkTeamEmailExist(teamId, email);
+            return teamIdEmailExistResponse;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Error checking Team and Manager existence.');
     }
-
     // const teamIdEmailExistsResponse:TeamIdEmailExistsResponse = new TeamIdEmailExistsResponse();
     // teamIdEmailExistsResponse.managerExists = true;
-
-    return teamIdEmailExistsResponse;
 }
 
 export async function createTeam(team: Team): Promise<TeamResponse | undefined> {
@@ -76,5 +61,5 @@ export async function createTeam(team: Team): Promise<TeamResponse | undefined> 
         // Handle the error, either by returning a default value or throwing an error
         throw new Error('Failed to create team');
       }
-  }
+}
 

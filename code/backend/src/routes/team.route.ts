@@ -31,8 +31,8 @@ router.get("/exists/teamId/:id", async (req: Request, res: Response) => {
 
   try {
     // Check if the Team ID exists
-    const exists: boolean = await checkTeamExist(req.params.id);
-    const existsResponse: TeamIdExistsResponse = new TeamIdExistsResponse(exists);
+    const existsResponse: TeamIdExistsResponse = await checkTeamExist(req.params.id);
+    // const exists: boolean = existsResponse.exists;
 
     res.send(existsResponse);
 

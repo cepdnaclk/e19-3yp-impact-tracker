@@ -63,8 +63,8 @@ class TeamService{
               }
           }
       } catch (error) {
-          console.error(error);
-          throw new Error('Error checking team and manager existence');
+        console.error(error);
+        throw new Error('Error checking team and manager existence');
       }
   
       // const teamIdEmailExistsResponse:TeamIdEmailExistsResponse = new TeamIdEmailExistsResponse();
@@ -72,6 +72,26 @@ class TeamService{
   
       return teamIdEmailExistsResponse;
   }
+
+  async checkTeamExist(teamId: string): Promise<TeamIdExistsResponse> {
+
+    // Initialize response with both flags set to false
+    const teamIdExistsResponse = new TeamIdExistsResponse(false);
+
+    try {
+        // Check if team exists
+        const team = await TeamModel.findById(teamId);
+        if (team) {
+            teamIdExistsResponse.teamExists = true;
+
+        }
+    } catch (error) {
+      console.error(error);
+      throw new Error('Error checking team and manager existence');
+    }
+
+    return teamIdExistsResponse;
+}
 
 }
 export default new TeamService();

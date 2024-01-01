@@ -1,5 +1,5 @@
 class TeamIdExistsResponse{
-    private teamExists: boolean;
+    public teamExists: boolean;
   
     public constructor(teamExists: boolean) {
       this.teamExists = teamExists;
