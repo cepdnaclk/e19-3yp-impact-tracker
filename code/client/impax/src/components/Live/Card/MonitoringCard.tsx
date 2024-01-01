@@ -35,7 +35,7 @@ const MonitoringCard = ({
 }: MonitoringCardProps) => {
   return (
     <div className={styles.card}>
-      <MdClose className={styles.actionBtn} />
+      <MdClose className={styles.actionBtn} tabIndex={0} />
       <PlayerInfo playerInfo={playerInfo} />
       <MonitoringElements
         metrics={metrics}
