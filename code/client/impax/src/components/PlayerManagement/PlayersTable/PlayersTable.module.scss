@@ -1,18 +1,34 @@
-.container {
-  padding: 1em;
-  //width: 100%;
-}
+@use "../../../variables.scss" as *;
 
-table {
+.playersTable {
   width: 100%;
   border-collapse: collapse;
   font-size: 1em;
-  table-layout: auto;
-  text-overflow: ellipsis;
+  //table-layout: auto;
+  //text-overflow: ellipsis;
   thead th {
     font-size: 0.9em;
     color: rgb(232, 232, 232);
     text-wrap: nowrap;
+
+    button {
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      color: inherit;
+      font-weight: 600;
+      &:hover,
+      &:focus {
+        .icon {
+          color: white;
+        }
+      }
+      .icon {
+        font-size: 0.9em;
+        color: rgba(255, 255, 255, 0.5);
+        transition: 200ms color ease-in-out;
+      }
+    }
   }
   tbody {
     tr {
@@ -60,6 +76,7 @@ table {
 
   td:has(div.jerseyId) {
     width: 2ch;
+    max-width: 2ch;
   }
 
   td:has(button) {
