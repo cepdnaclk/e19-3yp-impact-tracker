@@ -1,7 +1,9 @@
 #include "define.h"
+#include "highGCalibrated.h"
 
 BuddyWIFI buddyWIFI;
 BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port);
+HighGCalibrated highGCalibrated;
 
 void connect()
 {
@@ -21,6 +23,10 @@ void connect()
 
 void setup()
 {
+    // High G
+    highGCalibrated.begin();
+    highGCalibrated.calibrate();
+
     Serial.begin(BAUD_RATE);
 
     initEEPROM(ssid_default, password_defalt, BUDDY_ID, ID);
