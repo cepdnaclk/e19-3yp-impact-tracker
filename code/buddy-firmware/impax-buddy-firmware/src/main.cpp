@@ -55,6 +55,8 @@ void setup()
 void loop()
 {
     highGCalibrated.calibrate();
+    Serial.println(highGCalibrated.readAccX());
+    delay(1000);
 
     // connect();
 
