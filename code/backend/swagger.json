@@ -9,7 +9,7 @@
       "url": "https://github.com/cepdnaclk/e19-3yp-impact-tracker/blob/main/LICENSE"
     },
     "contact": {
-      "name": "Imapax",
+      "name": "Impax",
       "url": "https://github.com/cepdnaclk/e19-3yp-impact-tracker",
       "email": ""
     }
@@ -200,6 +200,178 @@
         }
       }
     },
+
+    "/player": {
+      "post": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Create a player",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PlayerCreateRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/PlayerResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "/player/{email}": {
+      "get": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Get player details",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "example@example.com"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/PlayerResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/player/{playerID}/sessions": {
+      "get": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Get session details related to the player",
+        "parameters": [
+          {
+            "name": "playerID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "examplePlayerId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/SessionDetailsResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/players/{playerID}/total-impacts": {
+      "get": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Get total impacts for a player",
+        "parameters": [
+          {
+            "name": "playerID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "examplePlayerId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/TotalImpactsResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/highest-impact": {
+      "get": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Get the highest impact among all records with the date",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/HighestImpactRecord"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
 
     "/login/manager": {
       "post": {
@@ -404,7 +576,161 @@
           "teamId": "exampleTeamId",
           "teamName": "Example Team"
         }
+      },
+
+      "PlayerCreateRequest": {
+        "type": "object",
+        "properties": {
+          "playerId": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "teams": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "playerId": "examplePlayerId",
+          "firstName": "John",
+          "lastName": "Doe",
+          "email": "example@example.com",
+          "password": "securePassword",
+          "address": "123 Main St",
+          "teams": ["Team1", "Team2"]
+        }
+      },
+      
+      "PlayerResponse": {
+        "type": "object",
+        "properties": {
+          "playerId": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "teams": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "playerId": "12345",
+          "email": "example@example.com",
+          "firstName": "John",
+          "lastName": "Doe",
+          "address": "123 Main St",
+          "teams": ["Team1", "Team2"]
+        }
+      },
+      
+      "SessionDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "time"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "time"
+          },
+          "location": {
+            "type": "string"
+          },
+          "hostManagerId": {
+            "type": "string"
+          },
+          "players": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "sessionId": "12345",
+          "date": "2023-01-01",
+          "startTime": "10:00:00",
+          "endTime": "12:00:00",
+          "location": "Field 1",
+          "hostManagerId": "host123",
+          "players": ["player1", "player2"]
+        }
+      },
+      
+      "TotalImpactsResponse": {
+        "type": "object",
+        "properties": {
+          "playerId": {
+            "type": "string"
+          },
+          "totalImpacts": {
+            "type": "integer"
+          }
+        },
+        "example": {
+          "playerId": "12345",
+          "totalImpacts": 1000
+        }
+      },
+      
+      "HighestImpactRecord": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "highestImpact": {
+            "type": "number"
+          }
+        },
+        "example": {
+          "sessionId": "12345",
+          "date": "2023-01-01",
+          "highestImpact": 10.5
+        }
       }
+      
     },
 
     "requestBodies": {
@@ -413,6 +739,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Team"
+            }
+          }
+        }
+      },
+
+      "PlayerCreateRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PlayerCreateRequest"
             }
           }
         }
