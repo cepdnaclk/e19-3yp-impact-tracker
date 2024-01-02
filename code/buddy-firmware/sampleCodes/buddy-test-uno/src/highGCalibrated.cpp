@@ -84,6 +84,49 @@ void HighGCalibrated::calibrate()
     ax = cx;
     ay = cy;
     az = cz;
+
+    resultant = sqrt(ax * ax + ay * ay + az * az);
+}
+bool HighGCalibrated::isAnImpact()
+{
+    if (resultant > 14)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+string getDirection()
+{
+    double roll = atan2(ay, az) * 180 / PI;
+    double pitch = atan2(ax, sqrt(ay * ay + az * az)) * 180 / PI;
+    double yaw = atan2(ay, sqrt(ax * ax + az * az)) * 180 / PI;
+
+    if (roll > 0)
+    {
+        return "Right";
+    }
+    else if (roll < 0)
+    {
+        return "Left";
+    }
+
+    // Check the pitch angle to determine above or below direction
+    else if (pitch > 0)
+    {
+        return " Above";
+    }
+    else if (pitch < 0)
+    {
+        direction " Below";
+    }
+}
+float HighGCalibrated::readMagnitude()
+{
+    return resultant;
 }
 
 float HighGCalibrated::readAccX()
