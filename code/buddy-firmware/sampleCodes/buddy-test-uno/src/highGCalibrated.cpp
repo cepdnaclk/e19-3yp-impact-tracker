@@ -99,7 +99,7 @@ bool HighGCalibrated::isAnImpact()
     }
 }
 
-string getDirection()
+string HighGCalibrated::getDirection()
 {
     double roll = atan2(ay, az) * 180 / PI;
     double pitch = atan2(ax, sqrt(ay * ay + az * az)) * 180 / PI;
@@ -117,7 +117,7 @@ string getDirection()
     // Check the pitch angle to determine above or below direction
     else if (pitch > 0)
     {
-        return " Above";
+        return "Above";
     }
     else if (pitch < 0)
     {
