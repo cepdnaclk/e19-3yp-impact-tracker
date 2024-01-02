@@ -14,7 +14,7 @@ public:
     float readAccZ();
     float readMagnitude();
     bool isAnImpact();
-    string getDirection();
+    String getDirection();
     void calibrate();
 
 private:

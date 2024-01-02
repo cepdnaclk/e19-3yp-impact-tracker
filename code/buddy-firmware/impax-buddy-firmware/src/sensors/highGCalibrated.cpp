@@ -99,7 +99,7 @@ bool HighGCalibrated::isAnImpact()
     }
 }
 
-string HighGCalibrated::getDirection()
+String HighGCalibrated::getDirection()
 {
     double roll = atan2(ay, az) * 180 / PI;
     double pitch = atan2(ax, sqrt(ay * ay + az * az)) * 180 / PI;
@@ -121,7 +121,7 @@ string HighGCalibrated::getDirection()
     }
     else if (pitch < 0)
     {
-        direction " Below";
+        return " Below";
     }
 }
 float HighGCalibrated::readMagnitude()
