@@ -1,17 +1,14 @@
 import "./App.css";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Content from "./components/Content/Content";
+import { useStartMqttClient } from "./services/mqttClient";
 
 function App() {
-  // type selectedPage = "live" | "devices" | "analytics" | "profile";
-
+  useStartMqttClient();
   return (
     <>
       <Sidebar />
       <Content />
-      {/* <Live /> */}
-
-      {/* <Test /> */}
     </>
   );
 }
