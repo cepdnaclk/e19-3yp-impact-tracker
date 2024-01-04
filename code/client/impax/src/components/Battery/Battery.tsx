@@ -10,8 +10,6 @@ const Battery: React.FC<{ batteryLevel: number }> = ({ batteryLevel }) => {
   else if (batteryLevel > 20) containerClasses += `${styles.medium}`;
   else containerClasses += `${styles.low}`;
 
-  console.log(containerClasses);
-
   return (
     <div className={containerClasses}>
       <div className={styles.batteryOuter}>
