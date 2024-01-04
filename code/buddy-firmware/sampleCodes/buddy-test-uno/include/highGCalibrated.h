@@ -12,11 +12,15 @@ public:
     float readAccX();
     float readAccY();
     float readAccZ();
+    float readMagnitude();
+    bool isAnImpact();
+    string getDirection();
     void calibrate();
 
 private:
     DFRobot_H3LIS200DL_I2C acce;
     float ax, ay, az;
+    float resultant;
 };
 
 #endif // HIGHG_H
