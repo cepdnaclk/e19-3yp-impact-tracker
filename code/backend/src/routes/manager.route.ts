@@ -44,8 +44,13 @@ router.get("/exists/email/:email", async (req: Request, res: Response) => {
 
     res.send(existsResponse);
   } catch (err) {
-    console.log(err);
-    res.status(HttpCode.BAD_REQUEST).send(HttpMsg.BAD_REQUEST);
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
   }
 });
 
@@ -111,8 +116,13 @@ router.post("/", async (req: Request, res: Response) => {
       throw new Error("Failed to create manager.");
     }
   } catch (err) {
-    console.log(err);
-    res.status(HttpCode.BAD_REQUEST).send(HttpMsg.BAD_REQUEST);
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
   }
 });
 
