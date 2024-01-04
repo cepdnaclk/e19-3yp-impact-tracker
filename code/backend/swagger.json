@@ -86,6 +86,44 @@
         }
       }
     },
+
+    "/team/{id}": {
+      "get": {
+        "tags": ["TeamEndpoints"],
+        "summary": "Get team details",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "exampleTeamId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/TeamResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/team/exists": {
       "get": {
         "tags": ["TeamEndpoints"],
@@ -577,6 +615,22 @@
           "teamName": "Example Team"
         }
       },
+      
+      "TeamResponse": {
+        "type": "object",
+        "properties": {
+          "teamId": {
+            "type": "string"
+          },
+          "teamName": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "teamId": "exampleTeamId",
+          "teamName": "Example Team"
+        }
+      },      
 
       "PlayerCreateRequest": {
         "type": "object",

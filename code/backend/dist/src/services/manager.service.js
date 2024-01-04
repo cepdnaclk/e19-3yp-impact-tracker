@@ -40,66 +40,10 @@ class ManagerService {
             }
             catch (error) {
                 console.error(error);
-                throw new Error('Error creating manager');
+                throw new Error("Error creating manager");
             }
         });
     }
-    addManagerToTeam(currentManagerTeamId, managerRequestBody) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                // Create a new instance of the Manager model with the provided team ID
-                const managerInstance = new manager_schema_1.default({
-                    teamId: currentManagerTeamId,
-                    firstName: managerRequestBody.firstName,
-                    lastName: managerRequestBody.lastName,
-                    email: managerRequestBody.email,
-                    password: managerRequestBody.password,
-                });
-                // Save the manager to the database
-                const savedManager = yield managerInstance.save();
-                // Create a ManagerResponse object
-                const managerResponse = new manager_model_1.ManagerResponse({
-                    teamId: savedManager.teamId,
-                    firstName: savedManager.firstName,
-                    lastName: savedManager.lastName,
-                    email: savedManager.email,
-                    // It's generally not recommended to return the password in the response
-                    password: "##########",
-                });
-                return managerResponse;
-            }
-            catch (error) {
-                console.error(error);
-                throw new Error('Error creating manager');
-            }
-        });
-    }
-    // Get Manager
-    getManager(managerId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                // Find the manager by ID
-                const manager = yield manager_schema_1.default.findById(managerId);
-                if (!manager) {
-                    throw new Error('Manager not found');
-                }
-                // Create a ManagerResponse object
-                const managerResponse = new manager_model_1.ManagerResponse({
-                    teamId: manager.teamId,
-                    firstName: manager.firstName,
-                    lastName: manager.lastName,
-                    email: manager.email,
-                    password: "##########",
-                });
-                return managerResponse;
-            }
-            catch (error) {
-                console.error(error);
-                throw new Error('Error getting manager');
-            }
-        });
-    }
-    //Done
     checkManagerExists(email) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -109,7 +53,7 @@ class ManagerService {
             }
             catch (error) {
                 console.error(error);
-                throw new Error('Error checking manager existence');
+                throw new Error("Error checking manager existence");
             }
         });
     }

@@ -15,6 +15,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("../../../app"));
 const appErrorsDefine_1 = require("../../exceptions/appErrorsDefine");
 const supertest_1 = __importDefault(require("supertest"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const mongodb_memory_server_1 = require("mongodb-memory-server");
+beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
+    // Create a in memory server
+    const mongoServer = yield mongodb_memory_server_1.MongoMemoryServer.create();
+    // Get the connection string
+    const mongoUri = mongoServer.getUri();
+    // Connect to the in memory server
+    try {
+        yield mongoose_1.default.connect(mongoUri);
+        console.log("Connected to in-memory database");
+    }
+    catch (err) {
+        console.error(err);
+    }
+}));
+afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield mongoose_1.default.disconnect();
+}));
 /**
  * Manager Routes Test Suite
  *
@@ -33,6 +52,14 @@ const supertest_1 = __importDefault(require("supertest"));
  */
 describe("Manager Routes", () => {
     it("should create a new manager", () => __awaiter(void 0, void 0, void 0, function* () {
+        const teamData = {
+            teamId: "exampleTeamId",
+            teamName: "Example Team",
+        };
+        const responseTeam = yield (0, supertest_1.default)(app_1.default)
+            .post("/team")
+            .send(teamData)
+            .set("Accept", "application/json");
         const managerData = {
             teamId: "exampleTeamId",
             firstName: "John",

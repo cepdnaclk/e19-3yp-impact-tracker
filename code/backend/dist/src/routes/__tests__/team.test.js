@@ -15,6 +15,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("../../../app"));
 const appErrorsDefine_1 = require("../../exceptions/appErrorsDefine");
 const supertest_1 = __importDefault(require("supertest"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const mongodb_memory_server_1 = require("mongodb-memory-server");
+beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
+    // Create a in memory server
+    const mongoServer = yield mongodb_memory_server_1.MongoMemoryServer.create();
+    // Get the connection string
+    const mongoUri = mongoServer.getUri();
+    // Connect to the in memory server
+    try {
+        yield mongoose_1.default.connect(mongoUri);
+        console.log("Connected to in-memory database");
+    }
+    catch (err) {
+        console.error(err);
+    }
+}));
+afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield mongoose_1.default.disconnect();
+}));
 /**
  * Team Routes Test Suite
  *
@@ -63,13 +82,13 @@ describe("Team Routes", () => {
         expect(response.status).toBe(appErrorsDefine_1.HttpCode.OK);
         expect(response.body).toHaveProperty("teamExists", true);
     }));
-    //   it("should return a 400 Bad Request for an invalid team ID", async () => {
-    //     const invalidTeamId = "invalidTeamId";
-    //     const response = await request(app)
-    //       .get(`/team/exists/teamId/${invalidTeamId}`)
-    //       .set("Accept", "application/json");
-    //     expect(response.status).toBe(HttpCode.BAD_REQUEST);
-    //     expect(response.body).toHaveProperty("message", HttpMsg.BAD_REQUEST);
-    //   });
+    it("should return a 400 Bad Request for an invalid team ID", () => __awaiter(void 0, void 0, void 0, function* () {
+        const invalidTeamId = "invalidTeamId";
+        const response = yield (0, supertest_1.default)(app_1.default)
+            .get(`/team/exists/teamId/${invalidTeamId}`)
+            .set("Accept", "application/json");
+        expect(response.status).toBe(appErrorsDefine_1.HttpCode.OK);
+        expect(response.body.teamExists).toBe(false);
+    }));
     // Add more test cases for other scenarios as needed
 });
