@@ -38,6 +38,32 @@ class ManagerService {
     }
   }
 
+  async getManager(managerId: string): Promise<ManagerResponse> {
+    try {
+      // Get the team details 
+      const teamInstance = await ManagerModel.findOne({ managerId });
+
+      // Check if teamInstance is null
+      if (!teamInstance) {
+        throw new Error("Manager not found");
+      }
+
+      // Create a TeamResponse object
+      const managerResponse = new ManagerResponse({
+        teamId: teamInstance.teamId,
+        firstName: teamInstance.firstName,
+        lastName: teamInstance.lastName,
+        email: teamInstance.email,
+        password: "**********", // Add the password property here
+      });
+
+      return managerResponse;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error getting manager details");
+    }
+  }
+
   async checkManagerExists(email: string): Promise<ManagerExistsResponse> {
     try {
       const existingManager = await ManagerModel.findOne({ email });
