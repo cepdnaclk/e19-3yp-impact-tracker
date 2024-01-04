@@ -18,6 +18,14 @@ void loop()
   float ay = highGCalibrated.readAccY();
   float az = highGCalibrated.readAccZ();
 
+  // TODO: Calibrate the MPU6050
+  // TODO: Read yaw, pitch, roll from the MPU6050
+  //  TODO: Rotate the vector to the earth frame of reference
+  //  TODO: Deduct the gravitational acceleration component
+  //  TODO: Caculate the direction of the acceleration vector
+  //  TODO: Calculate the magnitude of the acceleration vector
+  //  TODO: Compare the magnitude with the threshold
+
   // Print acceleration values
   Serial.print("x: ");
   Serial.print(ax);
