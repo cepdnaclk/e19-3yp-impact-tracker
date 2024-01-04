@@ -34,10 +34,10 @@ const managerSchema = new mongoose_1.Schema({
         password: { type: String, required: true },
         salt: { type: String, select: false },
         sessionToken: { type: String, select: false },
-    }
+    },
 });
 // Create the Manager model
-const ManagerModel = mongoose_1.default.model('Manager', managerSchema);
+const ManagerModel = mongoose_1.default.model("Manager", managerSchema);
 exports.ManagerModel = ManagerModel;
 const playerSchema = new mongoose_1.Schema({
     username: { type: String, required: true },
@@ -46,5 +46,5 @@ const playerSchema = new mongoose_1.Schema({
     team: { type: String, required: true },
 });
 // Create the Player model
-const PlayerModel = mongoose_1.default.model('Player', playerSchema);
+const PlayerModel = mongoose_1.default.model("Player", playerSchema);
 exports.PlayerModel = PlayerModel;

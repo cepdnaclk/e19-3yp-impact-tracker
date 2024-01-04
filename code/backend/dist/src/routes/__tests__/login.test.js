@@ -15,6 +15,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("../../../app"));
 const appErrorsDefine_1 = require("../../exceptions/appErrorsDefine");
 const supertest_1 = __importDefault(require("supertest"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const mongodb_memory_server_1 = require("mongodb-memory-server");
+beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
+    // Create a in memory server
+    const mongoServer = yield mongodb_memory_server_1.MongoMemoryServer.create();
+    // Get the connection string
+    const mongoUri = mongoServer.getUri();
+    // Connect to the in memory server
+    try {
+        yield mongoose_1.default.connect(mongoUri);
+        console.log("Connected to in-memory database");
+    }
+    catch (err) {
+        console.error(err);
+    }
+}));
+afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield mongoose_1.default.disconnect();
+}));
 /**
  * Login Routes Test Suite
  *

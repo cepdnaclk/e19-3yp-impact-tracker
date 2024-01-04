@@ -34,7 +34,7 @@ class ManagerResponse {
   private lastName: string;
   private email: string;
 
-  public constructor(manager: Manager) {
+  public constructor(manager: ManagerRequestBody) {
     this.teamId = manager.teamId;
     this.firstName = manager.firstName;
     this.lastName = manager.lastName;

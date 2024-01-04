@@ -29,7 +29,6 @@ const managerSchema = new mongoose_1.Schema({
     firstName: String,
     lastName: String,
     email: String,
-    password: String,
 });
 const ManagerModel = mongoose_1.default.model("Manager", managerSchema);
 exports.default = ManagerModel;

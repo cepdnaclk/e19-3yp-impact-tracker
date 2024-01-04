@@ -4,6 +4,7 @@ import {
   ManagerExistsResponse,
 } from "../models/manager.model";
 import ManagerModel from "../db/manager.schema";
+import { createAuth } from "./auth,service";
 
 class ManagerService {
   async createManager(
@@ -16,20 +17,18 @@ class ManagerService {
         firstName: managerRequestBody.firstName,
         lastName: managerRequestBody.lastName,
         email: managerRequestBody.email,
-        password: managerRequestBody.password,
       });
 
       // Save the manager to the database
       const savedManager = await managerInstance.save();
 
+      // save the manager auth
+      await createAuth(managerRequestBody.email, managerRequestBody.password);
+
       // Create a ManagerResponse object
-      const managerResponse = new ManagerResponse({
-        teamId: savedManager.teamId,
-        firstName: savedManager.firstName,
-        lastName: savedManager.lastName,
-        email: savedManager.email,
-        password: "##########",
-      });
+      const managerResponse: ManagerResponse = new ManagerResponse(
+        managerRequestBody
+      );
 
       return managerResponse;
     } catch (error) {
