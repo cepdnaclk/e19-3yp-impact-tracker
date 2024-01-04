@@ -11,9 +11,13 @@ type activePage =
 interface AppState {
   activePage: activePage;
   setActivePage: (page: activePage) => void;
+  isMqttOnine: boolean;
+  setMqttOnline: (status: boolean) => void;
 }
 
 export const useAppState = create<AppState>()((set) => ({
   activePage: "profile",
   setActivePage: (page) => set({ activePage: page }),
+  isMqttOnine: false,
+  setMqttOnline: (status) => set({ isMqttOnine: status }),
 }));
