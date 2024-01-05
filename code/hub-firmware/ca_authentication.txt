@@ -3,9 +3,10 @@ sudo apt-get install openssl
 
 //generate the key pair for the CA
 openssl genrsa -des3 -out ca.key 2048
+(username:impax)
 
 // generate the CA certificate using CA key
-openssl req -new -x509 -days 365 -extensions v3_ca -keyout ca.key ca.crt
+openssl req -new -x509 -days 1826 -key ca.key -out ca.crt
 
 // generate the server key pair
 openssl genrsa -out server.key 2048
