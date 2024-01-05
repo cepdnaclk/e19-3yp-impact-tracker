@@ -34,7 +34,13 @@ const Content: React.FC = () => {
         />
       )}
 
-      {activePage === "player-management" && <PlayerManagement />}
+      {activePage === "player-management" && (
+        <Detector
+          render={({ online }) =>
+            online ? <PlayerManagement /> : <div>You are offline</div>
+          }
+        />
+      )}
     </>
   );
 };
