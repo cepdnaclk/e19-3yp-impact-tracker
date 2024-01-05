@@ -11,7 +11,7 @@ CombinedOutput::CombinedOutput()
     highGSensor.begin();
 }
 
-int CombinedOutput::isAnImpact()
+int CombinedOutput::getImpact()
 {
 
     mpuSensor.update();

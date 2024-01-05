@@ -5,7 +5,7 @@ class CombinedOutput
 {
 public:
     CombinedOutput();
-    int isAnImpact();
+    int getImpact();
     String getDirection();
 
 private:

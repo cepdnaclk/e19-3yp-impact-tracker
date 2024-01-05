@@ -23,3 +23,4 @@ const char *mqtt_password = "public";
 const int mqtt_port = 1883;
 
 String BUDDY_ID = "buddy-";
+// / buddy - 1 / test

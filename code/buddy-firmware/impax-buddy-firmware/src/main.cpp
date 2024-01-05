@@ -56,8 +56,9 @@ void setup()
 
 void loop()
 {
+
     // ****** Combined Output START *******
-    Serial.println(combinedOutput.isAnImpact());
+    Serial.println(combinedOutput.getImpact());
     Serial.println(combinedOutput.getDirection());
 
     // ****** Combined Output END *******
