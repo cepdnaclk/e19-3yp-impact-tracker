@@ -13,6 +13,8 @@ interface AppState {
   setActivePage: (page: activePage) => void;
   isMqttOnine: boolean;
   setMqttOnline: (status: boolean) => void;
+  isInternetAvailable: boolean;
+  setIsInternetAvailable: (isOnline: boolean) => void;
 }
 
 export const useAppState = create<AppState>()((set) => ({
@@ -20,4 +22,6 @@ export const useAppState = create<AppState>()((set) => ({
   setActivePage: (page) => set({ activePage: page }),
   isMqttOnine: false,
   setMqttOnline: (status) => set({ isMqttOnine: status }),
+  isInternetAvailable: true,
+  setIsInternetAvailable: (isOnline) => set({ isInternetAvailable: isOnline }),
 }));

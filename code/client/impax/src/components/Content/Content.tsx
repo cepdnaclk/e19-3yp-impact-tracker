@@ -8,17 +8,31 @@ import PlayerManagement from "../PlayerManagement/PlayerManagement";
 
 const Content: React.FC = () => {
   const activePage = useAppState((state) => state.activePage);
-  const isMqttOnline = useAppState((state) => state.isMqttOnine);
-  //TODO: If mqtt is offline, live and devices should be replaced by a screen that says "mqtt is offline"
+  // const isMqttOnline = useAppState((state) => state.isMqttOnine);
+  const isMqttOnline = true;
+  // const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
+
   return (
     <>
       {activePage === "live" &&
         (isMqttOnline ? <Live /> : <div>MQTT is offline</div>)}
       {activePage === "devices" &&
         (isMqttOnline ? <Devices /> : <div>MQTT is offline</div>)}
-      {activePage === "analytics" && <Test />}
-      {activePage === "profile" && <SignUp />}
-      {activePage === "player-management" && <PlayerManagement />}
+      {
+        activePage === "analytics" && <Test />
+        //  &&
+        //   (isInternetAvailable ? <Test /> : <div>No INTERNETT</div>)
+      }
+      {
+        activePage === "profile" && <SignUp />
+
+        // (isInternetAvailable ? <SignUp /> : <div>No INTERNETT</div>)
+      }
+
+      {
+        activePage === "player-management" && <PlayerManagement />
+        // (isInternetAvailable ? <PlayerManagement /> : <div>No INTERNETT</div>)
+      }
     </>
   );
 };
