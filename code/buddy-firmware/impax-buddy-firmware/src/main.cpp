@@ -2,26 +2,26 @@
 #include "highGCalibrated.h"
 #include "mpu6050.h"
 
-// BuddyWIFI buddyWIFI;
-// BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port);
-// HighGCalibrated highGCalibrated;
+BuddyWIFI buddyWIFI;
+BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port);
+HighGCalibrated highGCalibrated;
 MPU6050Calibrated mpu6050calibrated;
 
-// void connect()
-// {
-//     if (WiFi.status() != WL_CONNECTED)
-//     {
-//         buddyWIFI.initWIFIMulti();
-//     }
+void connect()
+{
+    if (WiFi.status() != WL_CONNECTED)
+    {
+        buddyWIFI.initWIFIMulti();
+    }
 
-//     if (!buddyMQTT.client.connected())
-//     {
-//         buddyMQTT.reconnect();
-//         buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
-//     }
+    if (!buddyMQTT.client.connected())
+    {
+        buddyMQTT.reconnect();
+        buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
+    }
 
-//     buddyMQTT.client.loop();
-// }
+    buddyMQTT.client.loop();
+}
 
 void setup()
 {
