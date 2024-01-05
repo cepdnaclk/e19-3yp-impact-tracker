@@ -20,4 +20,4 @@ private:
     MPU6050 mpu;
 };
 
-#endif // HIGHG_H
+#endif
