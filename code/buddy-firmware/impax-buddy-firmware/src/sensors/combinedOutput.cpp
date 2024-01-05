@@ -24,16 +24,16 @@ int CombinedOutput::isAnImpact()
     aZ = highGSensor.readAccZ();
 
     float m11, m12, m13, m21, m22, m23, m31, m32, m33;
-    // TODO: Rotational Matrix
-    m11 = 1.123;
-    m12 = 0.002;
-    m13 = -0.058;
-    m21 = 0.002;
-    m22 = 1.223;
-    m23 = 0.104;
-    m31 = -0.058;
-    m32 = 0.104;
-    m33 = 0.918;
+    // Rotational Matrix
+    m11 = std::cos(angleY) * std::cos(angleZ);
+    m12 = std::cos(angleY) * std::sin(angleZ);
+    m13 = -std::sin(angleY);
+    m21 = std::sin(angleX) * std::sin(angleY) * std::cos(angleZ) - std::cos(angleX) * std::sin(angleZ);
+    m22 = std::sin(angleX) * std::sin(angleY) * std::sin(angleZ) + std::cos(angleX) * std::cos(angleZ);
+    m23 = std::sin(angleX) * std::cos(angleY);
+    m31 = std::cos(angleX) * std::sin(angleY) * std::cos(angleZ) + std::sin(angleX) * std::sin(angleZ);
+    m32 = std::cos(angleX) * std::sin(angleY) * std::sin(angleZ) - std::sin(angleX) * std::cos(angleZ);
+    m33 = std::cos(angleX) * std::cos(angleY);
 
     float vx, vy, vz;
 
