@@ -201,6 +201,35 @@
       }
     },
 
+    "/login/logout": {
+      "post": {
+        "tags": ["LoginEndpoints"],
+        "summary": "Logout",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Logout successful"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/login/manager": {
       "post": {
         "tags": ["LoginEndpoints"],
@@ -212,9 +241,7 @@
           "200": {
             "description": "Success",
             "content": {
-              "application/json": {
-                
-              }
+              "application/json": {}
             }
           },
           "400": {
@@ -242,9 +269,7 @@
           "200": {
             "description": "Success",
             "content": {
-              "application/json": {
-                
-              }
+              "application/json": {}
             }
           },
           "400": {
@@ -260,13 +285,21 @@
         }
       }
     }
-
-
-
   },
-
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
 
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "LoginRequest": {
         "type": "object",
@@ -450,4 +483,3 @@
     }
   }
 }
-
