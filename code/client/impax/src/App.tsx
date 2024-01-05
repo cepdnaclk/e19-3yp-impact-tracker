@@ -20,8 +20,6 @@ function App() {
           </>
         )}
       />
-      {/* <Sidebar /> */}
-      {/* <Content /> */}
     </>
   );
 }
