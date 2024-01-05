@@ -23,8 +23,11 @@ const Content: React.FC = () => {
         //  &&
         //   (isInternetAvailable ? <Test /> : <div>No INTERNETT</div>)
       }
-      {activePage === "profile" &&
-        (isInternetAvailable ? <SignUp /> : <div>No INTERNETT</div>)}
+      {
+        activePage === "profile" && <SignUp />
+
+        // (isInternetAvailable ? <SignUp /> : <div>No INTERNETT</div>)
+      }
 
       {activePage === "player-management" &&
         (isInternetAvailable ? <PlayerManagement /> : <div>No INTERNETT</div>)}
