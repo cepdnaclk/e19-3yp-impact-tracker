@@ -43,7 +43,7 @@ int CombinedOutput::isAnImpact()
 
     aX = vx;
     aY = vy;
-    aZ = vz;
+    aZ = vz - 1;
     magnitude = sqrt(aX * aX + aY * aY + aZ * aZ);
     if (magnitude > 14.0)
     {
