@@ -30,6 +30,11 @@ import { accessTokenMiddleware } from "./src/middleware/auth.middleware";
 import * as swaggerDocument from "./swagger.json";
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+// Define a basic route for the root endpoint
+app.get("/", (req: Request, res: Response) => {
+  res.send(apiInfo.definition.info);
+});
+
 // auth route to get access token
 app.use("/auth", auth);
 
@@ -40,10 +45,5 @@ app.use(accessTokenMiddleware);
 app.use("/login", login);
 app.use("/team", teamRoutes);
 app.use("/manager", managerRoutes);
-
-// Define a basic route for the root endpoint
-app.get("/", (req: Request, res: Response) => {
-  res.send(apiInfo.definition.info);
-});
 
 export default app; // Export the Express application to be used by serverless Function

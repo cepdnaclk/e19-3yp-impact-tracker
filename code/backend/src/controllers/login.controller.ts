@@ -2,6 +2,7 @@ import { LoginResquest, LoginResponse } from "../models/login.model";
 import { checkAuthExists, checkAuth } from "../services/auth,service";
 import { createJwt, checkJwtExists, deleteJwt } from "../services/jwt.service";
 import { createRefreshToken, createAccessToken } from "../utils/jwt.token";
+import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
 
 async function loginManager(loginReq: LoginResquest): Promise<LoginResponse> {
   const role = "manager";
@@ -10,14 +11,14 @@ async function loginManager(loginReq: LoginResquest): Promise<LoginResponse> {
   const authExists = await checkAuthExists(loginReq.userName);
 
   if (!authExists) {
-    throw new Error("Auth does not exist");
+    throw new Error(HttpMsg.AUTH_DOES_NOT_EXIST);
   }
 
   // check auth
   const isMatch = await checkAuth(loginReq.userName, loginReq.password);
 
   if (!isMatch) {
-    throw new Error("Password is incorrect");
+    throw new Error(HttpMsg.PASSWORD_INCORRECT);
   }
 
   try {
@@ -36,7 +37,7 @@ async function loginManager(loginReq: LoginResquest): Promise<LoginResponse> {
     return loginResponse;
   } catch (error) {
     console.error(error);
-    throw new Error("Error creating login");
+    throw new Error(HttpMsg.ERROR_CREATING_LOGIN);
   }
 }
 
@@ -47,14 +48,14 @@ async function loginPlayer(loginReq: LoginResquest): Promise<LoginResponse> {
   const authExists = await checkAuthExists(loginReq.userName);
 
   if (!authExists) {
-    throw new Error("Auth does not exist");
+    throw new Error(HttpMsg.AUTH_DOES_NOT_EXIST);
   }
 
   // check auth
   const isMatch = await checkAuth(loginReq.userName, loginReq.password);
 
   if (!isMatch) {
-    throw new Error("Password is incorrect");
+    throw new Error(HttpMsg.PASSWORD_INCORRECT);
   }
 
   try {
@@ -73,7 +74,7 @@ async function loginPlayer(loginReq: LoginResquest): Promise<LoginResponse> {
     return loginResponse;
   } catch (error) {
     console.error(error);
-    throw new Error("Error creating login");
+    throw new Error(HttpMsg.ERROR_CREATING_LOGIN);
   }
 }
 
@@ -88,7 +89,7 @@ async function logout(email: string): Promise<boolean> {
     return true;
   } catch (error) {
     console.error(error);
-    throw new Error("Error deleting jwt");
+    throw new Error(HttpMsg.ERROR_CREATING_JWT);
   }
 
   return false;
