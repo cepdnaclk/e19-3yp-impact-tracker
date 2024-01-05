@@ -28,23 +28,6 @@ void setup()
     Serial.begin(9600);
     Wire.begin(23, 19);
 
-    // ****** High G  Start ****
-    // highGCalibrated.begin();
-    // ****** High G  END ****
-
-    // ****** MPU 6050 Sensor START *******
-    if (!mpu6050calibrated.begin())
-    {
-        Serial.println("Failed to initialize MPU6050");
-        while (true)
-        {
-        } // Stop execution if initialization fails
-    }
-
-    mpu6050calibrated.calibrate();
-
-    // ****** MPU 6050 Sensor END *******
-
     // Serial.begin(BAUD_RATE);
 
     // initEEPROM(ssid_default, password_defalt, BUDDY_ID, ID);
@@ -79,7 +62,7 @@ void loop()
 
     // ****** Combined Output END *******
 
-        // connect();
+    // connect();
 
     // buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), "test");
     // buddyMQTT.publish(buddyMQTT.topics.SAY_HELLO.c_str(), BUDDY_ID.c_str());
