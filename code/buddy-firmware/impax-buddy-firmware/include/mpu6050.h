@@ -1,25 +1,23 @@
-#ifndef MPU6050_H
-#define MPU6050_H
+#ifndef MPU6050CALIBRATED_H
+#define MPU6050CALIBRATED_H
 
 #include <Arduino.h>
+#include <MPU6050_light.h>
+#include <Wire.h>
 
-class HighGCalibrated
+class MPU6050Calibrated
 {
 public:
-    HighGCalibrated();
-    void begin();
-    float readAccX();
-    float readAccY();
-    float readAccZ();
-    float readMagnitude();
-    bool isAnImpact();
-    String getDirection();
+    MPU6050Calibrated();
+    int begin();
     void calibrate();
+    void update();
+    float getAngleX();
+    float getAngleY();
+    float getAngleZ();
 
 private:
-    DFRobot_H3LIS200DL_I2C acce;
-    float ax, ay, az;
-    float resultant;
+    MPU6050 mpu;
 };
 
 #endif // HIGHG_H
