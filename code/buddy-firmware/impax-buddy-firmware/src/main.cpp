@@ -1,6 +1,4 @@
 #include "define.h"
-#include "highGCalibrated.h"
-#include "mpu6050calibrated.h"
 #include "combinedOutput.h"
 
 BuddyWIFI buddyWIFI;
