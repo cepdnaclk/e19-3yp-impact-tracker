@@ -16,6 +16,9 @@ import { checkTeamExist } from "../controllers/team.controller";
 // Create an instance of the Express Router
 const router = Router();
 
+// add a manager to the manager team collection
+router.post("/add", async (req: Request, res: Response) => {});
+
 // Endpoint to check if a manager with a specific email exists
 router.get("/exists/email/:email", async (req: Request, res: Response) => {
   // Extract email parameter from the request
