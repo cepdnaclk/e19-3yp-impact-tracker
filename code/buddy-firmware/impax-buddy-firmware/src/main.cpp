@@ -123,5 +123,4 @@ void loop()
     buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), "Hello from ESP32");
     buddyMQTT.publish(buddyMQTT.topics.SAY_HELLO.c_str(), BUDDY_ID.c_str());
     delay(1000);
-
 }
