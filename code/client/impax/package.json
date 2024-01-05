@@ -11,8 +11,6 @@
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@tanstack/react-table": "^8.11.2",
-    "check-internet-connected": "^2.0.6",
-    "internet-available": "^1.0.0",
     "mqtt": "^5.3.4",
     "react": "^18.2.0",
     "react-detect-offline": "^2.4.5",

@@ -6,7 +6,7 @@ import SignUp from "../Profile/SignUp";
 import Devices from "../Devices/Devices";
 import PlayerManagement from "../PlayerManagement/PlayerManagement";
 
-import { Online, Offline, Detector } from "react-detect-offline";
+import { Detector } from "react-detect-offline";
 
 const Content: React.FC = () => {
   const activePage = useAppState((state) => state.activePage);
