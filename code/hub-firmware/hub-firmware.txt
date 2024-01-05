@@ -1,0 +1,19 @@
+// install mosquitto and mosquitto-client
+sudo apt install -y mosquitto mosquitto-client
+
+// enable mosquitto broker auto starting when rebooting
+sudo systemctl enable mosquitto.service
+
+// enable authentication for MQTT broker
+sudo mosquitto_passwd -c /etc/mosquitto/passwd YOUR_USERNAME
+//enter passwd
+
+// edit mosquitto configuration
+sudo nano /etc/mosquitto/mosquitto.conf
+// add this line at the top of the file
+per_listener_settings true
+
+// add this line at the end of the file
+allow_anonymous false
+listener 1883
+password_file /etc/mosquitto/passwd
