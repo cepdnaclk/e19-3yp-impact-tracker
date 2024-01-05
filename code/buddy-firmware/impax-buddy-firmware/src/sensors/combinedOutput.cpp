@@ -24,7 +24,7 @@ int CombinedOutput::isAnImpact()
     aZ = highGSensor.readAccZ();
 
     float m11, m12, m13, m21, m22, m23, m31, m32, m33;
-
+    // TODO: Rotational Matrix
     m11 = 1.123;
     m12 = 0.002;
     m13 = -0.058;

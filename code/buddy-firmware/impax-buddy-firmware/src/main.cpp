@@ -75,6 +75,11 @@ void setup()
 
 void loop()
 {
+    // ****** Combined Output START *******
+    Serial.println(combinedOutput.isAnImpact());
+    Serial.println(combinedOutput.getDirection());
+
+    // ****** Combined Output END *******
 
     // ****** MPU 6050 Sensor START *******
     mpu6050calibrated.update();
