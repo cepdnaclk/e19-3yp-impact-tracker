@@ -1,7 +1,10 @@
-#include "mpu6050.h"
+#include "mpu6050calibrated.h"
 #include <Arduino.h>
 #include <MPU6050_light.h>
 #include "Wire.h"
+MPU6050Calibrated::MPU6050Calibrated() : mpu(Wire)
+{
+}
 
 int MPU6050Calibrated::begin()
 {

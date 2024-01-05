@@ -1,6 +1,6 @@
 #include "define.h"
 #include "highGCalibrated.h"
-#include "mpu6050.h"
+#include "mpu6050calibrated.h"
 
 BuddyWIFI buddyWIFI;
 BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port);
@@ -25,7 +25,7 @@ void connect()
 
 void setup()
 {
-    Serial.begin(BAUD_RATE);
+    Serial.begin(9600);
     Wire.begin(23, 19);
 
     // ****** High G  Start ****
