@@ -18,3 +18,8 @@ allow_anonymous false
 listener 8883
 password_file /etc/mosquitto/passwd
 
+// restart the MQTT broker
+sudo systemctl restart mosquitto
+
+// check status
+sudo systemctl status mosquitto
