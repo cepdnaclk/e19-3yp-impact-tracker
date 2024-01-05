@@ -6,7 +6,7 @@ import tableStyles from "./PlayersTable/PlayersTable.module.scss";
 
 import {
   ColumnDef,
-  createColumnHelper,
+  // createColumnHelper,
   getCoreRowModel,
   SortingState,
   getSortedRowModel,
@@ -49,7 +49,7 @@ const defaultData: Player[] = [
   },
 ];
 
-const columnHelper = createColumnHelper<Player>();
+// const columnHelper = createColumnHelper<Player>();
 
 const columns: ColumnDef<Player>[] = [
   {
@@ -104,7 +104,7 @@ const columns: ColumnDef<Player>[] = [
 ];
 
 const PlayerManagement = () => {
-  const [data, setData] = React.useState(() => [...defaultData]);
+  const [data] = React.useState(() => [...defaultData]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []

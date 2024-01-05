@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import Title from "../Title/Title";
 import { MdDeviceHub } from "react-icons/md";
 import styles from "./Devices.module.scss";
 import Btn from "../Buttons/Btn";
 import { IoAdd } from "react-icons/io5";
 import MappedDevice from "./Card/MappedDevice";
-import Modal from "../Modal/Modal";
+// import Modal from "../Modal/Modal";
 
 const Devices: React.FC = () => {
-  const [isOpen, setOpen] = useState<boolean>(false);
+  // const [isOpen, setOpen] = useState<boolean>(false);
 
   return (
     <main className="main">
@@ -16,7 +16,7 @@ const Devices: React.FC = () => {
       <div className={styles.summary}>
         <Btn
           Icon={IoAdd}
-          onClick={() => setOpen(true)}
+          // onClick={() => setOpen(true)}
           children="Add new device"
           buttonStyle="secondary"
         />
@@ -24,13 +24,13 @@ const Devices: React.FC = () => {
       </div>
 
       {/* Add Device Modal */}
-      <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
+      {/* <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
         <div
           style={{ width: "200px", height: "400px", backgroundColor: "red" }}
         >
           Test
         </div>
-      </Modal>
+      </Modal> */}
 
       <div className={styles.mapped}>
         <h3>Mapped Devices</h3>

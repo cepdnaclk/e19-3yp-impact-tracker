@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./SelectPlayer.module.scss";
 import Select from "react-select";
 

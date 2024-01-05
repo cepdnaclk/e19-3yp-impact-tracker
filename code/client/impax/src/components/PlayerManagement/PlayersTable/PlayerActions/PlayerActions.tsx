@@ -1,6 +1,6 @@
 import React from "react";
 import Btn from "../../../Buttons/Btn";
-import { FaCross, FaEdit, FaTimes, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTimes, FaTrash } from "react-icons/fa";
 import styles from "./PlayerActions.module.scss";
 import AlertModal from "../../../Modal/AlertModal";
 
@@ -8,6 +8,7 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
   return (
     <div className={styles.actions}>
       <Btn
+        key={jerseyId}
         buttonStyle="secondary"
         bgColor="rgba(255,255,255,0.08)"
         Icon={FaEdit}

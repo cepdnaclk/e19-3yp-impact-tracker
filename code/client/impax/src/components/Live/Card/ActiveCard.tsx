@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./Card.module.scss";
 import { MdAdd } from "react-icons/md";
 import PlayerInfo from "./PlayerInfo";
