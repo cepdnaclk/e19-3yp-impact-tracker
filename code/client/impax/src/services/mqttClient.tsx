@@ -1,32 +1,59 @@
-import { useEffect } from "react";
 import mqtt from "mqtt";
 import { useAppState } from "../store/appState";
-const topics = ["test/topic", "test/topic2"];
-const mqttClient = mqtt.connect("mqtt://localhost:8080/", {
-  clientId: "impax-dashboard",
-  reconnectPeriod: 2000,
-});
 
-export function useStartMqttClient() {
-  useEffect(() => {
-    mqttClient.on("connect", () => {
-      console.log("connected");
-      for (const topic of topics) {
-        mqttClient.subscribe(topic);
-      }
-      useAppState.setState({ isMqttOnine: true });
-    });
-    mqttClient.on("reconnect", () => {
-      console.log("reconnecting");
-      useAppState.setState({ isMqttOnine: false });
-    });
-    mqttClient.on("message", (topic, message) => {
-      console.log(`Received message on topic ${topic}: ${message}`);
-    });
-    return () => {
-      mqttClient.end();
-    };
-  }, []); // Empty dependency array to run only once
+class MqttClient {
+  //Singleton pattern for mqtt client
+  private static instance: MqttClient | null = null;
 
-  return mqttClient;
+  private client: mqtt.MqttClient;
+  private topics: string[];
+
+  private constructor() {
+    this.client = mqtt.connect("ws://localhost:8080/", {
+      clientId: "impax-dashboard",
+      reconnectPeriod: 2000,
+      keepalive: 60,
+    });
+
+    this.topics = ["test/#", "buddy/+/status"];
+
+    this.client.on("connect", this.handleConnect);
+    this.client.on("reconnect", this.handleReconnect);
+    this.client.on("message", (topic, message) =>
+      this.handleMessage(topic, message)
+    );
+  }
+
+  private handleConnect = () => {
+    console.log("connected");
+    this.topics.forEach((topic) => this.client.subscribe(topic));
+    // Assuming useAppState is available globally
+    useAppState.setState({ isMqttOnine: true });
+  };
+
+  private handleReconnect = () => {
+    console.log("reconnecting");
+    useAppState.setState({ isMqttOnine: false });
+  };
+
+  private handleMessage = (topic: string, message: Buffer) => {
+    console.log(`Received message on topic ${topic}: ${message}`);
+  };
+
+  public closeClient = () => {
+    this.client.end();
+  };
+
+  public startSession = (sessionName: string) => {
+    console.log(`Starting session ${sessionName}`);
+  };
+
+  public static getInstance(): MqttClient {
+    if (!MqttClient.instance) {
+      MqttClient.instance = new MqttClient();
+    }
+    return MqttClient.instance;
+  }
 }
+
+export default MqttClient;
