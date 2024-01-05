@@ -47,7 +47,7 @@ int CombinedOutput::isAnImpact()
     magnitude = sqrt(aX * aX + aY * aY + aZ * aZ);
     if (magnitude > 14.0)
     {
-        return 1;
+        return magnitude;
     }
     else
     {
