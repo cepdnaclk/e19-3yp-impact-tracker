@@ -25,8 +25,6 @@ const char *mqtt_username = "emqx";
 const char *mqtt_password = "public";
 const int mqtt_port = 1883;
 
-String BUDDY_ID = "buddy-";
-
 String CA_cert =
     "-----BEGIN CERTIFICATE-----\n"
     "################################################################\n"
