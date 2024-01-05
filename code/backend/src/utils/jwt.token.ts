@@ -36,13 +36,13 @@ export function createAccessToken(credentials: LoginResquest, role: string) {
 // verify refresh token
 export function verifyRefreshToken(token: string) {
   const jwtSecret = process.env.JWT_REFRESH_TOKEN_KEY || "";
-  const decoded = jwt.verify(token, jwtSecret);
+  const decoded = jwt.verify(token, jwtSecret) as jwt.JwtPayload;
   return decoded;
 }
 
 // verify access token
 export function verifyAccessToken(token: string) {
-  const jwtSecret = process.env.JWT_ACCESS_TOKEN_EXPIRY_TIME || "";
-  const decoded = jwt.verify(token, jwtSecret);
+  const jwtSecret = process.env.JWT_ACCESS_TOKEN_KEY || "";
+  const decoded = jwt.verify(token, jwtSecret) as jwt.JwtPayload;
   return decoded;
 }

@@ -20,6 +20,33 @@
     }
   ],
   "paths": {
+    "/auth": {
+      "get": {
+        "tags": ["AuthEndpoints"],
+        "summary": "Authenticate a user - Using JWT Refresh Token",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/LoginResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/team": {
       "post": {
         "tags": ["TeamEndpoints"],
@@ -241,7 +268,9 @@
           "200": {
             "description": "Success",
             "content": {
-              "application/json": {}
+              "application/json": {
+                "$ref": "#/components/schemas/LoginResponse"
+              }
             }
           },
           "400": {
@@ -269,7 +298,9 @@
           "200": {
             "description": "Success",
             "content": {
-              "application/json": {}
+              "application/json": {
+                "$ref": "#/components/schemas/LoginResponse"
+              }
             }
           },
           "400": {
@@ -314,6 +345,21 @@
         "example": {
           "password": "securePassword",
           "userName": "example@example.com"
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          },
+          "accessToken": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "refreshToken": "abcd",
+          "accessToken": "abcd"
         }
       },
 
@@ -456,6 +502,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/LoginRequest"
+            }
+          }
+        }
+      },
+
+      "LoginResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/LoginResponse"
             }
           }
         }
