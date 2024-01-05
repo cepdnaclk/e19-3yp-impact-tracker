@@ -60,3 +60,21 @@ bool setCustomeSSIDAndPasswordEEPROM(String &ssid, String &password)
     EEPROM.commit();
     return true;
 }
+
+bool writeMQTTPrivateKeyEEPROM(String &data)
+{
+    writeEEPROMString(MQTT_PRIVATE_KEY_ADDRESS + 1, data);
+    EEPROM.write(MQTT_PRIVATE_KEY_ADDRESS, 1);
+    EEPROM.commit();
+    return true;
+}
+
+bool readMQTTPrivateKeyEEPROM(String &data)
+{
+    if (EEPROM.read(MQTT_PRIVATE_KEY_ADDRESS) == 1)
+    {
+        data = readEEPROMString(MQTT_PRIVATE_KEY_ADDRESS + 1);
+        return true;
+    }
+    return false;
+}
