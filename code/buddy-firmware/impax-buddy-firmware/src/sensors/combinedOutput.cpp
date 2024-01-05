@@ -44,6 +44,15 @@ int CombinedOutput::isAnImpact()
     aX = vx;
     aY = vy;
     aZ = vz;
+    magnitude = sqrt(aX * aX + aY * aY + aZ * aZ);
+    if (magnitude > 14.0)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
 };
 
 String CombinedOutput::getDirection()

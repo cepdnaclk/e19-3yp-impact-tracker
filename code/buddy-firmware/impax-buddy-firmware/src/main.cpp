@@ -1,11 +1,13 @@
 #include "define.h"
 #include "highGCalibrated.h"
 #include "mpu6050calibrated.h"
+#include "combinedOutput.h"
 
 BuddyWIFI buddyWIFI;
 BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port);
 HighGCalibrated highGCalibrated;
 MPU6050Calibrated mpu6050calibrated;
+CombinedOutput combinedOutput;
 
 void connect()
 {

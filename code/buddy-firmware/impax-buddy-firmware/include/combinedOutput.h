@@ -13,4 +13,5 @@ private:
     HighGCalibrated highGSensor;
     float aX, aY, aZ;
     float angleX, angleY, angleZ;
+    float magnitude;
 };
