@@ -15,7 +15,7 @@ openssl genrsa -out server.key 2048
 openssl req -new -out server.csr -key server.key
 
 // use the generated CA key to sign the certificate
-openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 360 -extfile filename
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 360
 
 // Copy the files ca.crt, server.crt and server.key to a folder under the mosquitto folder. I have used a folder called certs.
 
@@ -25,7 +25,9 @@ openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out s
 
 // copy the CA certificate ca.crt to the client
 
-cafile <location of ca.crt>
-keyfile <location of server.key>
-certificate <location of server.crt>
-tls_version tlsv1
+cafile /etc/mosquitto/ca_certificates/ca.crt
+keyfile /etc/mosquitto/certs/server.key
+certfile /etc/mosquitto/certs/server.crt
+tls_version tlsv1.2
+
+
