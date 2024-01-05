@@ -6,9 +6,6 @@ import SignUp from "../Profile/SignUp";
 import Devices from "../Devices/Devices";
 import PlayerManagement from "../PlayerManagement/PlayerManagement";
 
-import { Detector } from "react-detect-offline";
-import { on } from "serialport";
-
 const Content: React.FC = () => {
   const activePage = useAppState((state) => state.activePage);
   // const isMqttOnline = useAppState((state) => state.isMqttOnine);
