@@ -13,7 +13,7 @@ function App() {
     <>
       <Detector
         onChange={setIsInternetAvailable}
-        render={({ online }) => (
+        render={() => (
           <>
             <Sidebar />
             <Content />
