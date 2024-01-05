@@ -79,26 +79,7 @@ void loop()
 
     // ****** Combined Output END *******
 
-    // ****** MPU 6050 Sensor START *******
-    mpu6050calibrated.update();
-    Serial.print("X: ");
-    Serial.print(mpu6050calibrated.getAngleX());
-    Serial.print("\tY: ");
-    Serial.print(mpu6050calibrated.getAngleY());
-    Serial.print("\tZ: ");
-    Serial.println(mpu6050calibrated.getAngleZ());
-
-    delay(10); // Adjust delay as needed
-
-    // ********* MPU 6050 Sensor END *********
-
-    // ****** High G  Start ****
-    // highGCalibrated.calibrate();
-    // Serial.println(highGCalibrated.readAccX());
-    // delay(1000);
-    // ****** High G  END ****
-
-    // connect();
+        // connect();
 
     // buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), "test");
     // buddyMQTT.publish(buddyMQTT.topics.SAY_HELLO.c_str(), BUDDY_ID.c_str());
