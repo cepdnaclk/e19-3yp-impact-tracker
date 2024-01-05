@@ -18,8 +18,7 @@ const Content: React.FC = () => {
         (isMqttOnline ? <Live /> : <div>MQTT is offline</div>)}
       {activePage === "devices" &&
         (isMqttOnline ? <Devices /> : <div>MQTT is offline</div>)}
-      {activePage === "analytics" &&
-        (isInternetAvailable ? <Test /> : <div>No INTERNETT</div>)}
+      {activePage === "analytics" && <Test />}
       {activePage === "profile" &&
         (isInternetAvailable ? <SignUp /> : <div>No INTERNETT</div>)}
 
