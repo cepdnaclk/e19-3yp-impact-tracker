@@ -10,7 +10,7 @@ const Content: React.FC = () => {
   const activePage = useAppState((state) => state.activePage);
   // const isMqttOnline = useAppState((state) => state.isMqttOnine);
   const isMqttOnline = true;
-  const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
+  // const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
 
   return (
     <>
@@ -29,8 +29,10 @@ const Content: React.FC = () => {
         // (isInternetAvailable ? <SignUp /> : <div>No INTERNETT</div>)
       }
 
-      {activePage === "player-management" &&
-        (isInternetAvailable ? <PlayerManagement /> : <div>No INTERNETT</div>)}
+      {
+        activePage === "player-management" && <PlayerManagement />
+        // (isInternetAvailable ? <PlayerManagement /> : <div>No INTERNETT</div>)
+      }
     </>
   );
 };

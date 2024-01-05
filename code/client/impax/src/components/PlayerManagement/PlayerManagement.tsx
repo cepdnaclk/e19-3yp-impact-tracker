@@ -3,6 +3,7 @@ import { FaUsers } from "react-icons/fa";
 import React from "react";
 import styles from "./PlayerManagement.module.scss";
 import tableStyles from "./PlayersTable/PlayersTable.module.scss";
+import { useAppState } from "../../store/appState";
 
 import {
   ColumnDef,
@@ -122,40 +123,51 @@ const PlayerManagement = () => {
       columnFilters,
     },
   });
+  const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
 
   return (
     <main>
-      <Title title="Player Management" Icon={FaUsers} />
-      <div className={styles.banner}>
-        <div className={styles.info}>
-          <h3>Add, edit and remove players</h3>
-          <span>Sync players analytics via impax account emails</span>
-        </div>
-        <div className={styles.controls}>
-          <div className={styles.addNew}>
-            <Btn buttonStyle="primary" Icon={FaPlus} iconSizeEm={0.8}>
-              Add New Player
-            </Btn>
+      <Title
+        title={
+          isInternetAvailable
+            ? "Player Management"
+            : "No Active Internet Connection"
+        }
+        Icon={FaUsers}
+      />
+      {isInternetAvailable && (
+        <div className={styles.banner}>
+          <div className={styles.info}>
+            <h3>Add, edit and remove players</h3>
+            <span>Sync players analytics via impax account emails</span>
           </div>
-          <div className={styles.searchBox}>
-            <FaSearch className={styles.icon} />
-            <input
-              placeholder="Search Player..."
-              value={
-                (table.getColumn("name")?.getFilterValue() as string) ?? ""
-              }
-              onChange={(event) =>
-                table.getColumn("name")?.setFilterValue(event.target.value)
-              }
-            />
+          <div className={styles.controls}>
+            <div className={styles.addNew}>
+              <Btn buttonStyle="primary" Icon={FaPlus} iconSizeEm={0.8}>
+                Add New Player
+              </Btn>
+            </div>
+            <div className={styles.searchBox}>
+              <FaSearch className={styles.icon} />
+              <input
+                placeholder="Search Player..."
+                value={
+                  (table.getColumn("name")?.getFilterValue() as string) ?? ""
+                }
+                onChange={(event) =>
+                  table.getColumn("name")?.setFilterValue(event.target.value)
+                }
+              />
+            </div>
           </div>
         </div>
-      </div>
-      {table.getRowModel().rows.length == 0 ? (
-        <div className={styles.empty}>No Players</div>
-      ) : (
-        <PlayersTable table={table} />
       )}
+      {isInternetAvailable &&
+        (table.getRowModel().rows.length == 0 ? (
+          <div className={styles.empty}>No Players</div>
+        ) : (
+          <PlayersTable table={table} />
+        ))}
     </main>
   );
 };
