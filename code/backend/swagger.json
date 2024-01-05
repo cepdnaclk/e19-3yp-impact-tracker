@@ -23,7 +23,7 @@
     "/auth": {
       "get": {
         "tags": ["AuthEndpoints"],
-        "summary": "Authenticate a user - Using JWT Refresh Token",
+        "summary": "Authenticate a user - JWT Refresh Token",
         "responses": {
           "200": {
             "description": "Success",
@@ -50,7 +50,7 @@
     "/team": {
       "post": {
         "tags": ["TeamEndpoints"],
-        "summary": "Create a team",
+        "summary": "Create a team - Open",
         "requestBody": {
           "$ref": "#/components/requestBodies/TeamCreateRequest"
         },
@@ -79,7 +79,7 @@
     "/team/exists/teamId/{id}": {
       "get": {
         "tags": ["TeamEndpoints"],
-        "summary": "Check if a team ID exists",
+        "summary": "Check if a team ID exists - Open",
         "parameters": [
           {
             "name": "id",
@@ -116,7 +116,7 @@
     "/team/exists": {
       "get": {
         "tags": ["TeamEndpoints"],
-        "summary": "Check if both Team ID and email exists",
+        "summary": "Check if both Team ID and email exists - Open",
         "parameters": [
           {
             "name": "teamId",
@@ -163,7 +163,7 @@
     "/manager/exists/email/{email}": {
       "get": {
         "tags": ["ManagerEndpoints"],
-        "summary": "Check if a manager email exists",
+        "summary": "Check if a manager email exists - Open",
         "parameters": [
           {
             "name": "email",
@@ -201,7 +201,7 @@
     "/manager": {
       "post": {
         "tags": ["ManagerEndpoints"],
-        "summary": "Create a manager",
+        "summary": "Create a manager - Open",
         "requestBody": {
           "$ref": "#/components/requestBodies/ManagerCreateRequest"
         },
@@ -231,7 +231,7 @@
     "/login/logout": {
       "post": {
         "tags": ["LoginEndpoints"],
-        "summary": "Logout",
+        "summary": "Logout - JWT Access Token",
         "responses": {
           "200": {
             "description": "Success",
@@ -260,7 +260,7 @@
     "/login/manager": {
       "post": {
         "tags": ["LoginEndpoints"],
-        "summary": "Login as a manager",
+        "summary": "Login as a manager - Open",
         "requestBody": {
           "$ref": "#/components/requestBodies/LoginRequest"
         },
@@ -290,7 +290,7 @@
     "/login/player": {
       "post": {
         "tags": ["LoginEndpoints"],
-        "summary": "Login as a player",
+        "summary": "Login as a player - Open",
         "requestBody": {
           "$ref": "#/components/requestBodies/LoginRequest"
         },
