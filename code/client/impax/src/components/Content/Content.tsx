@@ -7,11 +7,13 @@ import Devices from "../Devices/Devices";
 import PlayerManagement from "../PlayerManagement/PlayerManagement";
 
 import { Detector } from "react-detect-offline";
+import { on } from "serialport";
 
 const Content: React.FC = () => {
   const activePage = useAppState((state) => state.activePage);
   // const isMqttOnline = useAppState((state) => state.isMqttOnine);
   const isMqttOnline = true;
+  const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
 
   return (
     <>
@@ -19,28 +21,13 @@ const Content: React.FC = () => {
         (isMqttOnline ? <Live /> : <div>MQTT is offline</div>)}
       {activePage === "devices" &&
         (isMqttOnline ? <Devices /> : <div>MQTT is offline</div>)}
-      {activePage === "analytics" && (
-        <Detector
-          render={({ online }) =>
-            online ? <Test /> : <div>You are offline</div>
-          }
-        />
-      )}
-      {activePage === "profile" && (
-        <Detector
-          render={({ online }) =>
-            online ? <SignUp /> : <div>You are offline</div>
-          }
-        />
-      )}
+      {activePage === "analytics" &&
+        (isInternetAvailable ? <Test /> : <div>No INTERNETT</div>)}
+      {activePage === "profile" &&
+        (isInternetAvailable ? <SignUp /> : <div>No INTERNETT</div>)}
 
-      {activePage === "player-management" && (
-        <Detector
-          render={({ online }) =>
-            online ? <PlayerManagement /> : <div>You are offline</div>
-          }
-        />
-      )}
+      {activePage === "player-management" &&
+        (isInternetAvailable ? <PlayerManagement /> : <div>No INTERNETT</div>)}
     </>
   );
 };
