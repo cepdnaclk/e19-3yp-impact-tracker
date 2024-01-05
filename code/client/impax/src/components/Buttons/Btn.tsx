@@ -1,10 +1,10 @@
-import { forwardRef, ReactNode } from "react";
+import React from "react";
 import styles from "./Btn.module.scss";
 
 interface BtnProps {
   Icon: React.ElementType;
   buttonStyle?: "primary" | "secondary";
-  onClick?: () => void;
+  onClick?: (e?: React.SyntheticEvent) => void;
   bgColor?: string;
   type?: "button" | "submit" | "reset";
   iconSizeEm?: number;
@@ -12,7 +12,7 @@ interface BtnProps {
 }
 
 type Ref = HTMLButtonElement;
-const Btn = forwardRef<Ref, BtnProps>(
+const Btn = React.forwardRef<Ref, BtnProps>(
   (
     {
       Icon,
