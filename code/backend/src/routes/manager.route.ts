@@ -8,6 +8,7 @@ import {
 import {
   checkManagerExists,
   createManager,
+  addNewManager,
 } from "../controllers/manager.controller";
 import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
 import { validateEmail } from "../utils/utils";
@@ -15,6 +16,50 @@ import { checkTeamExist } from "../controllers/team.controller";
 
 // Create an instance of the Express Router
 const router = Router();
+
+// add a manager to the manager team collection
+router.post("/add", async (req: Request, res: Response) => {
+  const newManagerEmail = req.body.managerEmail;
+  const teamId = req.body.teamId;
+  const managerEmail = req.body.userName;
+
+  if (!newManagerEmail || !teamId || !managerEmail) {
+    console.log(HttpMsg.BAD_REQUEST);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    return;
+  }
+
+  // Validate email format
+  if (!validateEmail(newManagerEmail)) {
+    console.log(HttpMsg.INVALID_EMAIL);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.INVALID_EMAIL });
+    return;
+  }
+
+  if (!validateEmail(managerEmail)) {
+    console.log(HttpMsg.INVALID_EMAIL);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.INVALID_EMAIL });
+    return;
+  }
+
+  try {
+    const state = await addNewManager(managerEmail, newManagerEmail, teamId);
+
+    if (state == true) {
+      res.send({ message: "Manager added successfully" });
+    } else {
+      res.send({ message: "Manager added failed" });
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
+  }
+});
 
 // Endpoint to check if a manager with a specific email exists
 router.get("/exists/email/:email", async (req: Request, res: Response) => {
@@ -44,8 +89,13 @@ router.get("/exists/email/:email", async (req: Request, res: Response) => {
 
     res.send(existsResponse);
   } catch (err) {
-    console.log(err);
-    res.status(HttpCode.BAD_REQUEST).send(HttpMsg.BAD_REQUEST);
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
   }
 });
 
@@ -100,19 +150,21 @@ router.post("/", async (req: Request, res: Response) => {
       password
     );
 
+    console.log(manager);
     // Create the manager and get the response
     const managerResponse: ManagerResponse | undefined = await createManager(
       manager
     );
 
-    if (managerResponse) {
-      res.send(managerResponse);
-    } else {
-      throw new Error("Failed to create manager.");
-    }
+    res.send(managerResponse);
   } catch (err) {
-    console.log(err);
-    res.status(HttpCode.BAD_REQUEST).send(HttpMsg.BAD_REQUEST);
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
   }
 });
 

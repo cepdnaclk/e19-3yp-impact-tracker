@@ -5,8 +5,8 @@ import {
   Team,
 } from "../models/team.model";
 Team;
-import ManagerModel from "../db/manager.schema";
 import TeamModel from "../db/team.schema";
+import ManagerTeamModel from "../db/manager.team.schema";
 
 class TeamService {
   async createTeam(team: Team): Promise<TeamResponse> {
@@ -20,10 +20,19 @@ class TeamService {
       // Save the manager to the database
       const savedTeam = await teamInstance.save();
 
+      const managerTeamInstance = new ManagerTeamModel({
+        managerEmail: team.teamManager,
+        teamId: team.teamId,
+      });
+
+      // Save the manager to the database
+      const savedManager = await managerTeamInstance.save();
+
       // Create a TeamResponse object
       const teamResponse = new TeamResponse({
         teamId: savedTeam.teamId,
         teamName: savedTeam.teamName,
+        teamManager: team.teamManager,
       });
 
       return teamResponse;
@@ -61,7 +70,10 @@ class TeamService {
         teamIdEmailExistsResponse.teamExists = true;
 
         // Check if manager with provided email exists and is authorized for the team
-        const manager = await ManagerModel.findOne({ email, teamId });
+        const manager = await ManagerTeamModel.findOne({
+          managerEmail: email,
+          teamId: teamId,
+        });
         if (manager) {
           teamIdEmailExistsResponse.managerExists = true;
         }

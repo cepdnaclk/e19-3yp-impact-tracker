@@ -4,6 +4,7 @@ import {
   ManagerExistsResponse,
 } from "../models/manager.model";
 import ManagerModel from "../db/manager.schema";
+import { createAuth } from "./auth.service";
 
 class ManagerService {
   async createManager(
@@ -16,20 +17,18 @@ class ManagerService {
         firstName: managerRequestBody.firstName,
         lastName: managerRequestBody.lastName,
         email: managerRequestBody.email,
-        password: managerRequestBody.password,
       });
 
       // Save the manager to the database
       const savedManager = await managerInstance.save();
 
+      // save the manager auth
+      await createAuth(managerRequestBody.email, managerRequestBody.password);
+
       // Create a ManagerResponse object
-      const managerResponse = new ManagerResponse({
-        teamId: savedManager.teamId,
-        firstName: savedManager.firstName,
-        lastName: savedManager.lastName,
-        email: savedManager.email,
-        password: "##########",
-      });
+      const managerResponse: ManagerResponse = new ManagerResponse(
+        managerRequestBody
+      );
 
       return managerResponse;
     } catch (error) {
@@ -48,6 +47,25 @@ class ManagerService {
       throw new Error("Error checking manager existence");
     }
   }
+
+  async checkManagerExistsInTeam(
+    managerEmail: string,
+    teamId: string
+  ): Promise<boolean> {
+    try {
+      const manager = await ManagerModel.findOne({
+        email: managerEmail,
+        teamId: teamId,
+      });
+      const managerExists = !!manager;
+      return managerExists;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error checking manager existence");
+    }
+  }
 }
+
+// check manager exists in given teamID
 
 export default new ManagerService();

@@ -17,6 +17,10 @@ enum HttpMsg {
   INVALID_EMAIL = "Invalid Email",
   INVALID_TEAMID = "Invalid Team ID",
   MANAGER_EXISTS = "Manager Exists",
+  AUTH_DOES_NOT_EXIST = "Auth does not exist",
+  PASSWORD_INCORRECT = "Password is incorrect",
+  ERROR_CREATING_LOGIN = "Error creating login",
+  ERROR_CREATING_JWT = "Error creating JWT",
 }
 
 export { HttpCode, HttpMsg };

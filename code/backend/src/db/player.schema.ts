@@ -1,19 +1,19 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-interface ManagerDocument extends Document {
+interface PlayerDocument extends Document {
   teamId: string;
   firstName: string;
   lastName: string;
   email: string;
 }
 
-const managerSchema = new Schema({
+const playerSchema = new Schema({
   teamId: String,
   firstName: String,
   lastName: String,
   email: String,
 });
 
-const ManagerModel = mongoose.model<ManagerDocument>("Manager", managerSchema);
+const PlayerModel = mongoose.model<PlayerDocument>("Manager", playerSchema);
 
-export default ManagerModel;
+export default PlayerModel;

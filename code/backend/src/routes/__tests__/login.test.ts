@@ -42,9 +42,32 @@ afterAll(async () => {
 
 describe("Login Routes", () => {
   it("should login as a manager", async () => {
-    const managerCredentials = {
-      userName: "manager@example.com",
+    const teamData = {
+      teamId: "exampleTeamId",
+      teamName: "Example Team",
+    };
+
+    const responseTeam = await request(app)
+      .post("/team")
+      .send(teamData)
+      .set("Accept", "application/json");
+
+    const managerData = {
+      teamId: "exampleTeamId",
+      firstName: "John",
+      lastName: "Doe",
+      email: "john.doe@example.com",
       password: "securePassword",
+    };
+
+    const responseManager = await request(app)
+      .post("/manager")
+      .send(managerData)
+      .set("Accept", "application/json");
+
+    const managerCredentials = {
+      userName: managerData.email,
+      password: managerData.password,
     };
 
     const response = await request(app)
@@ -56,35 +79,38 @@ describe("Login Routes", () => {
     // You can customize the expectations based on the expected response for a successful manager login.
   });
 
-  //   it("should return a 400 Bad Request for invalid manager login", async () => {
-  //     const invalidManagerCredentials = {
-  //       userName: "invalid.manager@example.com",
-  //       password: "invalidPassword",
-  //     };
-
-  //     const response = await request(app)
-  //       .post("/login/manager")
-  //       .send(invalidManagerCredentials)
-  //       .set("Accept", "application/json");
-
-  //     expect(response.status).toBe(HttpCode.BAD_REQUEST);
-  //     expect(response.body).toHaveProperty("message", HttpMsg.BAD_REQUEST);
-  //   });
-
-  it("should login as a player", async () => {
-    const playerCredentials = {
-      userName: "player@example.com",
-      password: "securePassword",
+  it("should return a 400 Bad Request for invalid manager login", async () => {
+    const invalidManagerCredentials = {
+      userName: "invalid.manager@example.com",
+      password: "invalidPassword",
     };
 
     const response = await request(app)
-      .post("/login/player")
-      .send(playerCredentials)
+      .post("/login/manager")
+      .send(invalidManagerCredentials)
       .set("Accept", "application/json");
 
-    expect(response.status).toBe(HttpCode.OK);
-    // You can customize the expectations based on the expected response for a successful player login.
+    expect(response.status).toBe(HttpCode.BAD_REQUEST);
+    expect(response.body).toHaveProperty(
+      "message",
+      HttpMsg.AUTH_DOES_NOT_EXIST
+    );
   });
+
+  // it("should login as a player", async () => {
+  //   const playerCredentials = {
+  //     userName: "player@example.com",
+  //     password: "securePassword",
+  //   };
+
+  //   const response = await request(app)
+  //     .post("/login/player")
+  //     .send(playerCredentials)
+  //     .set("Accept", "application/json");
+
+  //   expect(response.status).toBe(HttpCode.OK);
+  //   // You can customize the expectations based on the expected response for a successful player login.
+  // });
 
   //   it("should return a 400 Bad Request for invalid player login", async () => {
   //     const invalidPlayerCredentials = {
