@@ -6,7 +6,6 @@ export type BuddyStatus = {
 };
 export type Role = "player" | "manager";
 
-
 export type Impact = {
   magntitude: number;
   direction: "left" | "right" | "front" | "back" | "top" | "bottom";
@@ -32,6 +31,11 @@ export type Players = {
   };
 };
 
+export type Session = {
+  session_id: string;
+  session_name: string;
+  createdAt: number;
+};
 export type activePage =
   | "live"
   | "devices"
