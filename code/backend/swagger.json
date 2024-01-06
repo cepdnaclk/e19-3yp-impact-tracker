@@ -476,6 +476,66 @@
     },
 
 
+    "/hub/credetials": {
+      "post": {
+        "tags": ["HubEndpoints"],
+        "summary": "Get hub details - Aceess Token required",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/HubRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/HubResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/hub": {
+      "post": {
+        "tags": ["HubEndpoints"],
+        "summary": "Save hub details - Open",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Hub"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/Hub"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/manager/add": {
       "post": {
         "tags": ["ManagerEndpoints"],
@@ -656,6 +716,70 @@
         }
       },
 
+      "HubRequest": {
+        "type": "object",
+        "properties": {
+          "hubId": {
+            "type": "string"
+          },
+          "hubKey": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "hubId": "exampleHubId",
+          "hubKey": "exampleHubKey"
+        }
+      },
+
+      "HubResponse": {
+        "type": "object",
+        "properties": {
+          "mqttUsername": {
+            "type": "string"
+          },
+          "mqttPassword": {
+            "type": "string"
+          },
+          "mqttCA": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "mqttUsername": "exampleUsername",
+          "mqttPassword": "examplePassword",
+          "mqttCA": "exampleCA"
+        }
+      },
+
+      "Hub": {
+        "type": "object",
+        "properties": {
+          "mqttUsername": {
+            "type": "string"
+          },
+          "mqttPassword": {
+            "type": "string"
+          },
+          "mqttCA": {
+            "type": "string"
+          },
+          "hubKey": {
+            "type": "string"
+          },
+          "hubId": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "mqttUsername": "exampleUsername",
+          "mqttPassword": "examplePassword",
+          "mqttCA": "exampleCA",
+          "hubKey": "exampleHubKey",
+          "hubId": "exampleHubId"
+        }
+      },
+
       "ManagerTeamRequest": {
         "type": "object",
         "properties": {
@@ -739,7 +863,7 @@
           "teamId": "exampleTeamId",
           "firstName": "John",
           "lastName": "Doe",
-          "email": "john.doe@example.com",
+          "email": "example@example.com",
           "password": "securePassword"
         }
       },
@@ -764,7 +888,7 @@
           "teamId": "exampleTeamId",
           "firstName": "John",
           "lastName": "Doe",
-          "email": "john.doe@example.com"
+          "email": "example@example.com"
         }
       },
 
@@ -826,7 +950,7 @@
         "example": {
           "teamId": "exampleTeamId",
           "teamName": "Example Team",
-          "teamManager": "Team Manager email"
+          "teamManager": "example@example.com"
         }
       },
       
@@ -1033,11 +1157,31 @@
         }
       },
 
+      "Hub": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Hub"
+            }
+          }
+        }
+      },
+
       "PlayerTeamRequest": {
         "content": {
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PlayerTeamRequest"
+            }
+          }
+        }
+      },
+
+      "HubRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HubRequest"
             }
           }
         }

@@ -97,20 +97,6 @@ router.post("/logout", async (req: Request, res: Response) => {
   // Extract password and userName from the request body
   const userName = req.body.userName;
 
-  // Check if password or userName is missing
-  if (!userName) {
-    console.log(HttpMsg.BAD_REQUEST);
-    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
-    return;
-  }
-
-  // Validate email format
-  if (!validateEmail(userName)) {
-    console.log(HttpMsg.INVALID_EMAIL);
-    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.INVALID_EMAIL });
-    return;
-  }
-
   try {
     // Perform player login and get the status
     const loginRes = await logout(userName);
