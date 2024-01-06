@@ -92,9 +92,9 @@ void BuddyMQTT::setCertificates(const char *root_ca, const char *client_ca, cons
     this->ESP_RSA_key = client_key;
 
     // Uncomment the following lines if you are using a specific library for MQTT and certificates
-    espClient.setCACert(root_ca);
-    espClient.setCertificate(client_ca);
-    espClient.setPrivateKey(client_key);
+    // espClient.setCACert(root_ca);
+    // espClient.setCertificate(client_ca);
+    // espClient.setPrivateKey(client_key);
 }
 
 // Callback function executed when a new MQTT message is received

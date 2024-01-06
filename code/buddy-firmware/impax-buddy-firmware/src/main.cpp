@@ -77,7 +77,7 @@ void setup()
 
     // EEPROM
     initEEPROM(ssid_default, password_defalt, BUDDY_ID, ID);
-    // setCustomeSSIDAndPasswordEEPROM(ssid, password);
+    setCustomeSSIDAndPasswordEEPROM(ssid, password);
 
     // Multi WIFI connection
     buddyWIFI.addWIFIMulti(ssid_default.c_str(), password_defalt.c_str());
@@ -86,6 +86,7 @@ void setup()
         buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
 
     buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
+    Serial.println(WiFi.SSID());
 
     // get the certificates from EEPROM
     if (readMQTTPrivateKeyEEPROM(ESP_RSA_key))
@@ -112,4 +113,6 @@ void loop()
     buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), "Hello from ESP32");
     buddyMQTT.publish(buddyMQTT.topics.SAY_HELLO.c_str(), BUDDY_ID.c_str());
     delay(1000);
+
+    Serial.println(WiFi.SSID());
 }

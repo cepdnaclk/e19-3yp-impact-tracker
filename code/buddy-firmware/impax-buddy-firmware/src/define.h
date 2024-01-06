@@ -10,17 +10,16 @@
 
 #define BAUD_RATE 9600
 #define ID 1
-String BUDDY_ID = "buddy-";
+String BUDDY_ID = "buddy/";
 
 // WIFI
 String ssid = "";
 String password = "";
-String ssid_default = "";
-String password_defalt = "";
+String ssid_default = "SLT-Fiber";
+String password_defalt = "5CF@606a";
 
 // MQTT Broker
 const char *mqtt_broker = "192.168.1.14";
-const char *topic = "emqx/esp32";
 const char *mqtt_username = "impax";
 const char *mqtt_password = "impax";
 const int mqtt_port = 8883;
@@ -59,3 +58,24 @@ String ESP_RSA_key =
     "################################################################\n"
     "################################################################\n"
     "-----END RSA PRIVATE KEY-----";
+
+    
+// -----BEGIN CERTIFICATE-----
+// MIIDJzCCAg+gAwIBAgIUPKKmid6OdQ5kxFZQxDI0tTTMOwgwDQYJKoZIhvcNAQEL
+// BQAwIzELMAkGA1UEBhMCTEsxFDASBgNVBAMMC3Jhc3BiZXJyeXBpMB4XDTI0MDEw
+// NTIwMzcxMloXDTI5MDEwNDIwMzcxMlowIzELMAkGA1UEBhMCTEsxFDASBgNVBAMM
+// C3Jhc3BiZXJyeXBpMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoGFZ
+// wBM2nEKyNpliS+54o2AJEW5nB0T42HCgTWGpxltKFrwdW8wG2l6MkbjYYOHM+LuK
+// VGOdflj+s1xc0ne2Dlb3T7ezWeKvw+6y/T5lH9rHGfcZWt8+/Xo2zv+I8XvTKmtj
+// eIDkZwCXxjcEWFq1HMiAAwQY9gcn+gLcVD9j3QPJK+v1oEziIHMB7mJoTCAZ6XcY
+// 6BsSGtU1QLwk3etBjTQlUT/aTYQZ2h7K/UYrsyz/AIG71dHSsfWyzRndvyPgZFqc
+// QWVVOvO0RpTVRG/01dmeY0En6B1uGKpLqEnEO7QGgAjop79ed5tVRKY4Atl/w7bc
+// HBcIHC7/IsFmlZQdoQIDAQABo1MwUTAdBgNVHQ4EFgQUCI93NzYADrR+oCVuwVW6
+// +oCy/AUwHwYDVR0jBBgwFoAUCI93NzYADrR+oCVuwVW6+oCy/AUwDwYDVR0TAQH/
+// BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAJFt1BKPyMFYTRp6jdElkwTtiLhg7
+// u8LpuclYa18Dbf4vLmB0OksovrY7RURN1vKwYdB77MzPAr/QmDV/v9u5yR7GvBl2
+// RHFzbxdtQJZLLmYhmPym6bTfyt9bNENEyP1ylKNqCe+SuAerIqVtZfALvCiHGtiM
+// KP+unHof5qOjQC/dIAxX1uAbUyg8Z30AMK0NsvnxmOVKnQ8wCSYXqNue9neoM0Jj
+// 6p+BpazHm/tRz/vycytdZ40kEbJDk8vZKlrWm+rrAlwVjhPjceEmI2N/gPxesb/1
+// lroQ5wSKJxpQjMPUfgupnChzG/zfdEJCgEAkN+UCTgA/ZZV/Xq5osrfBpg==
+// -----END CERTIFICATE-----
