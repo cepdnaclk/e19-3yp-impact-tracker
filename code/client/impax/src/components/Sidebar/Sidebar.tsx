@@ -19,7 +19,7 @@ const Sidebar = () => {
         />
         <MenuItem
           icon={MdDeviceHub}
-          name="Device Connectivity"
+          name="Buddy Connectivity"
           active={activePage === "devices"}
           onClick={() => setActivePage("devices")}
         />
