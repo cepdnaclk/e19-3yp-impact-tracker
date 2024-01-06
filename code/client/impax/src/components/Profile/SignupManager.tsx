@@ -3,10 +3,19 @@ import styles from "./SignUp.module.scss";
 import { Role } from "../../types";
 import { useRoleState, useSignupState } from "../../states/formState";
 import { useForm, type FieldValues } from "react-hook-form";
+import { useAppState } from "../../states/appState";
 
 const SignupManager = () => {
   const isSignup = useSignupState((state) => state.isSignup);
   const setIsSignup = useSignupState((state) => state.setIsSignup);
+  const isManagerExists = useSignupState((state) => state.isManagerExist);
+  const setIsManagerExists = useSignupState((state) => state.setIsManagerExist);
+  const isTeamExists = useSignupState((state) => state.isTeamExist);
+  const setIsTeamExists = useSignupState((state) => state.setIsTeamExist);
+  const signupInfo = useSignupState((state) => state.signupInfo);
+  const setSignupInfo = useSignupState((state) => state.setSignupInfo);
+  const activePage = useAppState((state) => state.activePage);
+  const setActivePage = useAppState((state) => state.setActivePage);
 
   const {
     register,
@@ -20,6 +29,8 @@ const SignupManager = () => {
     // TODO: submit to server
     // ...\
     const { teamId, email } = data;
+    setSignupInfo({ teamId, email });
+
     const url = new URL("http://localhost:5000/team/exists"); // Create a URL object for flexible query param handling
     url.searchParams.set("teamId", teamId); // Add teamId as a query parameter
     url.searchParams.set("email", email);
@@ -31,7 +42,9 @@ const SignupManager = () => {
       },
     });
     const responseData = await response.json();
-    console.log(responseData);
+    if (!responseData.teamExists) {
+      setIsTeamExists(false);
+    }
     // const responseData = await response.json();
     // await new Promise((resolve) => setTimeout(resolve, 5000));
     // console.log(data);
