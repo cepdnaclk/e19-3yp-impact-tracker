@@ -5,10 +5,30 @@ import styles from "./Devices.module.scss";
 import Btn from "../Buttons/Btn";
 import { IoAdd } from "react-icons/io5";
 import MappedDevice from "./Card/MappedDevice";
-// import Modal from "../Modal/Modal";
+import { useAppState } from "../../states/appState";
+import { Buddies } from "../../types";
 
 const Devices: React.FC = () => {
-  // const [isOpen, setOpen] = useState<boolean>(false);
+  const buddies: Buddies = useAppState((state) => state.buddiesStatus);
+  const playerDetails = useAppState((state) => state.playerDetails);
+  const playerMap = useAppState((state) => state.playerMap);
+  const options: { value: string; label: string }[] = [];
+
+  //find mapped buddy_ids and unmapped buddy_ids
+  const mappedBuddies = Object.keys(buddies).filter(
+    (buddy_id: string) => parseInt(buddy_id) in playerMap
+  );
+  const unMappedBuddies = Object.keys(buddies).filter(
+    (buddy_id: string) => !mappedBuddies.includes(buddy_id)
+  );
+
+  for (let jersey_number in playerDetails) {
+    options.push({
+      value: jersey_number,
+      label: `${jersey_number} ${playerDetails[jersey_number].name}`,
+    });
+  }
+  console.log(playerDetails);
 
   return (
     <main className="main">
@@ -23,24 +43,38 @@ const Devices: React.FC = () => {
         <p className="devicesTotal">9 Devices Connected</p>
       </div>
 
-      {/* Add Device Modal */}
-      {/* <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
-        <div
-          style={{ width: "200px", height: "400px", backgroundColor: "red" }}
-        >
-          Test
+      {mappedBuddies.length > 0 && (
+        <div className={styles.mapped}>
+          <h3>Mapped Devices</h3>
+          <div className={styles.grid}>
+            {mappedBuddies.map((buddy_id: string) => (
+              <MappedDevice
+                key={parseInt(buddy_id)}
+                buddyID={parseInt(buddy_id)}
+                batteryLevel={buddies[parseInt(buddy_id)].battery}
+                options={options}
+                playerID={playerMap[parseInt(buddy_id)]}
+              />
+            ))}
+          </div>
         </div>
-      </Modal> */}
+      )}
 
-      <div className={styles.mapped}>
-        <h3>Mapped Devices</h3>
-        <div className={styles.grid}>
-          <MappedDevice batteryLevel={10} deviceID="#124" />
-          <MappedDevice batteryLevel={100} deviceID="#42" />
-          <MappedDevice batteryLevel={40} deviceID="#12" />
-          <MappedDevice batteryLevel={80} deviceID="#213" />
+      {unMappedBuddies.length > 0 && (
+        <div className={styles.active}>
+          <h3>Unmapped Buddies</h3>
+          <div className={styles.grid}>
+            {unMappedBuddies.map((buddy_id: string) => (
+              <MappedDevice
+                key={parseInt(buddy_id)}
+                buddyID={parseInt(buddy_id)}
+                batteryLevel={buddies[parseInt(buddy_id)].battery}
+                options={options}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </main>
   );
 };
