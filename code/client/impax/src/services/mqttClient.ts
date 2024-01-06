@@ -1,5 +1,6 @@
 import mqtt from "mqtt";
 import { useAppState } from "../states/appState";
+import { updateBuddy, updateImpact } from "../states/updateStates";
 
 class MqttClient {
   //Singleton pattern for mqtt client
@@ -44,13 +45,31 @@ class MqttClient {
   private handleMessage = (topic: string, message: Buffer) => {
     console.log(`Received message on topic ${topic}: ${message}`);
     switch (true) {
-      case /^buddy\/\d+\/status$/.test(topic):
-        console.log("buddy status", topic, message.toString());
+      case /^buddy\/\d+/.test(topic):
+        //message from buddy
+        //split topic to get buddy_id, and the subtopic
+        const params = topic.split("/");
+        const buddy_id = parseInt(params[1]);
+        const subTopic = params[2];
 
+        switch (subTopic) {
+          case "status":
+            //topic = buddy/+/status
+            updateBuddy(buddy_id, parseInt(message.toString()));
+            break;
+          case "impact":
+            //topic = buddy/+/impact
+            updateImpact(buddy_id, message.toString());
+            break;
+          case "impact_history":
+            // topic = "buddy/+/impact_history";
+            console.log("impact_history", topic, message.toString());
+            break;
+          default:
+            break;
+        }
         break;
-      case /^buddy\/\d+\/impact$/.test(topic):
-        console.log("buddy impact", topic, message.toString());
-        break;
+
       case /^session$/.test(topic):
         console.log("session", topic, message.toString());
         break;
