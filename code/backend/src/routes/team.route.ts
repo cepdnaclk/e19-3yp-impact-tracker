@@ -5,7 +5,6 @@ import {
   checkTeamEmailExist,
   createTeam,
 } from "../controllers/team.controller";
-import ManagerModel from "../db/manager.schema";
 
 import {
   TeamIdExistsResponse,

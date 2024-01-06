@@ -1,10 +1,4 @@
-import {
-  Manager,
-  ManagerRequestBody,
-  ManagerExistsResponse,
-  ManagerResponse,
-} from "../models/manager.model";
-import { Request, Response } from "express";
+import { Manager, ManagerResponse } from "../models/manager.model";
 import managerService from "../services/manager.service";
 import { createManagerTeam } from "../services/team.manager.service";
 
