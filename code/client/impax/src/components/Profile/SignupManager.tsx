@@ -83,18 +83,6 @@ const SignupManager = () => {
             onChange={handleInputChange}
           />
         </div>
-
-        <div className={styles.inputContainer}>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            required
-            placeholder="Enter password"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-        </div>
         <div className={styles.inputContainer}>
           <label htmlFor="email">Email</label>
           <input
@@ -103,6 +91,17 @@ const SignupManager = () => {
             required
             placeholder="johndoe@email.com"
             value={formData.email}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className={styles.inputContainer}>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            required
+            placeholder="Enter password"
+            value={formData.password}
             onChange={handleInputChange}
           />
         </div>
