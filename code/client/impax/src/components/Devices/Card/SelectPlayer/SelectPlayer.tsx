@@ -1,16 +1,37 @@
+import { useAppState } from "../../../../states/appState";
 import styles from "./SelectPlayer.module.scss";
 import Select from "react-select";
 
-const options = [
-  { value: 69, label: "69 Angelo Mathews" },
-  { value: 11, label: "11 Kumar Sangakkara" },
-  { value: 7, label: "07 Dasun Shanaka" },
-];
-const SelectPlayer = () => {
+const SelectPlayer: React.FC<{
+  options: { value: string; label: string }[];
+  buddyID: number;
+  playerID?: number;
+}> = ({ options, buddyID, playerID }) => {
+  const updatePlayerMap = useAppState((state) => state.updatePlayerMap);
+  const playerDetails = useAppState((state) => state.playerDetails);
+
+  const handleOptionChange = (
+    selectedOption: { value: string; label: string } | null
+  ) => {
+    if (selectedOption) {
+      updatePlayerMap(buddyID, parseInt(selectedOption.value));
+    }
+  };
+
+  // Determine the initial value of the Select component
+  let initialValue = null;
+  if (playerID && playerDetails[playerID]) {
+    initialValue = {
+      value: playerID.toString(),
+      label: `${playerID} ${playerDetails[playerID].name}`,
+    };
+  }
   return (
     <Select
       placeholder="Select a player"
       options={options}
+      value={initialValue}
+      onChange={handleOptionChange}
       classNames={{
         container: () => styles.selectContainer,
         control: (state) =>
