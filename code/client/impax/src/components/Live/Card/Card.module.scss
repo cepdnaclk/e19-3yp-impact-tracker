@@ -11,5 +11,18 @@
     background-color: rgb(66, 66, 66);
     border-radius: 50%;
     color: rgba(255, 255, 255, 0.7);
+    transition: all 150ms ease-in-out;
+    &:active {
+      outline: 0;
+    }
+
+    &:hover {
+      &.close {
+        background-color: lighten($color: $secondary-red, $amount: 5);
+      }
+      &.add {
+        background-color: #22ab7f;
+      }
+    }
   }
 }
