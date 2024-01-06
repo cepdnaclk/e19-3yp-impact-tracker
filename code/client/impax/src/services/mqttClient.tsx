@@ -4,7 +4,6 @@ import { useAppState } from "../store/appState";
 class MqttClient {
   //Singleton pattern for mqtt client
   private static instance: MqttClient | null = null;
-
   private client: mqtt.MqttClient;
   private topics: string[];
 
@@ -15,7 +14,13 @@ class MqttClient {
       keepalive: 60,
     });
 
-    this.topics = ["test/#", "buddy/+/status"];
+    this.topics = [
+      "test/#",
+      "buddy/+/status",
+      "buddy/+/impact",
+      "session",
+      "buddy/+/impact_history",
+    ];
 
     this.client.on("connect", this.handleConnect);
     this.client.on("reconnect", this.handleReconnect);

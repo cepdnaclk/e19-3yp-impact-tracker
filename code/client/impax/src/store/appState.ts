@@ -22,6 +22,6 @@ export const useAppState = create<AppState>()((set) => ({
   setActivePage: (page) => set({ activePage: page }),
   isMqttOnine: false,
   setMqttOnline: (status) => set({ isMqttOnine: status }),
-  isInternetAvailable: true,
+  isInternetAvailable: false,
   setIsInternetAvailable: (isOnline) => set({ isInternetAvailable: isOnline }),
 }));
