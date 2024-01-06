@@ -84,7 +84,6 @@ const LoginManager = () => {
         <span
           tabIndex={0}
           onClick={() => {
-            // console.log(isSignup);
             setIsSignup(true);
           }}
         >

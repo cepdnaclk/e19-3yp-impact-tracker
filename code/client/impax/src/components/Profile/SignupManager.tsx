@@ -117,7 +117,6 @@ const SignupManager = () => {
         <span
           tabIndex={0}
           onClick={() => {
-            console.log(isSignup);
             setIsSignup(false);
           }}
         >
