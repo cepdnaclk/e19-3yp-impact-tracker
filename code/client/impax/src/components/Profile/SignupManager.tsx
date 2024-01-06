@@ -45,6 +45,7 @@ const SignupManager = () => {
     if (!responseData.teamExists) {
       setIsTeamExists(false);
     }
+    console.log(signupInfo);
     // const responseData = await response.json();
     // await new Promise((resolve) => setTimeout(resolve, 5000));
     // console.log(data);

@@ -1,12 +1,26 @@
-import React, { useState } from "react";
 import styles from "./SignUp.module.scss";
-import { Role } from "../../types";
 import { useSignupState } from "../../states/formState";
 import Hero from "./Hero";
+import { FieldValues, useForm } from "react-hook-form";
 const SignupManager2 = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
   const signupInfo = useSignupState((state) => state.signupInfo);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+    getValues,
+  } = useForm();
 
+  const onSubmit = async (data: FieldValues) => {
+    // TODO: submit to server
+    // ...
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log({ ...data, ...signupInfo });
+
+    reset();
+  };
   return (
     <>
       <main className={styles.main}>
@@ -15,10 +29,12 @@ const SignupManager2 = () => {
             <img src="../../src/assets/logos/Logo-Impax.svg" alt="IMPAX" />
             <h4>Create a Team for {signupInfo.teamId}</h4>
           </div>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.inputContainer}>
               <label htmlFor="teamName">Team Name</label>
+              {errors.teamName && <p>{`${errors.teamName.message}`}</p>}
               <input
+                {...register("teamName", { required: "Team name is required" })}
                 type="text"
                 id="teamName"
                 required
@@ -28,39 +44,59 @@ const SignupManager2 = () => {
 
             <div className={styles.inputContainer}>
               <label htmlFor="firstName">First Name</label>
+              {errors.firstName && <p>{`${errors.firstName.message}`}</p>}
               <input
+                {...register("firstName", {
+                  required: "First name is required",
+                })}
                 type="text"
                 id="firstName"
-                required
                 placeholder="Enter first name"
               />
             </div>
 
             <div className={styles.inputContainer}>
               <label htmlFor="lastName">Last Name</label>
+              {errors.lastName && <p>{`${errors.lastName.message}`}</p>}
               <input
+                {...register("lastName", {
+                  required: "Last name is required",
+                })}
                 type="text"
                 id="lastName"
-                required
                 placeholder="Enter last name"
               />
             </div>
 
             <div className={styles.inputContainer}>
               <label htmlFor="password">Password</label>
+              {errors.password && <p>{`${errors.password.message}`}</p>}
               <input
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 10,
+                    message: "Password must be at least 10 characters",
+                  },
+                })}
                 type="password"
                 id="password"
-                required
                 placeholder="Enter password"
               />
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="retypepassword">Retype Password</label>
+              {errors.retypepassword && (
+                <p>{`${errors.retypepassword.message}`}</p>
+              )}
               <input
-                type="retypepassword"
+                {...register("retypepassword", {
+                  required: "Retype password is required",
+                  validate: (value) =>
+                    value === getValues("password") || "Passwords must match",
+                })}
+                type="password"
                 id="retypepassword"
-                required
                 placeholder="Retype password"
               />
             </div>
