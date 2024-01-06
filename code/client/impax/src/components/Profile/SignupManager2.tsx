@@ -14,11 +14,17 @@ const SignupManager2 = () => {
   } = useForm();
 
   const onSubmit = async (data: FieldValues) => {
-    // TODO: submit to server
-    // ...
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log({ ...data, ...signupInfo });
-
+    const request = {
+      teamId: signupInfo.teamId,
+      email: signupInfo.email,
+      teamName: data.teamName,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      password: data.password,
+    };
+    console.log(request);
+    // TODO: submit to server
     reset();
   };
   return (
