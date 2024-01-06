@@ -7,6 +7,7 @@ import { IoAdd } from "react-icons/io5";
 import MappedDevice from "./Card/MappedDevice";
 import { useAppState } from "../../states/appState";
 import { Buddies } from "../../types";
+import NoMqttConnection from "../OfflineStatus/NoMqttConnection";
 
 const Devices: React.FC = () => {
   const buddies: Buddies = useAppState((state) => state.buddiesStatus);
@@ -30,9 +31,19 @@ const Devices: React.FC = () => {
   }
   console.log(playerDetails);
 
+  //if mqtt is not connected, show no connection page
+  const isMqttOnline = useAppState((state) => state.isMqttOnine);
+  if (!isMqttOnline) {
+    return (
+      <main className="main">
+        <Title title="Buddy Connectivity" Icon={MdDeviceHub} />
+        <NoMqttConnection />
+      </main>
+    );
+  }
   return (
     <main className="main">
-      <Title title="Device Connectivity" Icon={MdDeviceHub} />
+      <Title title="Buddy Connectivity" Icon={MdDeviceHub} />
       <div className={styles.summary}>
         <Btn
           Icon={IoAdd}
@@ -40,7 +51,9 @@ const Devices: React.FC = () => {
           children="Add new device"
           buttonStyle="secondary"
         />
-        <p className="devicesTotal">9 Devices Connected</p>
+        <p className="devicesTotal">
+          {Object.keys(buddies).length} Devices Connected
+        </p>
       </div>
 
       {mappedBuddies.length > 0 && (

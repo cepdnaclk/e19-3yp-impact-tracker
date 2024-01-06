@@ -18,18 +18,15 @@ const Content: React.FC<Props> = ({ isOnline }: Props) => {
     (state) => state.setIsInternetAvailable
   );
   const activePage = useAppState((state) => state.activePage);
-  // const isMqttOnline = useAppState((state) => state.isMqttOnine);
-  const isMqttOnline = true;
+
   useEffect(() => {
     isOnline ? setIsInternetAvailable(true) : setIsInternetAvailable(false);
   }, [isOnline, setIsInternetAvailable]);
 
   return (
     <>
-      {activePage === "live" &&
-        (isMqttOnline ? <Live /> : <div>MQTT is offline</div>)}
-      {activePage === "devices" &&
-        (isMqttOnline ? <Devices /> : <div>MQTT is offline</div>)}
+      {activePage === "live" && <Live />}
+      {activePage === "devices" && <Devices />}
       {activePage === "analytics" && <Test />}
       {activePage === "profile" &&
         (isTeamExist ? <SignUp /> : <SignupManager2 />)}
