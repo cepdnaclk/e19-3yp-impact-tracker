@@ -1,5 +1,5 @@
 import mqtt from "mqtt";
-import { useAppState } from "../store/appState";
+import { useAppState } from "../states/appState";
 
 class MqttClient {
   //Singleton pattern for mqtt client
@@ -43,6 +43,20 @@ class MqttClient {
 
   private handleMessage = (topic: string, message: Buffer) => {
     console.log(`Received message on topic ${topic}: ${message}`);
+    switch (true) {
+      case /^buddy\/\d+\/status$/.test(topic):
+        console.log("buddy status", topic, message.toString());
+
+        break;
+      case /^buddy\/\d+\/impact$/.test(topic):
+        console.log("buddy impact", topic, message.toString());
+        break;
+      case /^session$/.test(topic):
+        console.log("session", topic, message.toString());
+        break;
+      default:
+        break;
+    }
   };
 
   public closeClient = () => {
