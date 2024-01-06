@@ -5,12 +5,9 @@ import MqttClient from "./services/mqttClient";
 import { Detector } from "react-detect-offline";
 function App() {
   MqttClient.getInstance();
-  // const setIsInternetAvailable = useAppState(
-  //   (state) => state.setIsInternetAvailable
-  // );
+
   return (
     <Detector
-      // onChange={setIsInternetAvailable}
       render={({ online }) => (
         <>
           <Sidebar />
