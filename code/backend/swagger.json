@@ -20,10 +20,37 @@
     }
   ],
   "paths": {
+    "/auth": {
+      "get": {
+        "tags": ["AuthEndpoints"],
+        "summary": "Authenticate a user - Refresh Token required",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/LoginResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/team": {
       "post": {
         "tags": ["TeamEndpoints"],
-        "summary": "Create a team",
+        "summary": "Create a team - Open",
         "requestBody": {
           "$ref": "#/components/requestBodies/TeamCreateRequest"
         },
@@ -49,10 +76,11 @@
         }
       }
     },
+
     "/team/exists/teamId/{id}": {
       "get": {
         "tags": ["TeamEndpoints"],
-        "summary": "Check if a team ID exists",
+        "summary": "Check if a team ID exists - Open",
         "parameters": [
           {
             "name": "id",
@@ -127,7 +155,7 @@
     "/team/exists": {
       "get": {
         "tags": ["TeamEndpoints"],
-        "summary": "Check if both Team ID and email exists",
+        "summary": "Check if both Team ID and email exists - Open",
         "parameters": [
           {
             "name": "teamId",
@@ -174,7 +202,7 @@
     "/manager/exists/email/{email}": {
       "get": {
         "tags": ["ManagerEndpoints"],
-        "summary": "Check if a manager email exists",
+        "summary": "Check if a manager email exists - Open",
         "parameters": [
           {
             "name": "email",
@@ -212,7 +240,7 @@
     "/manager": {
       "post": {
         "tags": ["ManagerEndpoints"],
-        "summary": "Create a manager",
+        "summary": "Create a manager - Open",
         "requestBody": {
           "$ref": "#/components/requestBodies/ManagerCreateRequest"
         },
@@ -448,10 +476,69 @@
     },
 
 
+    "/manager/add": {
+      "post": {
+        "tags": ["ManagerEndpoints"],
+        "summary": "Add a new manager to a team - Access Token required",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ManagerTeamRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/ManagerTeamRequest"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/login/logout": {
+      "post": {
+        "tags": ["LoginEndpoints"],
+        "summary": "Logout - Access Token required",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Logout successful"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/login/manager": {
       "post": {
         "tags": ["LoginEndpoints"],
-        "summary": "Login as a manager",
+        "summary": "Login as a manager - Open",
         "requestBody": {
           "$ref": "#/components/requestBodies/LoginRequest"
         },
@@ -460,7 +547,37 @@
             "description": "Success",
             "content": {
               "application/json": {
-                
+                "$ref": "#/components/schemas/LoginResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/player/add": {
+      "post": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Add a new player to a team for manager - Access Token required",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PlayerTeamRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/PlayerTeamRequest"
               }
             }
           },
@@ -481,7 +598,7 @@
     "/login/player": {
       "post": {
         "tags": ["LoginEndpoints"],
-        "summary": "Login as a player",
+        "summary": "Login as a player - Open",
         "requestBody": {
           "$ref": "#/components/requestBodies/LoginRequest"
         },
@@ -490,7 +607,7 @@
             "description": "Success",
             "content": {
               "application/json": {
-                
+                "$ref": "#/components/schemas/LoginResponse"
               }
             }
           },
@@ -507,13 +624,21 @@
         }
       }
     }
-
-
-
   },
-
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
 
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "LoginRequest": {
         "type": "object",
@@ -528,6 +653,54 @@
         "example": {
           "password": "securePassword",
           "userName": "example@example.com"
+        }
+      },
+
+      "ManagerTeamRequest": {
+        "type": "object",
+        "properties": {
+          "managerEmail": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "managerEmail": "example@example.com",
+          "teamId": "teamId"
+        }
+      },
+
+      "PlayerTeamRequest": {
+        "type": "object",
+        "properties": {
+          "playerEmail": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "playerEmail": "example@example.com",
+          "teamId": "teamId"
+        }
+      },
+
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          },
+          "accessToken": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "refreshToken": "abcd",
+          "accessToken": "abcd"
         }
       },
 
@@ -645,11 +818,15 @@
           },
           "teamName": {
             "type": "string"
+          },
+          "teamManager": {
+            "type": "string"
           }
         },
         "example": {
           "teamId": "exampleTeamId",
-          "teamName": "Example Team"
+          "teamName": "Example Team",
+          "teamManager": "Team Manager email"
         }
       },
       
@@ -844,12 +1021,43 @@
           }
         }
       },
+     
+
+      "ManagerTeamRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ManagerTeamRequest"
+            }
+          }
+        }
+      },
+
+      "PlayerTeamRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PlayerTeamRequest"
+            }
+          }
+        }
+      },
 
       "LoginRequest": {
         "content": {
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/LoginRequest"
+            }
+          }
+        }
+      },
+
+      "LoginResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/LoginResponse"
             }
           }
         }
@@ -877,4 +1085,3 @@
     }
   }
 }
-

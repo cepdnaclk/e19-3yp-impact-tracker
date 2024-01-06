@@ -1,7 +1,11 @@
 #include "define.h"
+#include "combinedOutput.h"
 
 // initialize the library instance
 BuddyWIFI buddyWIFI;
+HighGCalibrated highGCalibrated;
+MPU6050Calibrated mpu6050calibrated;
+CombinedOutput combinedOutput;
 BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port, CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
 Com com;
 
@@ -67,6 +71,8 @@ void batteryStatusSend()
 
 void setup()
 {
+    Wire.begin(23, 19);
+
     // leds
     initLED();
     turnOn_LED_ON();
@@ -77,7 +83,7 @@ void setup()
 
     // EEPROM
     initEEPROM(ssid_default, password_defalt, BUDDY_ID, ID);
-    // setCustomeSSIDAndPasswordEEPROM(ssid, password);
+    setCustomeSSIDAndPasswordEEPROM(ssid, password);
 
     // Multi WIFI connection
     buddyWIFI.addWIFIMulti(ssid_default.c_str(), password_defalt.c_str());
@@ -86,6 +92,7 @@ void setup()
         buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
 
     buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
+    Serial.println(WiFi.SSID());
 
     // get the certificates from EEPROM
     if (readMQTTPrivateKeyEEPROM(ESP_RSA_key))
@@ -95,8 +102,8 @@ void setup()
     buddyMQTT.client.setCallback(callback);
     buddyMQTT.init(BUDDY_ID, communicationDashboard);
 
-    Serial.println("Buddy ID: " + BUDDY_ID);
-    Serial.println("Setup done");
+    // buddyMQTT.client.setCallback(callback);
+    // buddyMQTT.init(BUDDY_ID);
 
     buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
     buddyMQTT.subscribe(buddyMQTT.topics.SAY_HELLO.c_str());
@@ -105,6 +112,11 @@ void setup()
 
 void loop()
 {
+    // ****** Combined Output START *******
+    Serial.println(combinedOutput.getImpact());
+    Serial.println(combinedOutput.getDirection());
+
+    // ****** Combined Output END *******
     connect();
     communicationDashboard();
     batteryStatusSend();
@@ -112,4 +124,6 @@ void loop()
     buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), "Hello from ESP32");
     buddyMQTT.publish(buddyMQTT.topics.SAY_HELLO.c_str(), BUDDY_ID.c_str());
     delay(1000);
+
+    Serial.println(WiFi.SSID());
 }

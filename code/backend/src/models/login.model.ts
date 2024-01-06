@@ -1,6 +1,6 @@
 class LoginResquest {
-  private password: string;
-  private userName: string;
+  public password: string;
+  public userName: string;
 
   public constructor(password: string, userName: string) {
     this.password = password;
@@ -8,4 +8,14 @@ class LoginResquest {
   }
 }
 
-export { LoginResquest };
+class LoginResponse {
+  public refreshToken: string;
+  public accessToken: string;
+
+  public constructor(refreshToken: string, accessToken: string) {
+    this.refreshToken = refreshToken;
+    this.accessToken = accessToken;
+  }
+}
+
+export { LoginResquest, LoginResponse };
