@@ -13,7 +13,7 @@
 #define LED_OFF 0
 
 // Define battery-related constants
-#define BATTERY_READ 25
+#define BATTERY_READ 33
 const float Vmax = 4.2;
 
 // Function declarations
