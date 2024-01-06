@@ -25,6 +25,13 @@ async function createHub(hub: Hub) {
       mqttPassword: hub.mqttPassword,
       mqttCA: hub.mqttCA,
     });
+
+    // check if hub already exists
+    const hubExists = await HubModel.findOne({ hubId: hub.hubId });
+    if (hubExists) {
+      throw new Error("Hub already exists");
+    }
+
     await hubModel.save();
     return hubModel;
   } catch (err) {

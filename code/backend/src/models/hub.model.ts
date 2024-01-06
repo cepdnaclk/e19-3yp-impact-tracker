@@ -24,7 +24,7 @@ class HubRequest {
   public hubKey: string;
   public hubId: string;
 
-  public constructor(hubKey: string, hubId: string) {
+  public constructor(hubId: string, hubKey: string) {
     this.hubKey = hubKey;
     this.hubId = hubId;
   }

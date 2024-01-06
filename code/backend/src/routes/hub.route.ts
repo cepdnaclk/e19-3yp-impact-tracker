@@ -8,7 +8,7 @@ import { Hub, HubRequest } from "../models/hub.model";
 const router = Router();
 
 // get hub details
-router.get("/", async (req: Request, res: Response) => {
+router.post("/credetials", async (req: Request, res: Response) => {
   try {
     const hubId = req.body.hubId;
     const hubKey = req.body.hubKey;

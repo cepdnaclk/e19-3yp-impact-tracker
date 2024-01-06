@@ -229,30 +229,13 @@
       }
     },
 
-    "/hub": {
-      "get": {
+    "/hub/credetials": {
+      "post": {
         "tags": ["HubEndpoints"],
         "summary": "Get hub details - Aceess Token required",
-        "parameters": [
-          {
-            "name": "hubId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "exampleHubId"
-          },
-          {
-            "name": "hubKey",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "exampleHubKey"
-          }
-        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/HubRequest"
+        },
         "responses": {
           "200": {
             "description": "Success",
@@ -273,12 +256,15 @@
             }
           }
         }
-      },
+      }
+    },
+
+    "/hub": {
       "post": {
         "tags": ["HubEndpoints"],
         "summary": "Save hub details - Open",
         "requestBody": {
-          "$ref": "#/components/requestBodies/HubRequest"
+          "$ref": "#/components/requestBodies/Hub"
         },
         "responses": {
           "200": {
@@ -545,7 +531,7 @@
           "hubKey": "exampleHubKey",
           "hubId": "exampleHubId"
         }
-      }
+      },
 
       "ManagerTeamRequest": {
         "type": "object",
@@ -630,7 +616,7 @@
           "teamId": "exampleTeamId",
           "firstName": "John",
           "lastName": "Doe",
-          "email": "john.doe@example.com",
+          "email": "example@example.com",
           "password": "securePassword"
         }
       },
@@ -655,7 +641,7 @@
           "teamId": "exampleTeamId",
           "firstName": "John",
           "lastName": "Doe",
-          "email": "john.doe@example.com"
+          "email": "example@example.com"
         }
       },
 
@@ -717,7 +703,7 @@
         "example": {
           "teamId": "exampleTeamId",
           "teamName": "Example Team",
-          "teamManager": "Team Manager email"
+          "teamManager": "example@example.com"
         }
       }
     },
@@ -738,6 +724,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/ManagerTeamRequest"
+            }
+          }
+        }
+      },
+
+      "Hub": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Hub"
             }
           }
         }
