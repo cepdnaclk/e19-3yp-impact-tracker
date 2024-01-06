@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { Buddies } from "../types";
 
 type activePage =
   | "live"
@@ -15,6 +16,7 @@ interface AppState {
   setMqttOnline: (status: boolean) => void;
   isInternetAvailable: boolean;
   setIsInternetAvailable: (isOnline: boolean) => void;
+  buddiesState: Buddies;
 }
 
 export const useAppState = create<AppState>()((set) => ({
@@ -24,4 +26,6 @@ export const useAppState = create<AppState>()((set) => ({
   setMqttOnline: (status) => set({ isMqttOnine: status }),
   isInternetAvailable: false,
   setIsInternetAvailable: (isOnline) => set({ isInternetAvailable: isOnline }),
+  buddiesState: new Map(),
+  setBuddiesState: (buddiesState: Buddies) => set({ buddiesState }),
 }));
