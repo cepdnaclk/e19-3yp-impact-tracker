@@ -1,6 +1,10 @@
 import mqtt from "mqtt";
 import { useAppState } from "../states/appState";
-import { updateBuddy, updateImpact } from "../states/updateStates";
+import {
+  updateBuddy,
+  updateImpact,
+  setPlayerMap,
+} from "../states/updateStates";
 
 class MqttClient {
   //Singleton pattern for mqtt client
@@ -21,6 +25,7 @@ class MqttClient {
       "buddy/+/impact",
       "session",
       "buddy/+/impact_history",
+      "player_map",
     ];
 
     this.client.on("connect", this.handleConnect);
@@ -68,11 +73,17 @@ class MqttClient {
           default:
             break;
         }
+
         break;
 
       case /^session$/.test(topic):
         console.log("session", topic, message.toString());
         break;
+
+      case /^player_map$/.test(topic):
+        setPlayerMap(message.toString());
+        break;
+
       default:
         break;
     }
@@ -86,6 +97,19 @@ class MqttClient {
     console.log(`Starting session ${sessionName}`);
   };
 
+  public publishPlayerMap = (playerMap: Record<number, number>) => {
+    this.publish("player_map", JSON.stringify(playerMap));
+  };
+
+  private publish = (topic: string, message: string | Buffer) => {
+    this.client.publish(topic, message, { retain: true }, (err) => {
+      if (err) {
+        console.error("Failed to publish message:", err);
+      } else {
+        console.log("Message published to topic:", topic);
+      }
+    });
+  };
   public static getInstance(): MqttClient {
     if (!MqttClient.instance) {
       MqttClient.instance = new MqttClient();
