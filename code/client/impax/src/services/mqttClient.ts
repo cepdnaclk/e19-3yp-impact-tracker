@@ -4,7 +4,9 @@ import {
   updateBuddy,
   updateImpact,
   setPlayerMap,
-} from "../states/updateStates";
+  setSessionDetails,
+} from "../states/updateAppStates";
+import { Session } from "../types";
 
 class MqttClient {
   //Singleton pattern for mqtt client
@@ -77,7 +79,7 @@ class MqttClient {
         break;
 
       case /^session$/.test(topic):
-        console.log("session", topic, message.toString());
+        setSessionDetails(message.toString());
         break;
 
       case /^player_map$/.test(topic):
@@ -99,6 +101,14 @@ class MqttClient {
 
   public publishPlayerMap = (playerMap: Record<number, number>) => {
     this.publish("player_map", JSON.stringify(playerMap));
+  };
+
+  public publishSession = (session: Session) => {
+    this.publish("session", JSON.stringify(session));
+  };
+
+  public endSession = () => {
+    this.publish("session", "end");
   };
 
   private publish = (topic: string, message: string | Buffer) => {
