@@ -10,7 +10,6 @@ const Content: React.FC = () => {
   const activePage = useAppState((state) => state.activePage);
   // const isMqttOnline = useAppState((state) => state.isMqttOnine);
   const isMqttOnline = true;
-  // const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
 
   return (
     <>
@@ -18,21 +17,10 @@ const Content: React.FC = () => {
         (isMqttOnline ? <Live /> : <div>MQTT is offline</div>)}
       {activePage === "devices" &&
         (isMqttOnline ? <Devices /> : <div>MQTT is offline</div>)}
-      {
-        activePage === "analytics" && <Test />
-        //  &&
-        //   (isInternetAvailable ? <Test /> : <div>No INTERNETT</div>)
-      }
-      {
-        activePage === "profile" && <SignUp />
+      {activePage === "analytics" && <Test />}
+      {activePage === "profile" && <SignUp />}
 
-        // (isInternetAvailable ? <SignUp /> : <div>No INTERNETT</div>)
-      }
-
-      {
-        activePage === "player-management" && <PlayerManagement />
-        // (isInternetAvailable ? <PlayerManagement /> : <div>No INTERNETT</div>)
-      }
+      {activePage === "player-management" && <PlayerManagement />}
     </>
   );
 };
