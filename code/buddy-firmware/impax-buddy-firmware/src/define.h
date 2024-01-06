@@ -19,10 +19,16 @@ String ssid_default = "SLT-Fiber";
 String password_defalt = "5CF@606a";
 
 // MQTT Broker
-const char *mqtt_broker = "192.168.1.14";
-const char *mqtt_username = "impax";
-const char *mqtt_password = "impax";
-const int mqtt_port = 8883;
+// const char *mqtt_broker = "192.168.1.14";
+// const char *mqtt_username = "impax";
+// const char *mqtt_password = "impax";
+// const int mqtt_port = 8883;
+
+const char *mqtt_broker = "broker.emqx.io";
+const char *topic = "emqx/esp32";
+const char *mqtt_username = "emqx";
+const char *mqtt_password = "public";
+const int mqtt_port = 1883;
 
 String CA_cert =
     "-----BEGIN CERTIFICATE-----\n"

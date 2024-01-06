@@ -73,9 +73,6 @@ void setup()
     // serial monitor
     Serial.begin(BAUD_RATE);
 
-    // i2c
-    Wire.begin(23, 19);
-
     // leds
     initLED();
     turnOn_LED_ON();
@@ -119,11 +116,11 @@ void loop()
     // ****** Combined Output START *******
     int value = combinedOutput.getImpact();
 
-    Serial.println(value);
-    Serial.println(combinedOutput.getDirection());
+    // Serial.println(value);
+    // Serial.println(combinedOutput.getDirection());
     // ****** Combined Output END *******
 
-    buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), "Hello from ESP32");
+    buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), value);
     buddyMQTT.publish(buddyMQTT.topics.SAY_HELLO.c_str(), BUDDY_ID.c_str());
     delay(1000);
 }

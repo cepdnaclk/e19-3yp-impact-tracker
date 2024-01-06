@@ -6,16 +6,15 @@ CombinedOutput::CombinedOutput()
 {
     MPU6050Calibrated mpuSensor;
     HighGCalibrated highGSensor;
-    // mpuSensor.begin();
-    // mpuSensor.calibrate();
-    // highGSensor.begin();
 }
 
 void CombinedOutput::init()
 {
+    Wire.begin(19, 23);
+    highGSensor.begin();
+
     mpuSensor.begin();
     mpuSensor.calibrate();
-    highGSensor.begin();
 }
 
 int CombinedOutput::getImpact()
@@ -25,6 +24,7 @@ int CombinedOutput::getImpact()
     angleX = mpuSensor.getAngleX();
     angleY = mpuSensor.getAngleY();
     angleZ = mpuSensor.getAngleZ();
+
     highGSensor.calibrate();
     aX = highGSensor.readAccX();
     aY = highGSensor.readAccY();
@@ -52,6 +52,7 @@ int CombinedOutput::getImpact()
     aY = vy;
     aZ = vz - 1;
     magnitude = sqrt(aX * aX + aY * aY + aZ * aZ);
+    return magnitude;
     if (magnitude > 14.0)
     {
         return magnitude;

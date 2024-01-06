@@ -37,6 +37,7 @@ public:
     void init(String id, bool (*communicationDashboard)());         // Initialize the MQTT client
     void reconnect(bool (*communicationDashboard)());               // Reconnect to the MQTT broker
     void publish(const char *, const char *);                       // Publish a message to an MQTT topic
+    void publish(const char *, int);                                // Publish a message to an MQTT topic
     void subscribe(const char *);                                   // Subscribe to an MQTT topic
     void setBroker(const char *, const char *, const char *, int);  // Set MQTT broker details
     void updateTopics();                                            // Update MQTT topics based on the device ID
