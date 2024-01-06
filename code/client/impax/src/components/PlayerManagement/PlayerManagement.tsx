@@ -3,7 +3,7 @@ import { FaUsers } from "react-icons/fa";
 import React from "react";
 import styles from "./PlayerManagement.module.scss";
 import tableStyles from "./PlayersTable/PlayersTable.module.scss";
-import { useAppState } from "../../store/appState";
+import { useAppState } from "../../states/appState";
 
 import {
   ColumnDef,

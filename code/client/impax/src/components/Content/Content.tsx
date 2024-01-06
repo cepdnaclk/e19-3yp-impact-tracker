@@ -1,7 +1,7 @@
 import React from "react";
 import Live from "../Live/Live";
 import Test from "../Test/Test";
-import { useAppState } from "../../store/appState";
+import { useAppState } from "../../states/appState";
 import SignUp from "../Profile/SignUp";
 import Devices from "../Devices/Devices";
 import PlayerManagement from "../PlayerManagement/PlayerManagement";

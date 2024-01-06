@@ -3,7 +3,7 @@ import { BsBroadcast } from "react-icons/bs";
 import { FaRegUserCircle, FaUsers } from "react-icons/fa";
 import { MdDeviceHub, MdBarChart } from "react-icons/md";
 import MenuItem from "./MenuItem";
-import { useAppState } from "../../store/appState";
+import { useAppState } from "../../states/appState";
 
 const Sidebar = () => {
   const activePage = useAppState((state) => state.activePage);
