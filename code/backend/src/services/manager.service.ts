@@ -4,7 +4,7 @@ import {
   ManagerExistsResponse,
 } from "../models/manager.model";
 import ManagerModel from "../db/manager.schema";
-import { createAuth } from "./auth,service";
+import { createAuth } from "./auth.service";
 
 class ManagerService {
   async createManager(
@@ -47,6 +47,27 @@ class ManagerService {
       throw new Error("Error checking manager existence");
     }
   }
+
+  async checkManagerExistsInTeam(
+    managerEmail: string,
+    teamId: string
+  ): Promise<boolean> {
+    try {
+      console.log(managerEmail, teamId);
+      const manager = await ManagerModel.findOne({
+        email: managerEmail,
+        teamId: teamId,
+      });
+      console.log(manager);
+      const managerExists = !!manager;
+      return managerExists;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error checking manager existence");
+    }
+  }
 }
+
+// check manager exists in given teamID
 
 export default new ManagerService();

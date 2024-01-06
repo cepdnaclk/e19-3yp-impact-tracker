@@ -94,6 +94,7 @@ router.post("/", async (req: Request, res: Response) => {
   // Extract Team ID and Team Name from the request body
   const teamId = req.body.teamId;
   const teamName = req.body.teamName;
+  const teamManagerEmail = req.body.teamManager;
 
   // Check if either Team ID or Team Name is missing
   if (!teamId || !teamName) {
@@ -113,7 +114,7 @@ router.post("/", async (req: Request, res: Response) => {
 
   try {
     // Create a new Team instance
-    const team: Team = new Team(teamId, teamName);
+    const team: Team = new Team(teamId, teamName, teamManagerEmail);
 
     // Create the Team and get the response
     const teamResponse: TeamResponse | undefined = await createTeam(team);

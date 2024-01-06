@@ -9,8 +9,16 @@ export function accessTokenMiddleware(
   next: NextFunction
 ) {
   if (
+    req.path.startsWith("/team/exists/teamId") ||
+    req.path.startsWith("/manager/exists/email")
+  ) {
+    // Skip token verification for specified routes
+    return next();
+  }
+
+  if (
     excludedRoutes.some((route) => {
-      return route.method === req.method && req.path.startsWith(route.path);
+      return route.method === req.method && req.path === route.path;
     })
   ) {
     // Skip token verification for specified routes

@@ -20,10 +20,19 @@ class TeamService {
       // Save the manager to the database
       const savedTeam = await teamInstance.save();
 
+      const managerTeamInstance = new ManagerTeamModel({
+        managerEmail: team.teamManager,
+        teamId: team.teamId,
+      });
+
+      // Save the manager to the database
+      const savedManager = await managerTeamInstance.save();
+
       // Create a TeamResponse object
       const teamResponse = new TeamResponse({
         teamId: savedTeam.teamId,
         teamName: savedTeam.teamName,
+        teamManager: team.teamManager,
       });
 
       return teamResponse;

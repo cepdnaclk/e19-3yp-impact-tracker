@@ -1,5 +1,5 @@
 import { LoginResquest, LoginResponse } from "../models/login.model";
-import { checkAuthExists, checkAuth } from "../services/auth,service";
+import { checkAuthExists, checkAuth } from "../services/auth.service";
 import { createJwt, checkJwtExists, deleteJwt } from "../services/jwt.service";
 import { createRefreshToken, createAccessToken } from "../utils/jwt.token";
 import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";

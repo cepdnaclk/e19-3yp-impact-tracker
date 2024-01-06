@@ -76,6 +76,7 @@
         }
       }
     },
+
     "/team/exists/teamId/{id}": {
       "get": {
         "tags": ["TeamEndpoints"],
@@ -228,6 +229,36 @@
       }
     },
 
+    "/manager/add": {
+      "post": {
+        "tags": ["ManagerEndpoints"],
+        "summary": "Add a new manager to a team - Access token required",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ManagerTeamRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/ManagerTeamRequest"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/login/logout": {
       "post": {
         "tags": ["LoginEndpoints"],
@@ -347,6 +378,23 @@
           "userName": "example@example.com"
         }
       },
+
+      "ManagerTeamRequest": {
+        "type": "object",
+        "properties": {
+          "managerEmail": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "managerEmail": "example@example.com",
+          "teamId": "teamId"
+        }
+      },
+
       "LoginResponse": {
         "type": "object",
         "properties": {
@@ -477,11 +525,15 @@
           },
           "teamName": {
             "type": "string"
+          },
+          "teamManager": {
+            "type": "string"
           }
         },
         "example": {
           "teamId": "exampleTeamId",
-          "teamName": "Example Team"
+          "teamName": "Example Team",
+          "teamManager": "Team Manager email"
         }
       }
     },
@@ -492,6 +544,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Team"
+            }
+          }
+        }
+      },
+
+      "ManagerTeamRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ManagerTeamRequest"
             }
           }
         }

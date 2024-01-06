@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 interface ManagerTeamDocument extends Document {
-  managerEmal: string;
+  managerEmail: string;
   teamId: string;
 }
 
