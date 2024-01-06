@@ -1,27 +1,34 @@
 import { Map } from "immutable";
 
-type BuddyStatus = {
+export type BuddyStatus = {
   battery: number;
   timestamp: number;
 };
 
-type Impact = {
+export type Impact = {
   magntitude: number;
   direction: "left" | "right" | "front" | "back" | "top" | "bottom";
+  timestamp: number;
 };
-export interface Buddies extends Map<number, BuddyStatus> {
-  get(buddy_id: number): BuddyStatus | undefined;
-  set(buddy_id: number, status: BuddyStatus): this;
-  has(buddy_id: number): boolean;
-  delete(buddy_id: number): this;
-}
 
-export interface BuddiesImpact extends Map<number, Impact> {
-  get(buddy_id: number): Impact | undefined;
-  set(buddy_id: number, impact: Impact): this;
-  has(buddy_id: number): boolean;
-  delete(buddy_id: number): this;
-}
+export type Buddies = {
+  [id: number]: BuddyStatus;
+};
+export type BuddiesImpact = {
+  [id: number]: Impact;
+};
+
+export type PlayerMap = {
+  [buddy_id: number]: number;
+};
+
+export type Players = {
+  [jersey_number: number]: {
+    name: string;
+    email?: string;
+    verification?: "verified" | "pending" | "rejected";
+  };
+};
 
 export type activePage =
   | "live"
