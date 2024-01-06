@@ -1,5 +1,4 @@
 #include "define.h"
-#include "combinedOutput.h"
 
 // initialize the library instance
 BuddyWIFI buddyWIFI;
@@ -71,6 +70,10 @@ void batteryStatusSend()
 
 void setup()
 {
+    // serial monitor
+    Serial.begin(BAUD_RATE);
+
+    // i2c
     Wire.begin(23, 19);
 
     // leds
@@ -78,12 +81,12 @@ void setup()
     turnOn_LED_ON();
     blink_LED_WIFI();
 
-    // serial monitor
-    Serial.begin(BAUD_RATE);
-
     // EEPROM
     initEEPROM(ssid_default, password_defalt, BUDDY_ID, ID);
     setCustomeSSIDAndPasswordEEPROM(ssid, password);
+
+    // Initial sensors
+    combinedOutput.init();
 
     // Multi WIFI connection
     buddyWIFI.addWIFIMulti(ssid_default.c_str(), password_defalt.c_str());
@@ -102,9 +105,6 @@ void setup()
     buddyMQTT.client.setCallback(callback);
     buddyMQTT.init(BUDDY_ID, communicationDashboard);
 
-    // buddyMQTT.client.setCallback(callback);
-    // buddyMQTT.init(BUDDY_ID);
-
     buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
     buddyMQTT.subscribe(buddyMQTT.topics.SAY_HELLO.c_str());
     buddyMQTT.subscribe(buddyMQTT.topics.BATTERY.c_str());
@@ -112,18 +112,18 @@ void setup()
 
 void loop()
 {
-    // ****** Combined Output START *******
-    Serial.println(combinedOutput.getImpact());
-    Serial.println(combinedOutput.getDirection());
-
-    // ****** Combined Output END *******
     connect();
     communicationDashboard();
     batteryStatusSend();
 
+    // ****** Combined Output START *******
+    int value = combinedOutput.getImpact();
+
+    Serial.println(value);
+    Serial.println(combinedOutput.getDirection());
+    // ****** Combined Output END *******
+
     buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), "Hello from ESP32");
     buddyMQTT.publish(buddyMQTT.topics.SAY_HELLO.c_str(), BUDDY_ID.c_str());
     delay(1000);
-
-    Serial.println(WiFi.SSID());
 }

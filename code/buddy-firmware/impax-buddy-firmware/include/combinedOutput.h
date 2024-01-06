@@ -7,6 +7,7 @@ public:
     CombinedOutput();
     int getImpact();
     String getDirection();
+    void init();
 
 private:
     MPU6050Calibrated mpuSensor;

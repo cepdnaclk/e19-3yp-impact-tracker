@@ -6,6 +6,13 @@ CombinedOutput::CombinedOutput()
 {
     MPU6050Calibrated mpuSensor;
     HighGCalibrated highGSensor;
+    // mpuSensor.begin();
+    // mpuSensor.calibrate();
+    // highGSensor.begin();
+}
+
+void CombinedOutput::init()
+{
     mpuSensor.begin();
     mpuSensor.calibrate();
     highGSensor.begin();
