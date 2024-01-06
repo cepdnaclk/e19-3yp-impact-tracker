@@ -10,17 +10,15 @@ function App() {
     (state) => state.setIsInternetAvailable
   );
   return (
-    <>
-      <Detector
-        onChange={setIsInternetAvailable}
-        render={() => (
-          <>
-            <Sidebar />
-            <Content />
-          </>
-        )}
-      />
-    </>
+    <Detector
+      onChange={setIsInternetAvailable}
+      render={() => (
+        <>
+          <Sidebar />
+          <Content />
+        </>
+      )}
+    />
   );
 }
 
