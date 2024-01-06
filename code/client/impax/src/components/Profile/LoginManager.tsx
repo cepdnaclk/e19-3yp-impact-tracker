@@ -76,7 +76,7 @@ const LoginManager = () => {
         </div>
 
         <button type="submit" className={styles.nextBtn}>
-          Signup
+          Login
         </button>
       </form>
       <p className={styles.loginText}>
@@ -87,7 +87,7 @@ const LoginManager = () => {
             setIsSignup(true);
           }}
         >
-          Login
+          Signup
         </span>
       </p>
     </>

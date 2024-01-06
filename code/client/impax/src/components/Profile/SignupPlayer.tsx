@@ -77,7 +77,7 @@ const SignupPlayer = () => {
         </div>
 
         <button type="submit" className={styles.nextBtn}>
-          Login
+          Signup
         </button>
       </form>
       <p className={styles.loginText}>
@@ -88,7 +88,7 @@ const SignupPlayer = () => {
             setIsSignup(false);
           }}
         >
-          Signup
+          Login
         </span>
       </p>
     </>
