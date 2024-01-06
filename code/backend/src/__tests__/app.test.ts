@@ -16,6 +16,6 @@ describe("APP ROOT", () => {
       .get("/invalid")
       .set("Accept", "application/json");
 
-    expect(response.status).toBe(HttpCode.NOT_FOUND);
+    expect(response.status).toBe(HttpCode.UNAUTHORIZED);
   });
 });

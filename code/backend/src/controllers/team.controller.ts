@@ -65,3 +65,16 @@ export async function createTeam(
     throw new Error("Failed to create team");
   }
 }
+
+export async function getTeam(
+  teamId: string
+): Promise<TeamResponse | undefined> {
+  try {
+    const teamResponse = await teamService.getTeam(teamId);
+    return teamResponse;
+  } catch (error) {
+    console.error(error);
+    // Handle the error, either by returning a default value or throwing an error
+    throw new Error("Failed to get team");
+  }
+}

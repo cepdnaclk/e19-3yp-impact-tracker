@@ -16,7 +16,8 @@ public:
     BuddyMQTT(const char *, const char *, const char *, int, const char *, const char *, const char *);
 
     // Public data members
-    WiFiClient espClient = WiFiClient();           // WiFi client for MQTT
+    WiFiClient espClient = WiFiClient(); // WiFi client for MQTT
+    // WiFiClientSecure espClient = WiFiClientSecure(); // WiFi client for MQTT
     PubSubClient client = PubSubClient(espClient); // MQTT client
     String id;                                     // Identifier for the MQTT client
     Topics topics;                                 // Object for storing MQTT topics
