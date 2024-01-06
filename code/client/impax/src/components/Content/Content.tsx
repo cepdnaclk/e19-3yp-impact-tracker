@@ -6,10 +6,19 @@ import SignUp from "../Profile/SignUp";
 import Devices from "../Devices/Devices";
 import PlayerManagement from "../PlayerManagement/PlayerManagement";
 
+// interface Props {
+//   isOnline: boolean;
+// }
+
 const Content: React.FC = () => {
   const activePage = useAppState((state) => state.activePage);
   // const isMqttOnline = useAppState((state) => state.isMqttOnine);
   const isMqttOnline = true;
+  // const setIsInternetAvailable = useAppState(
+  //   (state) => state.setIsInternetAvailable
+  // );
+  // // console.log("issss", isOnline);
+  // isOnline ? setIsInternetAvailable(true) : setIsInternetAvailable(false);
 
   return (
     <>
