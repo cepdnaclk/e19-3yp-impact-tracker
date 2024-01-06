@@ -1,7 +1,11 @@
 #include "define.h"
+#include "combinedOutput.h"
 
 // initialize the library instance
 BuddyWIFI buddyWIFI;
+HighGCalibrated highGCalibrated;
+MPU6050Calibrated mpu6050calibrated;
+CombinedOutput combinedOutput;
 BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port, CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
 Com com;
 
@@ -67,6 +71,8 @@ void batteryStatusSend()
 
 void setup()
 {
+    Wire.begin(23, 19);
+
     // leds
     initLED();
     turnOn_LED_ON();
@@ -96,8 +102,8 @@ void setup()
     buddyMQTT.client.setCallback(callback);
     buddyMQTT.init(BUDDY_ID, communicationDashboard);
 
-    Serial.println("Buddy ID: " + BUDDY_ID);
-    Serial.println("Setup done");
+    // buddyMQTT.client.setCallback(callback);
+    // buddyMQTT.init(BUDDY_ID);
 
     buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
     buddyMQTT.subscribe(buddyMQTT.topics.SAY_HELLO.c_str());
@@ -106,6 +112,11 @@ void setup()
 
 void loop()
 {
+    // ****** Combined Output START *******
+    Serial.println(combinedOutput.getImpact());
+    Serial.println(combinedOutput.getDirection());
+
+    // ****** Combined Output END *******
     connect();
     communicationDashboard();
     batteryStatusSend();

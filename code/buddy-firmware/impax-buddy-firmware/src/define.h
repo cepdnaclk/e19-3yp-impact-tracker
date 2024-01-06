@@ -59,7 +59,6 @@ String ESP_RSA_key =
     "################################################################\n"
     "-----END RSA PRIVATE KEY-----";
 
-    
 // -----BEGIN CERTIFICATE-----
 // MIIDJzCCAg+gAwIBAgIUPKKmid6OdQ5kxFZQxDI0tTTMOwgwDQYJKoZIhvcNAQEL
 // BQAwIzELMAkGA1UEBhMCTEsxFDASBgNVBAMMC3Jhc3BiZXJyeXBpMB4XDTI0MDEw
