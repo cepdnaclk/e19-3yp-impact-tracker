@@ -42,6 +42,8 @@ public:
     void setBroker(const char *, const char *, const char *, int);  // Set MQTT broker details
     void updateTopics();                                            // Update MQTT topics based on the device ID
     void setCertificates(const char *, const char *, const char *); // Set MQTT certificates
+    void setUserName(String);
+    void setPassword(String);
 
 private:
 };

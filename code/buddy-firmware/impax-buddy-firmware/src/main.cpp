@@ -5,16 +5,20 @@ BuddyWIFI buddyWIFI;
 HighGCalibrated highGCalibrated;
 MPU6050Calibrated mpu6050calibrated;
 CombinedOutput combinedOutput;
-BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username, mqtt_password, mqtt_port, CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
+BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username.c_str(), mqtt_password.c_str(), mqtt_port, CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
 Com com;
 
 bool communicationDashboardWFIFI()
 {
-    if (com.comInit() && com.dataDecode(&ssid, &password, &ESP_RSA_key))
+    if (com.comInit() && com.dataDecode(&ssid, &password, &mqtt_username, &mqtt_password, &ESP_RSA_key))
     {
         WiFi.disconnect();
         setCustomeSSIDAndPasswordEEPROM(ssid, password);
-        writeMQTTPrivateKeyEEPROM(ESP_RSA_key);
+        writeMQTTUserNameEEPROM(mqtt_username);
+        writeMQTTPasswordEEPROM(mqtt_password);
+        writeMQTTCaCertificateEEPROM(CA_cert);
+        buddyMQTT.setUserName(mqtt_username.c_str());
+        buddyMQTT.setPassword(mqtt_password.c_str());
         buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
         buddyMQTT.setCertificates(CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
 
@@ -26,11 +30,15 @@ bool communicationDashboardWFIFI()
 
 bool communicationDashboard()
 {
-    if (com.comInit() && com.dataDecode(&ssid, &password, &ESP_RSA_key))
+    if (com.comInit() && com.dataDecode(&ssid, &password, &mqtt_username, &mqtt_password, &ESP_RSA_key))
     {
         WiFi.disconnect();
         setCustomeSSIDAndPasswordEEPROM(ssid, password);
-        writeMQTTPrivateKeyEEPROM(ESP_RSA_key);
+        writeMQTTUserNameEEPROM(mqtt_username);
+        writeMQTTPasswordEEPROM(mqtt_password);
+        writeMQTTCaCertificateEEPROM(CA_cert);
+        buddyMQTT.setUserName(mqtt_username.c_str());
+        buddyMQTT.setPassword(mqtt_password.c_str());
         buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
         buddyMQTT.setCertificates(CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
         buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
@@ -126,8 +134,12 @@ void setup()
     buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
 
     // get the certificates from EEPROM
-    if (readMQTTPrivateKeyEEPROM(ESP_RSA_key))
+    if (readMQTTCaCertificateEEPROM(CA_cert))
         buddyMQTT.setCertificates(CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
+    if (readMQTTUserNameEEPROM(mqtt_username))
+        buddyMQTT.setUserName(mqtt_username.c_str());
+    if (readMQTTPasswordEEPROM(mqtt_password))
+        buddyMQTT.setPassword(mqtt_password.c_str());
 
     // MQTT
     buddyMQTT.client.setCallback(callback);

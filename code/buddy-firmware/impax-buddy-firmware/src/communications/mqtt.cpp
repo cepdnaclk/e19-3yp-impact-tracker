@@ -120,3 +120,15 @@ void callback(char *topic, byte *payload, unsigned int length)
     Serial.println();
     Serial.println("-----------------------");
 }
+
+// Set MQTT username
+void BuddyMQTT::setUserName(String username)
+{
+    this->mqtt_username = username.c_str();
+}
+
+// Set MQTT password
+void BuddyMQTT::setPassword(String password)
+{
+    this->mqtt_password = password.c_str();
+}

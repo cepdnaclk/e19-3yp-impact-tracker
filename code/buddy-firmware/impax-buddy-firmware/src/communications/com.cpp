@@ -80,16 +80,20 @@ bool Com::comInit()
     return false;
 }
 
-bool Com::dataDecode(String *ssid, String *password, String *key)
+bool Com::dataDecode(String *ssid, String *password, String *mqtt_username, String *mqtt_password, String *key)
 {
     if (data != "")
     {
         int firstComma = data.indexOf(',');
         int secondComma = data.indexOf(',', firstComma + 1);
+        int thirdComma = data.indexOf(',', secondComma + 1);
+        int fourthComma = data.indexOf(',', thirdComma + 1);
 
         *ssid = data.substring(1, firstComma);
         *password = data.substring(firstComma + 1, secondComma);
-        *key = data.substring(secondComma + 1, data.length() - 1);
+        *mqtt_username = data.substring(secondComma + 1, thirdComma);
+        *mqtt_password = data.substring(thirdComma + 1, fourthComma);
+        *key = data.substring(fourthComma + 1, data.length() - 1);
 
         return true;
     }
@@ -110,8 +114,8 @@ bool validateStringFormat(const char *str)
     // Get the length of the string
     size_t len = strlen(str);
 
-    // Check if the string is at least "{,}" (minimum valid length)
-    if (len < 4)
+    // Check if the string is at least "{,,,,}" (minimum valid length)
+    if (len < 6)
     {
         return false;
     }
@@ -139,7 +143,7 @@ bool validateStringFormat(const char *str)
     }
 
     // Check if there are at least two commas
-    if (commaCount != 2)
+    if (commaCount != MSG_PARA - 1)
     {
         return false;
     }

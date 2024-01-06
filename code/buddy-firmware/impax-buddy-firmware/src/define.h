@@ -26,8 +26,8 @@ String password_defalt = "5CF@606a";
 
 const char *mqtt_broker = "broker.emqx.io";
 const char *topic = "emqx/esp32";
-const char *mqtt_username = "emqx";
-const char *mqtt_password = "public";
+String mqtt_username = "emqx";
+String mqtt_password = "public";
 const int mqtt_port = 1883;
 
 String CA_cert =
