@@ -3,6 +3,8 @@ import styles from "./SignUp.module.scss";
 import { Role } from "../../types";
 import { useRoleState, useSignupState } from "../../states/formState";
 const LoginManager = () => {
+  const isSignup = useSignupState((state) => state.isSignup);
+  const setIsSignup = useSignupState((state) => state.setIsSignup);
   interface formData {
     role: Role;
     teamId: string;
@@ -77,6 +79,18 @@ const LoginManager = () => {
           Signup
         </button>
       </form>
+      <p className={styles.loginText}>
+        Don't have an account?{" "}
+        <span
+          tabIndex={0}
+          onClick={() => {
+            // console.log(isSignup);
+            setIsSignup(true);
+          }}
+        >
+          Signup
+        </span>
+      </p>
     </>
   );
 };
