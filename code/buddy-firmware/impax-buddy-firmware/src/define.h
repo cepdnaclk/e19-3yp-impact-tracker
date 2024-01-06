@@ -65,6 +65,15 @@ String ESP_RSA_key =
     "################################################################\n"
     "-----END RSA PRIVATE KEY-----";
 
+#define SAYHELLO_DELAY 20000
+#define BATTER_STATUS_DELAY 10000
+#define MEASURE_DELAY 100
+#define CLK_SPEED 10
+
+unsigned long sayHelloTimer = 0;
+unsigned long batteryStatusTimer = 0;
+unsigned long systemTimer = 0;
+
 // -----BEGIN CERTIFICATE-----
 // MIIDJzCCAg+gAwIBAgIUPKKmid6OdQ5kxFZQxDI0tTTMOwgwDQYJKoZIhvcNAQEL
 // BQAwIzELMAkGA1UEBhMCTEsxFDASBgNVBAMMC3Jhc3BiZXJyeXBpMB4XDTI0MDEw

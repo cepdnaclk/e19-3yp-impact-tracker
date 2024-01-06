@@ -65,7 +65,39 @@ void connect()
 
 void batteryStatusSend()
 {
-    buddyMQTT.publish(buddyMQTT.topics.BATTERY.c_str(), ((String)getBatteryStatus()).c_str());
+    buddyMQTT.publish(buddyMQTT.topics.BATTERY.c_str(), getBatteryStatus());
+}
+
+void measureSensors()
+{
+    int value = combinedOutput.getImpact();
+
+    if (value != 0)
+    {
+        String data = String(value) + " " + String(combinedOutput.getDirection());
+        buddyMQTT.publish(buddyMQTT.topics.IMPACT.c_str(), data.c_str());
+    }
+}
+
+void process()
+{
+    if (SAYHELLO_DELAY < millis() - sayHelloTimer)
+    {
+        buddyMQTT.publish(buddyMQTT.topics.SAY_HELLO.c_str(), BUDDY_ID.c_str());
+        sayHelloTimer = millis();
+    }
+
+    if (BATTER_STATUS_DELAY < millis() - batteryStatusTimer)
+    {
+        batteryStatusSend();
+        batteryStatusTimer = millis();
+    }
+
+    if (MEASURE_DELAY < millis() - systemTimer)
+    {
+        measureSensors();
+        systemTimer = millis();
+    }
 }
 
 void setup()
@@ -92,7 +124,6 @@ void setup()
         buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
 
     buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
-    Serial.println(WiFi.SSID());
 
     // get the certificates from EEPROM
     if (readMQTTPrivateKeyEEPROM(ESP_RSA_key))
@@ -102,25 +133,22 @@ void setup()
     buddyMQTT.client.setCallback(callback);
     buddyMQTT.init(BUDDY_ID, communicationDashboard);
 
-    buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
-    buddyMQTT.subscribe(buddyMQTT.topics.SAY_HELLO.c_str());
-    buddyMQTT.subscribe(buddyMQTT.topics.BATTERY.c_str());
+    // Timers
+    sayHelloTimer = millis();
+    batteryStatusTimer = millis();
+    systemTimer = millis();
+
+    // buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
 }
 
 void loop()
 {
+    // Create a client connection
     connect();
     communicationDashboard();
-    batteryStatusSend();
 
-    // ****** Combined Output START *******
-    int value = combinedOutput.getImpact();
+    // send data
+    process();
 
-    // Serial.println(value);
-    // Serial.println(combinedOutput.getDirection());
-    // ****** Combined Output END *******
-
-    buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), value);
-    buddyMQTT.publish(buddyMQTT.topics.SAY_HELLO.c_str(), BUDDY_ID.c_str());
-    delay(1000);
+    delay(CLK_SPEED);
 }

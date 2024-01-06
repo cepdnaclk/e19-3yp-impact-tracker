@@ -52,7 +52,7 @@ int CombinedOutput::getImpact()
     aY = vy;
     aZ = vz - 1;
     magnitude = sqrt(aX * aX + aY * aY + aZ * aZ);
-    return magnitude;
+
     if (magnitude > 14.0)
     {
         return magnitude;

@@ -82,6 +82,7 @@ void BuddyMQTT::updateTopics()
 {
     topics.TEST = "/" + id + topics.TEST;
     topics.BATTERY = "/" + id + topics.BATTERY;
+    topics.IMPACT = "/" + id + topics.IMPACT;
 }
 
 // Set MQTT broker and authentication details
