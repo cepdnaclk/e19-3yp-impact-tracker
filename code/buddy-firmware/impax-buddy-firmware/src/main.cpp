@@ -53,12 +53,12 @@ void connect()
 {
     if (WiFi.status() != WL_CONNECTED)
     {
-        blink_LED_WIFI();
-
+        led(LED_BLINK);
         buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
     }
     else
     {
+        led(LED_ON);
         turnOn_LED_WIFI();
     }
 
@@ -115,8 +115,7 @@ void setup()
 
     // leds
     initLED();
-    turnOn_LED_ON();
-    blink_LED_WIFI();
+    led(LED_BLINK);
 
     // EEPROM
     initEEPROM(ssid_default, password_defalt, BUDDY_ID, ID);
@@ -150,7 +149,7 @@ void setup()
     batteryStatusTimer = millis();
     systemTimer = millis();
 
-    // buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
+    buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
 }
 
 void loop()
@@ -163,4 +162,5 @@ void loop()
     process();
 
     delay(CLK_SPEED);
+    led(LED_BLINK);
 }

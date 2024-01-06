@@ -29,6 +29,7 @@ void BuddyWIFI::init()
     Serial.println("\nConnecting");
     while (WiFi.status() != WL_CONNECTED)
     {
+        led(LED_BLINK);
         Serial.print(".");
         delay(DELAY_WIFI_RECONNECT);
     }
@@ -51,6 +52,7 @@ void BuddyWIFI::initWIFIMulti(bool (*communicationDashboard)())
     Serial.println("\nConnecting");
     while (wifiMulti.run() != WL_CONNECTED)
     {
+        led(LED_BLINK);
         communicationDashboard();
         Serial.print(".");
         delay(DELAY_WIFI_RECONNECT);

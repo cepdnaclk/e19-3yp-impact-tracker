@@ -4,7 +4,6 @@
 #include "communications/wifi.h"
 #include "communications/mqtt.h"
 #include "utils/eeprom.h"
-#include "utils/util.h"
 #include "communications/com.h"
 #include "combinedOutput.h"
 
