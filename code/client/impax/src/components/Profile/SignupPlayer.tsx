@@ -77,7 +77,7 @@ const SignupPlayer = () => {
         </div>
 
         <button type="submit" className={styles.nextBtn}>
-          Signup
+          Login
         </button>
       </form>
       <p className={styles.loginText}>
