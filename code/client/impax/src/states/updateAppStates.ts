@@ -52,6 +52,39 @@ export const setSessionDetails = (sessionString: string) => {
   const session = JSON.parse(sessionString);
   useAppState.setState({ sessionDetails: session });
 };
+
+const checkBuddiesAvailability = () => {
+  console.log("checking buddies availability");
+
+  //check if all buddies are available
+  //if timestamp is more than 60 seconds ago, remove from buddiesStatus
+
+  const buddiesStatus = useAppState.getState().buddiesStatus;
+
+  //iterate through buddiesStatus and find if any buddy is not available
+  const unavailableBuddies = Object.keys(buddiesStatus).filter((buddy_id) => {
+    const timestamp = buddiesStatus[parseInt(buddy_id)].timestamp;
+    const currentTime = Date.now();
+    const timeDifference = currentTime - timestamp;
+
+    return timeDifference > 60000;
+  });
+
+  //set buddiesStatus
+  useAppState.setState((prevState) => {
+    const buddiesStatus = { ...prevState.buddiesStatus };
+
+    unavailableBuddies.forEach((buddy_id) => {
+      delete buddiesStatus[parseInt(buddy_id)];
+    });
+
+    return { buddiesStatus };
+  });
+};
+
+//check buddies availability every 60 seconds
+setInterval(checkBuddiesAvailability, 60000);
+
 export type activePage =
   | "live"
   | "devices"
