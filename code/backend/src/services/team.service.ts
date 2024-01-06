@@ -44,7 +44,7 @@ class TeamService {
 
   async getTeam(teamId: string): Promise<TeamResponse> {
     try {
-      // Get the team details 
+      // Get the team details
       const teamInstance = await TeamModel.findOne({ teamId });
 
       // Check if teamInstance is null
@@ -56,6 +56,7 @@ class TeamService {
       const teamResponse = new TeamResponse({
         teamId: teamInstance.teamId,
         teamName: teamInstance.teamName,
+        teamManager: "",
       });
 
       return teamResponse;
