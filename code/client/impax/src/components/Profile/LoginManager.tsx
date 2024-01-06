@@ -88,7 +88,7 @@ const LoginManager = () => {
             setIsSignup(true);
           }}
         >
-          Signup
+          Login
         </span>
       </p>
     </>

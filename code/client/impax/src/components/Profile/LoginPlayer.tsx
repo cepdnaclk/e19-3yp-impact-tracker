@@ -77,7 +77,7 @@ const LoginPlayer = () => {
             setIsSignup(true);
           }}
         >
-          Signup
+          Login
         </span>
       </p>
     </>

@@ -121,7 +121,7 @@ const SignupManager = () => {
             setIsSignup(false);
           }}
         >
-          Log In
+          Signup
         </span>
       </p>
     </>

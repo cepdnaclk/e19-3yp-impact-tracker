@@ -89,7 +89,7 @@ const SignupPlayer = () => {
             setIsSignup(false);
           }}
         >
-          Log In
+          Signup
         </span>
       </p>
     </>
