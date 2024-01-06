@@ -5,12 +5,15 @@ import { useAppState } from "../../states/appState";
 import SignUp from "../Profile/SignUp";
 import Devices from "../Devices/Devices";
 import PlayerManagement from "../PlayerManagement/PlayerManagement";
-
+import { useSignupState } from "../../states/formState";
+import SignupManager2 from "../Profile/SignupManager2";
 interface Props {
   isOnline: boolean;
 }
 
 const Content: React.FC<Props> = ({ isOnline }: Props) => {
+  const isTeamExist = useSignupState((state) => state.isTeamExist);
+
   const setIsInternetAvailable = useAppState(
     (state) => state.setIsInternetAvailable
   );
@@ -28,7 +31,8 @@ const Content: React.FC<Props> = ({ isOnline }: Props) => {
       {activePage === "devices" &&
         (isMqttOnline ? <Devices /> : <div>MQTT is offline</div>)}
       {activePage === "analytics" && <Test />}
-      {activePage === "profile" && <SignUp />}
+      {activePage === "profile" &&
+        (isTeamExist ? <SignUp /> : <SignupManager2 />)}
 
       {activePage === "player-management" && <PlayerManagement />}
     </>

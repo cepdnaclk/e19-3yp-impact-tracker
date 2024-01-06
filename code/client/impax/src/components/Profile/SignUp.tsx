@@ -10,13 +10,15 @@ import SignupManager from "./SignupManager";
 import LoginManager from "./LoginManager";
 import SignupPlayer from "./SignupPlayer";
 import LoginPlayer from "./LoginPlayer";
+import SignupManager2 from "./SignupManager2";
 
 const SignUp = () => {
   const role = useRoleState((state) => state.role);
   const setRole = useRoleState((state) => state.setRole);
   const isSignup = useSignupState((state) => state.isSignup);
   const setIsSignup = useSignupState((state) => state.setIsSignup);
-
+  const isManagerExist = useSignupState((state) => state.isManagerExist);
+  const isTeamExist = useSignupState((state) => state.isTeamExist);
   // console.log("RoLEEE", role);
 
   interface formData {
@@ -72,10 +74,11 @@ const SignUp = () => {
 
         <div className={styles.selectorContainer}>
           <h4>Select Your Role</h4>
-
           <ToggleRole role={role} toggleRole={setRole} />
         </div>
-        {role == "manager" && isSignup && <SignupManager />}
+        {role == "manager" &&
+          isSignup &&
+          (isTeamExist ? <SignupManager /> : <SignupManager2 />)}
         {role == "manager" && !isSignup && <LoginManager />}
 
         {role == "player" && isSignup && <SignupPlayer />}
