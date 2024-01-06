@@ -36,12 +36,10 @@ class Team {
 class TeamResponse {
   private teamId: string;
   private teamName: string;
-  private teamManager: string;
 
   public constructor(team: Team) {
     this.teamId = team.teamId;
     this.teamName = team.teamName;
-    this.teamManager = team.teamManager;
   }
 }
 

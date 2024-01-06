@@ -14,6 +14,19 @@ export async function createManager(
   return;
 }
 
+export async function getManager(
+  managerId: string
+): Promise<ManagerResponse> {
+  try {
+    const managerResponse = await managerService.getManager(managerId);
+    return managerResponse;
+  } catch (error) {
+    console.error(error);
+    // Handle the error, either by returning a default value or throwing an error
+    throw new Error("Failed to get manager");
+  }
+}
+
 export async function checkManagerExists(email: string): Promise<boolean> {
   try {
     // const email = req.params.email;
@@ -52,3 +65,4 @@ export async function addNewManager(
   }
   return false;
 }
+

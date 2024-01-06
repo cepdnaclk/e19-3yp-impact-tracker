@@ -42,6 +42,30 @@ class TeamService {
     }
   }
 
+  async getTeam(teamId: string): Promise<TeamResponse> {
+    try {
+      // Get the team details
+      const teamInstance = await TeamModel.findOne({ teamId });
+
+      // Check if teamInstance is null
+      if (!teamInstance) {
+        throw new Error("Team not found");
+      }
+
+      // Create a TeamResponse object
+      const teamResponse = new TeamResponse({
+        teamId: teamInstance.teamId,
+        teamName: teamInstance.teamName,
+        teamManager: "",
+      });
+
+      return teamResponse;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error creating manager");
+    }
+  }
+
   async checkTeamEmailExist(
     teamId: string,
     email: string

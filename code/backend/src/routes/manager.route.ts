@@ -8,6 +8,7 @@ import {
 import {
   checkManagerExists,
   createManager,
+  getManager,
   addNewManager,
 } from "../controllers/manager.controller";
 import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
@@ -160,6 +161,28 @@ router.post("/", async (req: Request, res: Response) => {
     }
   }
 });
+
+// Endpoint to get manager details
+router.get("/:id", async (req: Request, res: Response) => {
+  // Check if the manager ID parameter is missing
+  if (!req.params.id) {
+    console.log(HttpMsg.BAD_REQUEST);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    return;
+  }
+  try {
+    // Get Manager details
+    const teamResponse = await getManager(
+      req.params.id
+    );
+
+    res.send(teamResponse);
+  } catch (err) {
+    console.log(err);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+  }
+});
+
 
 // Export the router for use in other files
 export default router;

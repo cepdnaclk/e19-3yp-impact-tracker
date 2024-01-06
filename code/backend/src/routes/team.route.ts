@@ -4,6 +4,7 @@ import {
   checkTeamExist,
   checkTeamEmailExist,
   createTeam,
+  getTeam
 } from "../controllers/team.controller";
 
 import {
@@ -48,7 +49,6 @@ router.get("/exists/teamId/:id", async (req: Request, res: Response) => {
 });
 
 // Endpoint to validate both Team ID and email existence
-//Doubt???? --> BAD Request
 router.get(
   "/exists",
   async (req: Request<{}, {}, {}, TeamManagerInterface>, res: Response) => {
@@ -127,6 +127,29 @@ router.post("/", async (req: Request, res: Response) => {
       // If 'err' is of unknown type, send a generic error message
       res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
     }
+  }
+});
+
+// Endpoint to get team details
+router.get("/:id", async (req: Request, res: Response) => {
+  // Check if the Team ID parameter is missing
+  if (!req.params.id) {
+    console.log(HttpMsg.BAD_REQUEST);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    return;
+  }
+
+  try {
+    // Check if the Team ID exists
+    const teamResponse = await getTeam(
+      req.params.id
+    );
+    // const exists: boolean = existsResponse.exists;
+
+    res.send(teamResponse);
+  } catch (err) {
+    console.log(err);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
   }
 });
 
