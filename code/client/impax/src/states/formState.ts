@@ -8,6 +8,7 @@ interface RoleState {
 interface SignupState {
   isSignup: boolean;
   setIsSignup: (isSignup: boolean) => void;
+  
 }
 
 

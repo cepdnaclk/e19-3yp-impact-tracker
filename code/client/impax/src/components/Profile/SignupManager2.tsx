@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./SignUp.module.scss";
 import { Role } from "../../types";
 import { useRoleState, useSignupState } from "../../states/formState";
-const SignupManager = () => {
+const SignupManager2 = () => {
   const isSignup = useSignupState((state) => state.isSignup);
   const setIsSignup = useSignupState((state) => state.setIsSignup);
   interface formData {
@@ -50,7 +50,41 @@ const SignupManager = () => {
             onChange={handleInputChange}
           />
         </div>
+        <div className={styles.inputContainer}>
+          <label htmlFor="teamName">Team Name</label>
+          <input
+            type="text"
+            id="teamName"
+            required
+            placeholder="Enter team name"
+            value={formData.teamName}
+            onChange={handleInputChange}
+          />
+        </div>
 
+        <div className={styles.inputContainer}>
+          <label htmlFor="firstName">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            required
+            placeholder="Enter first name"
+            value={formData.firstName}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className={styles.inputContainer}>
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            required
+            placeholder="Enter last name"
+            value={formData.lastName}
+            onChange={handleInputChange}
+          />
+        </div>
         <div className={styles.inputContainer}>
           <label htmlFor="email">Email</label>
           <input
@@ -62,9 +96,20 @@ const SignupManager = () => {
             onChange={handleInputChange}
           />
         </div>
+        <div className={styles.inputContainer}>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            required
+            placeholder="Enter password"
+            value={formData.password}
+            onChange={handleInputChange}
+          />
+        </div>
 
         <button type="submit" className={styles.nextBtn}>
-          Next
+          Signup
         </button>
       </form>
       <p className={styles.loginText}>
@@ -82,4 +127,4 @@ const SignupManager = () => {
   );
 };
 
-export default SignupManager;
+export default SignupManager2;
