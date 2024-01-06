@@ -5,6 +5,7 @@ import {
   BuddiesImpact,
   Players,
   PlayerMap,
+  Session,
 } from "../types";
 import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
@@ -31,6 +32,14 @@ interface AppState {
   playerMap: PlayerMap;
   setPlayerMap: (playerMap: PlayerMap) => void;
   updatePlayerMap: (buddy_id: number, player_id: number) => void;
+
+  sessionDetails: Session | null;
+  setSessionDetails: (session: Session) => void;
+  endSession: () => void;
+
+  monitoringBuddies: Set<number>;
+  addToMonitoringBuddies: (buddy_id: number) => void;
+  removeFromMonitoringBuddies: (buddy_id: number) => void;
 }
 
 export const useAppState = create<AppState>()((set) => ({
@@ -73,6 +82,32 @@ export const useAppState = create<AppState>()((set) => ({
       //publish new playerMap to mqtt
       MqttClient.getInstance().publishPlayerMap(playerMap);
       return { playerMap };
+    });
+  },
+
+  sessionDetails: null,
+  setSessionDetails: (session: Session) => {
+    set({ sessionDetails: session });
+    MqttClient.getInstance().publishSession(session);
+  },
+  endSession: () => {
+    set({ sessionDetails: null });
+    MqttClient.getInstance().endSession();
+  },
+
+  monitoringBuddies: new Set<number>(),
+  addToMonitoringBuddies: (buddy_id: number) => {
+    set((prevState) => {
+      const monitoringBuddies = new Set(prevState.monitoringBuddies);
+      monitoringBuddies.add(buddy_id);
+      return { monitoringBuddies };
+    });
+  },
+  removeFromMonitoringBuddies: (buddy_id: number) => {
+    set((prevState) => {
+      const monitoringBuddies = new Set(prevState.monitoringBuddies);
+      monitoringBuddies.delete(buddy_id);
+      return { monitoringBuddies };
     });
   },
 }));
