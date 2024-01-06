@@ -15,20 +15,6 @@ router.get("/", refreshTokenMiddleware, async (req: Request, res: Response) => {
   const role = req.body.role;
   const refreshToken = req.body.refreshToken;
 
-  // Check if password or userName is missing
-  if (!userName) {
-    console.log(HttpMsg.BAD_REQUEST);
-    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
-    return;
-  }
-
-  // Validate email format
-  if (!validateEmail(userName)) {
-    console.log(HttpMsg.INVALID_EMAIL);
-    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.INVALID_EMAIL });
-    return;
-  }
-
   try {
     // Create a LoginRequest instance for manager login
     const loginReq: LoginResquest = new LoginResquest("", userName);

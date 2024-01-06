@@ -23,7 +23,7 @@ router.post("/add", async (req: Request, res: Response) => {
   const teamId = req.body.teamId;
   const managerEmail = req.body.userName;
 
-  if (!newManagerEmail || !teamId || !managerEmail) {
+  if (!newManagerEmail || !teamId) {
     console.log(HttpMsg.BAD_REQUEST);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
     return;
@@ -31,12 +31,6 @@ router.post("/add", async (req: Request, res: Response) => {
 
   // Validate email format
   if (!validateEmail(newManagerEmail)) {
-    console.log(HttpMsg.INVALID_EMAIL);
-    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.INVALID_EMAIL });
-    return;
-  }
-
-  if (!validateEmail(managerEmail)) {
     console.log(HttpMsg.INVALID_EMAIL);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.INVALID_EMAIL });
     return;
@@ -150,7 +144,6 @@ router.post("/", async (req: Request, res: Response) => {
       password
     );
 
-    console.log(manager);
     // Create the manager and get the response
     const managerResponse: ManagerResponse | undefined = await createManager(
       manager

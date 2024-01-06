@@ -48,6 +48,7 @@ export async function addNewManager(
     return true;
   } catch (error) {
     console.error(error);
+    throw error;
   }
   return false;
 }

@@ -3,9 +3,10 @@ import { checkAuthExists, checkAuth } from "../services/auth.service";
 import { createJwt, checkJwtExists, deleteJwt } from "../services/jwt.service";
 import { createRefreshToken, createAccessToken } from "../utils/jwt.token";
 import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
+import ROLES from "../config/roles";
 
 async function loginManager(loginReq: LoginResquest): Promise<LoginResponse> {
-  const role = "manager";
+  const role = ROLES.MANAGER;
 
   // check manager exists
   const authExists = await checkAuthExists(loginReq.userName);
@@ -42,7 +43,7 @@ async function loginManager(loginReq: LoginResquest): Promise<LoginResponse> {
 }
 
 async function loginPlayer(loginReq: LoginResquest): Promise<LoginResponse> {
-  const role = "player";
+  const role = ROLES.PLAYER;
 
   // check manager exists
   const authExists = await checkAuthExists(loginReq.userName);

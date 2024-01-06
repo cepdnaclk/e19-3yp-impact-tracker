@@ -14,6 +14,6 @@ const playerSchema = new Schema({
   email: String,
 });
 
-const PlayerModel = mongoose.model<PlayerDocument>("Manager", playerSchema);
+const PlayerModel = mongoose.model<PlayerDocument>("Player", playerSchema);
 
 export default PlayerModel;

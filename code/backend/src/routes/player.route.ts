@@ -13,7 +13,7 @@ router.post("/add", async (req: Request, res: Response) => {
   const teamId = req.body.teamId;
   const managerEmail = req.body.userName;
 
-  if (!newPlayerEmail || !teamId || !managerEmail) {
+  if (!newPlayerEmail || !teamId) {
     console.log(HttpMsg.BAD_REQUEST);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
     return;
@@ -21,12 +21,6 @@ router.post("/add", async (req: Request, res: Response) => {
 
   // Validate email format
   if (!validateEmail(newPlayerEmail)) {
-    console.log(HttpMsg.INVALID_EMAIL);
-    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.INVALID_EMAIL });
-    return;
-  }
-
-  if (!validateEmail(managerEmail)) {
     console.log(HttpMsg.INVALID_EMAIL);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.INVALID_EMAIL });
     return;
