@@ -4,6 +4,8 @@ export type BuddyStatus = {
   battery: number;
   timestamp: number;
 };
+export type Role = "player" | "manager";
+
 
 export type Impact = {
   magntitude: number;

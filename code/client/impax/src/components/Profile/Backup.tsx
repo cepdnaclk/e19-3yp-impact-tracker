@@ -6,10 +6,6 @@ import { useAppState } from "../../states/appState";
 import NoInternetConnection from "../OfflineStatus/NoInternetConnection";
 import { Role } from "../../types";
 import { useRoleState, useSignupState } from "../../states/formState";
-import SignupManager from "./SignupManager";
-import LoginManager from "./LoginManager";
-import SignupPlayer from "./SignupPlayer";
-import LoginPlayer from "./LoginPlayer";
 
 const SignUp = () => {
   const role = useRoleState((state) => state.role);
@@ -75,11 +71,47 @@ const SignUp = () => {
 
           <ToggleRole role={role} toggleRole={setRole} />
         </div>
-        {role == "manager" && isSignup && <SignupManager />}
-        {role == "manager" && !isSignup && <LoginManager />}
 
-        {role == "player" && isSignup && <SignupPlayer />}
-        {role == "player" && !isSignup && <LoginPlayer />}
+        <form onSubmit={handleSubmit}>
+          <div className={styles.inputContainer}>
+            <label htmlFor="teamId">Team ID</label>
+            <input
+              type="text"
+              id="teamId"
+              required
+              placeholder="peradeniya-baseball"
+              value={formData.teamId}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className={styles.inputContainer}>
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              required
+              placeholder="johndoe@email.com"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <button type="submit" className={styles.nextBtn}>
+            Next
+          </button>
+        </form>
+
+        <p className={styles.loginText}>
+          Already have an account?{" "}
+          <span
+            tabIndex={0}
+            onClick={() => {
+              setIsSignup;
+            }}
+          >
+            Log In
+          </span>
+        </p>
       </div>
       <Hero />
     </main>

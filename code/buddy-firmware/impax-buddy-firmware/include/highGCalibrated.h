@@ -18,7 +18,7 @@ public:
     void calibrate();
 
 private:
-    DFRobot_H3LIS200DL_I2C acce;
+    DFRobot_H3LIS200DL_I2C acce(&Wire, 0x18);
     float ax, ay, az;
     float resultant;
 };
