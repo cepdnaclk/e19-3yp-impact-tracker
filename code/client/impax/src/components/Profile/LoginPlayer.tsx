@@ -40,17 +40,6 @@ const LoginPassword = () => {
     <>
       <form onSubmit={handleSubmit}>
         <div className={styles.inputContainer}>
-          <label htmlFor="teamId">Team ID</label>
-          <input
-            type="text"
-            id="teamId"
-            required
-            placeholder="peradeniya-baseball"
-            value={formData.teamId}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className={styles.inputContainer}>
           <label htmlFor="email">Email</label>
           <input
             type="email"
