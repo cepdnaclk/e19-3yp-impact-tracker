@@ -4,12 +4,16 @@ import Hero from "./Hero";
 import ToggleRole from "./ToggleRole";
 import { useAppState } from "../../states/appState";
 import NoInternetConnection from "../OfflineStatus/NoInternetConnection";
+import { Role } from "../../types";
+import { useRoleState } from "../../states/roleState";
 
 const SignUp = () => {
-  type role = "player" | "manager";
+  const role = useRoleState((state) => state.role);
+  const setRole = useRoleState((state) => state.setRole);
+  console.log("RoLEEE", role);
 
   interface formData {
-    role: role;
+    role: Role;
     teamId: string;
     email: string;
   }
@@ -62,7 +66,7 @@ const SignUp = () => {
         <div className={styles.selectorContainer}>
           <h4>Select Your Role</h4>
 
-          <ToggleRole role={formData.role} toggleRole={toggleRole} />
+          <ToggleRole role={role} toggleRole={setRole} />
         </div>
 
         <form onSubmit={handleSubmit}>
