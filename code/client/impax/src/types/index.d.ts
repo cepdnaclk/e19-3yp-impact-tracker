@@ -6,6 +6,7 @@ type BuddyStatus = {
 };
 export type Role = "player" | "manager";
 
+
 type Impact = {
   magntitude: number;
   direction: "left" | "right" | "front" | "back" | "top" | "bottom";

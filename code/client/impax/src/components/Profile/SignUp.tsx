@@ -5,12 +5,15 @@ import ToggleRole from "./ToggleRole";
 import { useAppState } from "../../states/appState";
 import NoInternetConnection from "../OfflineStatus/NoInternetConnection";
 import { Role } from "../../types";
-import { useRoleState } from "../../states/roleState";
+import { useRoleState, useSignupState } from "../../states/formState";
 
 const SignUp = () => {
   const role = useRoleState((state) => state.role);
   const setRole = useRoleState((state) => state.setRole);
-  console.log("RoLEEE", role);
+  const isSignup = useSignupState((state) => state.isSignup);
+  const setIsSignup = useSignupState((state) => state.setIsSignup);
+
+  // console.log("RoLEEE", role);
 
   interface formData {
     role: Role;
@@ -37,12 +40,12 @@ const SignUp = () => {
   };
 
   //TODO: Disable Next button if the two inputs are empty
-  const toggleRole = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      role: prevData.role === "player" ? "manager" : "player",
-    }));
-  };
+  // const toggleRole = () => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     role: prevData.role === "player" ? "manager" : "player",
+  //   }));
+  // };
 
   // If no internet connection then show error
   const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
@@ -99,7 +102,15 @@ const SignUp = () => {
         </form>
 
         <p className={styles.loginText}>
-          Already have an account? <span>Log In</span>
+          Already have an account?{" "}
+          <span
+            tabIndex={0}
+            onClick={() => {
+              setIsSignup;
+            }}
+          >
+            Log In
+          </span>
         </p>
       </div>
       <Hero />
