@@ -172,17 +172,19 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
   try {
     // Get Manager details
-    const teamResponse = await getManager(
-      req.params.id
-    );
+    const teamResponse = await getManager(req.params.id);
 
     res.send(teamResponse);
   } catch (err) {
-    console.log(err);
-    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
   }
 });
-
 
 // Export the router for use in other files
 export default router;

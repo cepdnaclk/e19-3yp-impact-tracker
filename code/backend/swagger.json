@@ -272,13 +272,13 @@
         "summary": "Get Manager Details",
         "parameters": [
           {
-            "name": "id",
+            "name": "managerId(Email)",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string"
             },
-            "example": "exampleManagerId"
+            "example": "example@example.com"
           }
         ],
         "responses": {
@@ -333,7 +333,7 @@
         }
       }
     },
-    
+
     "/player/{email}": {
       "get": {
         "tags": ["PlayerEndpoints"],
@@ -474,7 +474,6 @@
         }
       }
     },
-
 
     "/hub/credetials": {
       "post": {
@@ -953,7 +952,7 @@
           "teamManager": "example@example.com"
         }
       },
-      
+
       "TeamResponse": {
         "type": "object",
         "properties": {
@@ -968,7 +967,7 @@
           "teamId": "exampleTeamId",
           "teamName": "Example Team"
         }
-      },      
+      },
 
       "PlayerCreateRequest": {
         "type": "object",
@@ -1008,7 +1007,7 @@
           "teams": ["Team1", "Team2"]
         }
       },
-      
+
       "PlayerResponse": {
         "type": "object",
         "properties": {
@@ -1043,7 +1042,7 @@
           "teams": ["Team1", "Team2"]
         }
       },
-      
+
       "SessionDetailsResponse": {
         "type": "object",
         "properties": {
@@ -1085,7 +1084,7 @@
           "players": ["player1", "player2"]
         }
       },
-      
+
       "TotalImpactsResponse": {
         "type": "object",
         "properties": {
@@ -1101,7 +1100,7 @@
           "totalImpacts": 1000
         }
       },
-      
+
       "HighestImpactRecord": {
         "type": "object",
         "properties": {
@@ -1122,7 +1121,6 @@
           "highestImpact": 10.5
         }
       }
-      
     },
 
     "requestBodies": {
@@ -1145,7 +1143,6 @@
           }
         }
       },
-     
 
       "ManagerTeamRequest": {
         "content": {

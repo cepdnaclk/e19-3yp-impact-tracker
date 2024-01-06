@@ -37,10 +37,10 @@ class ManagerService {
     }
   }
 
-  async getManager(managerId: string): Promise<ManagerResponse> {
+  async getManager(email: string): Promise<ManagerResponse> {
     try {
-      // Get the team details 
-      const teamInstance = await ManagerModel.findOne({ managerId });
+      // Get the team details
+      const teamInstance = await ManagerModel.findOne({ email });
 
       // Check if teamInstance is null
       if (!teamInstance) {
