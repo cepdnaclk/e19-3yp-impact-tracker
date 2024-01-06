@@ -53,12 +53,10 @@ class ManagerService {
     teamId: string
   ): Promise<boolean> {
     try {
-      console.log(managerEmail, teamId);
       const manager = await ManagerModel.findOne({
         email: managerEmail,
         teamId: teamId,
       });
-      console.log(manager);
       const managerExists = !!manager;
       return managerExists;
     } catch (error) {
