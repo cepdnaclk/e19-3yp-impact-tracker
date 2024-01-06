@@ -34,7 +34,7 @@ export const updateImpact = (buddy_id: number, impactString: string) => {
 
   //set state
   useAppState.setState({ buddiesImpact: buddiesImpacts });
-  console.log(useAppState.getState().buddiesImpact);
+  console.log(useAppState.getState().buddiesImpact.toJSON());
 };
 export type activePage =
   | "live"

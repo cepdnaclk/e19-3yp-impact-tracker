@@ -5,7 +5,6 @@ import MqttClient from "./services/mqttClient";
 import { Detector } from "react-detect-offline";
 function App() {
   MqttClient.getInstance();
-
   return (
     <Detector
       render={({ online }) => (
