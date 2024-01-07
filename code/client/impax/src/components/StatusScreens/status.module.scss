@@ -15,6 +15,8 @@
   }
 
   h2 {
+    display: flex;
+    align-items: center;
     color: $primary-red;
   }
   p {
@@ -25,7 +27,7 @@
   &.success {
     .icon,
     h2 {
-      color: rgb(71, 129, 71);
+      color:rgb(65 156 143) ;
     }
   }
 }

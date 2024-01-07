@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BsBroadcast } from "react-icons/bs";
 
 import Title from "../Title/Title";

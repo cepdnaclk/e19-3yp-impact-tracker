@@ -1,11 +1,9 @@
 import styles from "./SignUp.module.scss";
 import { useSignupState } from "../../states/formState";
 import { FieldValues, useForm } from "react-hook-form";
-import { on } from "serialport";
 import { useNavigate } from "react-router-dom";
 
 const LoginManager = () => {
-  const isSignup = useSignupState((state) => state.isSignup);
   const setIsSignup = useSignupState((state) => state.setIsSignup);
   const navigate = useNavigate();
   const {
@@ -13,7 +11,6 @@ const LoginManager = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-    getValues,
   } = useForm();
 
   const onSubmit = async (data: FieldValues) => {
@@ -53,7 +50,7 @@ const LoginManager = () => {
     //   // await new Promise((resolve) => setTimeout(resolve, 5000));
     //   // console.log(data);
 
-    //   reset();
+    reset();
   };
 
   return (
@@ -61,6 +58,7 @@ const LoginManager = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputContainer}>
           <label htmlFor="teamId">Team ID</label>
+          {errors.teamId && <p>{`${errors.teamId.message}`}</p>}
           <input
             {...register("teamId", { required: "Team ID is required" })}
             type="text"
@@ -70,6 +68,7 @@ const LoginManager = () => {
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="email">Email</label>
+          {errors.email && <p>{`${errors.email.message}`}</p>}
           <input
             {...register("email", { required: "Email is required" })}
             type="email"
@@ -79,6 +78,7 @@ const LoginManager = () => {
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="password">Password</label>
+          {errors.password && <p>{`${errors.password.message}`}</p>}
           <input
             {...register("password", { required: "Password is required" })}
             type="password"
@@ -87,7 +87,11 @@ const LoginManager = () => {
           />
         </div>
 
-        <button type="submit" className={styles.nextBtn}>
+        <button
+          disabled={isSubmitting}
+          type="submit"
+          className={styles.nextBtn}
+        >
           Login
         </button>
       </form>
