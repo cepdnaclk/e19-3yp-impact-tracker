@@ -8,6 +8,7 @@ const SelectPlayer: React.FC<{
   playerID?: number;
 }> = ({ options, buddyID, playerID }) => {
   const updatePlayerMap = useAppState((state) => state.updatePlayerMap);
+  const deleteFromPlayerMap = useAppState((state) => state.deleteFromPlayerMap);
   const playerDetails = useAppState((state) => state.playerDetails);
 
   const handleOptionChange = (
@@ -15,6 +16,8 @@ const SelectPlayer: React.FC<{
   ) => {
     if (selectedOption) {
       updatePlayerMap(buddyID, parseInt(selectedOption.value));
+    } else {
+      deleteFromPlayerMap(buddyID);
     }
   };
 
@@ -31,6 +34,7 @@ const SelectPlayer: React.FC<{
       placeholder="Select a player"
       options={options}
       value={initialValue}
+      isClearable={true}
       onChange={handleOptionChange}
       classNames={{
         container: () => styles.selectContainer,
