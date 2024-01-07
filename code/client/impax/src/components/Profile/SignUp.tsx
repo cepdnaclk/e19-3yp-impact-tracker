@@ -10,7 +10,7 @@ import SignupManager from "./SignupManager";
 import LoginManager from "./LoginManager";
 import SignupPlayer from "./SignupPlayer";
 import LoginPlayer from "./LoginPlayer";
-import SignupManager2 from "./SignupManager2";
+import SignupManager2 from "./TeamCreation";
 
 const SignUp = () => {
   const role = useRoleState((state) => state.role);

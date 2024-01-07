@@ -6,7 +6,7 @@ import SignUp from "../Profile/SignUp";
 import Devices from "../Devices/Devices";
 import PlayerManagement from "../PlayerManagement/PlayerManagement";
 import { useSignupState } from "../../states/formState";
-import SignupManager2 from "../Profile/SignupManager2";
+import TeamCreation from "../Profile/TeamCreation";
 interface Props {
   isOnline: boolean;
 }
@@ -29,7 +29,7 @@ const Content: React.FC<Props> = ({ isOnline }: Props) => {
       {activePage === "devices" && <Devices />}
       {activePage === "analytics" && <Test />}
       {activePage === "profile" &&
-        (isTeamExist ? <SignUp /> : <SignupManager2 />)}
+        (isTeamExist ? <SignUp /> : <TeamCreation />)}
 
       {activePage === "player-management" && <PlayerManagement />}
     </>
