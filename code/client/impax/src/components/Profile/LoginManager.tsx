@@ -2,10 +2,12 @@ import styles from "./SignUp.module.scss";
 import { useSignupState } from "../../states/formState";
 import { FieldValues, useForm } from "react-hook-form";
 import { on } from "serialport";
+import { useNavigate } from "react-router-dom";
+
 const LoginManager = () => {
   const isSignup = useSignupState((state) => state.isSignup);
   const setIsSignup = useSignupState((state) => state.setIsSignup);
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -28,6 +30,11 @@ const LoginManager = () => {
       },
     });
     const responseData = await response.json();
+    if (response.ok) {
+      navigate("/login/manager");
+    }
+
+    console.log(response.ok);
     console.log(responseData);
     //   const url = new URL("http://localhost:5000/team/exists"); // Create a URL object for flexible query param handling
     //   url.searchParams.set("teamId", teamId); // Add teamId as a query parameter
