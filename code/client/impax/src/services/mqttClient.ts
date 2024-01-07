@@ -19,6 +19,8 @@ class MqttClient {
       clientId: "impax-dashboard",
       reconnectPeriod: 2000,
       keepalive: 60,
+      // username: "impax",
+      // password: "impax",
     });
 
     this.topics = [
