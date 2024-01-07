@@ -35,6 +35,7 @@ void BuddyMQTT::reconnect(bool (*communicationDashboard)())
     // Attempt to connect to the MQTT broker
     while (!client.connected())
     {
+        led(LED_BLINK);
         communicationDashboard();
         // Generate a client ID based on ESP32 MAC address
         String client_id = "esp32-client-";
@@ -59,7 +60,7 @@ void BuddyMQTT::reconnect(bool (*communicationDashboard)())
 // Publish a message to a specified MQTT topic
 void BuddyMQTT::publish(const char *topic, const char *msg)
 {
-    client.publish(topic, msg);
+    client.publish(topic, msg, true);
 }
 
 void BuddyMQTT::publish(const char *topic, int msg)
@@ -68,7 +69,7 @@ void BuddyMQTT::publish(const char *topic, int msg)
     String msgString = String(msg);
 
     // Publish the message
-    client.publish(topic, msgString.c_str());
+    client.publish(topic, msgString.c_str(), true);
 }
 
 // Subscribe to a specified MQTT topic

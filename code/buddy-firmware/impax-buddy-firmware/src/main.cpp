@@ -59,7 +59,6 @@ void connect()
     else
     {
         led(LED_ON);
-        turnOn_LED_WIFI();
     }
 
     if (!buddyMQTT.client.connected())
@@ -164,5 +163,5 @@ void loop()
     process();
 
     delay(CLK_SPEED);
-    led(LED_BLINK);
+    led(LED_ON);
 }
