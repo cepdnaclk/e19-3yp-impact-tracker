@@ -76,6 +76,10 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 2em;
+
+  button {
+    padding: 0.8em 1.4em;
+  }
 }
 
 @keyframes overlayShow {
