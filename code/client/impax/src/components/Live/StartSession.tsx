@@ -11,6 +11,7 @@ const StartSession: React.FC = () => {
   const setSessionDetails = useAppState((state) => state.setSessionDetails);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!sessionName) return;
     const session = {
       session_name: sessionName,
       session_id: generateStringId(sessionName),
