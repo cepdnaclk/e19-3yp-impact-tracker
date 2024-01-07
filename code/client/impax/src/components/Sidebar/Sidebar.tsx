@@ -4,13 +4,7 @@ import { FaRegUserCircle, FaUsers } from "react-icons/fa";
 import { MdDeviceHub, MdBarChart } from "react-icons/md";
 import MenuItem from "./MenuItem";
 import { useAppState } from "../../states/appState";
-import {
-  HashRouter,
-  Route,
-  Routes,
-  useNavigate,
-  useHist,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 interface Props {
   isOnline: boolean;
