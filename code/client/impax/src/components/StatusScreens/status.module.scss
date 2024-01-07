@@ -23,9 +23,17 @@
   }
 
   &.success {
+<<<<<<< HEAD
     .icon,
     h2 {
       color: rgb(71, 129, 71);
+=======
+    .icon {
+      color: green;
+    }
+    h2 {
+      color: green;
+>>>>>>> f5494dc3b99450e164f2fbe99d85513417815cca
     }
   }
 }
