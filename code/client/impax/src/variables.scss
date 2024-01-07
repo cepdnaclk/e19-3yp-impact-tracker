@@ -71,3 +71,10 @@ $grey-highlight-2: #262626;
     }
   }
 }
+
+@mixin mainDivider {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0;
+  height: 100dvh;
+}

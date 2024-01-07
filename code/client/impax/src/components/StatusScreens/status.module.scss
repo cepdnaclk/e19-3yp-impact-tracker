@@ -8,6 +8,7 @@
   gap: 1em;
   flex-direction: column;
   color: $body-color;
+
   .icon {
     color: $primary-red;
     margin-right: 0.5em;
@@ -20,4 +21,17 @@
     width: 50ch;
     text-align: center;
   }
+
+  &.success {
+    .icon {
+      color: green;
+    }
+    .h2 {
+      color: green;
+    }
+  }
+}
+
+.main.divider {
+  @include mainDivider;
 }

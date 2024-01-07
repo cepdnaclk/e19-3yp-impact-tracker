@@ -1,4 +1,4 @@
-import styles from "./NoInternetConnection.module.scss";
+import styles from "./status.module.scss";
 import { FiWifiOff } from "react-icons/fi";
 const NoMqttConnection = () => {
   return (

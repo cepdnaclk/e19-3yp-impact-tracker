@@ -1,12 +1,10 @@
 import { FaCheckCircle } from "react-icons/fa";
-import styles from "./NoInternetConnection.module.scss";
-import signupStyles from "../Profile/SignUp.module.scss";
-
+import styles from "./status.module.scss";
 import Hero from "../Profile/Hero";
 const LoginSuccess = () => {
   return (
-    <main className={signupStyles.main}>
-      <div className={styles.container}>
+    <main className={`${styles.main} ${styles.divider}`}>
+      <div className={`${styles.container} ${styles.success}`}>
         <h2>
           <FaCheckCircle className={styles.icon} />
           Login Successfull
