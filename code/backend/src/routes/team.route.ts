@@ -4,7 +4,7 @@ import {
   checkTeamExist,
   checkTeamEmailExist,
   createTeam,
-  getTeam
+  getTeam,
 } from "../controllers/team.controller";
 
 import {
@@ -149,9 +149,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 
   try {
     // Check if the Team ID exists
-    const teamResponse = await getTeam(
-      req.params.id
-    );
+    const teamResponse = await getTeam(req.params.id);
     // const exists: boolean = existsResponse.exists;
 
     res.send(teamResponse);
@@ -206,26 +204,37 @@ router.post("/manager", async (req, res) => {
   try {
     // Create a new Team instance
     const team: Team = new Team(teamId, teamName, email);
-    const manager: Manager = new Manager(teamId, firstName, lastName, email, password);
+    const manager: Manager = new Manager(
+      teamId,
+      firstName,
+      lastName,
+      email,
+      password
+    );
 
     // Create the Team and get the response
     const teamResponse: TeamResponse | undefined = await createTeam(team);
 
-    const teamExistsRes = await checkTeamExist(teamId);
+    // const teamExistsRes = await checkTeamExist(teamId);
 
-    // Check if the specified team exists
-    if (teamExistsRes.teamExists === false) {
-      console.log(HttpMsg.INVALID_TEAMID);
-      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.INVALID_TEAMID });
-      return;
-    }
+    // // Check if the specified team exists
+    // if (teamExistsRes.teamExists === false) {
+    //   console.log(HttpMsg.INVALID_TEAMID);
+    //   res
+    //     .status(HttpCode.BAD_REQUEST)
+    //     .send({ message: HttpMsg.INVALID_TEAMID });
+    //   return;
+    // }
 
     // Create the manager and get the response
     const managerResponse: ManagerResponse | undefined = await createManager(
       manager
     );
 
-    const teamManagerResponse: TeamManagerResponse = new TeamManagerResponse(teamId, email);
+    const teamManagerResponse: TeamManagerResponse = new TeamManagerResponse(
+      teamId,
+      email
+    );
 
     res.send(teamManagerResponse);
   } catch (err) {
@@ -250,16 +259,15 @@ router.get("/:id", async (req: Request, res: Response) => {
 
   try {
     // Check if the Team ID exists
-    const teamResponse = await getTeam(
-      req.params.id
-    );
+    const teamResponse = await getTeam(req.params.id);
     // const exists: boolean = existsResponse.exists;
 
     res.send(teamResponse);
   } catch (err) {
     console.log(err);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
-})
+  }
+});
 
 // Export the router for use in other files
 export default router;
