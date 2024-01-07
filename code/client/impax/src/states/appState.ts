@@ -35,6 +35,7 @@ interface AppState {
   playerMap: PlayerMap;
   setPlayerMap: (playerMap: PlayerMap) => void;
   updatePlayerMap: (buddy_id: number, player_id: number) => void;
+  deleteFromPlayerMap: (buddy_id: number) => void;
 
   sessionDetails: Session | null;
   setSessionDetails: (session: Session) => void;
@@ -87,6 +88,16 @@ export const useAppState = create<AppState>()((set) => ({
       deleteByValue(playerMap, player_id);
 
       playerMap[buddy_id] = player_id;
+
+      //publish new playerMap to mqtt
+      MqttClient.getInstance().publishPlayerMap(playerMap);
+      return { playerMap };
+    });
+  },
+  deleteFromPlayerMap: (buddy_id: number) => {
+    set((prevState) => {
+      const playerMap = { ...prevState.playerMap };
+      delete playerMap[buddy_id];
 
       //publish new playerMap to mqtt
       MqttClient.getInstance().publishPlayerMap(playerMap);
