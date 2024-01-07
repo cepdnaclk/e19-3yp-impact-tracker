@@ -14,9 +14,7 @@ export async function createManager(
   return;
 }
 
-export async function getManager(
-  managerId: string
-): Promise<ManagerResponse> {
+export async function getManager(managerId: string): Promise<ManagerResponse> {
   try {
     const managerResponse = await managerService.getManager(managerId);
     return managerResponse;
@@ -66,3 +64,28 @@ export async function addNewManager(
   return false;
 }
 
+// delete manager
+export async function deleteManager(
+  managerEmail: string,
+  teamId: string
+): Promise<boolean> {
+  try {
+    // check the manager exits in that team
+    const managerExists = await managerService.checkManagerExistsInTeam(
+      managerEmail,
+      teamId
+    );
+
+    if (!managerExists) {
+      throw new Error("Manager does not exist in the team");
+    }
+
+    await managerService.deleteManager(managerEmail, teamId);
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+  return false;
+}

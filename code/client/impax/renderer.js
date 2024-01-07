@@ -15,7 +15,7 @@ async function testIt() {
 
     // console.log(ports);
     await port.open({ baudRate: 115200 });
-    console.log("Port Opened");
+    console.log("Port Opened", port);
     // Read Data
     // while (port.readable) {
     //   const reader = port.readable.getReader();

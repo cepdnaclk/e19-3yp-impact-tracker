@@ -10,6 +10,7 @@ import {
   createManager,
   getManager,
   addNewManager,
+  deleteManager,
 } from "../controllers/manager.controller";
 import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
 import { validateEmail } from "../utils/utils";
@@ -152,6 +153,13 @@ router.post("/", async (req: Request, res: Response) => {
 
     res.send(managerResponse);
   } catch (err) {
+    // Check if a manager with the given email exists
+    const exists: boolean = await checkManagerExists(email);
+
+    if (exists) {
+      await deleteManager(email, teamId);
+    }
+
     if (err instanceof Error) {
       // If 'err' is an instance of Error, send the error message
       res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
