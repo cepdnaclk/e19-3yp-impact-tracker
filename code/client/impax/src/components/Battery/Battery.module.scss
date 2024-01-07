@@ -1,0 +1,63 @@
+$battery-border-color: #cfcfcf;
+$battery-red: #c93721;
+$battery-amber: #d48925;
+$battery-green: #22ab7f;
+
+.batteryContainer {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  .batteryOuter {
+    border: 2px solid $battery-border-color;
+    border-radius: 2px;
+    padding: 1px;
+    width: 1.2em;
+    aspect-ratio: 1.6;
+
+    .batteryLevel {
+      height: 100%;
+    }
+  }
+
+  .batteryBump {
+    border-radius: 2px;
+    background-color: $battery-border-color;
+    margin: 2px;
+    width: 2px;
+    height: 5px;
+  }
+
+  &.good .batteryLevel {
+    background-color: $battery-green;
+  }
+  &.good .batteryLevel {
+    background-color: $battery-green;
+  }
+
+  &.medium .batteryLevel {
+    background-color: $battery-amber;
+  }
+
+  &.low .batteryLevel {
+    background-color: $battery-red;
+  }
+
+  &.low {
+    animation: 200ms ease-in-out alternate infinite pulse;
+    .batteryOuter {
+      border-color: $battery-red;
+    }
+    .batteryBump {
+      background-color: $battery-red;
+    }
+  }
+}
+
+@keyframes pulse {
+  from {
+    opacity: 100;
+  }
+  to {
+    opacity: 0;
+  }
+}

@@ -1,7 +1,9 @@
-import React from "react";
 import styles from "./Test.module.scss";
 import { BsBroadcast } from "react-icons/bs";
+// import { useAppState } from "../../store/appState";
+
 const Live = () => {
+  // const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
   return (
     <main className={styles.main}>
       <div className={styles.title}>

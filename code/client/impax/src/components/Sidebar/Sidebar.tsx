@@ -1,9 +1,9 @@
 import styles from "./Sidebar.module.scss";
 import { BsBroadcast } from "react-icons/bs";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaRegUserCircle, FaUsers } from "react-icons/fa";
 import { MdDeviceHub, MdBarChart } from "react-icons/md";
 import MenuItem from "./MenuItem";
-import { useAppState } from "../../store/appState";
+import { useAppState } from "../../states/appState";
 
 const Sidebar = () => {
   const activePage = useAppState((state) => state.activePage);
@@ -19,7 +19,7 @@ const Sidebar = () => {
         />
         <MenuItem
           icon={MdDeviceHub}
-          name="Device Connectivity"
+          name="Buddy Connectivity"
           active={activePage === "devices"}
           onClick={() => setActivePage("devices")}
         />
@@ -28,6 +28,12 @@ const Sidebar = () => {
           name="Analytics"
           active={activePage === "analytics"}
           onClick={() => setActivePage("analytics")}
+        />
+        <MenuItem
+          icon={FaUsers}
+          name="Player Management"
+          active={activePage === "player-management"}
+          onClick={() => setActivePage("player-management")}
         />
       </nav>
 

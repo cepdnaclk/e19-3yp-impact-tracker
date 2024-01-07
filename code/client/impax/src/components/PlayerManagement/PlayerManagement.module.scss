@@ -1,0 +1,37 @@
+@use "../../variables.scss" as *;
+.banner {
+  @include banner;
+  margin-bottom: 2em;
+  .controls {
+    display: flex;
+    align-content: stretch;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    gap: 1em;
+
+    .addNew {
+      button {
+        height: 3em;
+        font-size: 0.9em;
+        width: auto;
+      }
+    }
+    .searchBox {
+      position: relative;
+      .icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 1em;
+      }
+      input {
+        @include inputText;
+        padding-left: 3em;
+      }
+    }
+  }
+}
+
+.empty {
+  text-align: center;
+}
