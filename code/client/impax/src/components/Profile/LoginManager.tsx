@@ -1,11 +1,9 @@
 import styles from "./SignUp.module.scss";
 import { useSignupState } from "../../states/formState";
 import { FieldValues, useForm } from "react-hook-form";
-import { on } from "serialport";
 import { useNavigate } from "react-router-dom";
 
 const LoginManager = () => {
-  const isSignup = useSignupState((state) => state.isSignup);
   const setIsSignup = useSignupState((state) => state.setIsSignup);
   const navigate = useNavigate();
   const {
