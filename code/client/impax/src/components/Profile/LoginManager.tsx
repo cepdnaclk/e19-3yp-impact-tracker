@@ -59,6 +59,7 @@ const LoginManager = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputContainer}>
           <label htmlFor="teamId">Team ID</label>
+          {errors.teamId && <p>{`${errors.teamId.message}`}</p>}
           <input
             {...register("teamId", { required: "Team ID is required" })}
             type="text"
@@ -68,6 +69,7 @@ const LoginManager = () => {
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="email">Email</label>
+          {errors.email && <p>{`${errors.email.message}`}</p>}
           <input
             {...register("email", { required: "Email is required" })}
             type="email"
@@ -77,6 +79,7 @@ const LoginManager = () => {
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="password">Password</label>
+          {errors.password && <p>{`${errors.password.message}`}</p>}
           <input
             {...register("password", { required: "Password is required" })}
             type="password"
