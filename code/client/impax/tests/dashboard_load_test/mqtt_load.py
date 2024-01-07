@@ -48,17 +48,17 @@ while True:
             0, battery_level - (random.randint(0, max_drain)) / 20)
         client_id_str = client._client_id.decode("utf-8")
         topic = f"buddy/{client_id_str.split('_')[1]}/status"
-        client.publish(topic, f"{new_battery_level}", qos=2)
+        client.publish(topic, f"{new_battery_level}", qos=2, retain=True)
 
         # Update battery level for the next iteration
         battery_level = new_battery_level
 
         # Publish impacts less frequently and randomly
         if random.random() < impact_frequency:
-            magnitude = random.randint(1, 10)
+            magnitude = random.randint(14, 100)
             direction = random.choice(
                 ["left", "right", "front", "back", "top", "bottom"])
             topic = f"buddy/{client_id_str.split('_')[1]}/impact"
-            client.publish(topic, f"{magnitude} {direction}")
+            client.publish(topic, f"{magnitude} {direction}", retain=True)
 
-    time.sleep(10)  # Check for new publications every second
+    time.sleep(5)  # Check for new publications every second
