@@ -5,11 +5,20 @@ import { MdDeviceHub, MdBarChart } from "react-icons/md";
 import MenuItem from "./MenuItem";
 import { useAppState } from "../../states/appState";
 import { HashRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 interface Props {
   isOnline: boolean;
 }
 
-const Sidebar: React.FC<Props> = () => {
+const Sidebar: React.FC<Props> = ({ isOnline }: Props) => {
+  const setIsInternetAvailable = useAppState(
+    (state) => state.setIsInternetAvailable
+  );
+
+  useEffect(() => {
+    isOnline ? setIsInternetAvailable(true) : setIsInternetAvailable(false);
+  }, [isOnline, setIsInternetAvailable]);
+
   const activePage = useAppState((state) => state.activePage);
   const setActivePage = useAppState((state) => state.setActivePage);
   const navigate = useNavigate();

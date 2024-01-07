@@ -17,11 +17,11 @@ const Content: React.FC<Props> = ({ isOnline }: Props) => {
   const setIsInternetAvailable = useAppState(
     (state) => state.setIsInternetAvailable
   );
-  const activePage = useAppState((state) => state.activePage);
 
   useEffect(() => {
     isOnline ? setIsInternetAvailable(true) : setIsInternetAvailable(false);
   }, [isOnline, setIsInternetAvailable]);
+  const activePage = useAppState((state) => state.activePage);
 
   return (
     <>
