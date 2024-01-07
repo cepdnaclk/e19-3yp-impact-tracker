@@ -2,7 +2,7 @@ import styles from "./SignUp.module.scss";
 import { useSignupState } from "../../states/formState";
 import Hero from "./Hero";
 import { FieldValues, useForm } from "react-hook-form";
-const SignupManager2 = () => {
+const TeamCreation = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
   const signupInfo = useSignupState((state) => state.signupInfo);
   const {
@@ -19,13 +19,14 @@ const SignupManager2 = () => {
       teamId: signupInfo.teamId,
       email: signupInfo.email,
       teamName: data.teamName,
-      firstName: data.firstName,
-      lastName: data.lastName,
+      firstName: data.yourName.split(" ")[0],
+      lastName: data.yourName.split(" ")[1],
       password: data.password,
     };
+    // console.log(data);
     console.log(request);
     // TODO: submit to server
-    const response = await fetch("http://localhost:5000/team", {
+    const response = await fetch("http://localhost:5000/team/manager", {
       method: "POST",
       body: JSON.stringify(request),
       headers: {
@@ -58,19 +59,19 @@ const SignupManager2 = () => {
             </div>
 
             <div className={styles.inputContainer}>
-              <label htmlFor="firstName">First Name</label>
+              <label htmlFor="yourName">Your Name</label>
               {errors.firstName && <p>{`${errors.firstName.message}`}</p>}
               <input
-                {...register("firstName", {
-                  required: "First name is required",
+                {...register("yourName", {
+                  required: "Your name is required",
                 })}
                 type="text"
-                id="firstName"
-                placeholder="Enter first name"
+                id="yourName"
+                placeholder="Enter your name"
               />
             </div>
 
-            <div className={styles.inputContainer}>
+            {/* <div className={styles.inputContainer}>
               <label htmlFor="lastName">Last Name</label>
               {errors.lastName && <p>{`${errors.lastName.message}`}</p>}
               <input
@@ -81,7 +82,7 @@ const SignupManager2 = () => {
                 id="lastName"
                 placeholder="Enter last name"
               />
-            </div>
+            </div> */}
 
             <div className={styles.inputContainer}>
               <label htmlFor="password">Password</label>
@@ -116,7 +117,11 @@ const SignupManager2 = () => {
               />
             </div>
 
-            <button type="submit" className={styles.nextBtn}>
+            <button
+              disabled={isSubmitting}
+              type="submit"
+              className={styles.nextBtn}
+            >
               Signup
             </button>
           </form>
@@ -138,4 +143,4 @@ const SignupManager2 = () => {
   );
 };
 
-export default SignupManager2;
+export default TeamCreation;
