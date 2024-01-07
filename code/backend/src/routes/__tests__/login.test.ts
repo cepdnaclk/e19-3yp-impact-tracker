@@ -41,7 +41,7 @@ afterAll(async () => {
  */
 
 describe("Login Routes", () => {
-  it("should login as a manager", async () => {
+  it("should login as a manager ", async () => {
     const teamData = {
       teamId: "exampleTeamId",
       teamName: "Example Team",
