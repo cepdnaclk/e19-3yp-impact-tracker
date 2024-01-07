@@ -5,8 +5,11 @@ import { MdDeviceHub, MdBarChart } from "react-icons/md";
 import MenuItem from "./MenuItem";
 import { useAppState } from "../../states/appState";
 import { HashRouter, Route, Routes, useNavigate } from "react-router-dom";
+interface Props {
+  isOnline: boolean;
+}
 
-const Sidebar = () => {
+const Sidebar: React.FC<Props> = () => {
   const activePage = useAppState((state) => state.activePage);
   const setActivePage = useAppState((state) => state.setActivePage);
   const navigate = useNavigate();
