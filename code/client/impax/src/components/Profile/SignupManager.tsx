@@ -2,6 +2,7 @@ import styles from "./SignUp.module.scss";
 import { useSignupState } from "../../states/formState";
 import { useForm, type FieldValues } from "react-hook-form";
 import { useAppState } from "../../states/appState";
+import { useNavigate } from "react-router-dom";
 
 const SignupManager = () => {
   const isSignup = useSignupState((state) => state.isSignup);
@@ -14,7 +15,7 @@ const SignupManager = () => {
   const setSignupInfo = useSignupState((state) => state.setSignupInfo);
   const activePage = useAppState((state) => state.activePage);
   const setActivePage = useAppState((state) => state.setActivePage);
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -40,7 +41,8 @@ const SignupManager = () => {
     });
     const responseData = await response.json();
     if (!responseData.teamExists) {
-      setIsTeamExists(false);
+      // setIsTeamExists(false);
+      navigate("/signup/manager");
     }
     // console.log(signupInfo);
     // const responseData = await response.json();

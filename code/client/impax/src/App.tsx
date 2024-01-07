@@ -10,6 +10,7 @@ import Devices from "./components/Devices/Devices";
 import Test from "./components/Test/Test";
 import PlayerManagement from "./components/PlayerManagement/PlayerManagement";
 import SignUp from "./components/Profile/SignUp";
+import TeamCreation from "./components/Profile/TeamCreation";
 function App() {
   MqttClient.getInstance();
   return (
@@ -19,12 +20,14 @@ function App() {
           <>
             <Sidebar isOnline={online} />
             <Routes>
-              <Route path="/login/manager" element={<LoginSuccess />} />
-              <Route path="/live" element={<Live />} />
-              <Route path="/devices" element={<Devices />} />
-              <Route path="/analytics" element={<Test />} />
-              <Route path="/player-management" element={<PlayerManagement />} />
-              <Route path="/profile" element={<SignUp />} />
+              <Route path="/" element={<SignUp />} />
+              <Route path="login/manager" element={<LoginSuccess />} />
+              <Route path="/live" Component={Live} />
+              <Route path="devices" element={<Devices />} />
+              <Route path="analytics" element={<Test />} />
+              <Route path="player-management" element={<PlayerManagement />} />
+              <Route path="profile" element={<SignUp />} />
+              <Route path="/signup/manager" element={<TeamCreation />} />
             </Routes>
             {/* <Content isOnline={online} /> */}
           </>
