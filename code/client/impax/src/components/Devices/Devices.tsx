@@ -16,16 +16,19 @@ const Devices: React.FC = () => {
   const options: { value: string; label: string }[] = [];
 
   //find mapped buddy_ids and unmapped buddy_ids
-  const mappedBuddies = Object.keys(buddies).filter(
-    (buddy_id: string) => parseInt(buddy_id) in playerMap
+  const mappedBuddies = Object.keys(playerMap).map((buddy_id) =>
+    parseInt(buddy_id)
   );
-  const unMappedBuddies = Object.keys(buddies).filter(
-    (buddy_id: string) => !mappedBuddies.includes(buddy_id)
-  );
+  const unMappedBuddies = Object.keys(buddies)
+    .filter((buddy_id: string) => !mappedBuddies.includes(parseInt(buddy_id)))
+    .map((buddy_id) => parseInt(buddy_id));
 
-  for (const buddy_id in unMappedBuddies) {
-    const jersey_number = playerMap[parseInt(buddy_id)];
-    if (jersey_number === undefined) continue;
+  //get unmapped players
+  //has entries in playerDetails but not in playerMap
+
+  for (const jersey_number in playerDetails) {
+    //if (playerDetails[jersey_number]) continue; //empty jerysey number
+    if (Object.values(playerMap).includes(parseInt(jersey_number))) continue;
     options.push({
       value: jersey_number.toString(),
       label: `${jersey_number} ${playerDetails[jersey_number].name}`,
@@ -61,13 +64,13 @@ const Devices: React.FC = () => {
         <div className={styles.mapped}>
           <h3>Mapped Devices</h3>
           <div className={styles.grid}>
-            {mappedBuddies.map((buddy_id: string) => (
+            {mappedBuddies.map((buddy_id: number) => (
               <MappedDevice
-                key={parseInt(buddy_id)}
-                buddyID={parseInt(buddy_id)}
-                batteryLevel={buddies[parseInt(buddy_id)].battery}
+                key={buddy_id}
+                buddyID={buddy_id}
+                batteryLevel={buddies[buddy_id].battery}
                 options={options}
-                playerID={playerMap[parseInt(buddy_id)]}
+                playerID={playerMap[buddy_id]}
               />
             ))}
           </div>
@@ -78,11 +81,11 @@ const Devices: React.FC = () => {
         <div className={styles.active}>
           <h3>Unmapped Buddies</h3>
           <div className={styles.grid}>
-            {unMappedBuddies.map((buddy_id: string) => (
+            {unMappedBuddies.map((buddy_id: number) => (
               <MappedDevice
-                key={parseInt(buddy_id)}
-                buddyID={parseInt(buddy_id)}
-                batteryLevel={buddies[parseInt(buddy_id)].battery}
+                key={buddy_id}
+                buddyID={buddy_id}
+                batteryLevel={buddies[buddy_id].battery}
                 options={options}
               />
             ))}
