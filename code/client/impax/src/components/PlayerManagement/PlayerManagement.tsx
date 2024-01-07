@@ -20,7 +20,7 @@ import { Verification } from "./PlayersTable/Verification/Verification";
 import { FaPlus, FaSearch, FaSort } from "react-icons/fa";
 import Btn from "../Buttons/Btn";
 import PlayersTable from "./PlayersTable/PlayersTable";
-import NoInternetConnection from "../OfflineStatus/NoInternetConnection";
+import NoInternetConnection from "../StatusScreens/NoInternetConnection";
 import { useAppState } from "../../states/appState";
 
 export type Player = {

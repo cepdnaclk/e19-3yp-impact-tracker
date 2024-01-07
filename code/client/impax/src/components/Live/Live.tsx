@@ -5,7 +5,7 @@ import Title from "../Title/Title";
 import ActiveSession from "./ActiveSession.tsx";
 import StartSession from "./StartSession.tsx";
 import { useAppState } from "../../states/appState.ts";
-import NoMqttConnection from "../OfflineStatus/NoMqttConnection.tsx";
+import NoMqttConnection from "../StatusScreens/NoMqttConnection.tsx";
 
 const Live = () => {
   const session = useAppState((state) => state.sessionDetails);

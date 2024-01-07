@@ -1,26 +1,17 @@
 import styles from "./SignUp.module.scss";
 import { useSignupState } from "../../states/formState";
 import { useForm, type FieldValues } from "react-hook-form";
-import { useAppState } from "../../states/appState";
+import { useNavigate } from "react-router-dom";
 
 const SignupManager = () => {
-  const isSignup = useSignupState((state) => state.isSignup);
   const setIsSignup = useSignupState((state) => state.setIsSignup);
-  const isManagerExists = useSignupState((state) => state.isManagerExist);
-  const setIsManagerExists = useSignupState((state) => state.setIsManagerExist);
-  const isTeamExists = useSignupState((state) => state.isTeamExist);
-  const setIsTeamExists = useSignupState((state) => state.setIsTeamExist);
-  const signupInfo = useSignupState((state) => state.signupInfo);
   const setSignupInfo = useSignupState((state) => state.setSignupInfo);
-  const activePage = useAppState((state) => state.activePage);
-  const setActivePage = useAppState((state) => state.setActivePage);
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-    getValues,
   } = useForm();
   const onSubmit = async (data: FieldValues) => {
     // TODO: submit to server
@@ -40,7 +31,8 @@ const SignupManager = () => {
     });
     const responseData = await response.json();
     if (!responseData.teamExists) {
-      setIsTeamExists(false);
+      // setIsTeamExists(false);
+      navigate("/signup/manager");
     }
     // console.log(signupInfo);
     // const responseData = await response.json();

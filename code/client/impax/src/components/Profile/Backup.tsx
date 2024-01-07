@@ -3,7 +3,7 @@ import styles from "./SignUp.module.scss";
 import Hero from "./Hero";
 import ToggleRole from "./ToggleRole";
 import { useAppState } from "../../states/appState";
-import NoInternetConnection from "../OfflineStatus/NoInternetConnection";
+import NoInternetConnection from "../StatusScreens/NoInternetConnection";
 import { Role } from "../../types";
 import { useRoleState, useSignupState } from "../../states/formState";
 
