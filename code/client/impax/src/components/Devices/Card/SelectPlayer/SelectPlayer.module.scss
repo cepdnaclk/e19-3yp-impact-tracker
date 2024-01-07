@@ -14,9 +14,9 @@ $bg-color: #313131;
     border: none;
 
     //select the separator and hide it
-    div:last-child > span {
-      visibility: hidden;
-    }
+    // div:last-child > span {
+    //   visibility: hidden;
+    // }
   }
 
   *::-webkit-scrollbar {
