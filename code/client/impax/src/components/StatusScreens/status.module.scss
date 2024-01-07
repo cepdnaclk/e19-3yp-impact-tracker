@@ -23,11 +23,9 @@
   }
 
   &.success {
-    .icon {
-      color: green;
-    }
-    .h2 {
-      color: green;
+    .icon,
+    h2 {
+      color: rgb(71, 129, 71);
     }
   }
 }
