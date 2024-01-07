@@ -3,6 +3,7 @@ import { BuddyStatus, Impact } from "../types";
 import { useAppState } from "./appState";
 
 export const updateBuddy = (buddy_id: number, battery: number) => {
+  console.log("updating buddy", buddy_id, battery);
   const timestamp = Date.now();
   const buddyStatus: BuddyStatus = { battery, timestamp };
 
@@ -28,15 +29,18 @@ export const updateBuddy = (buddy_id: number, battery: number) => {
 export const updateImpact = (buddy_id: number, impactString: string) => {
   const magntitude = parseInt(impactString.split(" ")[0]);
   const direction = impactString.split(" ")[1];
-  const impact: Impact = { magntitude, direction } as Impact;
+  const timestamp = Date.now();
+  const impact: Impact = { magntitude, direction, timestamp } as Impact;
 
   useAppState.setState((prevState) => {
-    const buddiesImpact = { ...prevState.buddiesImpact };
-    buddiesImpact[buddy_id] = impact;
-    return { buddiesImpact };
+    const playersImpact = { ...prevState.playersImpact };
+    const player_id = prevState.playerMap[buddy_id];
+    if (player_id === undefined) return prevState;
+    playersImpact[player_id] = impact;
+    return { playersImpact };
   });
 
-  console.log(useAppState.getState().buddiesImpact);
+  console.log(useAppState.getState().playersImpact);
 };
 
 export const setPlayerMap = (playerMapString: string) => {

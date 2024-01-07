@@ -15,8 +15,11 @@ export type Impact = {
 export type Buddies = {
   [id: number]: BuddyStatus;
 };
-export type BuddiesImpact = {
-  [id: number]: Impact;
+// export type BuddiesImpact = {
+//   [id: number]: Impact;
+// };
+export type PlayersImpact = {
+  [jersey_id: number]: Impact;
 };
 
 export type PlayerMap = {

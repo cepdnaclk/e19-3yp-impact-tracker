@@ -2,10 +2,10 @@ import { create } from "zustand";
 import {
   Buddies,
   activePage,
-  BuddiesImpact,
   Players,
   PlayerMap,
   Session,
+  PlayersImpact,
 } from "../types";
 import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
@@ -24,8 +24,11 @@ interface AppState {
   buddiesStatus: Buddies;
   setBuddiesStatus: (buddiesState: Buddies) => void;
 
-  buddiesImpact: BuddiesImpact;
-  setBuddiesImpact: (buddiesImpact: BuddiesImpact) => void;
+  // buddiesImpact: BuddiesImpact;
+  // setBuddiesImpact: (buddiesImpact: BuddiesImpact) => void;
+
+  playersImpact: PlayersImpact;
+  setPlayersImpact: (playersImpact: PlayersImpact) => void;
 
   playerDetails: Players;
 
@@ -62,9 +65,14 @@ export const useAppState = create<AppState>()((set) => ({
     set({ buddiesStatus: buddiesState }),
 
   //For the buddies impact
-  buddiesImpact: {} as BuddiesImpact,
-  setBuddiesImpact: (buddiesImpact: BuddiesImpact) =>
-    set({ buddiesImpact: buddiesImpact }),
+  // buddiesImpact: {} as BuddiesImpact,
+  // setBuddiesImpact: (buddiesImpact: BuddiesImpact) =>
+  //   set({ buddiesImpact: buddiesImpact }),
+
+  //For the players impact
+  playersImpact: {} as PlayersImpact,
+  setPlayersImpact: (playersImpact: PlayersImpact) =>
+    set({ playersImpact: playersImpact }),
 
   //TODO: Clashing of players with other dashbaords
   playerDetails: players,
