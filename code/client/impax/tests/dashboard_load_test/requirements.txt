@@ -1,0 +1,2 @@
+# Requirements for the python environment
+paho-mqtt==1.6.1
