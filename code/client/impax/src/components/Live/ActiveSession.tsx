@@ -1,5 +1,5 @@
 import styles from "./ActiveSession.module.scss";
-import { FaEdit, FaTimes } from "react-icons/fa";
+import { FaCheck, FaEdit, FaTimes } from "react-icons/fa";
 import { IoMdExit } from "react-icons/io";
 import Btn from "../Buttons/Btn";
 import MonitoringCard from "./Card/MonitoringCard";
@@ -68,7 +68,7 @@ const ActiveSession = () => {
             }
             confirmButton={
               <Btn
-                Icon={FaEdit}
+                Icon={FaCheck}
                 buttonStyle="primary"
                 onClick={handleEditSessionName}
               >
