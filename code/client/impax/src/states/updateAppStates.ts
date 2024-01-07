@@ -1,3 +1,4 @@
+import MqttClient from "../services/mqttClient";
 import { BuddyStatus, Impact } from "../types";
 import { useAppState } from "./appState";
 
@@ -70,6 +71,12 @@ const checkBuddiesAvailability = () => {
     return timeDifference > 60000;
   });
 
+  if (unavailableBuddies.length === 0) {
+    return;
+  }
+
+  console.log("unavailable buddies", unavailableBuddies);
+
   //set buddiesStatus
   useAppState.setState((prevState) => {
     const buddiesStatus = { ...prevState.buddiesStatus };
@@ -79,6 +86,29 @@ const checkBuddiesAvailability = () => {
     });
 
     return { buddiesStatus };
+  });
+
+  //remove buddy from player map -> set playerMap
+  useAppState.setState((prevState) => {
+    const playerMap = { ...prevState.playerMap };
+
+    unavailableBuddies.forEach((buddy_id) => {
+      delete playerMap[parseInt(buddy_id)];
+    });
+
+    MqttClient.getInstance().publishPlayerMap(playerMap);
+    return { playerMap };
+  });
+
+  // if in monitoring buddies, remove from monitoring buddies
+  useAppState.setState((prevState) => {
+    const monitoringBuddies = new Set(prevState.monitoringBuddies);
+
+    unavailableBuddies.forEach((buddy_id) => {
+      monitoringBuddies.delete(parseInt(buddy_id));
+    });
+
+    return { monitoringBuddies };
   });
 };
 

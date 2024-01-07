@@ -35,6 +35,7 @@ interface AppState {
 
   sessionDetails: Session | null;
   setSessionDetails: (session: Session) => void;
+  updateSessionDetails: (sessionName: string) => void;
   endSession: () => void;
 
   monitoringBuddies: Set<number>;
@@ -89,6 +90,20 @@ export const useAppState = create<AppState>()((set) => ({
   setSessionDetails: (session: Session) => {
     set({ sessionDetails: session });
     MqttClient.getInstance().publishSession(session);
+  },
+  updateSessionDetails: (sessionName: string) => {
+    set((prevState) => {
+      if (!prevState.sessionDetails) {
+        return prevState;
+      }
+
+      const sessionDetails = { ...prevState.sessionDetails };
+      sessionDetails.session_name = sessionName;
+
+      // publish session to mqtt
+      MqttClient.getInstance().publishSession(sessionDetails);
+      return { ...prevState, sessionDetails };
+    });
   },
   endSession: () => {
     set({ sessionDetails: null });
