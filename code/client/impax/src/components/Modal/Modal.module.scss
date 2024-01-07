@@ -1,0 +1,15 @@
+@use "../../variables.scss" as *;
+
+.modalContainer {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: grid;
+  //   place-items: center;
+  place-content: center;
+  height: 100dvh;
+  width: calc(100dvw - $nav-width);
+  left: $nav-width;
+  z-index: 1000000;
+  .modal {
+  }
+}

@@ -1,20 +1,19 @@
 import "./App.css";
 import Sidebar from "./components/Sidebar/Sidebar";
-import Live from "./components/Live/Live";
-import Test from "./components/Test/Test";
 import Content from "./components/Content/Content";
-
+import MqttClient from "./services/mqttClient";
+import { Detector } from "react-detect-offline";
 function App() {
-  // type selectedPage = "live" | "devices" | "analytics" | "profile";
-
+  MqttClient.getInstance();
   return (
-    <>
-      <Sidebar />
-      <Content />
-      {/* <Live /> */}
-
-      {/* <Test /> */}
-    </>
+    <Detector
+      render={({ online }) => (
+        <>
+          <Sidebar />
+          <Content isOnline={online} />
+        </>
+      )}
+    />
   );
 }
 

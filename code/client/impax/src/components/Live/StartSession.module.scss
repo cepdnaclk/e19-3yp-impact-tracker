@@ -1,0 +1,25 @@
+@use "../../variables.scss" as *;
+
+.container {
+  @include banner;
+}
+
+.sessionForm {
+  display: flex;
+  width: 480px;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-content: stretch;
+
+  input {
+    flex-grow: 3;
+    font-size: 0.9em;
+    @include inputText;
+  }
+
+  button {
+    font-size: 0.9em;
+    height: auto;
+    padding: auto;
+  }
+}

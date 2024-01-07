@@ -1,0 +1,21 @@
+@use "../../../variables.scss" as *;
+
+.card {
+  @include card;
+  padding: 1em 2em;
+
+  .buddyID {
+    font-size: 1.1em;
+    font-weight: 600;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  p span {
+    font-size: 0.8em;
+    color: $grey-color;
+  }
+}
