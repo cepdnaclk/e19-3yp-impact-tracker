@@ -5,6 +5,7 @@ import MqttClient from "./services/mqttClient";
 import { Detector } from "react-detect-offline";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import LoginSuccess from "./components/OfflineStatus/LoginSuccess";
+import Live from "./components/Live/Live";
 function App() {
   MqttClient.getInstance();
   return (
@@ -13,7 +14,11 @@ function App() {
         render={({ online }) => (
           <>
             <Sidebar />
-            <Content isOnline={online} />
+            <Routes>
+              <Route path="/login/manager" element={<LoginSuccess />} />
+              <Route path="/live" element={<Live />} />
+            </Routes>
+            {/* <Content isOnline={online} /> */}
           </>
         )}
       />
