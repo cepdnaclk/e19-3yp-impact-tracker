@@ -2,9 +2,13 @@ import styles from "./SignUp.module.scss";
 import { useSignupState } from "../../states/formState";
 import Hero from "./Hero";
 import { FieldValues, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
 const TeamCreation = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
   const signupInfo = useSignupState((state) => state.signupInfo);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -35,6 +39,9 @@ const TeamCreation = () => {
     });
     const responseData = await response.json();
     console.log(responseData);
+    if (response.ok) {
+      navigate("/signup/manager/success");
+    }
     reset();
   };
   return (

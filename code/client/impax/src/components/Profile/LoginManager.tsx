@@ -87,7 +87,11 @@ const LoginManager = () => {
           />
         </div>
 
-        <button type="submit" className={styles.nextBtn}>
+        <button
+          disabled={isSubmitting}
+          type="submit"
+          className={styles.nextBtn}
+        >
           Login
         </button>
       </form>
