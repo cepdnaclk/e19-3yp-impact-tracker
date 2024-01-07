@@ -9,6 +9,11 @@ export const updateBuddy = (buddy_id: number, battery: number) => {
   //if buddy_id is not in buddiesState, add it
   //if buddy_id is in buddiesState, update it
   //if battery is 0, delete it
+
+  //The deleting will be important as we will be checking for unavailable buddies, and
+  //the client-dashboards will be publishing a 0 status when buddies are disconnected
+  //Note: buddies will be sending retained messages
+
   //updateSet
   useAppState.setState((prevState) => {
     const buddiesStatus = { ...prevState.buddiesStatus };
@@ -24,11 +29,13 @@ export const updateBuddy = (buddy_id: number, battery: number) => {
 };
 
 export const updateImpact = (buddy_id: number, impactString: string) => {
+  //Example impactString: "10 Left"
   const magntitude = parseInt(impactString.split(" ")[0]);
   const direction = impactString.split(" ")[1];
   const timestamp = Date.now();
   const impact: Impact = { magntitude, direction, timestamp } as Impact;
 
+  //update playersImpact state with impact
   useAppState.setState((prevState) => {
     const playersImpact = { ...prevState.playersImpact };
     const player_id = prevState.playerMap[buddy_id];
@@ -39,11 +46,15 @@ export const updateImpact = (buddy_id: number, impactString: string) => {
 };
 
 export const setPlayerMap = (playerMapString: string) => {
+  //Parse playerMapString and set playerMap
   const playerMap = JSON.parse(playerMapString);
   useAppState.setState({ playerMap: playerMap });
 };
 
 export const setSessionDetails = (sessionString: string) => {
+  //Parse sessionString and set sessionDetails
+  //If sessionString is "end", set sessionDetails to null
+
   if (sessionString === "end") {
     useAppState.setState({ sessionDetails: null });
     return;
@@ -105,11 +116,17 @@ const checkBuddiesAvailability = () => {
 
     return { monitoringBuddies };
   });
+
+  //publish the buddy status 0 to mqtt, so other clients will be able to invalidate the buddy
+  unavailableBuddies.forEach((buddy_id) => {
+    MqttClient.getInstance().publishBuddyStatus(parseInt(buddy_id), 0);
+  });
 };
 
 //check buddies availability every 60 seconds
 setInterval(checkBuddiesAvailability, 60000);
 
+//active pages for the dashboard, used for the sidebar
 export type activePage =
   | "live"
   | "devices"
