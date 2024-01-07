@@ -5,6 +5,7 @@
 #include <PubSubClient.h>
 #include "WiFiClientSecure.h"
 #include "topics.h"
+#include "../utils/util.h"
 
 #define TIME_DELAY_RECONNECT 2000
 

@@ -24,6 +24,7 @@ bool Com::communicate()
 
     while (state != DONE)
     {
+        led(LED_BLINK);
 
         if (count > ACK_COUNT)
         {
