@@ -109,6 +109,10 @@ class MqttClient {
     this.publish("session", JSON.stringify(session));
   };
 
+  publishBuddyStatus(buddy_id: number, status: number) {
+    this.publish(`buddy/${buddy_id}/status`, status.toString());
+  }
+
   public endSession = () => {
     this.publish("session", "end");
   };
