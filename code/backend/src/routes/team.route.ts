@@ -5,6 +5,7 @@ import {
   checkTeamEmailExist,
   createTeam,
   getTeam,
+  deleteTeam,
 } from "../controllers/team.controller";
 
 import {
@@ -21,9 +22,12 @@ import { Manager, ManagerResponse } from "../models/manager.model";
 import {
   checkManagerExists,
   createManager,
-  getManager,
-  addNewManager,
+  deleteManager,
 } from "../controllers/manager.controller";
+import {
+  checkManagerExistsInTeamDetails,
+  deleteManagerFromTeamDetails,
+} from "../services/team.manager.service";
 
 // Create an instance of the Express Router
 const router = Router();
@@ -128,6 +132,13 @@ router.post("/", async (req: Request, res: Response) => {
 
     res.send(teamResponse);
   } catch (err) {
+    const teamExistsRes = await checkTeamExist(teamId);
+
+    // Check if the specified team exists
+    if (teamExistsRes.teamExists === true) {
+      await deleteTeam(teamId);
+    }
+
     if (err instanceof Error) {
       // If 'err' is an instance of Error, send the error message
       res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
@@ -215,17 +226,6 @@ router.post("/manager", async (req, res) => {
     // Create the Team and get the response
     const teamResponse: TeamResponse | undefined = await createTeam(team);
 
-    // const teamExistsRes = await checkTeamExist(teamId);
-
-    // // Check if the specified team exists
-    // if (teamExistsRes.teamExists === false) {
-    //   console.log(HttpMsg.INVALID_TEAMID);
-    //   res
-    //     .status(HttpCode.BAD_REQUEST)
-    //     .send({ message: HttpMsg.INVALID_TEAMID });
-    //   return;
-    // }
-
     // Create the manager and get the response
     const managerResponse: ManagerResponse | undefined = await createManager(
       manager
@@ -238,6 +238,29 @@ router.post("/manager", async (req, res) => {
 
     res.send(teamManagerResponse);
   } catch (err) {
+    // Check if a manager with the given email exists
+    const exists: boolean = await checkManagerExists(email);
+
+    if (exists) {
+      await deleteManager(email, teamId);
+    }
+
+    const teamExistsRes = await checkTeamExist(teamId);
+
+    // Check if the specified team exists
+    if (teamExistsRes.teamExists === true) {
+      await deleteTeam(teamId);
+    }
+
+    const teamManagerExits = await checkManagerExistsInTeamDetails(
+      email,
+      teamId
+    );
+
+    if (teamManagerExits) {
+      await deleteManagerFromTeamDetails(email, teamId);
+    }
+
     if (err instanceof Error) {
       // If 'err' is an instance of Error, send the error message
       res.status(HttpCode.BAD_REQUEST).send({ message: err.message });

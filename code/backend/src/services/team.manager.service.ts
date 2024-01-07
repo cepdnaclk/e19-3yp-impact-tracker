@@ -31,3 +31,56 @@ export async function createManagerTeam(
   }
   return false;
 }
+
+// check the manager exits in that team
+export async function checkManagerExistsInTeamDetails(
+  managerEmail: string,
+  teamId: string
+): Promise<boolean> {
+  try {
+    // check entry exists
+    const managerTeam = await ManagerTeamModel.findOne({
+      managerEmail: managerEmail,
+      teamId: teamId,
+    });
+
+    if (!managerTeam) {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+  return false;
+}
+
+// delete manager and team entry
+export async function deleteManagerFromTeamDetails(
+  managerEmail: string,
+  teamId: string
+): Promise<boolean> {
+  try {
+    // check entry exists
+    const managerTeam = await ManagerTeamModel.findOne({
+      managerEmail: managerEmail,
+      teamId: teamId,
+    });
+
+    if (!managerTeam) {
+      throw new Error("Manager does not exist in the team");
+    }
+
+    await ManagerTeamModel.deleteOne({
+      managerEmail: managerEmail,
+      teamId: teamId,
+    });
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+  return false;
+}
