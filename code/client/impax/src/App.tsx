@@ -4,7 +4,7 @@ import Content from "./components/Content/Content";
 import MqttClient from "./services/mqttClient";
 import { Detector } from "react-detect-offline";
 import { HashRouter, Route, Routes } from "react-router-dom";
-import LoginSuccess from "./components/OfflineStatus/LoginSuccess";
+import LoginSuccess from "./components/StatusScreens/LoginSuccess";
 import Live from "./components/Live/Live";
 import Devices from "./components/Devices/Devices";
 import Test from "./components/Test/Test";
@@ -33,9 +33,6 @@ function App() {
           </>
         )}
       />
-      <Routes>
-        <Route path="/login/manager" element={<LoginSuccess />} />
-      </Routes>
     </HashRouter>
   );
 }

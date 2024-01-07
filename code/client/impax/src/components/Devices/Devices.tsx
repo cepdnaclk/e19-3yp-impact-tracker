@@ -7,7 +7,7 @@ import { IoAdd } from "react-icons/io5";
 import MappedDevice from "./Card/MappedDevice";
 import { useAppState } from "../../states/appState";
 import { Buddies } from "../../types";
-import NoMqttConnection from "../OfflineStatus/NoMqttConnection";
+import NoMqttConnection from "../StatusScreens/NoMqttConnection";
 
 const Devices: React.FC = () => {
   const buddies: Buddies = useAppState((state) => state.buddiesStatus);
