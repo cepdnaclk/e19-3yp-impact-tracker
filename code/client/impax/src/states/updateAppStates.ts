@@ -3,7 +3,6 @@ import { BuddyStatus, Impact } from "../types";
 import { useAppState } from "./appState";
 
 export const updateBuddy = (buddy_id: number, battery: number) => {
-  console.log("updating buddy", buddy_id, battery);
   const timestamp = Date.now();
   const buddyStatus: BuddyStatus = { battery, timestamp };
 
@@ -22,8 +21,6 @@ export const updateBuddy = (buddy_id: number, battery: number) => {
 
     return { buddiesStatus };
   });
-
-  console.log(useAppState.getState().buddiesStatus);
 };
 
 export const updateImpact = (buddy_id: number, impactString: string) => {
@@ -39,8 +36,6 @@ export const updateImpact = (buddy_id: number, impactString: string) => {
     playersImpact[player_id] = impact;
     return { playersImpact };
   });
-
-  console.log(useAppState.getState().playersImpact);
 };
 
 export const setPlayerMap = (playerMapString: string) => {
@@ -59,8 +54,6 @@ export const setSessionDetails = (sessionString: string) => {
 };
 
 const checkBuddiesAvailability = () => {
-  console.log("checking buddies availability");
-
   //check if all buddies are available
   //if timestamp is more than 60 seconds ago, remove from buddiesStatus
 
@@ -78,8 +71,6 @@ const checkBuddiesAvailability = () => {
   if (unavailableBuddies.length === 0) {
     return;
   }
-
-  console.log("unavailable buddies", unavailableBuddies);
 
   //set buddiesStatus
   useAppState.setState((prevState) => {

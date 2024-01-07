@@ -23,13 +23,14 @@ const Devices: React.FC = () => {
     (buddy_id: string) => !mappedBuddies.includes(buddy_id)
   );
 
-  for (const jersey_number in playerDetails) {
+  for (const buddy_id in unMappedBuddies) {
+    const jersey_number = playerMap[parseInt(buddy_id)];
+    if (jersey_number === undefined) continue;
     options.push({
-      value: jersey_number,
+      value: jersey_number.toString(),
       label: `${jersey_number} ${playerDetails[jersey_number].name}`,
     });
   }
-  console.log(playerDetails);
 
   //if mqtt is not connected, show no connection page
   const isMqttOnline = useAppState((state) => state.isMqttOnine);

@@ -10,6 +10,7 @@ import DialogModal from "../Modal/DialogModal";
 import { useState } from "react";
 
 const ActiveSession = () => {
+  const buddiesStatus = useAppState((state) => state.buddiesStatus);
   const sessionDetails = useAppState((state) => state.sessionDetails);
   const updateSessionDetails = useAppState(
     (state) => state.updateSessionDetails
@@ -30,7 +31,7 @@ const ActiveSession = () => {
   const activeBuddies = new Set<number>(
     Object.keys(playerMap)
       .map((buddy_id) => parseInt(buddy_id))
-      .filter((x) => !monitoringBuddies.has(x))
+      .filter((x) => !monitoringBuddies.has(x) && x in buddiesStatus)
   );
 
   const handleAddToMonitoring = (buddy_id: number) => {
