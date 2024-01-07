@@ -80,9 +80,9 @@ void BuddyMQTT::subscribe(const char *topic)
 // Update MQTT topics based on the device ID
 void BuddyMQTT::updateTopics()
 {
-    topics.TEST = "/" + id + topics.TEST;
-    topics.BATTERY = "/" + id + topics.BATTERY;
-    topics.IMPACT = "/" + id + topics.IMPACT;
+    topics.TEST = id + topics.TEST;
+    topics.BATTERY = id + topics.BATTERY;
+    topics.IMPACT = id + topics.IMPACT;
 }
 
 // Set MQTT broker and authentication details
