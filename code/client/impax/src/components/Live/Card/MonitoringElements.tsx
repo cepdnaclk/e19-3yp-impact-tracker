@@ -4,8 +4,9 @@ import { MdSpeed } from "react-icons/md";
 import { IoFootstepsSharp } from "react-icons/io5";
 import { PiWarningOctagonFill } from "react-icons/pi";
 import Btn from "../../Buttons/Btn";
-import { FaHistory } from "react-icons/fa";
+import { FaHistory, FaTimes } from "react-icons/fa";
 import { Impact } from "../../../types";
+import AlertModal from "../../Modal/AlertModal";
 
 type metrics = {
   speed: number;
@@ -66,9 +67,22 @@ const MonitoringElements: React.FC<{
         </div>
       </div>
       <div className={styles.actions}>
-        <Btn Icon={PiWarningOctagonFill} bgColor="#252c3d">
-          Mark as Concussion
-        </Btn>
+        <AlertModal
+          trigger={
+            <Btn Icon={PiWarningOctagonFill} bgColor="#252c3d">
+              Mark as Concussion
+            </Btn>
+          }
+          forceAction={true}
+          title="Mark as Concussion"
+          description="Are you sure you want to mark this impact as concussion?"
+          action={
+            <Btn Icon={PiWarningOctagonFill} bgColor="#252c3d">
+              Confirm
+            </Btn>
+          }
+          cancel={<Btn Icon={FaTimes}>Cancel</Btn>}
+        />
         <Btn
           Icon={FaHistory}
           buttonStyle="secondary"
