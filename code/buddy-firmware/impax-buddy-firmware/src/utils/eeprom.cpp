@@ -61,19 +61,55 @@ bool setCustomeSSIDAndPasswordEEPROM(String &ssid, String &password)
     return true;
 }
 
-bool writeMQTTPrivateKeyEEPROM(String &data)
+bool writeMQTTCaCertificateEEPROM(String &data)
 {
-    writeEEPROMString(MQTT_PRIVATE_KEY_ADDRESS + 1, data);
-    EEPROM.write(MQTT_PRIVATE_KEY_ADDRESS, 1);
+    writeEEPROMString(MQTT_CA_CERTIFICATE_ADDRESS + 1, data);
+    EEPROM.write(MQTT_CA_CERTIFICATE_ADDRESS, 1);
     EEPROM.commit();
     return true;
 }
 
-bool readMQTTPrivateKeyEEPROM(String &data)
+bool readMQTTCaCertificateEEPROM(String &data)
 {
-    if (EEPROM.read(MQTT_PRIVATE_KEY_ADDRESS) == 1)
+    if (EEPROM.read(MQTT_CA_CERTIFICATE_ADDRESS) == 1)
     {
-        data = readEEPROMString(MQTT_PRIVATE_KEY_ADDRESS + 1);
+        data = readEEPROMString(MQTT_CA_CERTIFICATE_ADDRESS + 1);
+        return true;
+    }
+    return false;
+}
+
+bool writeMQTTUserNameEEPROM(String &data)
+{
+    writeEEPROMString(EEPROM_USER_NAME + 1, data);
+    EEPROM.write(EEPROM_USER_NAME, 1);
+    EEPROM.commit();
+    return true;
+}
+
+bool readMQTTUserNameEEPROM(String &data)
+{
+    if (EEPROM.read(EEPROM_USER_NAME) == 1)
+    {
+        data = readEEPROMString(EEPROM_USER_NAME + 1);
+        return true;
+    }
+    return false;
+}
+
+bool writeMQTTPasswordEEPROM(String &data)
+{
+    writeEEPROMString(EEPROM_PASSWORD + 1, data);
+    EEPROM.write(EEPROM_PASSWORD, 1);
+    EEPROM.commit();
+    return true;
+}
+
+bool readMQTTPasswordEEPROM(String &data)
+{
+    if (EEPROM.read(EEPROM_PASSWORD) == 1)
+    {
+        data = readEEPROMString(EEPROM_PASSWORD + 1);
         return true;
     }
     return false;

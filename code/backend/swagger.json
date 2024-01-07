@@ -77,6 +77,36 @@
       }
     },
 
+    "/team/manager": {
+      "post": {
+        "tags": ["TeamEndpoints"],
+        "summary": "Create a team for manager - Open",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TeamLoginRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/TeamLoginRequest"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/team/exists/teamId/{id}": {
       "get": {
         "tags": ["TeamEndpoints"],
@@ -715,6 +745,35 @@
         }
       },
 
+      "TeamLoginRequest": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "password": "securePassword",
+          "email": "example@example.com",
+          "firstName": "John",
+          "lastName": "Doe",
+          "teamId": "exampleTeamId",
+          "teamName": "TeamName"
+        }
+      },
+
       "HubRequest": {
         "type": "object",
         "properties": {
@@ -1169,6 +1228,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PlayerTeamRequest"
+            }
+          }
+        }
+      },
+
+      "TeamLoginRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TeamLoginRequest"
             }
           }
         }

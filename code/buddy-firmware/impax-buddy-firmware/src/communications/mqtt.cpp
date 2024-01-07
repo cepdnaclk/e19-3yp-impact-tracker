@@ -62,6 +62,15 @@ void BuddyMQTT::publish(const char *topic, const char *msg)
     client.publish(topic, msg);
 }
 
+void BuddyMQTT::publish(const char *topic, int msg)
+{
+    // Convert the integer to a string before publishing
+    String msgString = String(msg);
+
+    // Publish the message
+    client.publish(topic, msgString.c_str());
+}
+
 // Subscribe to a specified MQTT topic
 void BuddyMQTT::subscribe(const char *topic)
 {
@@ -73,6 +82,7 @@ void BuddyMQTT::updateTopics()
 {
     topics.TEST = "/" + id + topics.TEST;
     topics.BATTERY = "/" + id + topics.BATTERY;
+    topics.IMPACT = "/" + id + topics.IMPACT;
 }
 
 // Set MQTT broker and authentication details
@@ -109,4 +119,16 @@ void callback(char *topic, byte *payload, unsigned int length)
     }
     Serial.println();
     Serial.println("-----------------------");
+}
+
+// Set MQTT username
+void BuddyMQTT::setUserName(String username)
+{
+    this->mqtt_username = username.c_str();
+}
+
+// Set MQTT password
+void BuddyMQTT::setPassword(String password)
+{
+    this->mqtt_password = password.c_str();
 }
