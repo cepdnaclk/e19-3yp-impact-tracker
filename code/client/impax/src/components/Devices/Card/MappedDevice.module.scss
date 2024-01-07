@@ -3,6 +3,7 @@
 .card {
   @include card;
   padding: 1em 2em;
+  max-width: none;
 
   .buddyID {
     font-size: 1.1em;
