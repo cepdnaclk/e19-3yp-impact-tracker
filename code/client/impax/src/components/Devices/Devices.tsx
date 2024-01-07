@@ -23,7 +23,7 @@ const Devices: React.FC = () => {
     (buddy_id: string) => !mappedBuddies.includes(buddy_id)
   );
 
-  for (let jersey_number in playerDetails) {
+  for (const jersey_number in playerDetails) {
     options.push({
       value: jersey_number,
       label: `${jersey_number} ${playerDetails[jersey_number].name}`,

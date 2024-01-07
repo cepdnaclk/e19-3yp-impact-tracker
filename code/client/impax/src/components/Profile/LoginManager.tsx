@@ -11,7 +11,6 @@ const LoginManager = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-    getValues,
   } = useForm();
 
   const onSubmit = async (data: FieldValues) => {
@@ -51,7 +50,7 @@ const LoginManager = () => {
     //   // await new Promise((resolve) => setTimeout(resolve, 5000));
     //   // console.log(data);
 
-    //   reset();
+    reset();
   };
 
   return (
