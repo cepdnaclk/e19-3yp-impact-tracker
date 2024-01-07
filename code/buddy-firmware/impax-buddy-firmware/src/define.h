@@ -4,25 +4,30 @@
 #include "communications/wifi.h"
 #include "communications/mqtt.h"
 #include "utils/eeprom.h"
-#include "utils/util.h"
-
 #include "communications/com.h"
+#include "combinedOutput.h"
 
 #define BAUD_RATE 9600
 #define ID 1
 String BUDDY_ID = "buddy/";
 
 // WIFI
-String ssid = "";
-String password = "";
+String ssid = "Dialog 4G 629";
+String password = "189FFF07";
 String ssid_default = "SLT-Fiber";
 String password_defalt = "5CF@606a";
 
 // MQTT Broker
-const char *mqtt_broker = "192.168.1.14";
-const char *mqtt_username = "impax";
-const char *mqtt_password = "impax";
-const int mqtt_port = 8883;
+// const char *mqtt_broker = "192.168.1.14";
+// const char *mqtt_username = "impax";
+// const char *mqtt_password = "impax";
+// const int mqtt_port = 8883;
+
+const char *mqtt_broker = "broker.emqx.io";
+const char *topic = "emqx/esp32";
+String mqtt_username = "emqx";
+String mqtt_password = "public";
+const int mqtt_port = 1883;
 
 String CA_cert =
     "-----BEGIN CERTIFICATE-----\n"
@@ -58,6 +63,15 @@ String ESP_RSA_key =
     "################################################################\n"
     "################################################################\n"
     "-----END RSA PRIVATE KEY-----";
+
+#define SAYHELLO_DELAY 20000
+#define BATTER_STATUS_DELAY 10000
+#define MEASURE_DELAY 100
+#define CLK_SPEED 10
+
+unsigned long sayHelloTimer = 0;
+unsigned long batteryStatusTimer = 0;
+unsigned long systemTimer = 0;
 
 // -----BEGIN CERTIFICATE-----
 // MIIDJzCCAg+gAwIBAgIUPKKmid6OdQ5kxFZQxDI0tTTMOwgwDQYJKoZIhvcNAQEL

@@ -7,6 +7,7 @@ const excludedRoutes = [
   { method: "POST", path: "/team" },
   { method: "GET", path: "/manager" },
   { method: "POST", path: "/manager" },
+  { method: "POST", path: "/team/manager" },
   // Add more entries as needed
 ];
 

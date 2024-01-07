@@ -6,8 +6,9 @@
 struct Topics
 {
     String TEST = "/test";
-    String SAY_HELLO = "/say-hello";
-    String BATTERY = "/battery";
+    String SAY_HELLO = "/sayHello";
+    String BATTERY = "/status";
+    String IMPACT = "/impact";
 };
 
 #endif

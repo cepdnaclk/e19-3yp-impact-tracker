@@ -25,6 +25,15 @@ const SignupManager2 = () => {
     };
     console.log(request);
     // TODO: submit to server
+    const response = await fetch("http://localhost:5000/team", {
+      method: "POST",
+      body: JSON.stringify(request),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const responseData = await response.json();
+    console.log(responseData);
     reset();
   };
   return (

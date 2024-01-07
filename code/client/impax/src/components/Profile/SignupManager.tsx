@@ -1,7 +1,5 @@
-import React, { useState } from "react";
 import styles from "./SignUp.module.scss";
-import { Role } from "../../types";
-import { useRoleState, useSignupState } from "../../states/formState";
+import { useSignupState } from "../../states/formState";
 import { useForm, type FieldValues } from "react-hook-form";
 import { useAppState } from "../../states/appState";
 
@@ -24,7 +22,6 @@ const SignupManager = () => {
     reset,
     getValues,
   } = useForm();
-
   const onSubmit = async (data: FieldValues) => {
     // TODO: submit to server
     // ...\
@@ -45,7 +42,7 @@ const SignupManager = () => {
     if (!responseData.teamExists) {
       setIsTeamExists(false);
     }
-    console.log(signupInfo);
+    // console.log(signupInfo);
     // const responseData = await response.json();
     // await new Promise((resolve) => setTimeout(resolve, 5000));
     // console.log(data);

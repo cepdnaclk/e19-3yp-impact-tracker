@@ -17,8 +17,6 @@ HighGCalibrated::HighGCalibrated()
 
 void HighGCalibrated::begin()
 {
-    // Serial.begin(9600);
-    // Wire.begin(23, 19);
     // Chip initialization
     while (!acce.begin())
     {
