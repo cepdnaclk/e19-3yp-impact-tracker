@@ -150,6 +150,8 @@ void setup()
     systemTimer = millis();
 
     buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
+    Serial.println("Setup done");
+    Serial.println(WiFi.SSID());
 }
 
 void loop()

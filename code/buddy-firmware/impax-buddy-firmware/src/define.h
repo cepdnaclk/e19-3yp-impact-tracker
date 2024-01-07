@@ -12,8 +12,8 @@
 String BUDDY_ID = "buddy/";
 
 // WIFI
-String ssid = "";
-String password = "";
+String ssid = "Dialog 4G 629";
+String password = "189FFF07";
 String ssid_default = "SLT-Fiber";
 String password_defalt = "5CF@606a";
 
