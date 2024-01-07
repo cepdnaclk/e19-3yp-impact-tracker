@@ -18,6 +18,20 @@ $bg-color: #313131;
       visibility: hidden;
     }
   }
+
+  *::-webkit-scrollbar {
+    width: 0.6em;
+  }
+
+  *::-webkit-scrollbar-track {
+    border-top-right-radius: 0.2em;
+    background-color: darken($color: $bg-color, $amount: 10);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #454545;
+  }
   .selectControlFocused {
     box-shadow: 0 0 0 1px lighten($color: $bg-color, $amount: 10);
     //box-shadow: none;
@@ -25,6 +39,7 @@ $bg-color: #313131;
 
   .selectMenu {
     background-color: $bg-color;
+    //scroll bar customization
   }
 
   .selectOptionFocused {
