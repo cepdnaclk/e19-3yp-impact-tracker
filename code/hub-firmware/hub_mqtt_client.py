@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 from datetime import datetime
 import json
+import time
 
 # MQTT broker settings
 broker_address = "raspberrypi"
@@ -11,7 +12,7 @@ impact_topic = "buddy/+/impact"
 mapping_topic = "player_map"
 session_topic = "session"
 session_end_topic = "session_end"
-session_data= "session_data"
+session_data = "session_data"
 is_concussion_topic = "player/+/concussion"
 
 # Player to device mapping (device_id:player_id)
@@ -23,12 +24,14 @@ start_time = None
 data_buffer = []
 time_offset = 0
 
+
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
     client.subscribe("#")
 
+
 def on_message(client, userdata, msg):
-    global session_started, start_time, data_buffer, player_device_mapping,time_offset
+    global session_started, start_time, data_buffer, player_device_mapping, time_offset
 
     # data from dashboards - JSON objects
     try:
@@ -49,7 +52,7 @@ def on_message(client, userdata, msg):
                 end_session()
         else:
             session_started = True
-            start_time = datetime.now()
+            start_time = int(time.time() * 1000)
             time_offset = data["updatedAt"]-start_time
             print("Session updated!")
 
@@ -59,15 +62,17 @@ def on_message(client, userdata, msg):
             # data = magnitude direction
             device_id = msg.topic.split("/")[1]
             player_id = player_device_mapping[device_id]
-            timestamp = datetime.now() + time_offset
-            impact_json = {player_id:{"magnitude": data[0], "direction": data[1], "timestamp": timestamp, "isConcussion": False}}
-            
-            impact_with_time = "buddy/"+ device_id+ "/impact_with_timestamp"           
-            client.publish(impact_with_time, json.dumps(impact_json), retain=True)
-            
+            timestamp = (time.time() * 1000) + time_offset
+            impact_json = {player_id: {
+                "magnitude": data[0], "direction": data[1], "timestamp": timestamp, "isConcussion": False}}
+
+            impact_with_time = "buddy/" + device_id + "/impact_with_timestamp"
+            client.publish(impact_with_time, json.dumps(
+                impact_json), retain=True)
+
             # Store the data in the buffer
             data_buffer.append(impact_json)
-    
+
     elif msg.topic == is_concussion_topic:
         # if concussion, record it in the buffer
         player_id = msg.topic.split("/")[1]
@@ -77,21 +82,23 @@ def on_message(client, userdata, msg):
             if entry[player_id]["timestamp"] == timestamp:
                 entry[player_id]["isConcussion"] = data["isConcussion"]
                 break
-        
+
+
 def on_disconnect(client, userdata, rc):
     print("Disconnected with result code " + str(rc))
+
 
 def end_session():
     global session_started, start_time, data_buffer, player_device_mapping
     session_started = False
     for entry in data_buffer:
         client.publish(session_data, json.dumps(entry), retain=True)
-    
+
     data_buffer = []  # Clear the buffer after sending the stored data
     start_time = None
     player_device_mapping = {}
     print("Session ended!")
-    
+
 
 # Create MQTT client
 client = mqtt.Client()
