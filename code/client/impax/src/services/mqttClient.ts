@@ -67,7 +67,7 @@ class MqttClient {
             //topic = buddy/+/status
             updateBuddy(buddy_id, parseInt(message.toString()));
             break;
-          case "impact":
+          case "impact_with_timestamp":
             //topic = buddy/+/impact
             updateImpact(buddy_id, message.toString());
             break;

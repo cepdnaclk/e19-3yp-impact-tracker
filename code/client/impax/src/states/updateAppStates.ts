@@ -32,7 +32,7 @@ export const updateImpact = (buddy_id: number, impactString: string) => {
   //Example impactString: "10 Left"
   const magntitude = parseInt(impactString.split(" ")[0]);
   const direction = impactString.split(" ")[1];
-  const timestamp = Date.now();
+  const timestamp = parseInt(impactString.split(" ")[2]);
   const impact: Impact = { magntitude, direction, timestamp } as Impact;
 
   //update playersImpact state with impact
@@ -66,13 +66,6 @@ export const setPlayerMap = (playerMapString: string) => {
 
 export const setSessionDetails = (sessionString: string) => {
   //Parse sessionString and set sessionDetails
-  //If sessionString is "end", set sessionDetails to null
-
-  if (sessionString === "end") {
-    useAppState.setState({ sessionDetails: null });
-    return;
-  }
-
   const session = JSON.parse(sessionString);
   useAppState.setState({ sessionDetails: session });
 };
