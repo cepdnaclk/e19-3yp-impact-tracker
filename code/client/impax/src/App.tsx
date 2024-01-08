@@ -10,8 +10,10 @@ import PlayerManagement from "./components/PlayerManagement/PlayerManagement";
 import SignUp from "./components/Profile/SignUp";
 import TeamCreation from "./components/Profile/TeamCreation";
 import Success from "./components/StatusScreens/Success";
+
 function App() {
   MqttClient.getInstance();
+
   return (
     <HashRouter>
       <Detector
@@ -20,6 +22,8 @@ function App() {
             <Sidebar isOnline={online} />
             <Routes>
               <Route path="/" element={<SignUp />} />
+              {/* <Route path="/" element={<ListDevices />} /> */}
+
               <Route
                 path="login/manager"
                 element={<Success title="Login" description="LORUM IPSUM" />}
