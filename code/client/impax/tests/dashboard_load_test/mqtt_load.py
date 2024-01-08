@@ -3,7 +3,7 @@ import time
 import random
 
 # MQTT broker settings
-broker_address = "localhost"
+broker_address = "raspberrypi"
 broker_port = 1883
 
 # Number of buddy devices
