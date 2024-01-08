@@ -7,8 +7,8 @@ interface Props {
   trigger: JSX.Element;
   title: string;
   description: string;
-  confirmButton: JSX.Element;
-  children: JSX.Element;
+  confirmButton?: JSX.Element;
+  children?: JSX.Element | null;
 }
 
 const DialogModal: React.FC<Props> = ({
