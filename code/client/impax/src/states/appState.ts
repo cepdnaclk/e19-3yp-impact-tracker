@@ -6,6 +6,7 @@ import {
   PlayerMap,
   Session,
   PlayersImpact,
+  PlayerImpactHistory,
 } from "../types";
 import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
@@ -29,6 +30,8 @@ interface AppState {
 
   playersImpact: PlayersImpact;
   setPlayersImpact: (playersImpact: PlayersImpact) => void;
+
+  playersImpactHistory: PlayerImpactHistory;
 
   playerDetails: Players;
 
@@ -74,6 +77,9 @@ export const useAppState = create<AppState>()((set) => ({
   playersImpact: {} as PlayersImpact,
   setPlayersImpact: (playersImpact: PlayersImpact) =>
     set({ playersImpact: playersImpact }),
+
+  //For the players impact history
+  playersImpactHistory: {} as PlayerImpactHistory,
 
   //TODO: Clashing of players with other dashbaords
   playerDetails: players,
@@ -142,7 +148,6 @@ export const useAppState = create<AppState>()((set) => ({
       MqttClient.getInstance().publishSession(sessionDetails);
       return { ...prevState, sessionDetails };
     });
-    MqttClient.getInstance().endSession();
   },
 
   monitoringBuddies: new Set<number>(),
