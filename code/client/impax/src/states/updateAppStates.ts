@@ -29,10 +29,11 @@ export const updateBuddy = (buddy_id: number, battery: number) => {
 };
 
 export const updateImpact = (buddy_id: number, impactString: string) => {
-  //Example impactString: "10 Left"
-  const magntitude = parseInt(impactString.split(" ")[0]);
+  //Example impactString: "10 Left 123456789"
+  const magntitude: number = parseInt(impactString.trim().split(" ")[0]);
   const direction = impactString.split(" ")[1];
   const timestamp = parseInt(impactString.split(" ")[2]);
+
   const impact: Impact = { magntitude, direction, timestamp } as Impact;
 
   //update playersImpact state with impact
@@ -129,14 +130,18 @@ const checkBuddiesAvailability = () => {
   });
 };
 
+export const updatePlayersImpactHistory = (
+  player_id: number,
+  impactHistoryString: string
+) => {
+  //update players impact history
+  const impactHistory = JSON.parse(impactHistoryString) as Impact[];
+  useAppState.setState((prevState) => {
+    const playersImpactHistory = { ...prevState.playersImpactHistory };
+    playersImpactHistory[player_id] = impactHistory;
+    return { playersImpactHistory };
+  });
+};
+
 //check buddies availability every 60 seconds
 setInterval(checkBuddiesAvailability, 60000);
-
-//active pages for the dashboard, used for the sidebar
-export type activePage =
-  | "live"
-  | "devices"
-  | "analytics"
-  | "profile"
-  | "test"
-  | "player-management";
