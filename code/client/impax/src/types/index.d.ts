@@ -45,7 +45,9 @@ export type Session = {
   session_name: string;
   createdAt: number;
   updatedAt: number;
+  active: boolean;
 };
+
 export type activePage =
   | "live"
   | "devices"
