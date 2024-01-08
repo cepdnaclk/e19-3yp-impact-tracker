@@ -2,10 +2,7 @@ import jwt from "jsonwebtoken";
 import { LoginResquest, LoginResquestManager } from "../models/login.model";
 
 // create refresh token
-export function createRefreshToken(
-  credentials: LoginResquestManager,
-  role: string
-) {
+export function createRefreshToken(credentials: LoginResquest, role: string) {
   const jwtSecret = process.env.JWT_REFRESH_TOKEN_KEY || "";
   const refreshToken = jwt.sign(
     {
@@ -17,6 +14,7 @@ export function createRefreshToken(
       expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY_TIME,
     }
   );
+
   return refreshToken;
 }
 

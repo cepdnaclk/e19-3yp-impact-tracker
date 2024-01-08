@@ -23,6 +23,7 @@ function createWindow() {
   win = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, "favicon.ico"),
     webPreferences: {
+      nodeIntegration:true,
       preload: path.join(__dirname, "preload.js"),
     },
     // backgroundColor: "#121212",

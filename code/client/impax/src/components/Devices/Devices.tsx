@@ -15,6 +15,55 @@ const Devices: React.FC = () => {
   const playerMap = useAppState((state) => state.playerMap);
   const options: { value: string; label: string }[] = [];
 
+  // let [info, setInfo] = useState(null);
+  const start = async () => {
+    const decoder = new TextDecoder();
+    const filters = [
+      { usbVendorId: 0x2341, usbProductId: 0x0043 },
+      { usbVendorId: 0x2341, usbProductId: 0x0001 },
+    ];
+    // console.log(navigator);
+    if ("serial" in navigator) {
+      // console.log(navigator.serial);
+      console.log("Yahooo Serial is supported");
+      const port = await (navigator.serial as any).requestPort({
+        VendorId: 0x2341,
+        ProductId: 0x0043,
+      });
+      console.log(port);
+      await port.open({ baudRate: 115200 });
+      console.log("Port Opened", port);
+      // Read Data
+      // while (port.readable) {
+      //   const reader = port.readable.getReader();
+      //   try {
+      //     while (true) {
+      //       const { value, done } = await reader.read();
+      //       if (done) {
+      //         // |reader| has been canceled.
+      //         break;
+      //       }
+      //       console.log(decoder.decode(value.buffer));
+      //       // Do something with |value|...
+      //     }
+      //   } catch (error) {
+      //     // Handle |error|...
+      //   } finally {
+      //     reader.releaseLock();
+      //   }
+      // }
+      // The Web Serial API is supported.
+      // const filters = [{ usbVendorId: 6790 }];
+      // // Prompt user to select an Arduino Uno device.
+      // const port = await (navigator.serial as Serial).requestPort({ filters });
+      // // const { usbProductId, usbVendorId } = port.getInfo();
+      // console.log(port.send(222));
+      // port && setInfo(port.getInfo());
+    } else {
+      console.log("its not");
+    }
+  };
+
   //find mapped buddy_ids and unmapped buddy_ids
   const mappedBuddies = Object.keys(playerMap).map((buddy_id) =>
     parseInt(buddy_id)
@@ -54,6 +103,9 @@ const Devices: React.FC = () => {
           // onClick={() => setOpen(true)}
           children="Add new device"
           buttonStyle="secondary"
+          onClick={() => {
+            start();
+          }}
         />
         <p className="devicesTotal">
           {Object.keys(buddies).length} Devices Connected
