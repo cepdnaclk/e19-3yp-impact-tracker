@@ -1,18 +1,29 @@
-import { sendInvitationEmail } from "../email/managerEmail";
+import { sendInvitationEmail } from "../email/managerInviteEmail";
 import { Manager, ManagerResponse } from "../models/manager.model";
 import managerService from "../services/manager.service";
 import { createManagerTeam } from "../services/team.manager.service";
+import { sendVerificationEmail } from "../email/managerVerifyEmail";
+import { v4 as uuidv4 } from 'uuid';
 
 export async function createManager(
   manager: Manager
 ): Promise<ManagerResponse | undefined> {
   try {
+    // Create a manager with an invitation token
+    const invitationToken = generateInvitationToken();
+    manager.acceptInvitation = false;
+    manager.invitationToken = invitationToken;
+
     const managerResponse = await managerService.createManager(manager);
+
+    // Send the verification email
+    await sendVerificationEmail(manager.email, invitationToken);
+
     return managerResponse;
   } catch (error) {
     console.error(error);
+    throw new Error("Failed to create manager");
   }
-  return;
 }
 
 export async function getManager(managerId: string): Promise<ManagerResponse> {
@@ -111,10 +122,15 @@ export async function deleteManager(
   return false;
 }
 
-// Function to generate a unique invitation token (you can implement your logic)
+
 function generateInvitationToken(): string {
-  // Implement your logic to generate a unique token
-  // You can use libraries like uuid or generate a random string
-  // For simplicity, we'll return a placeholder here
-  return "uniqueToken";
+  // Generate a UUID (v4) using the uuid library
+  const uniqueToken = uuidv4();
+
+  // Alternatively, you can generate a random string using characters
+  // const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  // const tokenLength = 10;
+  // const uniqueToken = Array.from({ length: tokenLength }, () => characters.charAt(Math.floor(Math.random() * characters.length))).join('');
+
+  return uniqueToken;
 }

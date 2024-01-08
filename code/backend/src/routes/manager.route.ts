@@ -146,7 +146,8 @@ router.post("/", async (req: Request, res: Response) => {
       lastName,
       email,
       password,
-      false // Initially set to false
+      false, // Initially set to false
+      ""    // Initially set to empty string
     );
 
     // Create the manager and get the response

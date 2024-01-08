@@ -399,7 +399,7 @@
     "/accept-invitation/{token}": {
       "get": {
         "tags": ["ManagerEndpoints"],
-        "summary": "Accept manager invitation",
+        "summary": "Accept manager verification",
         "parameters": [
           {
             "name": "token",
@@ -408,25 +408,23 @@
             "schema": {
               "type": "string"
             },
-            "example": "exampleToken"
+            "example": "f476d19f-8035-4811-9c40-da0fbe300527"
           }
         ],
         "responses": {
           "200": {
             "description": "Success",
             "content": {
-              "application/json": {
-                "example": "Invitation accepted successfully!"
+              "text/plain": {
+                "example": "Invitation accepted successfully! You can now log in."
               }
             }
           },
           "400": {
             "description": "Bad Request",
             "content": {
-              "application/json": {
-                "example": {
-                  "message": "Invalid or expired token."
-                }
+              "text/plain": {
+                "example": "Invalid or expired token. Please contact support."
               }
             }
           }
