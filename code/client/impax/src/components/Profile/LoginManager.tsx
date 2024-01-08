@@ -19,6 +19,7 @@ const LoginManager = () => {
     const response = await fetch("http://localhost:5000/login/manager", {
       method: "POST",
       body: JSON.stringify({
+        teamId: teamId,
         password: password,
         userName: email,
       }),
@@ -27,6 +28,7 @@ const LoginManager = () => {
       },
     });
     const responseData = await response.json();
+    console.log(responseData);
     if (response.ok) {
       navigate("/login/manager");
     }
