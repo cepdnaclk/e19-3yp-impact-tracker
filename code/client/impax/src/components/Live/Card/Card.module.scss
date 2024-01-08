@@ -11,5 +11,19 @@
     background-color: rgb(66, 66, 66);
     border-radius: 50%;
     color: rgba(255, 255, 255, 0.7);
+    transition: all 150ms ease-in-out;
+    &:active {
+      outline: 0;
+    }
+
+    &:hover {
+      &.close {
+        background-color: #622a2a;
+        color: rgb(219, 85, 85);
+      }
+      &.add {
+        background-color: #22ab7f;
+      }
+    }
   }
 }

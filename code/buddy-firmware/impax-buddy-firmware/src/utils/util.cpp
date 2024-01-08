@@ -55,3 +55,22 @@ void blink_LED_WIFI()
         digitalWrite(LED_WIFI, state);
     }
 }
+
+void led(int LED_STATE)
+{
+    if (LED_STATE == LED_OFF)
+    {
+        turnOff_LED_ON();
+        turnOff_LED_WIFI();
+    }
+    else if (LED_STATE == LED_BLINK)
+    {
+        turnOn_LED_ON();
+        blink_LED_WIFI();
+    }
+    else if (LED_STATE == LED_ON)
+    {
+        turnOn_LED_ON();
+        turnOn_LED_WIFI();
+    }
+}

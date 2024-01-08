@@ -5,6 +5,7 @@
 #include <PubSubClient.h>
 #include "WiFiClientSecure.h"
 #include "topics.h"
+#include "../utils/util.h"
 
 #define TIME_DELAY_RECONNECT 2000
 
@@ -16,7 +17,8 @@ public:
     BuddyMQTT(const char *, const char *, const char *, int, const char *, const char *, const char *);
 
     // Public data members
-    WiFiClient espClient = WiFiClient();           // WiFi client for MQTT
+    WiFiClient espClient = WiFiClient(); // WiFi client for MQTT
+    // WiFiClientSecure espClient = WiFiClientSecure(); // WiFi client for MQTT
     PubSubClient client = PubSubClient(espClient); // MQTT client
     String id;                                     // Identifier for the MQTT client
     Topics topics;                                 // Object for storing MQTT topics
@@ -36,10 +38,13 @@ public:
     void init(String id, bool (*communicationDashboard)());         // Initialize the MQTT client
     void reconnect(bool (*communicationDashboard)());               // Reconnect to the MQTT broker
     void publish(const char *, const char *);                       // Publish a message to an MQTT topic
+    void publish(const char *, int);                                // Publish a message to an MQTT topic
     void subscribe(const char *);                                   // Subscribe to an MQTT topic
     void setBroker(const char *, const char *, const char *, int);  // Set MQTT broker details
     void updateTopics();                                            // Update MQTT topics based on the device ID
     void setCertificates(const char *, const char *, const char *); // Set MQTT certificates
+    void setUserName(String);
+    void setPassword(String);
 
 private:
 };

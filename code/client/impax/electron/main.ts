@@ -25,44 +25,44 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
+    backgroundColor: "#121212",
+    minHeight: 600,
+    minWidth: 800,
   });
 
   win.maximize();
+  win.removeMenu();
   //  Web Serial API - Permission handling
 
   win.webContents.session.on(
     "select-serial-port",
-    (event) => {
+    (event, portList, webContents, callback) => {
       // Add listeners to handle ports being added or removed before the callback for `select-serial-port`
       // is called.
-      // console.log(portList);
-      if (win) {
-        win.webContents.session.on("serial-port-added", ( port) => {
-          console.log("serial-port-added FIRED WITH", port);
-          // Optionally update portList to add the new port
-        });
+      win.webContents.session.on("serial-port-added", (event, port) => {
+        console.log("serial-port-added FIRED WITH", port);
+        // Optionally update portList to add the new port
+      });
 
-        win.webContents.session.on("serial-port-removed", ( port) => {
-          console.log("serial-port-removed FIRED WITH", port);
-          // Optionally update portList to remove the port
-        });
-      }
+      win.webContents.session.on("serial-port-removed", (event, port) => {
+        console.log("serial-port-removed FIRED WITH", port);
+        // Optionally update portList to remove the port
+      });
 
       event.preventDefault();
-      // if (portList && portList.length > 0) {
-      //   callback(portList[0].portId);
-      // } else {
-      //   callback(""); // Could not find any matching devices
-      // }
+      if (portList && portList.length > 0) {
+        callback(portList[0].portId);
+      } else {
+        // eslint-disable-next-line n/no-callback-literal
+        callback(""); // Could not find any matching devices
+      }
     }
   );
 
-  win.webContents.session.setPermissionCheckHandler(
-    () => {
-      // console.log('setPermissionCheckHandler grant ', details);
-      return true;
-    }
-  );
+  win.webContents.session.setPermissionCheckHandler(() => {
+    // console.log('setPermissionCheckHandler grant ', details);
+    return true;
+  });
   win.webContents.session.setDevicePermissionHandler(() => {
     // console.log('setDevicePermissionHandler grant ', details);
     return true;

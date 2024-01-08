@@ -1,7 +1,3 @@
-import { Request, Response } from "express";
-import TeamModel from "../db/team.schema";
-import ManagerModel from "../db/manager.schema";
-
 import {
   TeamIdExistsResponse,
   TeamIdEmailExistsResponse,
@@ -10,6 +6,10 @@ import {
 } from "../models/team.model";
 
 import teamService from "../services/team.service";
+import {
+  checkManagerExistsInTeamDetails,
+  deleteManagerFromTeamDetails,
+} from "../services/team.manager.service";
 
 export async function checkTeamExist(
   teamId: string
@@ -64,4 +64,60 @@ export async function createTeam(
     // Handle the error, either by returning a default value or throwing an error
     throw new Error("Failed to create team");
   }
+}
+
+export async function getTeam(
+  teamId: string
+): Promise<TeamResponse | undefined> {
+  try {
+    const teamResponse = await teamService.getTeam(teamId);
+    return teamResponse;
+  } catch (error) {
+    console.error(error);
+    // Handle the error, either by returning a default value or throwing an error
+    throw new Error("Failed to get team");
+  }
+}
+
+// delete team
+export async function deleteTeam(teamId: string): Promise<boolean> {
+  try {
+    await teamService.deleteTeam(teamId);
+    return true;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+// check the manager team exits
+export async function checkManagerExistsInTeam(
+  managerEmail: string,
+  teamId: string
+): Promise<boolean> {
+  try {
+    const managerExists = await checkManagerExistsInTeamDetails(
+      managerEmail,
+      teamId
+    );
+    return managerExists;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+// delete manager and team entry using deleteManagerFromTeam
+export async function deleteManagerFromTeam(
+  managerEmail: string,
+  teamId: string
+): Promise<boolean> {
+  try {
+    await deleteManagerFromTeamDetails(managerEmail, teamId);
+    return true;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+  return false;
 }

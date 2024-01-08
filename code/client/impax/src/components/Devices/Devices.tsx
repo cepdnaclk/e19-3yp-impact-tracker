@@ -5,14 +5,49 @@ import styles from "./Devices.module.scss";
 import Btn from "../Buttons/Btn";
 import { IoAdd } from "react-icons/io5";
 import MappedDevice from "./Card/MappedDevice";
-// import Modal from "../Modal/Modal";
+import { useAppState } from "../../states/appState";
+import { Buddies } from "../../types";
+import NoMqttConnection from "../StatusScreens/NoMqttConnection";
 
 const Devices: React.FC = () => {
-  // const [isOpen, setOpen] = useState<boolean>(false);
+  const buddies: Buddies = useAppState((state) => state.buddiesStatus);
+  const playerDetails = useAppState((state) => state.playerDetails);
+  const playerMap = useAppState((state) => state.playerMap);
+  const options: { value: string; label: string }[] = [];
 
+  //find mapped buddy_ids and unmapped buddy_ids
+  const mappedBuddies = Object.keys(playerMap).map((buddy_id) =>
+    parseInt(buddy_id)
+  );
+  const unMappedBuddies = Object.keys(buddies)
+    .filter((buddy_id: string) => !mappedBuddies.includes(parseInt(buddy_id)))
+    .map((buddy_id) => parseInt(buddy_id));
+
+  //get unmapped players
+  //has entries in playerDetails but not in playerMap
+
+  for (const jersey_number in playerDetails) {
+    //if (playerDetails[jersey_number]) continue; //empty jerysey number
+    if (Object.values(playerMap).includes(parseInt(jersey_number))) continue;
+    options.push({
+      value: jersey_number.toString(),
+      label: `${jersey_number} ${playerDetails[jersey_number].name}`,
+    });
+  }
+
+  //if mqtt is not connected, show no connection page
+  const isMqttOnline = useAppState((state) => state.isMqttOnine);
+  if (!isMqttOnline) {
+    return (
+      <main className="main">
+        <Title title="Buddy Connectivity" Icon={MdDeviceHub} />
+        <NoMqttConnection />
+      </main>
+    );
+  }
   return (
     <main className="main">
-      <Title title="Device Connectivity" Icon={MdDeviceHub} />
+      <Title title="Buddy Connectivity" Icon={MdDeviceHub} />
       <div className={styles.summary}>
         <Btn
           Icon={IoAdd}
@@ -20,27 +55,43 @@ const Devices: React.FC = () => {
           children="Add new device"
           buttonStyle="secondary"
         />
-        <p className="devicesTotal">9 Devices Connected</p>
+        <p className="devicesTotal">
+          {Object.keys(buddies).length} Devices Connected
+        </p>
       </div>
 
-      {/* Add Device Modal */}
-      {/* <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
-        <div
-          style={{ width: "200px", height: "400px", backgroundColor: "red" }}
-        >
-          Test
+      {mappedBuddies.length > 0 && (
+        <div className={styles.mapped}>
+          <h3>Mapped Devices</h3>
+          <div className={styles.grid}>
+            {mappedBuddies.map((buddy_id: number) => (
+              <MappedDevice
+                key={buddy_id}
+                buddyID={buddy_id}
+                batteryLevel={buddies[buddy_id].battery}
+                options={options}
+                playerID={playerMap[buddy_id]}
+              />
+            ))}
+          </div>
         </div>
-      </Modal> */}
+      )}
 
-      <div className={styles.mapped}>
-        <h3>Mapped Devices</h3>
-        <div className={styles.grid}>
-          <MappedDevice batteryLevel={10} deviceID="#124" />
-          <MappedDevice batteryLevel={100} deviceID="#42" />
-          <MappedDevice batteryLevel={40} deviceID="#12" />
-          <MappedDevice batteryLevel={80} deviceID="#213" />
+      {unMappedBuddies.length > 0 && (
+        <div className={styles.active}>
+          <h3>Unmapped Buddies</h3>
+          <div className={styles.grid}>
+            {unMappedBuddies.map((buddy_id: number) => (
+              <MappedDevice
+                key={buddy_id}
+                buddyID={buddy_id}
+                batteryLevel={buddies[buddy_id].battery}
+                options={options}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </main>
   );
 };

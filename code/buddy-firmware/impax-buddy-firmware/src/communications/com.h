@@ -2,6 +2,7 @@
 #define COM_H
 
 #include <Arduino.h>
+#include "../utils/util.h"
 
 #define REQUEST "request"
 #define ACK "ack"
@@ -15,6 +16,11 @@
 #define DELAY_TIME 100
 #define ACK_COUNT 100
 
+#define MSG_PARA 5
+
+// Format string
+// {ssid,password,mqtt_username,mqtt_password,key})
+
 class Com
 {
 public:
@@ -27,7 +33,7 @@ public:
 
     bool comInit();
 
-    bool dataDecode(String *ssid, String *password, String *key);
+    bool dataDecode(String *ssid, String *password, String *mqtt_username, String *mqtt_password, String *key);
 };
 
 bool validateStringFormat(const char *);

@@ -35,6 +35,7 @@ void BuddyMQTT::reconnect(bool (*communicationDashboard)())
     // Attempt to connect to the MQTT broker
     while (!client.connected())
     {
+        led(LED_BLINK);
         communicationDashboard();
         // Generate a client ID based on ESP32 MAC address
         String client_id = "esp32-client-";
@@ -59,7 +60,16 @@ void BuddyMQTT::reconnect(bool (*communicationDashboard)())
 // Publish a message to a specified MQTT topic
 void BuddyMQTT::publish(const char *topic, const char *msg)
 {
-    client.publish(topic, msg);
+    client.publish(topic, msg, true);
+}
+
+void BuddyMQTT::publish(const char *topic, int msg)
+{
+    // Convert the integer to a string before publishing
+    String msgString = String(msg);
+
+    // Publish the message
+    client.publish(topic, msgString.c_str(), true);
 }
 
 // Subscribe to a specified MQTT topic
@@ -71,8 +81,9 @@ void BuddyMQTT::subscribe(const char *topic)
 // Update MQTT topics based on the device ID
 void BuddyMQTT::updateTopics()
 {
-    topics.TEST = "/" + id + topics.TEST;
-    topics.BATTERY = "/" + id + topics.BATTERY;
+    topics.TEST = id + topics.TEST;
+    topics.BATTERY = id + topics.BATTERY;
+    topics.IMPACT = id + topics.IMPACT;
 }
 
 // Set MQTT broker and authentication details
@@ -109,4 +120,16 @@ void callback(char *topic, byte *payload, unsigned int length)
     }
     Serial.println();
     Serial.println("-----------------------");
+}
+
+// Set MQTT username
+void BuddyMQTT::setUserName(String username)
+{
+    this->mqtt_username = username.c_str();
+}
+
+// Set MQTT password
+void BuddyMQTT::setPassword(String password)
+{
+    this->mqtt_password = password.c_str();
 }

@@ -38,10 +38,11 @@ form {
   gap: 1em;
   .inputContainer {
     label {
-      position: relative;
+      display: block;
       font-size: 0.9em;
       font-weight: 600;
-      left: 0.6em;
+      margin-bottom: 0.4em;
+      margin-left: 0.6em;
     }
 
     input,
@@ -67,6 +68,11 @@ form {
   border-radius: 0.4rem;
   cursor: pointer;
   padding: 1rem;
+  &:disabled,&[disabled] {
+    background-color: rgba(32, 48, 103, 0.5);
+    color: rgba(211, 216, 255, 0.5);
+    cursor: not-allowed;
+  }
 }
 
 .loginText {

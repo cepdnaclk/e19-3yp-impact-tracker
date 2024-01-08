@@ -24,10 +24,12 @@ class TeamIdEmailExistsResponse {
 class Team {
   public teamId: string;
   public teamName: string;
+  public teamManager: string;
 
-  public constructor(teamId: string, teamName: string) {
+  public constructor(teamId: string, teamName: string, teamManager: string) {
     this.teamId = teamId;
     this.teamName = teamName;
+    this.teamManager = teamManager;
   }
 }
 
@@ -41,10 +43,21 @@ class TeamResponse {
   }
 }
 
+class TeamManagerResponse {
+  private teamId: string;
+  private email: string;
+
+  public constructor(teamId: string, email: string) {
+    this.teamId = teamId;
+    this.email = email;
+  }
+}
+
 export {
   TeamIdExistsResponse,
   TeamManagerInterface,
   TeamIdEmailExistsResponse,
   Team,
   TeamResponse,
+  TeamManagerResponse,
 };

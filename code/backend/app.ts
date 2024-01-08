@@ -14,8 +14,9 @@ const app: Express = express();
 dotenv.config();
 
 // Middleware setup
+//app.use(cors(options));
+app.use(cors());
 app.use(bodyParser.json());
-app.use(cors(options));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -23,11 +24,10 @@ app.use(express.json());
 import teamRoutes from "./src/routes/team.route";
 import managerRoutes from "./src/routes/manager.route";
 import login from "./src/routes/login.route";
-
-// Use the defined routes for specific endpoints
-app.use("/team", teamRoutes);
-app.use("/manager", managerRoutes);
-app.use("/login", login);
+import auth from "./src/routes/auth.route";
+import player from "./src/routes/player.route";
+import hub from "./src/routes/hub.route";
+import { accessTokenMiddleware } from "./src/middleware/auth.middleware";
 
 // Serve Swagger UI documentation at the '/api-docs' endpoint
 import * as swaggerDocument from "./swagger.json";
@@ -37,5 +37,18 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get("/", (req: Request, res: Response) => {
   res.send(apiInfo.definition.info);
 });
+
+// auth route to get access token
+app.use("/auth", auth);
+
+// Verify access token for all routes except the login route
+app.use(accessTokenMiddleware);
+
+// Use the defined routes for specific endpoints
+app.use("/login", login);
+app.use("/team", teamRoutes);
+app.use("/manager", managerRoutes);
+app.use("/player", player);
+app.use("/hub", hub);
 
 export default app; // Export the Express application to be used by serverless Function
