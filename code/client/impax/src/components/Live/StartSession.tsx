@@ -16,6 +16,7 @@ const StartSession: React.FC = () => {
       session_name: sessionName,
       session_id: generateStringId(sessionName),
       createdAt: Date.now(),
+      updatedAt: Date.now(),
     } as Session;
 
     setSessionDetails(session);

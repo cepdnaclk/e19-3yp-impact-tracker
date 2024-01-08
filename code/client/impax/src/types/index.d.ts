@@ -44,6 +44,7 @@ export type Session = {
   session_id: string;
   session_name: string;
   createdAt: number;
+  updatedAt: number;
 };
 export type activePage =
   | "live"

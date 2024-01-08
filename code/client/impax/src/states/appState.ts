@@ -125,6 +125,7 @@ export const useAppState = create<AppState>()((set) => ({
 
       const sessionDetails = { ...prevState.sessionDetails };
       sessionDetails.session_name = sessionName;
+      sessionDetails.updatedAt = Date.now();
 
       // publish session to mqtt
       MqttClient.getInstance().publishSession(sessionDetails);
