@@ -21,6 +21,8 @@ enum HttpMsg {
   PASSWORD_INCORRECT = "Password is incorrect",
   ERROR_CREATING_LOGIN = "Error creating login",
   ERROR_CREATING_JWT = "Error creating JWT",
+  SESSION_SUCESS = "Session created successfully",
+  SESSION_ERROR = "Error creating session",
 }
 
 export { HttpCode, HttpMsg };

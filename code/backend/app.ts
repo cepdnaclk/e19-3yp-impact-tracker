@@ -27,6 +27,7 @@ import login from "./src/routes/login.route";
 import auth from "./src/routes/auth.route";
 import player from "./src/routes/player.route";
 import hub from "./src/routes/hub.route";
+import session from "./src/routes/session.route";
 import { accessTokenMiddleware } from "./src/middleware/auth.middleware";
 
 // Serve Swagger UI documentation at the '/api-docs' endpoint
@@ -50,5 +51,6 @@ app.use("/team", teamRoutes);
 app.use("/manager", managerRoutes);
 app.use("/player", player);
 app.use("/hub", hub);
+app.use("/session", session);
 
 export default app; // Export the Express application to be used by serverless Function
