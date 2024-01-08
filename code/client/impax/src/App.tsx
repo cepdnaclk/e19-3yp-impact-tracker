@@ -26,7 +26,12 @@ function App() {
 
               <Route
                 path="login/manager"
-                element={<Success title="Login" description="LORUM IPSUM" />}
+                element={
+                  <Success
+                    title="Login"
+                    description="We're thrilled to see you again Feel free to explore all the features and functionalities we offer. "
+                  />
+                }
               />
               <Route path="/live" Component={Live} />
               <Route path="devices" element={<Devices />} />
@@ -36,7 +41,12 @@ function App() {
               <Route path="/signup/manager" element={<TeamCreation />} />
               <Route
                 path="/signup/manager/success"
-                element={<Success title="Signup" description="LORUM IPSUM" />}
+                element={
+                  <Success
+                    title="Signup"
+                    description="Welcome to our platform! We're excited to have you join our community. Get ready to explore all the amazing features and services we offer. "
+                  />
+                }
               />
             </Routes>
             {/* <Content isOnline={online} /> */}

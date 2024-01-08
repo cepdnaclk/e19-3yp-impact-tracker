@@ -6,9 +6,10 @@ const Hero = () => {
       <div className={styles.content}>
         <img src="../../src/assets/logos/Logo-Impax.svg" alt="" />
         <p>
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. At, dolor"
+          "The study examined 694 brains, and found that <strong>20.2% </strong>
+          of former athletes had Lewy Body Disease."
         </p>
-        <p> - University of Lorem, 2022</p>
+        <p> - The Tennessean</p>
       </div>
       <img
         className={styles.coverImg}
