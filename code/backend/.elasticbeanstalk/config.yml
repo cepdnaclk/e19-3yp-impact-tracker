@@ -2,6 +2,10 @@ branch-defaults:
   default:
     environment: backend-dev
     group_suffix: null
+environment-defaults:
+  backend-dev:
+    branch: null
+    repository: null
 global:
   application_name: backend
   branch: null
