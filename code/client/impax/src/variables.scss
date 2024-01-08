@@ -7,6 +7,11 @@ $grey-color: rgb(170, 170, 170);
 $sidebar-cl: #1a1a1a;
 $grey-highlight-1: #2e2e2e;
 $grey-highlight-2: #262626;
+$breakpoints: (
+  mobile: 768px,
+  laptop: 1240px,
+  desktop-lg: 1800px,
+);
 @mixin gridBlock {
   margin: 3em 0;
   h3 {
