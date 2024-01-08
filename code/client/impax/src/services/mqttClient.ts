@@ -27,8 +27,9 @@ class MqttClient {
       "test/#",
       "buddy/+/status",
       "buddy/+/impact",
+      "buddy/+/impact_with_timestamp",
       "session",
-      "buddy/+/impact_history",
+      "player/+/impact_history",
       "player_map",
     ];
 
@@ -70,10 +71,7 @@ class MqttClient {
             //topic = buddy/+/impact
             updateImpact(buddy_id, message.toString());
             break;
-          case "impact_history":
-            // topic = "buddy/+/impact_history";
-            console.log("impact_history", topic, message.toString());
-            break;
+
           default:
             break;
         }

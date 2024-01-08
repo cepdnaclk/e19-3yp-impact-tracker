@@ -31,7 +31,7 @@ function createWindow() {
   });
 
   win.maximize();
-  win.removeMenu();
+  // win.removeMenu();
   //  Web Serial API - Permission handling
 
   win.webContents.session.on(
@@ -39,16 +39,17 @@ function createWindow() {
     (event, portList, webContents, callback) => {
       // Add listeners to handle ports being added or removed before the callback for `select-serial-port`
       // is called.
-      win.webContents.session.on("serial-port-added", (event, port) => {
-        console.log("serial-port-added FIRED WITH", port);
-        // Optionally update portList to add the new port
-      });
+      if (win) {
+        win.webContents.session.on("serial-port-added", (event, port) => {
+          console.log("serial-port-added FIRED WITH", port);
+          // Optionally update portList to add the new port
+        });
 
-      win.webContents.session.on("serial-port-removed", (event, port) => {
-        console.log("serial-port-removed FIRED WITH", port);
-        // Optionally update portList to remove the port
-      });
-
+        win.webContents.session.on("serial-port-removed", (event, port) => {
+          console.log("serial-port-removed FIRED WITH", port);
+          // Optionally update portList to remove the port
+        });
+      }
       event.preventDefault();
       if (portList && portList.length > 0) {
         callback(portList[0].portId);

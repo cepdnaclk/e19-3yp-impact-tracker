@@ -80,7 +80,10 @@ export const useAppState = create<AppState>()((set) => ({
 
   //For the player map
   playerMap: {} as PlayerMap,
-  setPlayerMap: (playerMap: PlayerMap) => set({ playerMap: playerMap }),
+  setPlayerMap: (playerMap: PlayerMap) => {
+    set({ playerMap: playerMap });
+  },
+
   updatePlayerMap: (buddy_id: number, player_id: number) => {
     set((prevState) => {
       const playerMap = { ...prevState.playerMap };
@@ -99,9 +102,13 @@ export const useAppState = create<AppState>()((set) => ({
       const playerMap = { ...prevState.playerMap };
       delete playerMap[buddy_id];
 
+      //update monitoringBuddies accordingly, if not in playerMap it should not be in monitoringBuddies
+      const monitoringBuddies = new Set(prevState.monitoringBuddies);
+      monitoringBuddies.delete(buddy_id);
+
       //publish new playerMap to mqtt
       MqttClient.getInstance().publishPlayerMap(playerMap);
-      return { playerMap };
+      return { playerMap, monitoringBuddies };
     });
   },
 
