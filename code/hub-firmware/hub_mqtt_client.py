@@ -67,13 +67,10 @@ def on_message(client, userdata, msg):
             device_id = msg.topic.split("/")[1]
             if device_id in player_device_mapping:
                 player_id = player_device_mapping[device_id]
-<<<<<<< HEAD
                 timestamp = int(time.time()*1000)+time_offset
                 impact_json = data[0]+' '+data[1]+' '+ str(timestamp)
-=======
                 timestamp = int(time.time()*1000)+timestamp
                 impact_json = data[0]+' '+data[1]+' ' + str(timestamp)
->>>>>>> cb4fc52dbe49606a62c60a112f472d0511b83cb2
                 print(impact_json)
 
                 impact_with_time = "buddy/" + device_id + "/impact_with_timestamp"
