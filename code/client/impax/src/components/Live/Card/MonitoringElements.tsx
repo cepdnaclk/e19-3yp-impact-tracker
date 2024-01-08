@@ -1,12 +1,11 @@
 import React from "react";
 import styles from "./MonitoringElements.module.scss";
-import { MdSpeed } from "react-icons/md";
-import { IoFootstepsSharp } from "react-icons/io5";
 import { PiWarningOctagonFill } from "react-icons/pi";
 import Btn from "../../Buttons/Btn";
 import { FaHistory, FaTimes } from "react-icons/fa";
 import { Impact } from "../../../types";
 import AlertModal from "../../Modal/AlertModal";
+import DialogModal from "../../Modal/DialogModal";
 
 type metrics = {
   speed: number;
@@ -18,7 +17,7 @@ const MonitoringElements: React.FC<{
   latestImpact?: Impact;
   totalImpact?: number;
 }> = ({ metrics, latestImpact, totalImpact }) => {
-  const timeDiff = new Date().getTime() - 15 * 60 * 1000;
+  const timeDiff = latestImpact ? Date.now() - latestImpact.timestamp : 0;
 
   // Convert the time difference to minutes
   const elapsedTimeInMins = Math.floor(timeDiff / (1000 * 60));
@@ -34,9 +33,15 @@ const MonitoringElements: React.FC<{
       </div> */}
       <div
         className={`${styles.impactContainer} ${
-          elapsedTimeInMins < threshold && styles.newImpact
+          latestImpact !== undefined &&
+          elapsedTimeInMins < threshold &&
+          styles.newImpact
+        } ${
+          latestImpact !== undefined &&
+          elapsedTimeInMins < threshold / 2 &&
+          styles.critical
         }
-            ${elapsedTimeInMins < threshold / 2 && styles.critical}`}
+        `}
       >
         <div className={`${styles.impact} ${styles.latest}`}>
           <p className={styles.label}>
@@ -83,28 +88,36 @@ const MonitoringElements: React.FC<{
           }
           cancel={<Btn Icon={FaTimes}>Cancel</Btn>}
         />
-        <Btn
-          Icon={FaHistory}
-          buttonStyle="secondary"
-          bgColor="rgba(125,125,125,0.2)"
-        >
-          Impact History
-        </Btn>
+        <DialogModal
+          title="Impact History"
+          description="View all the impacts recorded for this player 
+        "
+          trigger={
+            <Btn
+              Icon={FaHistory}
+              buttonStyle="secondary"
+              bgColor="rgba(125,125,125,0.2)"
+            >
+              Impact History
+            </Btn>
+          }
+          confirmButton={<></>}
+        />
       </div>
     </>
   );
 };
 
-const MetricItem: React.FC<{ Icon: React.ElementType; value: string }> = ({
-  Icon,
-  value,
-}) => {
-  return (
-    <div className={styles.item}>
-      <Icon className={styles.icon} />
-      <span className={styles.value}>{value}</span>
-    </div>
-  );
-};
+// const MetricItem: React.FC<{ Icon: React.ElementType; value: string }> = ({
+//   Icon,
+//   value,
+// }) => {
+//   return (
+//     <div className={styles.item}>
+//       <Icon className={styles.icon} />
+//       <span className={styles.value}>{value}</span>
+//     </div>
+//   );
+// };
 
 export default MonitoringElements;

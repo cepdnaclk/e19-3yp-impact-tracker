@@ -91,7 +91,7 @@ const ActiveSession = () => {
             title="Are you sure to exit session?"
             description="Session data will be downloaded to your computer and uploaded when connected to the internet"
             action={
-              <Btn Icon={IoMdExit} onClick={endSession}>
+              <Btn Icon={IoMdExit} onClick={() => endSession()}>
                 Confirm Exit
               </Btn>
             }

@@ -23,10 +23,10 @@ function createWindow() {
   win = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, "favicon.ico"),
     webPreferences: {
-      nodeIntegration:true,
+      nodeIntegration: true,
       preload: path.join(__dirname, "preload.js"),
     },
-    // backgroundColor: "#121212",
+    backgroundColor: "#121212",
     minHeight: 600,
     minWidth: 800,
   });
@@ -35,44 +35,49 @@ function createWindow() {
   // win.removeMenu();
   //  Web Serial API - Permission handling
 
-  win.webContents.session.on('select-serial-port', (event, portList, webContents, callback) => {
-    // Add listeners to handle ports being added or removed before the callback for `select-serial-port`
-    // is called.
-    if (win) {
-      win.webContents.session.on('serial-port-added', (event, port) => {
-        console.log('serial-port-added FIRED WITH', port)
-        // Optionally update portList to add the new port
-      })
+  win.webContents.session.on(
+    "select-serial-port",
+    (event, portList, webContents, callback) => {
+      // Add listeners to handle ports being added or removed before the callback for `select-serial-port`
+      // is called.
+      if (win) {
+        win.webContents.session.on("serial-port-added", (event, port) => {
+          console.log("serial-port-added FIRED WITH", port);
+          // Optionally update portList to add the new port
+        });
 
-      win.webContents.session.on('serial-port-removed', (event, port) => {
-        console.log('serial-port-removed FIRED WITH', port)
-        // Optionally update portList to remove the port
-      })
+        win.webContents.session.on("serial-port-removed", (event, port) => {
+          console.log("serial-port-removed FIRED WITH", port);
+          // Optionally update portList to remove the port
+        });
+      }
+      event.preventDefault();
+      if (portList && portList.length > 0) {
+        callback(portList[0].portId);
+      } else {
+        // eslint-disable-next-line n/no-callback-literal
+        callback(""); // Could not find any matching devices
+      }
     }
-    event.preventDefault()
-    if (portList && portList.length > 0) {
-      callback(portList[0].portId)
-    } else {
-      // eslint-disable-next-line n/no-callback-literal
-      callback('') // Could not find any matching devices
-    }
-  })
+  );
 
-  win.webContents.session.setPermissionCheckHandler((webContents, permission, requestingOrigin, details) => {
-    if (permission === 'serial' && details.securityOrigin === 'file:///') {
-      return true
-    }
+  win.webContents.session.setPermissionCheckHandler(
+    (webContents, permission, requestingOrigin, details) => {
+      if (permission === "serial" && details.securityOrigin === "file:///") {
+        return true;
+      }
 
-    return false
-  })
+      return false;
+    }
+  );
 
   win.webContents.session.setDevicePermissionHandler((details) => {
-    if (details.deviceType === 'serial' && details.origin === 'file://') {
-      return true
+    if (details.deviceType === "serial" && details.origin === "file://") {
+      return true;
     }
 
-    return false
-  })
+    return false;
+  });
   // Test active push message to Renderer-process.
   win.webContents.on("did-finish-load", () => {
     win?.webContents.send("main-process-message", new Date().toLocaleString());

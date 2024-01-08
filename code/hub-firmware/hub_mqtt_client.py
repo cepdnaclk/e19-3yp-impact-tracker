@@ -13,7 +13,7 @@ impact_topic = "buddy/+/impact"
 mapping_topic = "player_map"
 session_topic = "session"
 session_end_topic = "session_end"
-session_data= "session_data"
+session_data = "session_data"
 is_concussion_topic = "player/+/concussion"
 
 # Player to device mapping (device_id:player_id)
@@ -25,12 +25,14 @@ start_time = None
 data_buffer = {}
 time_offset = 0
 
+
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
     client.subscribe("#")
 
+
 def on_message(client, userdata, msg):
-    global session_started, start_time, data_buffer, player_device_mapping,time_offset
+    global session_started, start_time, data_buffer, player_device_mapping, time_offset
 
     # data from dashboards - JSON objects
     print(msg.payload.decode())
@@ -55,34 +57,42 @@ def on_message(client, userdata, msg):
             session_started = True
             start_time = int(time.time()*1000)
             time_offset = data["updatedAt"]-start_time
-            print("time offset:",time_offset)
+            print("time offset:", time_offset)
             print("Session updated!")
 
     elif bool(re.search(r"buddy/\d+/impact$", msg.topic)):
-        if session_started :
+        if session_started:
             # Add timestamp to the received data and publish to the dashboards
             # data = magnitude direction
             device_id = msg.topic.split("/")[1]
             if device_id in player_device_mapping:
                 player_id = player_device_mapping[device_id]
+<<<<<<< HEAD
                 timestamp = int(time.time()*1000)+time_offset
                 impact_json = data[0]+' '+data[1]+' '+ str(timestamp)
+=======
+                timestamp = int(time.time()*1000)+timestamp
+                impact_json = data[0]+' '+data[1]+' ' + str(timestamp)
+>>>>>>> cb4fc52dbe49606a62c60a112f472d0511b83cb2
                 print(impact_json)
-                
-                impact_with_time = "buddy/"+ device_id+ "/impact_with_timestamp"           
+
+                impact_with_time = "buddy/" + device_id + "/impact_with_timestamp"
                 client.publish(impact_with_time, impact_json, retain=True)
-                
+
                 # Store the data in the buffer
                 if player_id not in data_buffer:
-                    data_buffer[player_id] = []          
-                impact= {"magnitude": int(data[0]), "direction": data[1], "timestamp": timestamp,"isConcussion": False}     
+                    data_buffer[player_id] = []
+                impact = {"magnitude": int(
+                    data[0]), "direction": data[1], "timestamp": timestamp, "isConcussion": False}
                 data_buffer[player_id].append(impact)
-        
+
                 # send total impact history to dashboards
                 impact_history = data_buffer[player_id]
-                impact_history_topic = "player/"+str(player_id)+"/impact_history"
-                client.publish(impact_history_topic, json.dumps(impact_history), retain=True)
-    
+                impact_history_topic = "player/" + \
+                    str(player_id)+"/impact_history"
+                client.publish(impact_history_topic, json.dumps(
+                    impact_history), retain=True)
+
     elif bool(re.search(r"player/\d+/concussion$", msg.topic)):
         # if concussion, record it in the buffer
         player_id = msg.topic.split("/")[1]
@@ -93,21 +103,23 @@ def on_message(client, userdata, msg):
             if impact["timestamp"] == timestamp:
                 impact["isConcussion"] = data["isConcussion"]
                 break
-        
+
+
 def on_disconnect(client, userdata, rc):
     print("Disconnected with result code " + str(rc))
+
 
 def end_session():
     global session_started, start_time, data_buffer, player_device_mapping
     session_started = False
     for entry in data_buffer:
         client.publish(session_data, json.dumps(entry), retain=True)
-    
+
     data_buffer = []  # Clear the buffer after sending the stored data
     start_time = None
     player_device_mapping = {}
     print("Session ended!")
-    
+
 
 # Create MQTT client
 client = mqtt.Client()

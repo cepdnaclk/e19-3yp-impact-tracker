@@ -1,6 +1,9 @@
 //Example ImpactHistory
-// { 12:  [{magntitude: 10, direction: "left", timestamp: 123456789, isConcussion: true }],
+// { 12:  [
+//  {magntitude: 10, direction: "left", timestamp: 123456789, isConcussion: true }
+// ],
 //   13:  [{magntitude: 10, direction: "left", timestamp: 123456789, isConcussion: false }],}
+
 export type PlayerImpactHistory = {
   [jersey_number: number]: Impact[];
 };
@@ -45,7 +48,9 @@ export type Session = {
   session_name: string;
   createdAt: number;
   updatedAt: number;
+  active: boolean;
 };
+
 export type activePage =
   | "live"
   | "devices"

@@ -5,6 +5,7 @@ import {
   updateImpact,
   setPlayerMap,
   setSessionDetails,
+  updatePlayersImpactHistory,
 } from "../states/updateAppStates";
 import { Session } from "../types";
 
@@ -15,12 +16,12 @@ class MqttClient {
   private topics: string[];
 
   private constructor() {
-    this.client = mqtt.connect("ws://localhost:8080/", {
+    this.client = mqtt.connect("ws://192.168.8.151:8080/", {
       clientId: "impax-dashboard",
       reconnectPeriod: 2000,
       keepalive: 60,
-      // username: "impax",
-      // password: "impax",
+      username: "impax",
+      password: "impax",
     });
 
     this.topics = [
@@ -30,6 +31,7 @@ class MqttClient {
       "buddy/+/impact_with_timestamp",
       "session",
       "player/+/impact_history",
+      "player/+/concussion",
       "player_map",
     ];
 
@@ -56,26 +58,7 @@ class MqttClient {
     console.log(`Received message on topic ${topic}: ${message}`);
     switch (true) {
       case /^buddy\/\d+/.test(topic):
-        //message from buddy
-        //split topic to get buddy_id, and the subtopic
-        const params = topic.split("/");
-        const buddy_id = parseInt(params[1]);
-        const subTopic = params[2];
-
-        switch (subTopic) {
-          case "status":
-            //topic = buddy/+/status
-            updateBuddy(buddy_id, parseInt(message.toString()));
-            break;
-          case "impact":
-            //topic = buddy/+/impact
-            updateImpact(buddy_id, message.toString());
-            break;
-
-          default:
-            break;
-        }
-
+        handleMessageFromBuddy(topic, message);
         break;
 
       case /^session$/.test(topic):
@@ -86,6 +69,9 @@ class MqttClient {
         setPlayerMap(message.toString());
         break;
 
+      case /^player\/\d+/.test(topic):
+        handleMessageFromPlayer(topic, message);
+        break;
       default:
         break;
     }
@@ -111,10 +97,6 @@ class MqttClient {
     this.publish(`buddy/${buddy_id}/status`, status.toString());
   }
 
-  public endSession = () => {
-    this.publish("session", "end");
-  };
-
   private publish = (topic: string, message: string | Buffer) => {
     this.client.publish(topic, message, { retain: true }, (err) => {
       if (err) {
@@ -133,3 +115,44 @@ class MqttClient {
 }
 
 export default MqttClient;
+
+const handleMessageFromBuddy = (topic: string, message: Buffer) => {
+  //message from buddy
+  //split topic to get buddy_id, and the subtopic
+  const params = topic.split("/");
+  const buddy_id = parseInt(params[1]);
+  const subTopic = params[2];
+
+  switch (subTopic) {
+    case "status":
+      //topic = buddy/+/status
+      updateBuddy(buddy_id, parseInt(message.toString()));
+      break;
+    case "impact_with_timestamp":
+      //topic = buddy/+/impact_with_timestamp
+      updateImpact(buddy_id, message.toString());
+      break;
+
+    default:
+      break;
+  }
+};
+
+const handleMessageFromPlayer = (topic: string, message: Buffer) => {
+  //message from player
+  //split topic to get player_id, and the subtopic
+  const param = topic.split("/");
+  const player_id = parseInt(param[1]);
+  const subtopic = param[2];
+
+  switch (subtopic) {
+    case "impact_history":
+      updatePlayersImpactHistory(player_id, message.toString());
+      break;
+    case "concussion":
+      break;
+    default:
+      break;
+    //topic = player/+/impact_history
+  }
+};

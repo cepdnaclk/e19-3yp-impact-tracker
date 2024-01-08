@@ -3,7 +3,7 @@ import time
 import random
 
 # MQTT broker settings
-broker_address = "raspberrypi"
+broker_address = "localhost"
 broker_port = 1883
 
 # Number of buddy devices
@@ -58,7 +58,8 @@ while True:
             magnitude = random.randint(14, 100)
             direction = random.choice(
                 ["left", "right", "front", "back", "top", "bottom"])
-            topic = f"buddy/{client_id_str.split('_')[1]}/impact"
-            client.publish(topic, f"{magnitude} {direction}", retain=True)
+            topic = f"buddy/{client_id_str.split('_')[1]}/impact_with_timestamp"
+            client.publish(
+                topic, f"{magnitude} {direction} {int(time.time() * 1000)}", retain=True)
 
     time.sleep(5)  # Check for new publications every second
