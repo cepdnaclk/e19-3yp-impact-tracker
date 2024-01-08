@@ -1,8 +1,11 @@
 import jwt from "jsonwebtoken";
-import { LoginResquest } from "../models/login.model";
+import { LoginResquest, LoginResquestManager } from "../models/login.model";
 
 // create refresh token
-export function createRefreshToken(credentials: LoginResquest, role: string) {
+export function createRefreshToken(
+  credentials: LoginResquestManager,
+  role: string
+) {
   const jwtSecret = process.env.JWT_REFRESH_TOKEN_KEY || "";
   const refreshToken = jwt.sign(
     {
