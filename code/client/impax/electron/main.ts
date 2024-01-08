@@ -31,7 +31,7 @@ function createWindow() {
   });
 
   win.maximize();
-  win.removeMenu();
+  // win.removeMenu();
   //  Web Serial API - Permission handling
 
   win.webContents.session.on(
