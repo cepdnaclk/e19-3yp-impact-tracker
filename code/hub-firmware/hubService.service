@@ -1,0 +1,12 @@
+[Unit]
+Description=hub_service
+After=network.target
+
+[Service]
+ExecStart=python /home/pi/impax/hub.py
+WorkingDirectory=/home/pi/impax
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
