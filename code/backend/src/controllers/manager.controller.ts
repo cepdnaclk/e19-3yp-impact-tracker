@@ -1,3 +1,4 @@
+import { sendInvitationEmail } from "../email/managerEmail";
 import { Manager, ManagerResponse } from "../models/manager.model";
 import managerService from "../services/manager.service";
 import { createManagerTeam } from "../services/team.manager.service";
@@ -54,9 +55,29 @@ export async function addNewManager(
       throw new Error("Manager does not exist in the team");
     }
 
-    await createManagerTeam(newManagerEmail, teamId);
+    // Generate an invitation token
+    const invitationToken = generateInvitationToken();
 
-    return true;
+
+    // await createManagerTeam(newManagerEmail, teamId);
+
+    // Create the manager and set the invitation token
+    // const newManager: Manager = {
+    //   email: newManagerEmail,
+    //   // invitationToken: invitationToken,
+    //   acceptInvitation: false, // Initially set to false
+    // };
+
+    const createdManagerResponse = await createManagerTeam(newManagerEmail, teamId);
+
+    // Send an invitation email
+    await sendInvitationEmail(newManagerEmail, invitationToken);
+
+    // Add the new manager to the team
+    const managerTeamAdded = await createManagerTeam(newManagerEmail, teamId);
+
+    return managerTeamAdded;
+
   } catch (error) {
     console.error(error);
     throw error;
@@ -88,4 +109,12 @@ export async function deleteManager(
     throw error;
   }
   return false;
+}
+
+// Function to generate a unique invitation token (you can implement your logic)
+function generateInvitationToken(): string {
+  // Implement your logic to generate a unique token
+  // You can use libraries like uuid or generate a random string
+  // For simplicity, we'll return a placeholder here
+  return "uniqueToken";
 }

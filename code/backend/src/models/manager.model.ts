@@ -12,19 +12,22 @@ class Manager {
   public lastName: string;
   public email: string;
   public password: string;
+  public acceptInvitation: boolean;
 
   public constructor(
     teamId: string,
     firstName: string,
     lastName: string,
     email: string,
-    password: string
+    password: string,
+    acceptInvitation: boolean
   ) {
     this.teamId = teamId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.password = password;
+    this.acceptInvitation = acceptInvitation;
   }
 }
 
