@@ -37,7 +37,7 @@ interface AppState {
   updatePlayerMap: (buddy_id: number, player_id: number) => void;
   deleteFromPlayerMap: (buddy_id: number) => void;
 
-  sessionDetails: Session | null;
+  sessionDetails: Session;
   setSessionDetails: (session: Session) => void;
   updateSessionDetails: (sessionName: string) => void;
   endSession: () => void;
@@ -112,14 +112,14 @@ export const useAppState = create<AppState>()((set) => ({
     });
   },
 
-  sessionDetails: null,
+  sessionDetails: {} as Session,
   setSessionDetails: (session: Session) => {
     set({ sessionDetails: session });
     MqttClient.getInstance().publishSession(session);
   },
   updateSessionDetails: (sessionName: string) => {
     set((prevState) => {
-      if (!prevState.sessionDetails) {
+      if (prevState.sessionDetails.active === false) {
         return prevState;
       }
 
@@ -133,7 +133,15 @@ export const useAppState = create<AppState>()((set) => ({
     });
   },
   endSession: () => {
-    set({ sessionDetails: null });
+    set((prevState) => {
+      const sessionDetails = { ...prevState.sessionDetails };
+      sessionDetails.active = false;
+      sessionDetails.updatedAt = Date.now();
+
+      // publish session to mqtt
+      MqttClient.getInstance().publishSession(sessionDetails);
+      return { ...prevState, sessionDetails };
+    });
     MqttClient.getInstance().endSession();
   },
 

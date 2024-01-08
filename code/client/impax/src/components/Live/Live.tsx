@@ -22,7 +22,7 @@ const Live = () => {
   return (
     <main>
       <Title title="Live Dashboard" Icon={BsBroadcast} />
-      {session ? <ActiveSession /> : <StartSession />}
+      {session.active ? <ActiveSession /> : <StartSession />}
     </main>
   );
 };
