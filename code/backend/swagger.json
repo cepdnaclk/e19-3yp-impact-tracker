@@ -662,7 +662,7 @@
         "tags": ["LoginEndpoints"],
         "summary": "Login as a manager - Open",
         "requestBody": {
-          "$ref": "#/components/requestBodies/LoginRequest"
+          "$ref": "#/components/requestBodies/LoginRequestManager"
         },
         "responses": {
           "200": {
@@ -776,6 +776,26 @@
         "example": {
           "password": "securePassword",
           "userName": "example@example.com"
+        }
+      },
+
+      "LoginRequestManager": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "password": "securePassword",
+          "userName": "example@example.com",
+          "teamId": "exampleTeamId"
         }
       },
 
@@ -1351,6 +1371,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/LoginRequest"
+            }
+          }
+        }
+      },
+
+      "LoginRequestManager": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/LoginRequestManager"
             }
           }
         }
