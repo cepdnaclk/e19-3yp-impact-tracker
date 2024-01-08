@@ -652,6 +652,29 @@ section {
     width: 40%;
   }
 }
+/*-------------------------------------------------------------
+# Problem
+---------------------------------------------------------------*/
+.problem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px 0;
+}
+
+.problem .section-title {
+  width: 48%; /* Adjust the width as needed */
+}
+
+.problem p {
+  margin-bottom: 20px;
+}
+
+.problem img {
+  width: 48%; /* Adjust the width as needed */
+  border-radius: 8px;
+}
+
 
 /*--------------------------------------------------------------
 # Services
