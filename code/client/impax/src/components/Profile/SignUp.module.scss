@@ -38,10 +38,11 @@ form {
   gap: 1em;
   .inputContainer {
     label {
-      position: relative;
+      display: block;
       font-size: 0.9em;
       font-weight: 600;
-      left: 0.6em;
+      margin-bottom: 0.4em;
+      margin-left: 0.6em;
     }
 
     input,
@@ -49,33 +50,15 @@ form {
       width: 100%;
       display: block;
       border: 0;
-      padding: 0.8rem 1rem;
-      background-color: rgba(123, 123, 123, 0.26);
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-radius: 0.6rem;
-      margin-top: 0.6rem;
-      margin-bottom: 0.2rem;
-      font-size: 1em;
-      color: $body-color;
 
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.4);
-      }
-
-      &:focus {
-        outline: none;
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        background-color: black;
-      }
-
-      &.invalid {
-        border: 1px solid #d63131;
-      }
+      @include inputText;
     }
   }
 }
 
 .nextBtn {
+  display: block;
+  text-align: center;
   width: 100%;
   background-color: rgb(32, 48, 103);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -85,6 +68,11 @@ form {
   border-radius: 0.4rem;
   cursor: pointer;
   padding: 1rem;
+  &:disabled,&[disabled] {
+    background-color: rgba(32, 48, 103, 0.5);
+    color: rgba(211, 216, 255, 0.5);
+    cursor: not-allowed;
+  }
 }
 
 .loginText {

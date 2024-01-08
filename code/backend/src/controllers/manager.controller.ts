@@ -15,9 +15,7 @@ export async function createManager(
   return;
 }
 
-export async function getManager(
-  managerId: string
-): Promise<ManagerResponse> {
+export async function getManager(managerId: string): Promise<ManagerResponse> {
   try {
     const managerResponse = await managerService.getManager(managerId);
     return managerResponse;
@@ -87,6 +85,32 @@ export async function addNewManager(
   return false;
 }
 
+// delete manager
+export async function deleteManager(
+  managerEmail: string,
+  teamId: string
+): Promise<boolean> {
+  try {
+    // check the manager exits in that team
+    const managerExists = await managerService.checkManagerExistsInTeam(
+      managerEmail,
+      teamId
+    );
+
+    if (!managerExists) {
+      throw new Error("Manager does not exist in the team");
+    }
+
+    await managerService.deleteManager(managerEmail, teamId);
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+  return false;
+}
+
 // Function to generate a unique invitation token (you can implement your logic)
 function generateInvitationToken(): string {
   // Implement your logic to generate a unique token
@@ -94,4 +118,3 @@ function generateInvitationToken(): string {
   // For simplicity, we'll return a placeholder here
   return "uniqueToken";
 }
-

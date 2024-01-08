@@ -18,7 +18,12 @@ const MenuItem: React.FC<MenuItemProps> = ({
     : styles.menuItem;
 
   return (
-    <li className={menuItemClasses} onClick={onClick}>
+    <li
+      tabIndex={0}
+      className={menuItemClasses}
+      onKeyDown={(e) => e.key === "Enter" && onClick()}
+      onClick={onClick}
+    >
       <Icon className={styles.icon} />
       <div className={styles.name}>{name}</div>
     </li>

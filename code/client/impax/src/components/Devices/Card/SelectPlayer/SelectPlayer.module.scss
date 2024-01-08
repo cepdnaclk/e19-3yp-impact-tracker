@@ -1,0 +1,74 @@
+@use "../../../../variables.scss" as *;
+
+$bg-color: #313131;
+
+.selectContainer {
+  cursor: pointer;
+  font-size: 0.9em;
+  margin-top: 0.6rem;
+  outline: none;
+  width: 108%;
+  margin-left: -4%;
+  .selectControl {
+    background-color: $bg-color;
+    border: none;
+
+    //select the separator and hide it
+    // div:last-child > span {
+    //   visibility: hidden;
+    // }
+  }
+
+  *::-webkit-scrollbar {
+    width: 0.6em;
+  }
+
+  *::-webkit-scrollbar-track {
+    border-top-right-radius: 0.2em;
+    background-color: darken($color: $bg-color, $amount: 10);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #454545;
+  }
+  .selectControlFocused {
+    box-shadow: 0 0 0 1px lighten($color: $bg-color, $amount: 10);
+    //box-shadow: none;
+  }
+
+  .selectMenu {
+    background-color: $bg-color;
+    //scroll bar customization
+  }
+
+  .selectOptionFocused {
+    background-color: lighten($color: $bg-color, $amount: 10);
+  }
+
+  .selectOption {
+    &:active {
+      background-color: darken($color: $bg-color, $amount: 10);
+    }
+  }
+  .selectOptionSelected {
+    background-color: darken($color: $bg-color, $amount: 5);
+  }
+}
+
+// .selectValueContainer {
+//   caret-color: white;
+//   color: $body-color;
+// }
+
+.selectInput {
+  color: $body-color !important;
+  cursor: pointer;
+}
+
+.selectValueContainerHasValue {
+  div:first-child {
+    color: $body-color;
+    font-weight: 600;
+  }
+}

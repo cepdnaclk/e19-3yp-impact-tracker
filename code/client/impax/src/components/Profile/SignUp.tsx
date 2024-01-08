@@ -2,11 +2,27 @@ import React, { useState } from "react";
 import styles from "./SignUp.module.scss";
 import Hero from "./Hero";
 import ToggleRole from "./ToggleRole";
+import { useAppState } from "../../states/appState";
+import NoInternetConnection from "../StatusScreens/NoInternetConnection";
+import { Role } from "../../types";
+import { useRoleState, useSignupState } from "../../states/formState";
+import SignupManager from "./SignupManager";
+import LoginManager from "./LoginManager";
+import SignupPlayer from "./SignupPlayer";
+import LoginPlayer from "./LoginPlayer";
+import SignupManager2 from "./TeamCreation";
+
 const SignUp = () => {
-  type role = "player" | "manager";
+  const role = useRoleState((state) => state.role);
+  const setRole = useRoleState((state) => state.setRole);
+  const isSignup = useSignupState((state) => state.isSignup);
+  const setIsSignup = useSignupState((state) => state.setIsSignup);
+  const isManagerExist = useSignupState((state) => state.isManagerExist);
+  const isTeamExist = useSignupState((state) => state.isTeamExist);
+  // console.log("RoLEEE", role);
 
   interface formData {
-    role: role;
+    role: Role;
     teamId: string;
     email: string;
   }
@@ -30,12 +46,24 @@ const SignUp = () => {
   };
 
   //TODO: Disable Next button if the two inputs are empty
-  const toggleRole = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      role: prevData.role === "player" ? "manager" : "player",
-    }));
-  };
+  // const toggleRole = () => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     role: prevData.role === "player" ? "manager" : "player",
+  //   }));
+  // };
+
+  // If no internet connection then show error
+  const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
+  if (!isInternetAvailable) {
+    return (
+      <main className={styles.main}>
+        <NoInternetConnection />
+        <Hero />
+      </main>
+    );
+  }
+
   return (
     <main className={styles.main}>
       <div className={styles.content}>
@@ -43,42 +71,18 @@ const SignUp = () => {
           Welcome to
           <img src="../../src/assets/logos/Logo-Impax.svg" alt="IMPAX" />
         </h2>
+
         <div className={styles.selectorContainer}>
           <h4>Select Your Role</h4>
-
-          <ToggleRole role={formData.role} toggleRole={toggleRole} />
+          <ToggleRole role={role} toggleRole={setRole} />
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className={styles.inputContainer}>
-            <label htmlFor="teamId">Team ID</label>
-            <input
-              type="text"
-              id="teamId"
-              required
-              placeholder="peradeniya-baseball"
-              value={formData.teamId}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className={styles.inputContainer}>
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              required
-              placeholder="johndoe@email.com"
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-          </div>
+        {role == "manager" &&
+          isSignup &&
+          (isTeamExist ? <SignupManager /> : <SignupManager2 />)}
+        {role == "manager" && !isSignup && <LoginManager />}
 
-          <button type="submit" className={styles.nextBtn}>
-            Next
-          </button>
-        </form>
-        <p className={styles.loginText}>
-          Already have an account? <span>Log In</span>
-        </p>
+        {role == "player" && isSignup && <SignupPlayer />}
+        {role == "player" && !isSignup && <LoginPlayer />}
       </div>
       <Hero />
     </main>

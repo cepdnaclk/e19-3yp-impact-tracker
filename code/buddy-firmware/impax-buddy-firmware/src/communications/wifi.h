@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <WiFiMulti.h>
+#include "../utils/util.h"
 
 // Define delays for Wi-Fi reconnection attempts
 #define DELAY_WIFI_RECONNECT 100

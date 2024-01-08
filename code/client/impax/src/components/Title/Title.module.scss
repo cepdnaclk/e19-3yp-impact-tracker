@@ -1,0 +1,21 @@
+@use "../../variables.scss" as *;
+.title {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-left: 2em;
+  margin-bottom: 1em;
+  h1 {
+    font-family: "MADE Outer Sans", sans-serif;
+    font-size: 2em;
+    letter-spacing: 0.05ch;
+    color: rgb(232, 232, 232);
+  }
+
+  .icon {
+    height: 2em;
+    width: 2em;
+    aspect-ratio: 1;
+    color: $primary-red;
+  }
+}

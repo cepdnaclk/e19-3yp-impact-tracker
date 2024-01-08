@@ -1,0 +1,124 @@
+@use "../../variables.scss" as *;
+
+.AlertDialogOverlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.AlertDialogContent {
+  z-index: 10001;
+  background-color: $grey-highlight-2;
+  border-radius: 6px;
+  border: 1px solid rgb(52, 52, 52);
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+    hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 500px;
+  max-height: 85vh;
+  padding: 25px;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:focus {
+    outline: none;
+  }
+
+  .AlertDialogTitle {
+    margin-bottom: 0.3em;
+    color: var(--mauve-12);
+    font-size: 1.4em;
+    font-weight: 600;
+  }
+
+  .AlertDialogDescription {
+    margin-bottom: 20px;
+    color: $body-color;
+    font-size: 0.9em;
+    line-height: 1.2;
+  }
+
+  .alertButtonsContainer {
+    display: flex;
+    gap: 0.6em;
+    justify-content: flex-end;
+
+    button {
+      padding: 0.8em 1.4em;
+    }
+  }
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.alertButtonsContainer {
+  buttons {
+    transition: 300ms all ease-in-out;
+  }
+  button:first-child {
+    background-color: rgb(54, 57, 59) !important;
+    &:hover,
+    &:focus {
+      outline: 1px solid rgb(95, 95, 95);
+    }
+  }
+
+  button:last-child {
+    color: rgb(204, 82, 82);
+    background-color: transparent !important;
+    transition: 200ms color ease-in-out;
+    &:hover {
+      outline: none;
+      color: saturate($color: rgb(204, 82, 82), $amount: 20);
+    }
+    &:focus {
+      outline: 1px solid rgb(204, 82, 82);
+    }
+  }
+
+  &.forceAction {
+    button:last-child {
+      background-color: #622a2a !important;
+      color: #ff9d9d;
+      &:hover,
+      &:focus {
+        outline: 1px solid lighten($color: $secondary-red, $amount: 30);
+      }
+    }
+
+    button:first-child {
+      color: $grey-color;
+      background-color: transparent !important;
+      transition: 200ms color ease-in-out;
+      &:hover {
+        outline: none;
+        color: $body-color;
+      }
+      &:focus {
+        outline: 1px solid rgb(70, 70, 70);
+      }
+    }
+  }
+}

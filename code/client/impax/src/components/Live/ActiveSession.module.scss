@@ -1,0 +1,38 @@
+@use "../../variables.scss" as *;
+
+.session {
+  @include banner;
+
+  .controls {
+    display: flex;
+    gap: 1em;
+    Button {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.monitoring,
+.active {
+  @include gridBlock;
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(340px, 26em));
+  }
+}
+
+.editSessionField {
+  outline: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  label {
+    flex-grow: 1;
+  }
+  input {
+    @include inputText;
+    font-size: 1em;
+    flex-grow: 3;
+  }
+}

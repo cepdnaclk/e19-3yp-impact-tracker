@@ -1,0 +1,46 @@
+// install mosquitto and mosquitto-client
+sudo apt install -y mosquitto mosquitto-clients
+
+// enable mosquitto broker auto starting when rebooting
+sudo systemctl enable mosquitto.service
+
+// enable authentication for MQTT broker
+sudo mosquitto_passwd -c /etc/mosquitto/passwd YOUR_USERNAME
+// username - impax
+//enter passwd - impax
+
+// edit mosquitto configuration
+sudo nano /etc/mosquitto/mosquitto.conf
+// add this line at the top of the file
+per_listener_settings true
+
+// add this line at the end of the file
+allow_anonymous false
+listener 8883
+password_file /etc/mosquitto/passwd
+
+// restart the MQTT broker
+sudo systemctl restart mosquitto
+
+// check status
+sudo systemctl status mosquitto
+
+-----BEGIN CERTIFICATE-----
+MIIDJzCCAg+gAwIBAgIUPKKmid6OdQ5kxFZQxDI0tTTMOwgwDQYJKoZIhvcNAQEL
+BQAwIzELMAkGA1UEBhMCTEsxFDASBgNVBAMMC3Jhc3BiZXJyeXBpMB4XDTI0MDEw
+NTIwMzcxMloXDTI5MDEwNDIwMzcxMlowIzELMAkGA1UEBhMCTEsxFDASBgNVBAMM
+C3Jhc3BiZXJyeXBpMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoGFZ
+wBM2nEKyNpliS+54o2AJEW5nB0T42HCgTWGpxltKFrwdW8wG2l6MkbjYYOHM+LuK
+VGOdflj+s1xc0ne2Dlb3T7ezWeKvw+6y/T5lH9rHGfcZWt8+/Xo2zv+I8XvTKmtj
+eIDkZwCXxjcEWFq1HMiAAwQY9gcn+gLcVD9j3QPJK+v1oEziIHMB7mJoTCAZ6XcY
+6BsSGtU1QLwk3etBjTQlUT/aTYQZ2h7K/UYrsyz/AIG71dHSsfWyzRndvyPgZFqc
+QWVVOvO0RpTVRG/01dmeY0En6B1uGKpLqEnEO7QGgAjop79ed5tVRKY4Atl/w7bc
+HBcIHC7/IsFmlZQdoQIDAQABo1MwUTAdBgNVHQ4EFgQUCI93NzYADrR+oCVuwVW6
++oCy/AUwHwYDVR0jBBgwFoAUCI93NzYADrR+oCVuwVW6+oCy/AUwDwYDVR0TAQH/
+BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAJFt1BKPyMFYTRp6jdElkwTtiLhg7
+u8LpuclYa18Dbf4vLmB0OksovrY7RURN1vKwYdB77MzPAr/QmDV/v9u5yR7GvBl2
+RHFzbxdtQJZLLmYhmPym6bTfyt9bNENEyP1ylKNqCe+SuAerIqVtZfALvCiHGtiM
+KP+unHof5qOjQC/dIAxX1uAbUyg8Z30AMK0NsvnxmOVKnQ8wCSYXqNue9neoM0Jj
+6p+BpazHm/tRz/vycytdZ40kEbJDk8vZKlrWm+rrAlwVjhPjceEmI2N/gPxesb/1
+lroQ5wSKJxpQjMPUfgupnChzG/zfdEJCgEAkN+UCTgA/ZZV/Xq5osrfBpg==
+-----END CERTIFICATE-----

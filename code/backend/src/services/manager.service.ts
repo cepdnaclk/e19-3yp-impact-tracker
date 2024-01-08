@@ -7,6 +7,25 @@ import ManagerModel from "../db/manager.schema";
 import { createAuth } from "./auth.service";
 
 class ManagerService {
+  // delete manager
+  async deleteManager(email: string, teamId: string): Promise<boolean> {
+    try {
+      // Find and delete the manager based on email and teamId
+      const deletedManager = await ManagerModel.findOneAndDelete({
+        email,
+        teamId,
+      });
+
+      // If manager was found and deleted successfully
+      // You can also delete the associated authentication details if needed
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error deleting manager");
+    }
+  }
+
   async createManager(
     managerRequestBody: ManagerRequestBody
   ): Promise<ManagerResponse> {
@@ -37,10 +56,10 @@ class ManagerService {
     }
   }
 
-  async getManager(managerId: string): Promise<ManagerResponse> {
+  async getManager(email: string): Promise<ManagerResponse> {
     try {
-      // Get the team details 
-      const teamInstance = await ManagerModel.findOne({ managerId });
+      // Get the team details
+      const teamInstance = await ManagerModel.findOne({ email });
 
       // Check if teamInstance is null
       if (!teamInstance) {
@@ -91,6 +110,8 @@ class ManagerService {
     }
   }
 }
+
+// delete manager
 
 // check manager exists in given teamID
 

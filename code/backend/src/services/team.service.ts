@@ -9,6 +9,24 @@ import TeamModel from "../db/team.schema";
 import ManagerTeamModel from "../db/manager.team.schema";
 
 class TeamService {
+  // delete team
+  async deleteTeam(teamId: string): Promise<boolean> {
+    try {
+      // Find and delete the team based on teamId
+      const deletedTeam = await TeamModel.findOneAndDelete({
+        teamId,
+      });
+
+      // If team was found and deleted successfully
+      // You can also delete the associated authentication details if needed
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error deleting team");
+    }
+  }
+
   async createTeam(team: Team): Promise<TeamResponse> {
     try {
       // Create a new instance of the Manager model

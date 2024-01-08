@@ -1,41 +1,28 @@
-import React from "react";
-import styles from "./Live.module.scss";
 import { BsBroadcast } from "react-icons/bs";
-import { FaEdit } from "react-icons/fa";
-import { IoMdExit } from "react-icons/io";
-import Btn from "../Buttons/Btn";
-import MonitorCard from "./MonitorCard";
+
+import Title from "../Title/Title";
+import ActiveSession from "./ActiveSession.tsx";
+import StartSession from "./StartSession.tsx";
+import { useAppState } from "../../states/appState.ts";
+import NoMqttConnection from "../StatusScreens/NoMqttConnection.tsx";
+
 const Live = () => {
+  const session = useAppState((state) => state.sessionDetails);
+
+  //if mqtt is not connected, show no connection page
+  const isMqttOnline = useAppState((state) => state.isMqttOnine);
+  if (!isMqttOnline) {
+    return (
+      <main className="main">
+        <Title title="Live Dashboard" Icon={BsBroadcast} />
+        <NoMqttConnection />
+      </main>
+    );
+  }
   return (
-    <main className={styles.main}>
-      <div className={styles.title}>
-        <BsBroadcast className={styles.icon} />
-
-        <h1>Live Dashboard</h1>
-      </div>
-      <div className={styles.session}>
-        <div className={styles.info}>
-          <h2>Practice Session at Main Ground</h2>
-          <span>Session #21</span>
-        </div>
-        <div className={styles.controls}>
-          <Btn Icon={FaEdit} buttonType="secondary">
-            Edit Session
-          </Btn>
-          <Btn Icon={IoMdExit}>Exit Session</Btn>
-        </div>
-      </div>
-
-      <div className={styles.monitoring}>
-        <h3>Monitoring Players</h3>
-        <div className={styles.grid}>
-          <MonitorCard />
-          <MonitorCard />
-          <MonitorCard />
-          <MonitorCard />
-          <MonitorCard />
-        </div>
-      </div>
+    <main>
+      <Title title="Live Dashboard" Icon={BsBroadcast} />
+      {session ? <ActiveSession /> : <StartSession />}
     </main>
   );
 };

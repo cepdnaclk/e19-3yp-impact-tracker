@@ -19,6 +19,7 @@
       "url": "http://localhost:5000"
     }
   ],
+
   "paths": {
     "/auth": {
       "get": {
@@ -60,6 +61,68 @@
             "content": {
               "application/json": {
                 "$ref": "#/components/schemas/Team"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/session": {
+      "post": {
+        "tags": ["SsessionEndpoints"],
+        "summary": "Create a session - Access token returned",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/SessionRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": ""
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Bad Request",
+          "content": {
+            "application/json": {
+              "example": {
+                "message": "Bad Request"
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/team/manager": {
+      "post": {
+        "tags": ["TeamEndpoints"],
+        "summary": "Create a team for manager - Open",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/TeamLoginRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/TeamLoginRequest"
               }
             }
           },
@@ -272,13 +335,13 @@
         "summary": "Get Manager Details",
         "parameters": [
           {
-            "name": "id",
+            "name": "managerId(Email)",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string"
             },
-            "example": "exampleManagerId"
+            "example": "example@example.com"
           }
         ],
         "responses": {
@@ -401,7 +464,7 @@
         }
       }
     },
-    
+
     "/player/{email}": {
       "get": {
         "tags": ["PlayerEndpoints"],
@@ -543,7 +606,6 @@
       }
     },
 
-
     "/hub/credetials": {
       "post": {
         "tags": ["HubEndpoints"],
@@ -640,7 +702,7 @@
         "tags": ["LoginEndpoints"],
         "summary": "Login as a manager - Open",
         "requestBody": {
-          "$ref": "#/components/requestBodies/LoginRequest"
+          "$ref": "#/components/requestBodies/LoginRequestManager"
         },
         "responses": {
           "200": {
@@ -725,6 +787,7 @@
       }
     }
   },
+
   "security": [
     {
       "bearerAuth": []
@@ -753,6 +816,104 @@
         "example": {
           "password": "securePassword",
           "userName": "example@example.com"
+        }
+      },
+
+      "LoginRequestManager": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "password": "securePassword",
+          "userName": "example@example.com",
+          "teamId": "exampleTeamId"
+        }
+      },
+
+      "TeamLoginRequest": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "password": "securePassword",
+          "email": "example@example.com",
+          "firstName": "John",
+          "lastName": "Doe",
+          "teamId": "exampleTeamId",
+          "teamName": "TeamName"
+        }
+      },
+
+      "SessionRequest": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string"
+          },
+          "teamId": {
+            "type": "string"
+          },
+          "sessionName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "integer"
+          },
+          "updatedAt": {
+            "type": "integer"
+          },
+          "impactHistory": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "sessionId": "sessionId",
+          "sessionName": "sessionName",
+          "createdAt": 486486,
+          "updatedAt": 486486,
+          "teamId": "exampleTeamId",
+          "impactHistory": {
+            "12": [
+              {
+                "magntitude": 10,
+                "direction": "left",
+                "timestamp": 123456789,
+                "isConcussion": true
+              }
+            ],
+            "13": [
+              {
+                "magntitude": 10,
+                "direction": "left",
+                "timestamp": 123456789,
+                "isConcussion": false
+              }
+            ]
+          }
         }
       },
 
@@ -993,7 +1154,7 @@
           "teamManager": "example@example.com"
         }
       },
-      
+
       "TeamResponse": {
         "type": "object",
         "properties": {
@@ -1008,7 +1169,7 @@
           "teamId": "exampleTeamId",
           "teamName": "Example Team"
         }
-      },      
+      },
 
       "PlayerCreateRequest": {
         "type": "object",
@@ -1048,7 +1209,7 @@
           "teams": ["Team1", "Team2"]
         }
       },
-      
+
       "PlayerResponse": {
         "type": "object",
         "properties": {
@@ -1083,7 +1244,7 @@
           "teams": ["Team1", "Team2"]
         }
       },
-      
+
       "SessionDetailsResponse": {
         "type": "object",
         "properties": {
@@ -1125,7 +1286,7 @@
           "players": ["player1", "player2"]
         }
       },
-      
+
       "TotalImpactsResponse": {
         "type": "object",
         "properties": {
@@ -1141,7 +1302,7 @@
           "totalImpacts": 1000
         }
       },
-      
+
       "HighestImpactRecord": {
         "type": "object",
         "properties": {
@@ -1162,7 +1323,6 @@
           "highestImpact": 10.5
         }
       }
-      
     },
 
     "requestBodies": {
@@ -1185,13 +1345,22 @@
           }
         }
       },
-     
 
       "ManagerTeamRequest": {
         "content": {
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/ManagerTeamRequest"
+            }
+          }
+        }
+      },
+
+      "SessionRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SessionRequest"
             }
           }
         }
@@ -1217,6 +1386,16 @@
         }
       },
 
+      "TeamLoginRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/TeamLoginRequest"
+            }
+          }
+        }
+      },
+
       "HubRequest": {
         "content": {
           "application/json": {
@@ -1232,6 +1411,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/LoginRequest"
+            }
+          }
+        }
+      },
+
+      "LoginRequestManager": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/LoginRequestManager"
             }
           }
         }

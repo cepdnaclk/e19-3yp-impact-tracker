@@ -10,6 +10,7 @@ import {
   createManager,
   getManager,
   addNewManager,
+  deleteManager,
 } from "../controllers/manager.controller";
 import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
 import { validateEmail } from "../utils/utils";
@@ -155,6 +156,13 @@ router.post("/", async (req: Request, res: Response) => {
 
     res.send(managerResponse);
   } catch (err) {
+    // Check if a manager with the given email exists
+    const exists: boolean = await checkManagerExists(email);
+
+    if (exists) {
+      await deleteManager(email, teamId);
+    }
+
     if (err instanceof Error) {
       // If 'err' is an instance of Error, send the error message
       res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
@@ -175,14 +183,17 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
   try {
     // Get Manager details
-    const teamResponse = await getManager(
-      req.params.id
-    );
+    const teamResponse = await getManager(req.params.id);
 
     res.send(teamResponse);
   } catch (err) {
-    console.log(err);
-    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
   }
 });
 

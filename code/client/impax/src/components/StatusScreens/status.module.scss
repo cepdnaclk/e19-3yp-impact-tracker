@@ -1,0 +1,37 @@
+@use "../../variables.scss" as *;
+
+.container {
+  height: 60dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  flex-direction: column;
+  color: $body-color;
+
+  .icon {
+    color: $primary-red;
+    margin-right: 0.5em;
+  }
+
+  h2 {
+    display: flex;
+    align-items: center;
+    color: $primary-red;
+  }
+  p {
+    width: 50ch;
+    text-align: center;
+  }
+
+  &.success {
+    .icon,
+    h2 {
+      color:rgb(65 156 143) ;
+    }
+  }
+}
+
+.main.divider {
+  @include mainDivider;
+}

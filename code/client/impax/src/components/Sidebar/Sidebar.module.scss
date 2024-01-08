@@ -1,3 +1,4 @@
+@use "../../variables.scss" as *;
 * {
   // outline: 1px solid red;
 }
@@ -7,12 +8,12 @@
   flex-direction: column;
   justify-content: space-between;
   // width: 5em; //Defined in index.scss
-  background-color: #1a1a1a;
+  background-color: $sidebar-cl;
   height: 100dvh;
   position: fixed;
   padding: 2em 1em;
-  box-shadow: 2px 0 2px 0 lighten($color: #1a1a1a, $amount: 5);
-  z-index: 1000;
+  box-shadow: 2px 0 2px 0 lighten($color: $sidebar-cl, $amount: 5);
+  z-index: 10;
   //border-right: 2px solid lighten($color: #1a1a1a, $amount: 5);
 }
 
