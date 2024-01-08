@@ -10,8 +10,12 @@ import PlayerManagement from "./components/PlayerManagement/PlayerManagement";
 import SignUp from "./components/Profile/SignUp";
 import TeamCreation from "./components/Profile/TeamCreation";
 import Success from "./components/StatusScreens/Success";
+
+async function getPorts() {}
+
 function App() {
   MqttClient.getInstance();
+
   return (
     <HashRouter>
       <Detector

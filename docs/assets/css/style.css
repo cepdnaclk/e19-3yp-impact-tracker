@@ -652,6 +652,29 @@ section {
     width: 40%;
   }
 }
+/*-------------------------------------------------------------
+# Problem
+---------------------------------------------------------------*/
+.problem {
+  display: flex;
+  align-items: center;
+  padding: 50px 0;
+}
+
+.problem .section-title {
+  flex: 1;
+}
+
+.problem p {
+  margin-bottom: 20px;
+}
+
+.problem img {
+  flex: 1;
+  border-radius: 8px;
+}
+
+
 
 /*--------------------------------------------------------------
 # Services
