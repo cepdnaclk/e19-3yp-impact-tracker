@@ -3,8 +3,12 @@ import { Request, Response } from "express";
 import { mapToImpactPlayers } from "../utils/utils";
 import { SessionRequest } from "../models/session.model";
 import { checkTeamExist } from "../controllers/team.controller";
-import sessionService from "../services/session.service";
 import { HttpMsg } from "../exceptions/appErrorsDefine";
+import {
+  checkSessionExists,
+  createSession,
+  deleteSession,
+} from "../controllers/session.controller";
 
 const router = Router();
 
@@ -39,7 +43,7 @@ router.post("/", async (req: Request, res: Response) => {
   }
 
   // check session exists
-  const sessionExists = await sessionService.checkSessionExists(sessionId);
+  const sessionExists = await checkSessionExists(sessionId);
   if (sessionExists) {
     res.status(400).send({ message: "Session already exists" });
     return;
@@ -59,20 +63,13 @@ router.post("/", async (req: Request, res: Response) => {
   // check team exists
 
   try {
-    await sessionService.createSession(
-      sessionRequest.teamId,
-      sessionRequest.sessionId,
-      sessionRequest.sessionName,
-      sessionRequest.createdAt,
-      sessionRequest.updatedAt,
-      sessionRequest.impactHistory
-    );
+    await createSession(sessionRequest);
     res.send({ message: HttpMsg.SESSION_SUCESS });
   } catch (err) {
     // check session exists
-    const sessionExists = await sessionService.checkSessionExists(sessionId);
+    const sessionExists = await checkSessionExists(sessionId);
     if (sessionExists) {
-      await sessionService.deleteSession(sessionId);
+      await deleteSession(sessionId);
     }
 
     if (err instanceof Error) {
