@@ -1,4 +1,9 @@
-import { Map } from "immutable";
+//Example ImpactHistory
+// { 12:  [{magntitude: 10, direction: "left", timestamp: 123456789, isConcussion: true }],
+//   13:  [{magntitude: 10, direction: "left", timestamp: 123456789, isConcussion: false }],}
+export type PlayerImpactHistory = {
+  [jersey_number: number]: Impact[];
+};
 
 export type BuddyStatus = {
   battery: number;
@@ -10,6 +15,7 @@ export type Impact = {
   magntitude: number;
   direction: "left" | "right" | "front" | "back" | "top" | "bottom";
   timestamp: number;
+  isConcussion?: boolean;
 };
 
 export type Buddies = {
