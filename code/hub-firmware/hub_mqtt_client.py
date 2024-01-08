@@ -12,7 +12,7 @@ mapping_topic = "player_map"
 session_topic = "session"
 session_end_topic = "session_end"
 session_data= "session_data"
-player_impact_topic = "player/+/concussion"
+is_concussion_topic = "player/+/concussion"
 
 # Player to device mapping (device_id:player_id)
 player_device_mapping = {}
@@ -33,6 +33,7 @@ def on_message(client, userdata, msg):
     # data from dashboards - JSON objects
     try:
         data = json.loads(msg.payload.decode())
+
     # data from imapact buddies - ESP32 -text strings
     except json.JSONDecodeError:
         data = msg.payload.decode().split()
@@ -54,7 +55,7 @@ def on_message(client, userdata, msg):
 
     elif msg.topic == impact_topic:
         if session_started:
-            # Add timestamp to the received data
+            # Add timestamp to the received data and publish to the dashboards
             # data = magnitude direction
             device_id = msg.topic.split("/")[1]
             player_id = player_device_mapping[device_id]
@@ -67,7 +68,8 @@ def on_message(client, userdata, msg):
             # Store the data in the buffer
             data_buffer.append(impact_json)
     
-    elif msg.topic == player_impact_topic:
+    elif msg.topic == is_concussion_topic:
+        # if concussion, record it in the buffer
         player_id = msg.topic.split("/")[1]
         timestamp = data["timestamp"]
 
