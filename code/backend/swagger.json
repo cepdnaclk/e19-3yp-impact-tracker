@@ -304,6 +304,74 @@
       }
     },
 
+    "/manager/add": {
+      "post": {
+        "tags": ["ManagerEndpoints"],
+        "summary": "Add a new manager to a team - Access Token required",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ManagerTeamRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/ManagerTeamRequest"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accept-invitation/{token}": {
+      "get": {
+        "tags": ["ManagerEndpoints"],
+        "summary": "Accept manager invitation",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "exampleToken"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": "Invitation accepted successfully!"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Invalid or expired token."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+
     "/player": {
       "post": {
         "tags": ["PlayerEndpoints"],
@@ -536,35 +604,7 @@
       }
     },
 
-    "/manager/add": {
-      "post": {
-        "tags": ["ManagerEndpoints"],
-        "summary": "Add a new manager to a team - Access Token required",
-        "requestBody": {
-          "$ref": "#/components/requestBodies/ManagerTeamRequest"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "$ref": "#/components/schemas/ManagerTeamRequest"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Bad Request"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
+
 
     "/login/logout": {
       "post": {
