@@ -1,9 +1,11 @@
 import paho.mqtt.client as mqtt
 from datetime import datetime
+import time
 import json
+import re
 
 # MQTT broker settings
-broker_address = "raspberrypi"
+broker_address = "192.168.8.151"
 broker_port = 1883
 
 # MQTT topics
@@ -20,7 +22,7 @@ player_device_mapping = {}
 # Session variables
 session_started = False
 start_time = None
-data_buffer = []
+data_buffer = {}
 time_offset = 0
 
 def on_connect(client, userdata, flags, rc):
@@ -31,12 +33,14 @@ def on_message(client, userdata, msg):
     global session_started, start_time, data_buffer, player_device_mapping,time_offset
 
     # data from dashboards - JSON objects
+    print(msg.payload.decode())
     try:
         data = json.loads(msg.payload.decode())
 
     # data from imapact buddies - ESP32 -text strings
     except json.JSONDecodeError:
-        data = msg.payload.decode().split()
+        data = msg.payload.decode().split(" ")
+    print(data)
 
     if msg.topic == mapping_topic:
         # Update player to device mapping
@@ -49,33 +53,45 @@ def on_message(client, userdata, msg):
                 end_session()
         else:
             session_started = True
-            start_time = datetime.now()
+            start_time = int(time.time()*1000)
             time_offset = data["updatedAt"]-start_time
+            print("time offset:",time_offset)
             print("Session updated!")
 
-    elif msg.topic == impact_topic:
-        if session_started:
+    elif bool(re.search(r"buddy/\d+/impact$", msg.topic)):
+        if session_started :
             # Add timestamp to the received data and publish to the dashboards
             # data = magnitude direction
             device_id = msg.topic.split("/")[1]
-            player_id = player_device_mapping[device_id]
-            timestamp = datetime.now() + time_offset
-            impact_json = {player_id:{"magnitude": data[0], "direction": data[1], "timestamp": timestamp, "isConcussion": False}}
-            
-            impact_with_time = "buddy/"+ device_id+ "/impact_with_timestamp"           
-            client.publish(impact_with_time, json.dumps(impact_json), retain=True)
-            
-            # Store the data in the buffer
-            data_buffer.append(impact_json)
+            if device_id in player_device_mapping:
+                player_id = player_device_mapping[device_id]
+                timestamp = int(time.time()*1000)+timestamp 
+                impact_json = data[0]+' '+data[1]+' '+ str(timestamp)
+                print(impact_json)
+                
+                impact_with_time = "buddy/"+ device_id+ "/impact_with_timestamp"           
+                client.publish(impact_with_time, impact_json, retain=True)
+                
+                # Store the data in the buffer
+                if player_id not in data_buffer:
+                    data_buffer[player_id] = []          
+                impact= {"magnitude": int(data[0]), "direction": data[1], "timestamp": timestamp,"isConcussion": False}     
+                data_buffer[player_id].append(impact)
+        
+                # send total impact history to dashboards
+                impact_history = data_buffer[player_id]
+                impact_history_topic = "player/"+str(player_id)+"/impact_history"
+                client.publish(impact_history_topic, json.dumps(impact_history), retain=True)
     
-    elif msg.topic == is_concussion_topic:
+    elif bool(re.search(r"player/\d+/concussion$", msg.topic)):
         # if concussion, record it in the buffer
         player_id = msg.topic.split("/")[1]
         timestamp = data["timestamp"]
+        print(data)
 
-        for entry in data_buffer:
-            if entry[player_id]["timestamp"] == timestamp:
-                entry[player_id]["isConcussion"] = data["isConcussion"]
+        for impact in data_buffer[player_id]:
+            if impact["timestamp"] == timestamp:
+                impact["isConcussion"] = data["isConcussion"]
                 break
         
 def on_disconnect(client, userdata, rc):
