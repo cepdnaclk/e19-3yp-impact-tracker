@@ -49,7 +49,7 @@ export async function accessTokenMiddleware(
   const authorizationHeader = req.header("Authorization");
 
   if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Invalid authorization header" });
+    return res.status(401).json({ message: "" });
   }
 
   const token = authorizationHeader.replace("Bearer ", "");
