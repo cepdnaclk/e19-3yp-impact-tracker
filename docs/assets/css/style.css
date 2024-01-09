@@ -658,7 +658,7 @@ section {
 .problem {
   display: flex;
   align-items: center;
-  padding: 20px 50px;
+  padding: 0px 0px;
 }
 
 .problem .details {
