@@ -30,11 +30,15 @@ export const updateBuddy = (buddy_id: number, battery: number) => {
 
 export const updateImpact = (buddy_id: number, impactString: string) => {
   //Example impactString: "10 Left 123456789"
-  const magntitude: number = parseInt(impactString.trim().split(" ")[0]);
+  const magnitude: number = parseInt(impactString.trim().split(" ")[0]);
   const direction = impactString.split(" ")[1];
   const timestamp = parseInt(impactString.split(" ")[2]);
 
-  const impact: Impact = { magntitude, direction, timestamp } as Impact;
+  const impact: Impact = {
+    magnitude,
+    direction,
+    timestamp,
+  } as Impact;
 
   //update playersImpact state with impact
   useAppState.setState((prevState) => {
