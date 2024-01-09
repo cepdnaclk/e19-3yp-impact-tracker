@@ -12,6 +12,8 @@ interface signupInfo{
 }
 
 interface SignupState {
+  isLoggedIn:boolean;
+  setIsLoggedIn: (isLoggedIn: boolean) => void;
   isSignup: boolean;
   setIsSignup: (isSignup: boolean) => void;
   isManagerExist: boolean;
@@ -38,4 +40,6 @@ export const useSignupState = create<SignupState>()((set) => ({
   setIsTeamExist: (isTeamExist) => set({ isTeamExist: isTeamExist}),
   signupInfo: {teamId: "", email: ""},
   setSignupInfo: (signupInfo) => set({ signupInfo: signupInfo}),
+  isLoggedIn: false,
+  setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn: isLoggedIn}),
 }));
