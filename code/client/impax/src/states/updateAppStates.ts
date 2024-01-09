@@ -28,7 +28,7 @@ export const updateBuddy = (buddy_id: number, battery: number) => {
   });
 };
 
-export const updateImpact = (buddy_id: number, impactString: string) => {
+export const updateImpact = (player_id: number, impactString: string) => {
   //Example impactString: "10 Left 123456789"
   const magnitude: number = parseInt(impactString.trim().split(" ")[0]);
   const direction = impactString.split(" ")[1];
@@ -40,12 +40,12 @@ export const updateImpact = (buddy_id: number, impactString: string) => {
     timestamp,
   } as Impact;
 
+  console.log(impact);
   //update playersImpact state with impact
   useAppState.setState((prevState) => {
     const playersImpact = { ...prevState.playersImpact };
-    const player_id = prevState.playerMap[buddy_id];
-    if (player_id === undefined) return prevState;
     playersImpact[player_id] = impact;
+    console.log("Added to playersImpact", playersImpact);
     return { playersImpact };
   });
 };

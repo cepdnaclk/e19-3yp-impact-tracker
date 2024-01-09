@@ -16,27 +16,29 @@ class MqttClient {
   private topics: string[];
 
   private constructor() {
-    this.client = mqtt.connect("ws://localhost:8080/", {
+    this.client = mqtt.connect("ws://192.168.8.151:8080/", {
       clientId: "impax-dashboard",
       reconnectPeriod: 2000,
       keepalive: 60,
-      // username: "impax",
-      // password: "impax",
+      username: "impax",
+      password: "impax",
     });
 
     this.topics = [
       "test/#",
       "buddy/+/status",
       "buddy/+/impact",
-      "buddy/+/impact_with_timestamp",
+      //"buddy/+/impact_with_timestamp",
       "session",
       "player/+/impact_history",
+      "player/+/impact_with_timestamp",
       "player/+/concussion",
       "player_map",
     ];
 
     this.client.on("connect", this.handleConnect);
     this.client.on("reconnect", this.handleReconnect);
+    this.client.on("offline", this.handleDisconnect);
     this.client.on("message", (topic, message) =>
       this.handleMessage(topic, message)
     );
@@ -49,6 +51,10 @@ class MqttClient {
     useAppState.setState({ isMqttOnine: true });
   };
 
+  private handleDisconnect = () => {
+    console.log("Disconnected");
+    useAppState.setState({ isMqttOnine: false });
+  };
   private handleReconnect = () => {
     console.log("reconnecting");
     useAppState.setState({ isMqttOnine: false });
@@ -57,16 +63,16 @@ class MqttClient {
   private handleMessage = (topic: string, message: Buffer) => {
     console.log(`Received message on topic ${topic}: ${message}`);
     switch (true) {
-      case /^buddy\/\d+/.test(topic):
-        handleMessageFromBuddy(topic, message);
+      case /^player_map$/.test(topic):
+        setPlayerMap(message.toString());
         break;
 
       case /^session$/.test(topic):
         setSessionDetails(message.toString());
         break;
 
-      case /^player_map$/.test(topic):
-        setPlayerMap(message.toString());
+      case /^buddy\/\d+/.test(topic):
+        handleMessageFromBuddy(topic, message);
         break;
 
       case /^player\/\d+/.test(topic):
@@ -132,10 +138,10 @@ const handleMessageFromBuddy = (topic: string, message: Buffer) => {
       //topic = buddy/+/status
       updateBuddy(buddy_id, parseInt(message.toString()));
       break;
-    case "impact_with_timestamp":
-      //topic = buddy/+/impact_with_timestamp
-      updateImpact(buddy_id, message.toString());
-      break;
+    // case "impact_with_timestamp":
+    //   //topic = buddy/+/impact_with_timestamp
+    //   updateImpact(buddy_id, message.toString());
+    //   break;
 
     default:
       break;
@@ -150,6 +156,10 @@ const handleMessageFromPlayer = (topic: string, message: Buffer) => {
   const subtopic = param[2];
 
   switch (subtopic) {
+    case "impact_with_timestamp":
+      //topic = player/+/impact_with_timestamp
+      updateImpact(player_id, message.toString());
+      break;
     case "impact_history":
       updatePlayersImpactHistory(player_id, message.toString());
       break;
