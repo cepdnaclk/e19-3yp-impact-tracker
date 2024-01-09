@@ -35,7 +35,7 @@ const MonitoringElements: React.FC<{
   );
 
   let totalImpact: number = 0;
-  if (playerImpactHistory.length > 0) {
+  if (playerImpactHistory !== undefined && playerImpactHistory.length > 0) {
     totalImpact = playerImpactHistory.reduce(
       (acc: number, curr: Impact) => acc + curr.magnitude,
       0
@@ -127,9 +127,13 @@ const MonitoringElements: React.FC<{
         >
           {/* Show  players impact history */}
           <div>
-            {playerImpactHistory.map((impact: Impact) => (
-              <p>{impact.magnitude}</p>
-            ))}
+            {playerImpactHistory !== undefined ? (
+              playerImpactHistory.map((impact: Impact) => (
+                <p>{impact.magnitude}</p>
+              ))
+            ) : (
+              <p>No impacts recorded</p>
+            )}
           </div>
         </DialogModal>
       </div>
