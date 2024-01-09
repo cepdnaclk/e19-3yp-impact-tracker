@@ -31,7 +31,7 @@ function createWindow() {
     minWidth: 800,
   });
 
-  // win.maximize();
+  win.maximize();
   // win.removeMenu();
   //  Web Serial API - Permission handling
 
