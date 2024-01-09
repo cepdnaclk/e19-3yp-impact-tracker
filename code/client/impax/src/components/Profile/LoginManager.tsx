@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 const LoginManager = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
+  const setIsLoggedIn = useSignupState((state) => state.setIsLoggedIn);
+
   const navigate = useNavigate();
   const {
     register,
@@ -30,6 +32,7 @@ const LoginManager = () => {
     const responseData = await response.json();
     console.log(responseData);
     if (response.ok) {
+      setIsLoggedIn(true);
       navigate("/login/manager");
     }
 
