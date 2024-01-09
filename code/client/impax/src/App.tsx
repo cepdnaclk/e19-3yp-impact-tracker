@@ -24,7 +24,7 @@ function App() {
           <>
             <Sidebar isOnline={online} />
             <Routes>
-              <Route path="/" element={isLoggedIn ? <Profile /> : <SignUp />} />
+              <Route path="/" element={<SignUp />} />
               {/* <Route path="/" element={<ListDevices />} /> */}
 
               <Route
@@ -40,7 +40,10 @@ function App() {
               <Route path="devices" element={<Devices />} />
               <Route path="analytics" element={<Test />} />
               <Route path="player-management" element={<PlayerManagement />} />
-              <Route path="/profile" element={<SignUp />} />
+              <Route
+                path="/profile"
+                element={isLoggedIn ? <Profile /> : <SignUp />}
+              />
               <Route path="/signup/manager" element={<TeamCreation />} />
               <Route
                 path="/signup/manager/success"
