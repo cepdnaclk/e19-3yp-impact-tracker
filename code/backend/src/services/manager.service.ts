@@ -36,6 +36,9 @@ class ManagerService {
         firstName: managerRequestBody.firstName,
         lastName: managerRequestBody.lastName,
         email: managerRequestBody.email,
+        acceptInvitation: managerRequestBody.acceptInvitation,
+        invitationToken: managerRequestBody.invitationToken,
+
       });
 
       // Save the manager to the database
@@ -59,20 +62,20 @@ class ManagerService {
   async getManager(email: string): Promise<ManagerResponse> {
     try {
       // Get the team details
-      const teamInstance = await ManagerModel.findOne({ email });
+      const managerInstance = await ManagerModel.findOne({ email });
 
       // Check if teamInstance is null
-      if (!teamInstance) {
+      if (!managerInstance) {
         throw new Error("Manager not found");
       }
 
-      // Create a TeamResponse object
+      // Create a ManagerResponse object
       const managerResponse = new ManagerResponse({
-        teamId: teamInstance.teamId,
-        firstName: teamInstance.firstName,
-        lastName: teamInstance.lastName,
-        email: teamInstance.email,
-        password: "**********", // Add the password property here
+        teamId: managerInstance.teamId,
+        firstName: managerInstance.firstName,
+        lastName: managerInstance.lastName,
+        email: managerInstance.email,
+        
       });
 
       return managerResponse;

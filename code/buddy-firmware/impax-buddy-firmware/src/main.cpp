@@ -119,6 +119,8 @@ void setup()
     // EEPROM
     initEEPROM(ssid_default, password_defalt, BUDDY_ID, ID);
     setCustomeSSIDAndPasswordEEPROM(ssid, password);
+    writeMQTTUserNameEEPROM(mqtt_username);
+    writeMQTTPasswordEEPROM(mqtt_password);
 
     // Initial sensors
     combinedOutput.init();
@@ -134,10 +136,10 @@ void setup()
     // get the certificates from EEPROM
     if (readMQTTCaCertificateEEPROM(CA_cert))
         buddyMQTT.setCertificates(CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
-    if (readMQTTUserNameEEPROM(mqtt_username))
-        buddyMQTT.setUserName(mqtt_username.c_str());
-    if (readMQTTPasswordEEPROM(mqtt_password))
-        buddyMQTT.setPassword(mqtt_password.c_str());
+    // if (readMQTTUserNameEEPROM(mqtt_username))
+    //     buddyMQTT.setUserName(mqtt_username.c_str());
+    // if (readMQTTPasswordEEPROM(mqtt_password))
+    //     buddyMQTT.setPassword(mqtt_password.c_str());
 
     // MQTT
     buddyMQTT.client.setCallback(callback);

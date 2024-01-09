@@ -12,29 +12,35 @@ class Manager {
   public lastName: string;
   public email: string;
   public password: string;
+  public acceptInvitation: boolean;
+  public invitationToken: string;
 
   public constructor(
     teamId: string,
     firstName: string,
     lastName: string,
     email: string,
-    password: string
+    password: string,
+    acceptInvitation: boolean,
+    invitationToken: string
   ) {
     this.teamId = teamId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.password = password;
+    this.acceptInvitation = acceptInvitation;
+    this.invitationToken = invitationToken;
   }
 }
 
 class ManagerResponse {
-  private teamId: string;
-  private firstName: string;
-  private lastName: string;
-  private email: string;
+  public teamId: string;
+  public firstName: string;
+  public lastName: string;
+  public email: string;
 
-  public constructor(manager: ManagerRequestBody) {
+  public constructor(manager: ManagerResponse) {
     this.teamId = manager.teamId;
     this.firstName = manager.firstName;
     this.lastName = manager.lastName;
@@ -48,19 +54,25 @@ class ManagerRequestBody {
   public lastName: string;
   public email: string;
   public password: string;
+  public acceptInvitation: boolean;
+  public invitationToken: string;
 
   public constructor(
     teamId: string,
     firstName: string,
     lastName: string,
     email: string,
-    password: string
+    password: string,
+    acceptInvitation: boolean,
+    invitationToken: string
   ) {
     this.teamId = teamId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.password = password;
+    this.acceptInvitation = acceptInvitation;
+    this.invitationToken = invitationToken;
   }
 }
 

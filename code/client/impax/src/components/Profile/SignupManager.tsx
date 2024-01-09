@@ -12,6 +12,7 @@ const SignupManager = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    setError,
   } = useForm();
   const onSubmit = async (data: FieldValues) => {
     // TODO: submit to server
@@ -19,7 +20,7 @@ const SignupManager = () => {
     const { teamId, email } = data;
     setSignupInfo({ teamId, email });
 
-    const url = new URL("http://localhost:5000/team/exists"); // Create a URL object for flexible query param handling
+    const url = new URL("http://16.170.235.219:5000/team/exists"); // Create a URL object for flexible query param handling
     url.searchParams.set("teamId", teamId); // Add teamId as a query parameter
     url.searchParams.set("email", email);
     const response = await fetch(url.toString(), {
@@ -30,16 +31,28 @@ const SignupManager = () => {
       },
     });
     const responseData = await response.json();
+    console.log(responseData);
     if (!responseData.teamExists) {
       // setIsTeamExists(false);
       navigate("/signup/manager");
+      reset();
+    } else if (responseData.teamExists && responseData.managerExists) {
+      navigate("/signup/manager/teamexists");
+      reset();
+
+      // setIsTeamExists(true);
+      // setIsManagerExists(true);
+    } else if (responseData.teamExists && !responseData.managerExists) {
+      console.log("um here");
+      setError("teamId", { type: "manual", message: "Team ID already exists" });
+      console.log(errors.teamId);
     }
     // console.log(signupInfo);
     // const responseData = await response.json();
     // await new Promise((resolve) => setTimeout(resolve, 5000));
     // console.log(data);
 
-    reset();
+    // reset();
   };
 
   return (

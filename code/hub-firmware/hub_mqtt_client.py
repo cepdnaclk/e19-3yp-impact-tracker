@@ -67,6 +67,8 @@ def on_message(client, userdata, msg):
             device_id = msg.topic.split("/")[1]
             if device_id in player_device_mapping:
                 player_id = player_device_mapping[device_id]
+                timestamp = int(time.time()*1000)+time_offset
+                impact_json = data[0]+' '+data[1]+' '+ str(timestamp)
                 timestamp = int(time.time()*1000)+timestamp
                 impact_json = data[0]+' '+data[1]+' ' + str(timestamp)
                 print(impact_json)
