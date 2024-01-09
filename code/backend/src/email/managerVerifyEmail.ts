@@ -7,9 +7,9 @@ export async function sendVerificationEmail(
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: "impax.kmksh@gmail.com",
-        pass: "cnnt aube maeq odwu",
-      },
+      user: "impax.kmksh@gmail.com",
+      pass: "cnnt aube maeq odwu",
+    },
   });
 
   const mailOptions = {
