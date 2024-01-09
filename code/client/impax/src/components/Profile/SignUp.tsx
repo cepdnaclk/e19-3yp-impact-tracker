@@ -32,27 +32,6 @@ const SignUp = () => {
     email: "",
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [id]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formData); // Log the form data object
-  };
-
-  //TODO: Disable Next button if the two inputs are empty
-  // const toggleRole = () => {
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     role: prevData.role === "player" ? "manager" : "player",
-  //   }));
-  // };
-
   // If no internet connection then show error
   const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
   if (!isInternetAvailable) {
