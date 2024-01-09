@@ -1,25 +1,18 @@
-import React, { useState } from "react";
 import styles from "./SignUp.module.scss";
 import Hero from "./Hero";
 import ToggleRole from "./ToggleRole";
 import { useAppState } from "../../states/appState";
 import NoInternetConnection from "../StatusScreens/NoInternetConnection";
-import { Role } from "../../types";
 import { useRoleState, useSignupState } from "../../states/formState";
 import SignupManager from "./SignupManager";
 import LoginManager from "./LoginManager";
 import SignupPlayer from "./SignupPlayer";
 import LoginPlayer from "./LoginPlayer";
-import TeamCreation from "./TeamCreation";
 
 const SignUp = () => {
   const role = useRoleState((state) => state.role);
   const setRole = useRoleState((state) => state.setRole);
   const isSignup = useSignupState((state) => state.isSignup);
-  const setIsSignup = useSignupState((state) => state.setIsSignup);
-  const isManagerExist = useSignupState((state) => state.isManagerExist);
-  const isTeamExist = useSignupState((state) => state.isTeamExist);
-  // console.log("RoLEEE", role);
 
   // If no internet connection then show error
   const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
