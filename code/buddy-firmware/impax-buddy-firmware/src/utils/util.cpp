@@ -38,9 +38,10 @@ int getBatteryStatus()
 
     // Assuming a voltage divider with equal resistors, adjust the divisor accordingly
     float batteryVoltage = voltage * 2.0;
+    int val = (batteryVoltage / Vmax) * 100;
 
     // Calculate the percentage
-    return (batteryVoltage / Vmax) * 100;
+    return map(val, 0, 150, 0, 100);
 }
 
 void blink_LED_WIFI()
