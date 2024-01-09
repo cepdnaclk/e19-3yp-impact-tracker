@@ -16,12 +16,12 @@ class MqttClient {
   private topics: string[];
 
   private constructor() {
-    this.client = mqtt.connect("ws://192.168.8.151:8080/", {
+    this.client = mqtt.connect("ws://localhost:8080/", {
       clientId: "impax-dashboard",
       reconnectPeriod: 2000,
       keepalive: 60,
-      username: "impax",
-      password: "impax",
+      // username: "impax",
+      // password: "impax",
     });
 
     this.topics = [

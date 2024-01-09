@@ -5,7 +5,7 @@ import json
 import re
 
 # MQTT broker settings
-broker_address = "192.168.8.151"
+broker_address = "localhost"
 broker_port = 1883
 
 # MQTT topics
@@ -23,6 +23,7 @@ player_device_mapping = {}
 session_started = False
 start_time = None
 data_buffer = {}
+# data_buffer = {playerId: [{Impact}, {Impact}, ...]}
 time_offset = 0
 
 
@@ -33,6 +34,7 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     global session_started, start_time, data_buffer, player_device_mapping, time_offset
+    print("data_buffer:", data_buffer)
 
     # data from dashboards - JSON objects
     print(msg.payload.decode())
@@ -68,7 +70,7 @@ def on_message(client, userdata, msg):
             if device_id in player_device_mapping:
                 player_id = player_device_mapping[device_id]
                 timestamp = int(time.time()*1000)+time_offset
-                impact_json = data[0]+' '+data[1]+' '+ str(timestamp)
+                impact_json = data[0]+' '+data[1]+' ' + str(timestamp)
                 timestamp = int(time.time()*1000)+timestamp
                 impact_json = data[0]+' '+data[1]+' ' + str(timestamp)
                 print(impact_json)
@@ -93,8 +95,7 @@ def on_message(client, userdata, msg):
     elif bool(re.search(r"player/\d+/concussion$", msg.topic)):
         # if concussion, record it in the buffer
         player_id = msg.topic.split("/")[1]
-        timestamp = data["timestamp"]
-        print(data)
+        timestamp = int(data)
 
         for impact in data_buffer[player_id]:
             if impact["timestamp"] == timestamp:
