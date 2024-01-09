@@ -35,22 +35,6 @@ const LoginManager = () => {
 
     console.log(response.ok);
     console.log(responseData);
-    //   const url = new URL("http://localhost:5000/team/exists"); // Create a URL object for flexible query param handling
-    //   url.searchParams.set("teamId", teamId); // Add teamId as a query parameter
-    //   url.searchParams.set("email", email);
-    //   const response = await fetch(url.toString(), {
-    //     // Use the constructed URL with query params
-    //     method: "GET", // Change the method to GET
-    //     headers: {
-    //       "Content-Type": "application/json", // Keep the Content-Type header for consistency
-    //     },
-    //   });
-    //   const responseData = await response.json();
-
-    //   // console.log(signupInfo);
-    //   // const responseData = await response.json();
-    //   // await new Promise((resolve) => setTimeout(resolve, 5000));
-    //   // console.log(data);
 
     reset();
   };
