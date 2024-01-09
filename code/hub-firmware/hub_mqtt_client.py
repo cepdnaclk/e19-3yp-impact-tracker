@@ -20,6 +20,7 @@ is_concussion_topic = "player/+/concussion"
 player_device_mapping = {}
 
 # Session variables
+broker_connected = False
 session_started = False
 start_time = None
 data_buffer = {}
@@ -30,6 +31,7 @@ time_offset = 0
 def on_connect(client, userdata, flags, rc):
     try:
         if rc == 0:
+            broker_connected = True
             print("Connected to MQTT broker")
             client.subscribe("#")
         else:
@@ -143,8 +145,25 @@ client.on_disconnect = on_disconnect
 
 client.username_pw_set("impax", "impax")
 
-# Connect to the broker
-client.connect(broker_address, broker_port, 60)
+# Maximum number of connection attempts
+max_attempts = 15
+
+# Attempt to connect to the broker(for 75 seconds) and exit if unsuccessful
+attempts = 0
+while attempts < max_attempts:
+    try:
+        # Connect to the broker
+        client.connect(broker_address, broker_port, 60)
+        break  # If connected, exit the loop
+    except Exception as e:
+        print(f"Connection attempt failed: {str(e)}")
+        attempts += 1
+        time.sleep(5)  # Wait for a few seconds before the next attempt
+
+# Check if the maximum number of attempts is reached
+if attempts == max_attempts:
+    print(f"Failed to connect after {max_attempts} attempts. Exiting.")
+    exit()
 
 # Start the MQTT loop
 client.loop_start()
