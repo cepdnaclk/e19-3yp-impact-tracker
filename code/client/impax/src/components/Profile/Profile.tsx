@@ -4,12 +4,15 @@ import Title from "../Title/Title";
 import styles from "./Profile.module.scss";
 import { FaRegUserCircle } from "react-icons/fa";
 import { useLoginState } from "../../states/profileState";
+import { useSignupState } from "../../states/formState";
 
 const Profile = () => {
   // Get team-id
   // Get team-name
   // Get manager email
+  const setIsLoggedIn = useSignupState((state) => state.setIsLoggedIn);
   const loginInfo = useLoginState((state) => state.loginInfo);
+  const setLoginInfo = useLoginState((state) => state.setLoginInfo);
 
   return (
     <main>
@@ -22,7 +25,18 @@ const Profile = () => {
           <span>manager email: {loginInfo.email}</span>
         </div>
         <div className={styles.controls}>
-          <Btn buttonStyle="primary" Icon={IoMdExit} onClick={() => {}}>
+          <Btn
+            buttonStyle="primary"
+            Icon={IoMdExit}
+            onClick={() => {
+              setIsLoggedIn(false);
+              setLoginInfo({
+                teamId: "",
+                teamName: "",
+                email: "",
+              });
+            }}
+          >
             Log Out
           </Btn>
         </div>

@@ -8,7 +8,6 @@ const LoginManager = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
   const setIsLoggedIn = useSignupState((state) => state.setIsLoggedIn);
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
-  const tokens = useLoginState((state) => state.tokens);
   const setTokens = useLoginState((state) => state.setTokens);
   const navigate = useNavigate();
   const {
