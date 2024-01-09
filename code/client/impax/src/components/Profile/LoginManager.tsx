@@ -62,7 +62,7 @@ const LoginManager = () => {
         refreshToken: responseData.refreshToken,
       });
       // const teamName = await getTeamInfo(teamId, responseData.accessToken);
-      setLoginInfo({ teamId, teamName: "Team Name", email });
+      setLoginInfo({ teamId, teamName: "Sri Lanka A", email });
       navigate("/login/manager");
     }
 
