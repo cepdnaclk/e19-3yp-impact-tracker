@@ -13,12 +13,22 @@ import {
   getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { FaSort } from "react-icons/fa";
 
 const columns: ColumnDef<Impact>[] = [
   {
     accessorKey: "magnitude",
-    header: "Magnitude",
+    header: ({ column }) => {
+      return (
+        <button
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Magnitude <FaSort className={styles.icon} />
+        </button>
+      );
+    },
     size: 2, // Adjust column sizes as needed
+    cell: ({ row }) => row.getValue("magnitude") + " g",
   },
   {
     accessorKey: "direction",

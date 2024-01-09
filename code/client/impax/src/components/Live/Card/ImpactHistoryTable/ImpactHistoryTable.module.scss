@@ -10,6 +10,24 @@
     font-size: 0.9em;
     color: rgb(232, 232, 232);
     text-wrap: nowrap;
+    button {
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      color: inherit;
+      font-weight: 600;
+      &:hover,
+      &:focus {
+        .icon {
+          color: white;
+        }
+      }
+      .icon {
+        font-size: 0.9em;
+        color: rgba(255, 255, 255, 0.5);
+        transition: 200ms color ease-in-out;
+      }
+    }
   }
   tbody {
     tr {
