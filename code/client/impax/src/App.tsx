@@ -11,9 +11,11 @@ import SignUp from "./components/Profile/SignUp";
 import TeamCreation from "./components/Profile/TeamCreation";
 import Success from "./components/StatusScreens/Success";
 import TeamExists from "./components/StatusScreens/TeamExists";
-
+import { useSignupState } from "./states/formState";
+import Profile from "./components/Profile/Profile";
 function App() {
   MqttClient.getInstance();
+  const isLoggedIn = useSignupState((state) => state.isLoggedIn);
 
   return (
     <HashRouter>
@@ -22,7 +24,7 @@ function App() {
           <>
             <Sidebar isOnline={online} />
             <Routes>
-              <Route path="/" element={<SignUp />} />
+              <Route path="/" element={isLoggedIn ? <Profile /> : <SignUp />} />
               {/* <Route path="/" element={<ListDevices />} /> */}
 
               <Route
