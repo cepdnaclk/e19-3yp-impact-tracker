@@ -16,7 +16,7 @@ const LoginManager = () => {
   const onSubmit = async (data: FieldValues) => {
     const { teamId, email, password } = data;
     console.log(teamId, email, password);
-    const response = await fetch("http://localhost:5000/login/manager", {
+    const response = await fetch("http://16.170.235.219:5000/login/manager", {
       method: "POST",
       body: JSON.stringify({
         teamId: teamId,
