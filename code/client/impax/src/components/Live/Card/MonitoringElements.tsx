@@ -8,6 +8,7 @@ import AlertModal from "../../Modal/AlertModal";
 import DialogModal from "../../Modal/DialogModal";
 import MqttClient from "../../../services/mqttClient";
 import { useAppState } from "../../../states/appState";
+import ImpactHistoryTable from "./ImpactHistoryTable/ImpactHistoryTable";
 
 type metrics = {
   speed: number;
@@ -128,9 +129,7 @@ const MonitoringElements: React.FC<{
           {/* Show  players impact history */}
           <div>
             {playerImpactHistory !== undefined ? (
-              playerImpactHistory.map((impact: Impact) => (
-                <p>{impact.magnitude}</p>
-              ))
+              <ImpactHistoryTable impactHistory={playerImpactHistory} />
             ) : (
               <p>No impacts recorded</p>
             )}
