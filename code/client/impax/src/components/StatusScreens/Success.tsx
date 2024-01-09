@@ -1,7 +1,8 @@
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaRegUserCircle } from "react-icons/fa";
 import styles from "./status.module.scss";
 import Hero from "../Profile/Hero";
 import { useNavigate } from "react-router-dom";
+import Btn from "../Buttons/Btn";
 
 interface Props {
   title: string;
@@ -14,18 +15,19 @@ const LoginSuccess = ({ title, description }: Props) => {
       <div className={`${styles.container} ${styles.success}`}>
         <h2>
           <FaCheckCircle className={styles.icon} />
-          {title} Successfull
+          {title} Successful
         </h2>
         <p>{description}</p>
-        <button
+        <Btn
+          type="submit"
           onClick={() => {
             navigate("/profile");
           }}
-          type="submit"
-          className={styles.nextBtn}
+          Icon={FaRegUserCircle}
+          buttonStyle="primary"
         >
-          Go to Profile
-        </button>
+          Visit Profile
+        </Btn>
       </div>
       <Hero />
     </main>
