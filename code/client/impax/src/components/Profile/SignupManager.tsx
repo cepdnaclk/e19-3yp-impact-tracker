@@ -12,6 +12,7 @@ const SignupManager = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    setError,
   } = useForm();
   const onSubmit = async (data: FieldValues) => {
     // TODO: submit to server
@@ -34,17 +35,24 @@ const SignupManager = () => {
     if (!responseData.teamExists) {
       // setIsTeamExists(false);
       navigate("/signup/manager");
+      reset();
     } else if (responseData.teamExists && responseData.managerExists) {
       navigate("/signup/manager/teamexists");
+      reset();
+
       // setIsTeamExists(true);
       // setIsManagerExists(true);
+    } else if (responseData.teamExists && !responseData.managerExists) {
+      console.log("um here");
+      setError("teamId", { type: "manual", message: "Team ID already exists" });
+      console.log(errors.teamId);
     }
     // console.log(signupInfo);
     // const responseData = await response.json();
     // await new Promise((resolve) => setTimeout(resolve, 5000));
     // console.log(data);
 
-    reset();
+    // reset();
   };
 
   return (
