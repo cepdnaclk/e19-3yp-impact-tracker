@@ -35,9 +35,9 @@ const SignupManager = () => {
       // setIsTeamExists(false);
       navigate("/signup/manager");
     } else if (responseData.teamExists && responseData.managerExists) {
+      navigate("/signup/manager/teamexists");
       // setIsTeamExists(true);
       // setIsManagerExists(true);
-      navigate("/login/manager");
     }
     // console.log(signupInfo);
     // const responseData = await response.json();

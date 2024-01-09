@@ -10,6 +10,7 @@ import PlayerManagement from "./components/PlayerManagement/PlayerManagement";
 import SignUp from "./components/Profile/SignUp";
 import TeamCreation from "./components/Profile/TeamCreation";
 import Success from "./components/StatusScreens/Success";
+import TeamExists from "./components/StatusScreens/TeamExists";
 
 function App() {
   MqttClient.getInstance();
@@ -37,7 +38,7 @@ function App() {
               <Route path="devices" element={<Devices />} />
               <Route path="analytics" element={<Test />} />
               <Route path="player-management" element={<PlayerManagement />} />
-              <Route path="profile" element={<SignUp />} />
+              <Route path="/profile" element={<SignUp />} />
               <Route path="/signup/manager" element={<TeamCreation />} />
               <Route
                 path="/signup/manager/success"
@@ -47,6 +48,10 @@ function App() {
                     description="Welcome to our platform! We're excited to have you join our community. Get ready to explore all the amazing features and services we offer. "
                   />
                 }
+              />
+              <Route
+                path="/signup/manager/teamexists"
+                element={<TeamExists />}
               />
             </Routes>
             {/* <Content isOnline={online} /> */}

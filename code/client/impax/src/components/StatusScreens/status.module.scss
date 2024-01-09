@@ -35,3 +35,22 @@
 .main.divider {
   @include mainDivider;
 }
+
+.nextBtn {
+  display: block;
+  text-align: center;
+  width: 100%;
+  background-color: rgb(32, 48, 103);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgb(211, 216, 255);
+  font-size: 1em;
+  font-weight: 600;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  padding: 1rem;
+  &:disabled,&[disabled] {
+    background-color: rgba(32, 48, 103, 0.5);
+    color: rgba(211, 216, 255, 0.5);
+    cursor: not-allowed;
+  }
+}
