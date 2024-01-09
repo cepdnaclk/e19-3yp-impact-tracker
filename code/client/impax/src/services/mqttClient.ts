@@ -93,7 +93,11 @@ class MqttClient {
     this.publish("session", JSON.stringify(session));
   };
 
-  publishBuddyStatus(buddy_id: number, status: number) {
+  public markAsConcussion = (player_id: number, timestamp: number) => {
+    this.publish(`player/${player_id}/concussion`, timestamp.toString());
+  };
+
+  public publishBuddyStatus(buddy_id: number, status: number) {
     this.publish(`buddy/${buddy_id}/status`, status.toString());
   }
 

@@ -36,10 +36,10 @@ const MonitoringCard = ({ buddy_id, onClick }: MonitoringCardProps) => {
       />
       <PlayerInfo buddy_id={buddy_id} />
       <MonitoringElements
+        key={playerId}
         metrics={metrics}
         latestImpact={buddyImpact}
-        totalImpact={20}
-        // playerId={playerId}
+        playerId={playerId}
       />
     </div>
   );

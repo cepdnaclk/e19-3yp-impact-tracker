@@ -6,6 +6,8 @@ import { FaHistory, FaTimes } from "react-icons/fa";
 import { Impact } from "../../../types";
 import AlertModal from "../../Modal/AlertModal";
 import DialogModal from "../../Modal/DialogModal";
+import MqttClient from "../../../services/mqttClient";
+import { useAppState } from "../../../states/appState";
 
 type metrics = {
   speed: number;
@@ -14,16 +16,31 @@ type metrics = {
 
 const MonitoringElements: React.FC<{
   metrics?: metrics;
+  playerId: number;
   latestImpact?: Impact;
-  totalImpact?: number;
-}> = ({ metrics, latestImpact, totalImpact }) => {
+}> = ({ metrics, latestImpact, playerId }) => {
   const timeDiff = latestImpact ? Date.now() - latestImpact.timestamp : 0;
 
   // Convert the time difference to minutes
   const elapsedTimeInMins = Math.floor(timeDiff / (1000 * 60));
   const threshold = 10;
 
-  //
+  const markAsConcussion = () => {
+    if (latestImpact === undefined) return;
+    MqttClient.getInstance().markAsConcussion(playerId, latestImpact.timestamp);
+  };
+
+  const playerImpactHistory = useAppState(
+    (state) => state.playersImpactHistory[playerId] as Impact[]
+  );
+
+  let totalImpact: number = 0;
+  if (playerImpactHistory.length > 0) {
+    totalImpact = playerImpactHistory.reduce(
+      (acc: number, curr: Impact) => acc + curr.magnitude,
+      0
+    );
+  }
 
   return (
     <>
@@ -52,7 +69,7 @@ const MonitoringElements: React.FC<{
           </p>
           <p className={styles.value}>
             {latestImpact !== undefined
-              ? latestImpact.magntitude.toString() + " g"
+              ? latestImpact.magnitude.toString() + " g"
               : "--"}
           </p>
           <p className={styles.direction}>
@@ -66,15 +83,17 @@ const MonitoringElements: React.FC<{
         </div>
         <div className={`${styles.impact} ${styles.total}`}>
           <p className={styles.label}>Total Impact</p>
-          <p className={styles.value}>
-            {totalImpact !== undefined ? totalImpact.toString() : "--"} g
-          </p>
+          <p className={styles.value}>{totalImpact} g</p>
         </div>
       </div>
       <div className={styles.actions}>
         <AlertModal
           trigger={
-            <Btn Icon={PiWarningOctagonFill} bgColor="#252c3d">
+            <Btn
+              Icon={PiWarningOctagonFill}
+              bgColor="#252c3d"
+              disabled={latestImpact === undefined}
+            >
               Mark as Concussion
             </Btn>
           }
@@ -82,7 +101,11 @@ const MonitoringElements: React.FC<{
           title="Mark as Concussion"
           description="Are you sure you want to mark this impact as concussion?"
           action={
-            <Btn Icon={PiWarningOctagonFill} bgColor="#252c3d">
+            <Btn
+              Icon={PiWarningOctagonFill}
+              bgColor="#252c3d"
+              onClick={() => markAsConcussion()}
+            >
               Confirm
             </Btn>
           }
@@ -101,8 +124,14 @@ const MonitoringElements: React.FC<{
               Impact History
             </Btn>
           }
-          confirmButton={<></>}
-        />
+        >
+          {/* Show  players impact history */}
+          <div>
+            {playerImpactHistory.map((impact: Impact) => (
+              <p>{impact.magnitude}</p>
+            ))}
+          </div>
+        </DialogModal>
       </div>
     </>
   );
