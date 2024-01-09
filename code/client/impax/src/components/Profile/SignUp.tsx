@@ -10,7 +10,7 @@ import SignupManager from "./SignupManager";
 import LoginManager from "./LoginManager";
 import SignupPlayer from "./SignupPlayer";
 import LoginPlayer from "./LoginPlayer";
-import SignupManager2 from "./TeamCreation";
+import TeamCreation from "./TeamCreation";
 
 const SignUp = () => {
   const role = useRoleState((state) => state.role);
@@ -76,9 +76,7 @@ const SignUp = () => {
           <h4>Select Your Role</h4>
           <ToggleRole role={role} toggleRole={setRole} />
         </div>
-        {role == "manager" &&
-          isSignup &&
-          (isTeamExist ? <SignupManager /> : <SignupManager2 />)}
+        {role == "manager" && isSignup && <SignupManager />}
         {role == "manager" && !isSignup && <LoginManager />}
 
         {role == "player" && isSignup && <SignupPlayer />}
