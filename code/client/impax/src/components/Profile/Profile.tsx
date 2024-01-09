@@ -3,12 +3,13 @@ import Btn from "../Buttons/Btn";
 import Title from "../Title/Title";
 import styles from "./Profile.module.scss";
 import { FaRegUserCircle } from "react-icons/fa";
-import { useSignupState } from "../../states/formState";
+import { useLoginState } from "../../states/profileState";
 
 const Profile = () => {
   // Get team-id
   // Get team-name
   // Get manager email
+  const loginInfo = useLoginState((state) => state.loginInfo);
 
   return (
     <main>
@@ -16,9 +17,9 @@ const Profile = () => {
       <div className={styles.loggedInStatus}>
         <div className={styles.info}>
           <h2>
-            Sri Lanka A <span>(SL-A_2024)</span>
+            {loginInfo.teamName} <span>({loginInfo.teamId})</span>
           </h2>
-          <span>manager email: chrissiilverwood@gmail.com</span>
+          <span>manager email: {loginInfo.email}</span>
         </div>
         <div className={styles.controls}>
           <Btn buttonStyle="primary" Icon={IoMdExit} onClick={() => {}}>
