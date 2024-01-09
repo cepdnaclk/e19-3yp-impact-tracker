@@ -21,17 +21,6 @@ const SignUp = () => {
   const isTeamExist = useSignupState((state) => state.isTeamExist);
   // console.log("RoLEEE", role);
 
-  interface formData {
-    role: Role;
-    teamId: string;
-    email: string;
-  }
-  const [formData, setFormData] = useState<formData>({
-    role: "manager",
-    teamId: "",
-    email: "",
-  });
-
   // If no internet connection then show error
   const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
   if (!isInternetAvailable) {
