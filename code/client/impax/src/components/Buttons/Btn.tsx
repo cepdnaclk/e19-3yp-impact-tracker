@@ -8,6 +8,7 @@ interface BtnProps {
   bgColor?: string;
   type?: "button" | "submit" | "reset";
   iconSizeEm?: number;
+  disabled?: boolean;
   children: string | JSX.Element;
 }
 
@@ -21,6 +22,7 @@ const Btn = React.forwardRef<Ref, BtnProps>(
       bgColor = buttonStyle == "primary" ? "rgb(14, 61, 127)" : "#313131",
       type = "button",
       iconSizeEm = 1.4,
+      disabled = false,
       children,
     },
     ref
@@ -30,6 +32,7 @@ const Btn = React.forwardRef<Ref, BtnProps>(
 
     return (
       <button
+        disabled={disabled}
         ref={ref}
         onClick={onClick}
         className={btnClass}
