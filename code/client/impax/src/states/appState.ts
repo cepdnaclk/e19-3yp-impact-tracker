@@ -118,6 +118,7 @@ export const useAppState = create<AppState>()((set) => ({
     });
   },
 
+  //For the session details
   sessionDetails: {} as Session,
   setSessionDetails: (session: Session) => {
     set({ sessionDetails: session });
@@ -150,6 +151,7 @@ export const useAppState = create<AppState>()((set) => ({
     });
   },
 
+  //for live dashboard monitoring and active buddie
   monitoringBuddies: new Set<number>(),
   addToMonitoringBuddies: (buddy_id: number) => {
     set((prevState) => {

@@ -15,7 +15,7 @@ export type BuddyStatus = {
 export type Role = "player" | "manager";
 
 export type Impact = {
-  magntitude: number;
+  magnitude: number;
   direction: "left" | "right" | "front" | "back" | "top" | "bottom";
   timestamp: number;
   isConcussion?: boolean;

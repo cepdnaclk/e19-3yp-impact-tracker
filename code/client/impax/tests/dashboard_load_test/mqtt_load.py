@@ -3,7 +3,7 @@ import time
 import random
 
 # MQTT broker settings
-broker_address = "localhost"
+broker_address = "192.168.8.151"
 broker_port = 1883
 
 # Number of buddy devices
@@ -34,8 +34,9 @@ def on_connect(client, userdata, flags, rc):
 
 # Connect all clients to the broker
 for client, _, _ in clients:
+    client.username_pw_set("impax", "impax")
     client.on_connect = on_connect
-    client.connect(broker_address, broker_port)
+    client.connect(broker_address, broker_port, )
     client.loop_start()  # Start background thread for each client
 
 while True:
