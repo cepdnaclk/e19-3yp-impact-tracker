@@ -5,7 +5,7 @@ import json
 import re
 
 # MQTT broker settings
-broker_address = "localhost"
+broker_address = "192.168.8.151"
 broker_port = 1883
 
 # MQTT topics
@@ -28,83 +28,99 @@ time_offset = 0
 
 
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code " + str(rc))
-    client.subscribe("#")
-
+    try:
+        if rc == 0:
+            print("Connected to MQTT broker")
+            client.subscribe("#")
+        else:
+            raise Exception(f"Connection failed with result code {rc}")
+    except Exception as e:
+        print(f"Error in on_connect: {str(e)}")
 
 def on_message(client, userdata, msg):
     global session_started, start_time, data_buffer, player_device_mapping, time_offset
-    print("data_buffer:", data_buffer)
-    # data from dashboards - JSON objects
 
     try:
+        # data from dashboards - JSON objects
         data = json.loads(msg.payload.decode())
-    # data from imapact buddies - ESP32 -text strings
+
+    # data from impact buddies - ESP32 - text strings
     except json.JSONDecodeError:
         data = msg.payload.decode().split(" ")
-    print(data)
 
     if msg.topic == mapping_topic:
-        # Update player to device mapping
-        player_device_mapping = data
-        print("Player to device mapping updated:", player_device_mapping)
+        try:
+            # Update player to device mapping
+            player_device_mapping = data
+            print("Player to device mapping updated:", player_device_mapping)
+        except Exception as e:
+            print(f"Error in handling mapping_topic: {str(e)}")
 
     elif msg.topic == session_topic:
-        if data["active"] == False:
-            if session_started:
-                end_session()
-        else:
-            session_started = True
-            start_time = int(time.time()*1000)
-            time_offset = data["updatedAt"]-start_time
-            print("time offset:", time_offset)
-            print("Session updated!")
+        try:
+            if data["active"] is False:
+                if session_started:
+                    end_session()
+            else:
+                session_started = True
+                start_time = int(time.time() * 1000)
+                time_offset = data["updatedAt"] - start_time
+                print("time offset:", time_offset)
+                print("Session updated!")
+        except Exception as e:
+            print(f"Error in handling session_topic: {str(e)}")
 
     elif bool(re.search(r"buddy/\d+/impact$", msg.topic)):
-        if session_started:
-            # Add timestamp to the received data and publish to the dashboards
-            # data = magnitude direction
-            device_id = msg.topic.split("/")[1]
-            if device_id in player_device_mapping:
-                player_id = player_device_mapping[device_id]
-                timestamp = int(time.time()*1000) + time_offset
-                impact_json = data[0]+' '+data[1]+' ' + str(timestamp)
+        try:
+            if session_started:
+                # Add timestamp to the received data and publish to the dashboards
+                device_id = msg.topic.split("/")[1]
+                if device_id in player_device_mapping:
+                    player_id = player_device_mapping[device_id]
+                    timestamp = int(time.time() * 1000) + time_offset
+                    impact_json = data[0] + ' ' + data[1] + ' ' + str(timestamp)
 
-                impact_with_time = "buddy/" + device_id + "/impact_with_timestamp"
-                client.publish(impact_with_time, impact_json, retain=True)
-                print(impact_json)
+                    impact_of_player_with_time = "player/" + str(player_id) + "/impact_with_timestamp"
+                    client.publish(impact_of_player_with_time, impact_json, retain=True)
+                    impact_with_time = "buddy/" + device_id + "/impact_with_timestamp"
+                    client.publish(impact_with_time, impact_json, retain=True)
+                    print(impact_json)
 
-                # Store the data in the buffer
-                if player_id not in data_buffer.keys():
-                    print("player_id", player_id, "not in buffer")
-                    data_buffer[player_id] = []
-                impact = {"magnitude": int(
-                    data[0]), "direction": data[1], "timestamp": timestamp, "isConcussion": False}
-                print(f"Impact object created: {impact}")
-                data_buffer[player_id].append(impact)
+                    # Store the data in the buffer
+                    if player_id not in data_buffer.keys():
+                        print("player_id", player_id, "not in buffer")
+                        data_buffer[player_id] = []
+                    impact = {"magnitude": int(data[0]), "direction": data[1], "timestamp": timestamp, "isConcussion": False}
+                    print(f"Impact object created: {impact}")
+                    data_buffer[player_id].append(impact)
 
-                print("Impact data stored in buffer:", data_buffer)
-                # send total impact history to dashboards
-                impact_history = data_buffer[player_id]
-                impact_history_topic = "player/" + \
-                    str(player_id)+"/impact_history"
-                client.publish(impact_history_topic, json.dumps(
-                    impact_history), retain=True)
+                    print("Impact data stored in buffer:", data_buffer)
+                    # Send total impact history to dashboards
+                    impact_history = data_buffer[player_id]
+                    impact_history_topic = "player/" + str(player_id) + "/impact_history"
+                    client.publish(impact_history_topic, json.dumps(impact_history), retain=True)
+        except Exception as e:
+            print(f"Error in handling impact data: {str(e)}")
 
     elif bool(re.search(r"player/\d+/concussion$", msg.topic)):
-        # if concussion, record it in the buffer
-        player_id = msg.topic.split("/")[1]
-        timestamp = int(data)
+        try:
+            # If concussion, record it in the buffer
+            player_id = msg.topic.split("/")[1]
+            timestamp = int(data)
 
-        for impact in data_buffer[player_id]:
-            if impact["timestamp"] == timestamp:
-                impact["isConcussion"] = data["isConcussion"]
-                break
+            for impact in data_buffer[int(player_id)]:
+                if impact["timestamp"] == timestamp:
+                    impact["isConcussion"] = True
+                    break
 
+        except Exception as e:
+            print(f"Error in handling concussion data: {str(e)}")
 
 def on_disconnect(client, userdata, rc):
-    print("Disconnected with result code " + str(rc))
-
+    try:
+        print("Disconnected with result code " + str(rc))
+    except Exception as e:
+        print(f"Error in on_disconnect: {str(e)}")
 
 def end_session():
     print("Clearing Data_buffer")
