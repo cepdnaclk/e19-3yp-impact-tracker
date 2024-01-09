@@ -21,9 +21,9 @@ import serial
 # global variables
 MAX_MEAS = 200  # max number of readings in the session, so that we don't create an infinite loop
 AVG_MEAS = 25  # for each reading, take this many measurements and average them
-SER_PORT = 'COM5'  # serial port the device is connected to
+SER_PORT = "/dev/ttyACM0"  # serial port the device is connected to
 SER_BAUD = 115200  # serial port baud rate
-FILENAME = os.path.join(os.getcwd(), 'acceldata.txt')  # output file
+FILENAME = os.path.join(os.getcwd(), "acceldata.txt")  # output file
 
 
 class SerialPort:
@@ -41,17 +41,23 @@ class SerialPort:
             baud (int): Serial baud rate, default 9600.
         """
         if isinstance(port, str) == False:
-            raise TypeError('port must be a string.')
+            raise TypeError("port must be a string.")
 
         if isinstance(baud, int) == False:
-            raise TypeError('Baud rate must be an integer.')
+            raise TypeError("Baud rate must be an integer.")
 
         self.port = port
         self.baud = baud
 
         # Initialize serial connection
         self.ser = serial.Serial(
-            self.port, self.baud, timeout=None, xonxoff=False, rtscts=False, dsrdtr=False)
+            self.port,
+            self.baud,
+            timeout=None,
+            xonxoff=False,
+            rtscts=False,
+            dsrdtr=False,
+        )
         self.ser.flushInput()
         self.ser.flushOutput()
 
@@ -67,7 +73,7 @@ class SerialPort:
         """
         self.ser.flushInput()
         bytesToRead = self.ser.readline()
-        decodedMsg = bytesToRead.decode('utf-8')
+        decodedMsg = bytesToRead.decode("utf-8")
 
         if clean_end == True:
             decodedMsg = decodedMsg.rstrip()  # Strip extra chars at the end
@@ -79,7 +85,7 @@ class SerialPort:
         self.ser.close()
 
 
-def RecordDataPt(ser: SerialPort, tried = 0) -> tuple:
+def RecordDataPt(ser: SerialPort, tried=0) -> tuple:
     """Record data from serial port and return averaged result."""
     # do a few readings and average the result
     ax = ay = az = 0.0
@@ -87,7 +93,7 @@ def RecordDataPt(ser: SerialPort, tried = 0) -> tuple:
     for _ in range(AVG_MEAS):
         # read data
         try:
-            data = ser.Read().split(',')
+            data = ser.Read().split(",")
             ax_now = float(data[0])
             ay_now = float(data[1])
             az_now = float(data[2])
@@ -96,7 +102,8 @@ def RecordDataPt(ser: SerialPort, tried = 0) -> tuple:
             tried += 1
             if tried > 10000:
                 raise SystemExit("[ERROR]: Error reading serial connection.")
-            else: RecordDataPt(ser, tried)
+            else:
+                RecordDataPt(ser, tried)
         ax += ax_now
         ay += ay_now
         az += az_now
@@ -104,7 +111,9 @@ def RecordDataPt(ser: SerialPort, tried = 0) -> tuple:
     return (ax / AVG_MEAS, ay / AVG_MEAS, az / AVG_MEAS)
 
 
-def List2DelimFile(mylist: list, filename: str, delimiter: str = ',', f_mode='a') -> None:
+def List2DelimFile(
+    mylist: list, filename: str, delimiter: str = ",", f_mode="a"
+) -> None:
     """Convert list to Pandas dataframe, then save as a text file."""
     df = pandas.DataFrame(mylist)
     df.to_csv(
@@ -112,7 +121,7 @@ def List2DelimFile(mylist: list, filename: str, delimiter: str = ',', f_mode='a'
         sep=delimiter,
         mode=f_mode,
         header=False,  # no col. labels
-        index=False  # no row numbers
+        index=False,  # no row numbers
     )
 
 
@@ -120,41 +129,45 @@ def main():
     ser = SerialPort(SER_PORT, baud=SER_BAUD)
     data = []  # data list
 
-    print('[INFO]: Place sensor level and stationary on desk.')
-    input('[INPUT]: Press any key to continue...')
+    print("[INFO]: Place sensor level and stationary on desk.")
+    input("[INPUT]: Press any key to continue...")
 
     # take measurements
     for _ in range(MAX_MEAS):
         user = input(
-            '[INPUT]: Ready for measurement? Type \'m\' to measure or \'q\' to save and quit: ').lower()
-        if user == 'm':
+            "[INPUT]: Ready for measurement? Type 'm' to measure or 'q' to save and quit: "
+        ).lower()
+        if user == "m":
             # record data to list
             ax, ay, az = RecordDataPt(ser)
             magn = math.sqrt(ax**2 + ay**2 + az**2)
-            print('[INFO]: Avgd Readings: {:.4f}, {:.4f}, {:.4f} Magnitude: {:.4f}'.format(
-                ax, ay, az, magn))
+            print(
+                "[INFO]: Avgd Readings: {:.4f}, {:.4f}, {:.4f} Magnitude: {:.4f}".format(
+                    ax, ay, az, magn
+                )
+            )
             data.append([ax, ay, az])
-            List2DelimFile(data, FILENAME, delimiter='\t')
-            
-        elif user == 'q':
+            List2DelimFile(data, FILENAME, delimiter="\t")
+
+        elif user == "q":
             # save, then quit
-            print('[INFO]: Saving data and exiting...')
-            List2DelimFile(data, FILENAME, delimiter='\t')
+            print("[INFO]: Saving data and exiting...")
+            List2DelimFile(data, FILENAME, delimiter="\t")
             ser.Close()
-            print('[INFO]: Done!')
+            print("[INFO]: Done!")
             return
         else:
-            print('[ERROR]: \'{}\' is an unknown input. Terminating!'.format(user))
-            List2DelimFile(data, FILENAME, delimiter='\t')
+            print("[ERROR]: '{}' is an unknown input. Terminating!".format(user))
+            List2DelimFile(data, FILENAME, delimiter="\t")
             ser.Close()
             return
 
     # save once max is reached
-    print('[WARNING]: Reached max. number of datapoints, saving file...')
-    List2DelimFile(data, FILENAME, delimiter='\t')
+    print("[WARNING]: Reached max. number of datapoints, saving file...")
+    List2DelimFile(data, FILENAME, delimiter="\t")
     ser.Close()
-    print('[INFO]: Done!')
+    print("[INFO]: Done!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

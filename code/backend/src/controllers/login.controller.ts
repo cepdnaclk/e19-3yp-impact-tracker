@@ -1,11 +1,17 @@
-import { LoginResquest, LoginResponse } from "../models/login.model";
+import {
+  LoginResquest,
+  LoginResponse,
+  LoginResquestManager,
+} from "../models/login.model";
 import { checkAuthExists, checkAuth } from "../services/auth.service";
 import { createJwt, checkJwtExists, deleteJwt } from "../services/jwt.service";
 import { createRefreshToken, createAccessToken } from "../utils/jwt.token";
 import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
 import ROLES from "../config/roles";
 
-async function loginManager(loginReq: LoginResquest): Promise<LoginResponse> {
+async function loginManager(
+  loginReq: LoginResquestManager
+): Promise<LoginResponse> {
   const role = ROLES.MANAGER;
 
   // check manager exists

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { LoginResquest } from "../models/login.model";
+import { LoginResquest, LoginResquestManager } from "../models/login.model";
 
 // create refresh token
 export function createRefreshToken(credentials: LoginResquest, role: string) {
@@ -14,6 +14,7 @@ export function createRefreshToken(credentials: LoginResquest, role: string) {
       expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY_TIME,
     }
   );
+
   return refreshToken;
 }
 

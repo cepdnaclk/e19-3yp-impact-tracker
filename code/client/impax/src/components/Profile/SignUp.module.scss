@@ -68,6 +68,11 @@ form {
   border-radius: 0.4rem;
   cursor: pointer;
   padding: 1rem;
+  &:disabled,&[disabled] {
+    background-color: rgba(32, 48, 103, 0.5);
+    color: rgba(211, 216, 255, 0.5);
+    cursor: not-allowed;
+  }
 }
 
 .loginText {

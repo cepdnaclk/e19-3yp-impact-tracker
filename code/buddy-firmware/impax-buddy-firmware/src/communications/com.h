@@ -2,6 +2,7 @@
 #define COM_H
 
 #include <Arduino.h>
+#include "../utils/util.h"
 
 #define REQUEST "request"
 #define ACK "ack"

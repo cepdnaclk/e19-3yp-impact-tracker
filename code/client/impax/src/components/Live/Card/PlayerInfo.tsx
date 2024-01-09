@@ -12,7 +12,7 @@ const PlayerInfo: React.FC<{ buddy_id: number }> = ({ buddy_id }) => {
 
   return (
     <div className={styles.playerInfo}>
-      <p className={styles.jerseyNo}>{jersey_no.toString()}</p>
+      <p className={styles.jerseyNo}>{jersey_no.toString().padStart(2, "0")}</p>
       <div className={styles.name}>
         <p className={styles.playerName}>{playerInfo.name}</p>
         <div className={styles.device}>

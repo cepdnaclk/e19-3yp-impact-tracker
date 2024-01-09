@@ -6,7 +6,8 @@ sudo systemctl enable mosquitto.service
 
 // enable authentication for MQTT broker
 sudo mosquitto_passwd -c /etc/mosquitto/passwd YOUR_USERNAME
-//enter passwd
+// username - impax
+//enter passwd - impax
 
 // edit mosquitto configuration
 sudo nano /etc/mosquitto/mosquitto.conf

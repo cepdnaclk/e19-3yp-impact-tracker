@@ -100,8 +100,8 @@
 
   &.forceAction {
     button:last-child {
-      background-color: $secondary-red !important;
-      color: white;
+      background-color: #622a2a !important;
+      color: #ff9d9d;
       &:hover,
       &:focus {
         outline: 1px solid lighten($color: $secondary-red, $amount: 30);

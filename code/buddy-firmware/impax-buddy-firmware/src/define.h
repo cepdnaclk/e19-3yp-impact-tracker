@@ -4,6 +4,7 @@
 #include "communications/wifi.h"
 #include "communications/mqtt.h"
 #include "utils/eeprom.h"
+#include "utils/util.h"
 #include "communications/com.h"
 #include "combinedOutput.h"
 
@@ -12,10 +13,15 @@
 String BUDDY_ID = "buddy/";
 
 // WIFI
+// String ssid = "";
+// String password = "";
+// String ssid_default = "";
+// String password_defalt = "";
 String ssid = "Dialog 4G 629";
 String password = "189FFF07";
 String ssid_default = "SLT-Fiber";
 String password_defalt = "5CF@606a";
+// {Dialog 4G 629,189FFF07,emqx,public,abcd}
 
 // MQTT Broker
 const char *mqtt_broker = "192.168.8.151";

@@ -1,6 +1,10 @@
 import { Router } from "express";
 import { Request, Response } from "express";
-import { LoginResquest, LoginResponse } from "../models/login.model";
+import {
+  LoginResquest,
+  LoginResponse,
+  LoginResquestManager,
+} from "../models/login.model";
 import {
   loginManager,
   loginPlayer,
@@ -8,6 +12,7 @@ import {
 } from "../controllers/login.controller";
 import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
 import { validateEmail } from "../utils/utils";
+import { checkManagerExistsInTeam } from "../controllers/team.controller";
 
 // Create an instance of the Express Router
 const router = Router();
@@ -17,9 +22,10 @@ router.post("/manager", async (req: Request, res: Response) => {
   // Extract password and userName from the request body
   const password = req.body.password;
   const userName = req.body.userName;
+  const teamId = req.body.teamId;
 
   // Check if password or userName is missing
-  if (!password || !userName) {
+  if (!password || !userName || !teamId) {
     console.log(HttpMsg.BAD_REQUEST);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
     return;
@@ -32,9 +38,23 @@ router.post("/manager", async (req: Request, res: Response) => {
     return;
   }
 
+  // check manager is in team
+  const exist = await checkManagerExistsInTeam(userName, teamId);
+  if (!exist) {
+    console.log(HttpMsg.MANAGER_LOGIN_FAILED);
+    res
+      .status(HttpCode.BAD_REQUEST)
+      .send({ message: HttpMsg.MANAGER_LOGIN_FAILED });
+    return;
+  }
+
   try {
     // Create a LoginRequest instance for manager login
-    const loginReq: LoginResquest = new LoginResquest(password, userName);
+    const loginReq: LoginResquestManager = new LoginResquestManager(
+      password,
+      userName,
+      teamId
+    );
 
     // Perform manager login and get the status
     const loginRes: LoginResponse = await loginManager(loginReq);

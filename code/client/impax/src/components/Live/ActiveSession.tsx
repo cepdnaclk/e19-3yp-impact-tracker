@@ -1,17 +1,25 @@
 import styles from "./ActiveSession.module.scss";
-import { FaEdit, FaTimes } from "react-icons/fa";
+import { FaCheck, FaEdit, FaTimes } from "react-icons/fa";
 import { IoMdExit } from "react-icons/io";
 import Btn from "../Buttons/Btn";
 import MonitoringCard from "./Card/MonitoringCard";
 import ActiveCard from "./Card/ActiveCard";
 import AlertModal from "../Modal/AlertModal";
 import { useAppState } from "../../states/appState";
+import DialogModal from "../Modal/DialogModal";
+import { useState } from "react";
 
 const ActiveSession = () => {
+  const buddiesStatus = useAppState((state) => state.buddiesStatus);
   const sessionDetails = useAppState((state) => state.sessionDetails);
+  const updateSessionDetails = useAppState(
+    (state) => state.updateSessionDetails
+  );
   const endSession = useAppState((state) => state.endSession);
   const playerMap = useAppState((state) => state.playerMap);
-
+  const [editSessionName, setEditSessionName] = useState<string>(
+    sessionDetails?.session_name || ""
+  );
   const monitoringBuddies = useAppState((state) => state.monitoringBuddies);
   const addToMonitoringBuddies = useAppState(
     (state) => state.addToMonitoringBuddies
@@ -23,7 +31,7 @@ const ActiveSession = () => {
   const activeBuddies = new Set<number>(
     Object.keys(playerMap)
       .map((buddy_id) => parseInt(buddy_id))
-      .filter((x) => !monitoringBuddies.has(x))
+      .filter((x) => !monitoringBuddies.has(x) && x in buddiesStatus)
   );
 
   const handleAddToMonitoring = (buddy_id: number) => {
@@ -32,6 +40,10 @@ const ActiveSession = () => {
 
   const handleRemoveFromMonitoring = (buddy_id: number) => {
     removeFromMonitoringBuddies(buddy_id);
+  };
+
+  const handleEditSessionName = () => {
+    updateSessionDetails(editSessionName);
   };
   //Time object of 15 mins and 5 mins before for testing
   // const currentDate = new Date();
@@ -46,15 +58,40 @@ const ActiveSession = () => {
           <span>Session Id: {sessionDetails?.session_id}</span>
         </div>
         <div className={styles.controls}>
-          <Btn Icon={FaEdit} buttonStyle="secondary">
-            Edit Session
-          </Btn>
+          <DialogModal
+            title="Edit Session"
+            description="Enter new session name"
+            trigger={
+              <Btn Icon={FaEdit} buttonStyle="secondary">
+                Edit Session
+              </Btn>
+            }
+            confirmButton={
+              <Btn
+                Icon={FaCheck}
+                buttonStyle="primary"
+                onClick={handleEditSessionName}
+              >
+                Confirm Changes
+              </Btn>
+            }
+          >
+            <div className={styles.editSessionField}>
+              <label htmlFor="sessionName">Session Name</label>
+              <input
+                type="text"
+                id="sessionName"
+                value={editSessionName}
+                onChange={(e) => setEditSessionName(e.target.value)}
+              />
+            </div>
+          </DialogModal>
           <AlertModal
             trigger={<Btn Icon={IoMdExit}>Exit Session</Btn>}
             title="Are you sure to exit session?"
             description="Session data will be downloaded to your computer and uploaded when connected to the internet"
             action={
-              <Btn Icon={IoMdExit} onClick={endSession}>
+              <Btn Icon={IoMdExit} onClick={() => endSession()}>
                 Confirm Exit
               </Btn>
             }

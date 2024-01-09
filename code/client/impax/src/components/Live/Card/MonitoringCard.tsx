@@ -25,7 +25,8 @@ const MonitoringCard = ({ buddy_id, onClick }: MonitoringCardProps) => {
     distance: 100,
   } as metrics;
 
-  const buddyImpact = useAppState((state) => state.buddiesImpact[buddy_id]);
+  const playerId = useAppState((state) => state.playerMap[buddy_id]);
+  const buddyImpact = useAppState((state) => state.playersImpact[playerId]);
   return (
     <div className={styles.card}>
       <MdClose
@@ -35,9 +36,10 @@ const MonitoringCard = ({ buddy_id, onClick }: MonitoringCardProps) => {
       />
       <PlayerInfo buddy_id={buddy_id} />
       <MonitoringElements
+        key={playerId}
         metrics={metrics}
         latestImpact={buddyImpact}
-        totalImpact={20}
+        playerId={playerId}
       />
     </div>
   );

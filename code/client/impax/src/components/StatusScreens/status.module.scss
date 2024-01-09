@@ -1,0 +1,56 @@
+@use "../../variables.scss" as *;
+
+.container {
+  height: 60dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  flex-direction: column;
+  color: $body-color;
+
+  .icon {
+    color: $primary-red;
+    margin-right: 0.5em;
+  }
+
+  h2 {
+    display: flex;
+    align-items: center;
+    color: $primary-red;
+  }
+  p {
+    width: 50ch;
+    text-align: center;
+  }
+
+  &.success {
+    .icon,
+    h2 {
+      color:rgb(65 156 143) ;
+    }
+  }
+}
+
+.main.divider {
+  @include mainDivider;
+}
+
+.nextBtn {
+  display: block;
+  text-align: center;
+  width: 100%;
+  background-color: rgb(32, 48, 103);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgb(211, 216, 255);
+  font-size: 1em;
+  font-weight: 600;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  padding: 1rem;
+  &:disabled,&[disabled] {
+    background-color: rgba(32, 48, 103, 0.5);
+    color: rgba(211, 216, 255, 0.5);
+    cursor: not-allowed;
+  }
+}

@@ -18,7 +18,8 @@
 
     &:hover {
       &.close {
-        background-color: lighten($color: $secondary-red, $amount: 5);
+        background-color: #622a2a;
+        color: rgb(219, 85, 85);
       }
       &.add {
         background-color: #22ab7f;

@@ -1,3 +1,4 @@
+import MqttClient from "../services/mqttClient";
 import { BuddyStatus, Impact } from "../types";
 import { useAppState } from "./appState";
 
@@ -8,6 +9,11 @@ export const updateBuddy = (buddy_id: number, battery: number) => {
   //if buddy_id is not in buddiesState, add it
   //if buddy_id is in buddiesState, update it
   //if battery is 0, delete it
+
+  //The deleting will be important as we will be checking for unavailable buddies, and
+  //the client-dashboards will be publishing a 0 status when buddies are disconnected
+  //Note: buddies will be sending retained messages
+
   //updateSet
   useAppState.setState((prevState) => {
     const buddiesStatus = { ...prevState.buddiesStatus };
@@ -20,42 +26,56 @@ export const updateBuddy = (buddy_id: number, battery: number) => {
 
     return { buddiesStatus };
   });
-
-  console.log(useAppState.getState().buddiesStatus);
 };
 
-export const updateImpact = (buddy_id: number, impactString: string) => {
-  const magntitude = parseInt(impactString.split(" ")[0]);
+export const updateImpact = (player_id: number, impactString: string) => {
+  //Example impactString: "10 Left 123456789"
+  const magnitude: number = parseInt(impactString.trim().split(" ")[0]);
   const direction = impactString.split(" ")[1];
-  const impact: Impact = { magntitude, direction } as Impact;
+  const timestamp = parseInt(impactString.split(" ")[2]);
 
+  const impact: Impact = {
+    magnitude,
+    direction,
+    timestamp,
+  } as Impact;
+
+  console.log(impact);
+  //update playersImpact state with impact
   useAppState.setState((prevState) => {
-    const buddiesImpact = { ...prevState.buddiesImpact };
-    buddiesImpact[buddy_id] = impact;
-    return { buddiesImpact };
+    const playersImpact = { ...prevState.playersImpact };
+    playersImpact[player_id] = impact;
+    console.log("Added to playersImpact", playersImpact);
+    return { playersImpact };
   });
-
-  console.log(useAppState.getState().buddiesImpact);
 };
 
 export const setPlayerMap = (playerMapString: string) => {
+  //Parse playerMapString and set playerMap
   const playerMap = JSON.parse(playerMapString);
   useAppState.setState({ playerMap: playerMap });
+
+  //update monitoringBuddies accordingly, if not in playerMap it should not be in monitoringBuddies
+  useAppState.setState((prevState) => {
+    const monitoringBuddies = new Set(prevState.monitoringBuddies);
+
+    Object.keys(playerMap).forEach((buddy_id) => {
+      if (!(buddy_id in playerMap)) {
+        monitoringBuddies.delete(parseInt(buddy_id));
+      }
+    });
+
+    return { monitoringBuddies };
+  });
 };
 
 export const setSessionDetails = (sessionString: string) => {
-  if (sessionString === "end") {
-    useAppState.setState({ sessionDetails: null });
-    return;
-  }
-
+  //Parse sessionString and set sessionDetails
   const session = JSON.parse(sessionString);
   useAppState.setState({ sessionDetails: session });
 };
 
 const checkBuddiesAvailability = () => {
-  console.log("checking buddies availability");
-
   //check if all buddies are available
   //if timestamp is more than 60 seconds ago, remove from buddiesStatus
 
@@ -70,6 +90,10 @@ const checkBuddiesAvailability = () => {
     return timeDifference > 60000;
   });
 
+  if (unavailableBuddies.length === 0) {
+    return;
+  }
+
   //set buddiesStatus
   useAppState.setState((prevState) => {
     const buddiesStatus = { ...prevState.buddiesStatus };
@@ -80,15 +104,48 @@ const checkBuddiesAvailability = () => {
 
     return { buddiesStatus };
   });
+
+  //remove buddy from player map -> set playerMap
+  useAppState.setState((prevState) => {
+    const playerMap = { ...prevState.playerMap };
+
+    unavailableBuddies.forEach((buddy_id) => {
+      delete playerMap[parseInt(buddy_id)];
+    });
+
+    MqttClient.getInstance().publishPlayerMap(playerMap);
+    return { playerMap };
+  });
+
+  // if in monitoring buddies, remove from monitoring buddies
+  useAppState.setState((prevState) => {
+    const monitoringBuddies = new Set(prevState.monitoringBuddies);
+
+    unavailableBuddies.forEach((buddy_id) => {
+      monitoringBuddies.delete(parseInt(buddy_id));
+    });
+
+    return { monitoringBuddies };
+  });
+
+  //publish the buddy status 0 to mqtt, so other clients will be able to invalidate the buddy
+  unavailableBuddies.forEach((buddy_id) => {
+    MqttClient.getInstance().publishBuddyStatus(parseInt(buddy_id), 0);
+  });
+};
+
+export const updatePlayersImpactHistory = (
+  player_id: number,
+  impactHistoryString: string
+) => {
+  //update players impact history
+  const impactHistory = JSON.parse(impactHistoryString) as Impact[];
+  useAppState.setState((prevState) => {
+    const playersImpactHistory = { ...prevState.playersImpactHistory };
+    playersImpactHistory[player_id] = impactHistory;
+    return { playersImpactHistory };
+  });
 };
 
 //check buddies availability every 60 seconds
 setInterval(checkBuddiesAvailability, 60000);
-
-export type activePage =
-  | "live"
-  | "devices"
-  | "analytics"
-  | "profile"
-  | "test"
-  | "player-management";

@@ -15,6 +15,8 @@ import {
 import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
 import { validateEmail } from "../utils/utils";
 import { checkTeamExist } from "../controllers/team.controller";
+import ManagerModel from "../db/manager.schema";
+
 
 // Create an instance of the Express Router
 const router = Router();
@@ -143,7 +145,9 @@ router.post("/", async (req: Request, res: Response) => {
       firstName,
       lastName,
       email,
-      password
+      password,
+      false, // Initially set to false
+      ""    // Initially set to empty string
     );
 
     // Create the manager and get the response
@@ -191,6 +195,21 @@ router.get("/:id", async (req: Request, res: Response) => {
       // If 'err' is of unknown type, send a generic error message
       res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
     }
+  }
+});
+
+// Endpoint Accept Invitation 
+router.get('/accept-invitation/:token', async (req, res) => {
+  const token = req.params.token;
+  const manager = await ManagerModel.findOne({ invitationToken: token });
+
+  if (manager && !(manager as any).acceptInvitation) {
+    // Update manager status
+    (manager as any).acceptInvitation = true;
+    await manager.save();
+    res.send('Invitation accepted successfully!');
+  } else {
+    res.status(400).send('Invalid or expired token.');
   }
 });
 

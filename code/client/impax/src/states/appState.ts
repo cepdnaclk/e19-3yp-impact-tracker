@@ -2,10 +2,11 @@ import { create } from "zustand";
 import {
   Buddies,
   activePage,
-  BuddiesImpact,
   Players,
   PlayerMap,
   Session,
+  PlayersImpact,
+  PlayerImpactHistory,
 } from "../types";
 import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
@@ -24,17 +25,24 @@ interface AppState {
   buddiesStatus: Buddies;
   setBuddiesStatus: (buddiesState: Buddies) => void;
 
-  buddiesImpact: BuddiesImpact;
-  setBuddiesImpact: (buddiesImpact: BuddiesImpact) => void;
+  // buddiesImpact: BuddiesImpact;
+  // setBuddiesImpact: (buddiesImpact: BuddiesImpact) => void;
+
+  playersImpact: PlayersImpact;
+  setPlayersImpact: (playersImpact: PlayersImpact) => void;
+
+  playersImpactHistory: PlayerImpactHistory;
 
   playerDetails: Players;
 
   playerMap: PlayerMap;
   setPlayerMap: (playerMap: PlayerMap) => void;
   updatePlayerMap: (buddy_id: number, player_id: number) => void;
+  deleteFromPlayerMap: (buddy_id: number) => void;
 
-  sessionDetails: Session | null;
+  sessionDetails: Session;
   setSessionDetails: (session: Session) => void;
+  updateSessionDetails: (sessionName: string) => void;
   endSession: () => void;
 
   monitoringBuddies: Set<number>;
@@ -61,16 +69,27 @@ export const useAppState = create<AppState>()((set) => ({
     set({ buddiesStatus: buddiesState }),
 
   //For the buddies impact
-  buddiesImpact: {} as BuddiesImpact,
-  setBuddiesImpact: (buddiesImpact: BuddiesImpact) =>
-    set({ buddiesImpact: buddiesImpact }),
+  // buddiesImpact: {} as BuddiesImpact,
+  // setBuddiesImpact: (buddiesImpact: BuddiesImpact) =>
+  //   set({ buddiesImpact: buddiesImpact }),
+
+  //For the players impact
+  playersImpact: {} as PlayersImpact,
+  setPlayersImpact: (playersImpact: PlayersImpact) =>
+    set({ playersImpact: playersImpact }),
+
+  //For the players impact history
+  playersImpactHistory: {} as PlayerImpactHistory,
 
   //TODO: Clashing of players with other dashbaords
   playerDetails: players,
 
   //For the player map
   playerMap: {} as PlayerMap,
-  setPlayerMap: (playerMap: PlayerMap) => set({ playerMap: playerMap }),
+  setPlayerMap: (playerMap: PlayerMap) => {
+    set({ playerMap: playerMap });
+  },
+
   updatePlayerMap: (buddy_id: number, player_id: number) => {
     set((prevState) => {
       const playerMap = { ...prevState.playerMap };
@@ -84,17 +103,55 @@ export const useAppState = create<AppState>()((set) => ({
       return { playerMap };
     });
   },
+  deleteFromPlayerMap: (buddy_id: number) => {
+    set((prevState) => {
+      const playerMap = { ...prevState.playerMap };
+      delete playerMap[buddy_id];
 
-  sessionDetails: null,
+      //update monitoringBuddies accordingly, if not in playerMap it should not be in monitoringBuddies
+      const monitoringBuddies = new Set(prevState.monitoringBuddies);
+      monitoringBuddies.delete(buddy_id);
+
+      //publish new playerMap to mqtt
+      MqttClient.getInstance().publishPlayerMap(playerMap);
+      return { playerMap, monitoringBuddies };
+    });
+  },
+
+  //For the session details
+  sessionDetails: {} as Session,
   setSessionDetails: (session: Session) => {
     set({ sessionDetails: session });
     MqttClient.getInstance().publishSession(session);
   },
+  updateSessionDetails: (sessionName: string) => {
+    set((prevState) => {
+      if (prevState.sessionDetails.active === false) {
+        return prevState;
+      }
+
+      const sessionDetails = { ...prevState.sessionDetails };
+      sessionDetails.session_name = sessionName;
+      sessionDetails.updatedAt = Date.now();
+
+      // publish session to mqtt
+      MqttClient.getInstance().publishSession(sessionDetails);
+      return { ...prevState, sessionDetails };
+    });
+  },
   endSession: () => {
-    set({ sessionDetails: null });
-    MqttClient.getInstance().endSession();
+    set((prevState) => {
+      const sessionDetails = { ...prevState.sessionDetails };
+      sessionDetails.active = false;
+      sessionDetails.updatedAt = Date.now();
+
+      // publish session to mqtt
+      MqttClient.getInstance().publishSession(sessionDetails);
+      return { ...prevState, sessionDetails };
+    });
   },
 
+  //for live dashboard monitoring and active buddie
   monitoringBuddies: new Set<number>(),
   addToMonitoringBuddies: (buddy_id: number) => {
     set((prevState) => {
