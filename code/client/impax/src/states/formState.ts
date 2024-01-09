@@ -11,6 +11,7 @@ interface signupInfo{
   email: string;
 }
 
+
 interface SignupState {
   isLoggedIn:boolean;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
@@ -43,3 +44,5 @@ export const useSignupState = create<SignupState>()((set) => ({
   isLoggedIn: false,
   setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn: isLoggedIn}),
 }));
+
+
