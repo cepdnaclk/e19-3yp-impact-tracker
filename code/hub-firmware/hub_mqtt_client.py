@@ -5,7 +5,7 @@ import json
 import re
 
 # MQTT broker settings
-broker_address = "localhost"
+broker_address = "192.168.8.151"
 broker_port = 1883
 
 # MQTT topics
@@ -35,12 +35,10 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     global session_started, start_time, data_buffer, player_device_mapping, time_offset
     print("data_buffer:", data_buffer)
-
     # data from dashboards - JSON objects
-    print(msg.payload.decode())
+
     try:
         data = json.loads(msg.payload.decode())
-
     # data from imapact buddies - ESP32 -text strings
     except json.JSONDecodeError:
         data = msg.payload.decode().split(" ")
@@ -73,18 +71,21 @@ def on_message(client, userdata, msg):
                 impact_json = data[0]+' '+data[1]+' ' + str(timestamp)
                 timestamp = int(time.time()*1000)+timestamp
                 impact_json = data[0]+' '+data[1]+' ' + str(timestamp)
-                print(impact_json)
 
                 impact_with_time = "buddy/" + device_id + "/impact_with_timestamp"
                 client.publish(impact_with_time, impact_json, retain=True)
+                print(impact_json)
 
                 # Store the data in the buffer
-                if player_id not in data_buffer:
+                if player_id not in data_buffer.keys():
+                    print("player_id", player_id, "not in buffer")
                     data_buffer[player_id] = []
                 impact = {"magnitude": int(
                     data[0]), "direction": data[1], "timestamp": timestamp, "isConcussion": False}
+                print(f"Impact object created: {impact}")
                 data_buffer[player_id].append(impact)
 
+                print("Impact data stored in buffer:", data_buffer)
                 # send total impact history to dashboards
                 impact_history = data_buffer[player_id]
                 impact_history_topic = "player/" + \
@@ -108,12 +109,13 @@ def on_disconnect(client, userdata, rc):
 
 
 def end_session():
+    print("Clearing Data_buffer")
     global session_started, start_time, data_buffer, player_device_mapping
     session_started = False
     for entry in data_buffer:
         client.publish(session_data, json.dumps(entry), retain=True)
 
-    data_buffer = []  # Clear the buffer after sending the stored data
+    data_buffer = {}  # Clear the buffer after sending the stored data
     start_time = None
     player_device_mapping = {}
     print("Session ended!")
