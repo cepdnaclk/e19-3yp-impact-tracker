@@ -48,7 +48,7 @@ const Sidebar: React.FC<Props> = ({ isOnline }: Props) => {
               navigate("/devices");
             }}
           />
-          <MenuItem
+          {/* <MenuItem
             icon={MdBarChart}
             name="Analytics"
             active={activePage === "analytics"}
@@ -56,7 +56,7 @@ const Sidebar: React.FC<Props> = ({ isOnline }: Props) => {
               setActivePage("analytics");
               navigate("/analytics");
             }}
-          />
+          /> */}
           <MenuItem
             icon={FaUsers}
             name="Player Management"
