@@ -53,20 +53,22 @@ export const updateImpact = (player_id: number, impactString: string) => {
 export const setPlayerMap = (playerMapString: string) => {
   //Parse playerMapString and set playerMap
   const playerMap = JSON.parse(playerMapString);
-  useAppState.setState({ playerMap: playerMap });
 
   //update monitoringBuddies accordingly, if not in playerMap it should not be in monitoringBuddies
   useAppState.setState((prevState) => {
     const monitoringBuddies = new Set(prevState.monitoringBuddies);
 
-    Object.keys(playerMap).forEach((buddy_id) => {
-      if (!(buddy_id in playerMap)) {
-        monitoringBuddies.delete(parseInt(buddy_id));
+    //for each buddy_id in monitoringBuddies, check if it is in playerMap
+    //if not, delete it from monitoringBuddies
+    monitoringBuddies.forEach((buddy_id) => {
+      if (!playerMap[buddy_id]) {
+        monitoringBuddies.delete(buddy_id);
       }
     });
 
     return { monitoringBuddies };
   });
+  useAppState.setState({ playerMap: playerMap });
 };
 
 export const setSessionDetails = (sessionString: string) => {
