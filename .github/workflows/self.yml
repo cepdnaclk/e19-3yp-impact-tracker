@@ -1,6 +1,9 @@
 name: Run Script on EC2
 
 on:
+  push:
+    branches: [main]
+
   pull_request:
     branches: [main]
 
