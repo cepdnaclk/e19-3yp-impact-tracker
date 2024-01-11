@@ -2,9 +2,9 @@ import { sendInvitationEmail } from "../email/managerInviteEmail";
 import { Manager, ManagerResponse } from "../models/manager.model";
 import TeamModel from "../db/team.schema";
 import managerService from "../services/manager.service";
-import { createManagerTeam } from "../services/team.manager.service";
+import { createManagerTeam } from "../services/managers.in.teams.service";
 import { sendVerificationEmail } from "../email/managerVerifyEmail";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { TeamResponse } from "../models/team.model";
 
 export async function createManager(
@@ -24,7 +24,7 @@ export async function createManager(
     const teamName = teamInstance?.teamName; // Add null check using optional chaining operator
 
     // Send the verification email
-    await sendVerificationEmail(manager.email, invitationToken,teamName!);
+    await sendVerificationEmail(manager.email, invitationToken, teamName!);
 
     return managerResponse;
   } catch (error) {
@@ -76,7 +76,6 @@ export async function addNewManager(
     // Generate an invitation token
     const invitationToken = generateInvitationToken();
 
-
     // await createManagerTeam(newManagerEmail, teamId);
 
     // Create the manager and set the invitation token
@@ -86,7 +85,10 @@ export async function addNewManager(
     //   acceptInvitation: false, // Initially set to false
     // };
 
-    const createdManagerResponse = await createManagerTeam(newManagerEmail, teamId);
+    const createdManagerResponse = await createManagerTeam(
+      newManagerEmail,
+      teamId
+    );
     const teamInstance = await TeamModel.findOne({ teamId });
     const teamName = teamInstance?.teamName; // Add null check using optional chaining operator
 
@@ -97,7 +99,6 @@ export async function addNewManager(
     const managerTeamAdded = await createManagerTeam(newManagerEmail, teamId);
 
     return managerTeamAdded;
-
   } catch (error) {
     console.error(error);
     throw error;
@@ -130,7 +131,6 @@ export async function deleteManager(
   }
   return false;
 }
-
 
 function generateInvitationToken(): string {
   // Generate a UUID (v4) using the uuid library

@@ -10,6 +10,6 @@ const authSchema = new Schema({
   password: String,
 });
 
-const AuthModel = mongoose.model<AuthDocument>("Auth", authSchema);
+const AuthModel = mongoose.model<AuthDocument>("PlayerAuth", authSchema);
 
 export default AuthModel;

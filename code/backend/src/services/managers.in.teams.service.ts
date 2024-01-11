@@ -1,4 +1,4 @@
-import ManagerTeamModel from "../db/manager.team.schema";
+import ManagerTeamModel from "../db/managers.in.teams.schema";
 
 // create team manager instance
 export async function createManagerTeam(

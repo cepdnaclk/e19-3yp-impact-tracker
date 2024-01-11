@@ -6,7 +6,7 @@ import {
 } from "../models/team.model";
 Team;
 import TeamModel from "../db/team.schema";
-import ManagerTeamModel from "../db/manager.team.schema";
+import ManagerTeamModel from "../db/managers.in.teams.schema";
 
 class TeamService {
   // delete team

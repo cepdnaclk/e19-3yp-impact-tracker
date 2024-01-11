@@ -3,10 +3,15 @@ import {
   LoginResponse,
   LoginResquestManager,
 } from "../models/login.model";
-import { checkAuthExists, checkAuth } from "../services/auth.service";
+import {
+  checkAuthExists,
+  checkAuth,
+  checkAuthExistsForManager,
+  checkAuthManager,
+} from "../services/auth.service";
 import { createJwt, checkJwtExists, deleteJwt } from "../services/jwt.service";
 import { createRefreshToken, createAccessToken } from "../utils/jwt.token";
-import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
+import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import ROLES from "../config/roles";
 
 async function loginManager(
@@ -15,14 +20,21 @@ async function loginManager(
   const role = ROLES.MANAGER;
 
   // check manager exists
-  const authExists = await checkAuthExists(loginReq.userName);
+  const authExists = await checkAuthExistsForManager(
+    loginReq.userName,
+    loginReq.teamId
+  );
 
   if (!authExists) {
     throw new Error(HttpMsg.AUTH_DOES_NOT_EXIST);
   }
 
   // check auth
-  const isMatch = await checkAuth(loginReq.userName, loginReq.password);
+  const isMatch = await checkAuthManager(
+    loginReq.userName,
+    loginReq.password,
+    loginReq.teamId
+  );
 
   if (!isMatch) {
     throw new Error(HttpMsg.PASSWORD_INCORRECT);
@@ -34,9 +46,6 @@ async function loginManager(
 
     // create access token
     const accessToken = createAccessToken(loginReq, role);
-
-    // create jwt
-    const jwt = await createJwt(loginReq.userName, refreshToken);
 
     // return new LoginResponse(refreshToken, accessToken);
     const loginResponse = new LoginResponse(refreshToken, accessToken);

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Request, Response } from "express";
-import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
+import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import { createHubDetails, getHub } from "../controllers/hub.controller";
 import { Hub, HubRequest } from "../models/hub.model";
 

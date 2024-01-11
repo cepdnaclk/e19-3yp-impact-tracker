@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Request, Response } from "express";
-import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
+import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import { createAccessToken } from "../utils/jwt.token";
 import { LoginResquest, LoginResponse } from "../models/login.model";
 import { refreshTokenMiddleware } from "../middleware/auth.middleware";

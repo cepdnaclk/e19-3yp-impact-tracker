@@ -5,16 +5,18 @@ import ROLES from "../config/roles";
 import { checkManagerExists } from "../controllers/manager.controller";
 import { checkPlayerExists } from "../controllers/player.controller";
 import { validateEmail } from "../utils/utils";
-import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
+import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
+import { checkManagerExistsInTeam } from "../controllers/team.controller";
 
 // check the role and userName, and check the user exists from the database
 export async function checkRoleAndUserName(
   role: string,
-  userName: string
+  userName: string,
+  teamId: string
 ): Promise<boolean> {
   if (role == ROLES.MANAGER) {
     // check manager exists
-    return await checkManagerExists(userName);
+    return await checkManagerExistsInTeam(userName, teamId);
   } else if (role == ROLES.PLAYER) {
     // check player exists
     return await checkPlayerExists(userName);
@@ -67,7 +69,6 @@ export async function accessTokenMiddleware(
     req.body.role = decoded.role;
     req.body.refreshToken = token;
 
-    // Check if password or userName is missing
     if (!decoded.userName) {
       console.log(HttpMsg.BAD_REQUEST);
       res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
@@ -81,7 +82,25 @@ export async function accessTokenMiddleware(
       return;
     }
 
-    const status = await checkRoleAndUserName(decoded.role, decoded.userName);
+    const status = false;
+
+    if (req.body.role == ROLES.MANAGER) {
+      req.body.teamId = decoded.teamId;
+      const status = await checkRoleAndUserName(
+        decoded.role,
+        decoded.userName,
+        decoded.teamId
+      );
+    } else if (req.body.role == ROLES.PLAYER) {
+      const status = await checkRoleAndUserName(
+        decoded.role,
+        decoded.userName,
+        ""
+      );
+    }
+
+    // Check if password or userName is missing
+
     if (!status) {
       return res.status(401).json({ message: "Invalid user" });
     }
@@ -132,7 +151,23 @@ export async function refreshTokenMiddleware(
       return;
     }
 
-    const status = await checkRoleAndUserName(decoded.role, decoded.userName);
+    const status = false;
+
+    if (req.body.role == ROLES.MANAGER) {
+      req.body.teamId = decoded.teamId;
+      const status = await checkRoleAndUserName(
+        decoded.role,
+        decoded.userName,
+        decoded.teamId
+      );
+    } else if (req.body.role == ROLES.PLAYER) {
+      const status = await checkRoleAndUserName(
+        decoded.role,
+        decoded.userName,
+        ""
+      );
+    }
+
     if (!status) {
       return res.status(401).json({ message: "Invalid user" });
     }

@@ -11,7 +11,7 @@ const playerTeamSchema = new Schema({
 });
 
 const PlayerTeamModel = mongoose.model<PlayerTeamDocument>(
-  "PlayerTeam",
+  "PlayersInTeams",
   playerTeamSchema
 );
 

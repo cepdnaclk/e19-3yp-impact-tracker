@@ -10,7 +10,7 @@ import {
   loginPlayer,
   logout,
 } from "../controllers/login.controller";
-import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
+import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import { validateEmail } from "../utils/utils";
 import { checkManagerExistsInTeam } from "../controllers/team.controller";
 
