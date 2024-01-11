@@ -24,6 +24,11 @@ enum HttpMsg {
   SESSION_SUCESS = "Session created successfully",
   SESSION_ERROR = "Error creating session",
   MANAGER_LOGIN_FAILED = "Login failed",
+  MANAGER_ADD_SUCCESS = "Manager added successfully",
+  MANAGER_ADD_FAILED = "Manager added failed",
+  TEAM_NOT_FOUND = "Team not found",
+  MANAGER_DEOS_NOT_EXIST = "Manager does not exist",
+  PLAYER_EXIT_ERROR = "Player exited error",
 }
 
 export { HttpCode, HttpMsg };

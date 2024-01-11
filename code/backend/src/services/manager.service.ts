@@ -4,7 +4,7 @@ import {
   ManagerExistsResponse,
 } from "../models/manager.model";
 import ManagerModel from "../db/manager.schema";
-import { createAuth } from "./auth.service";
+import { createAuth, createAuthManager } from "./auth.service";
 
 class ManagerService {
   // delete manager
@@ -38,14 +38,17 @@ class ManagerService {
         email: managerRequestBody.email,
         acceptInvitation: managerRequestBody.acceptInvitation,
         invitationToken: managerRequestBody.invitationToken,
-
       });
 
       // Save the manager to the database
       const savedManager = await managerInstance.save();
 
       // save the manager auth
-      await createAuth(managerRequestBody.email, managerRequestBody.password);
+      await createAuthManager(
+        managerRequestBody.email,
+        managerRequestBody.password,
+        managerRequestBody.teamId
+      );
 
       // Create a ManagerResponse object
       const managerResponse: ManagerResponse = new ManagerResponse(
@@ -59,10 +62,10 @@ class ManagerService {
     }
   }
 
-  async getManager(email: string): Promise<ManagerResponse> {
+  async getManager(email: string, teamId: string): Promise<ManagerResponse> {
     try {
       // Get the team details
-      const managerInstance = await ManagerModel.findOne({ email });
+      const managerInstance = await ManagerModel.findOne({ email, teamId });
 
       // Check if teamInstance is null
       if (!managerInstance) {
@@ -75,7 +78,6 @@ class ManagerService {
         firstName: managerInstance.firstName,
         lastName: managerInstance.lastName,
         email: managerInstance.email,
-        
       });
 
       return managerResponse;

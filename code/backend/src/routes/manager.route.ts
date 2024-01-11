@@ -12,11 +12,10 @@ import {
   addNewManager,
   deleteManager,
 } from "../controllers/manager.controller";
-import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
+import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import { validateEmail } from "../utils/utils";
 import { checkTeamExist } from "../controllers/team.controller";
 import ManagerModel from "../db/manager.schema";
-
 
 // Create an instance of the Express Router
 const router = Router();
@@ -44,9 +43,9 @@ router.post("/add", async (req: Request, res: Response) => {
     const state = await addNewManager(managerEmail, newManagerEmail, teamId);
 
     if (state == true) {
-      res.send({ message: "Manager added successfully" });
+      res.send({ message: HttpMsg.MANAGER_ADD_SUCCESS });
     } else {
-      res.send({ message: "Manager added failed" });
+      res.send({ message: HttpMsg.MANAGER_ADD_FAILED });
     }
   } catch (err) {
     if (err instanceof Error) {
@@ -147,7 +146,7 @@ router.post("/", async (req: Request, res: Response) => {
       email,
       password,
       false, // Initially set to false
-      ""    // Initially set to empty string
+      "" // Initially set to empty string
     );
 
     // Create the manager and get the response
@@ -176,16 +175,15 @@ router.post("/", async (req: Request, res: Response) => {
 });
 
 // Endpoint to get manager details
-router.get("/:id", async (req: Request, res: Response) => {
-  // Check if the manager ID parameter is missing
-  if (!req.params.id) {
+router.get("/", async (req: Request, res: Response) => {
+  if (!req.body.userName) {
     console.log(HttpMsg.BAD_REQUEST);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
     return;
   }
   try {
     // Get Manager details
-    const teamResponse = await getManager(req.params.id);
+    const teamResponse = await getManager(req.body.userName, req.body.teamId);
 
     res.send(teamResponse);
   } catch (err) {
@@ -199,8 +197,8 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-// Endpoint Accept Invitation 
-router.get('/accept-invitation/:token', async (req, res) => {
+// Endpoint Accept Invitation
+router.get("/accept-invitation/:token", async (req, res) => {
   const token = req.params.token;
   const manager = await ManagerModel.findOne({ invitationToken: token });
 
@@ -208,9 +206,9 @@ router.get('/accept-invitation/:token', async (req, res) => {
     // Update manager status
     (manager as any).acceptInvitation = true;
     await manager.save();
-    res.send('Invitation accepted successfully!');
+    res.send("Invitation accepted successfully!");
   } else {
-    res.status(400).send('Invalid or expired token.');
+    res.status(400).send("Invalid or expired token.");
   }
 });
 

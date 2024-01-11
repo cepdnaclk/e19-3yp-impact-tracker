@@ -9,7 +9,7 @@ import teamService from "../services/team.service";
 import {
   checkManagerExistsInTeamDetails,
   deleteManagerFromTeamDetails,
-} from "../services/team.manager.service";
+} from "../services/managers.in.teams.service";
 
 export async function checkTeamExist(
   teamId: string

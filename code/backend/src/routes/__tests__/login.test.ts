@@ -1,5 +1,5 @@
 import app from "../../../app";
-import { HttpCode, HttpMsg } from "../../exceptions/appErrorsDefine";
+import { HttpCode, HttpMsg } from "../../exceptions/http.codes.mgs";
 import request from "supertest";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";

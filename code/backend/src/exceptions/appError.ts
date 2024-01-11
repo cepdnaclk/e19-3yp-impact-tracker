@@ -1,4 +1,4 @@
-import { HttpCode , HttpMsg} from "./appErrorsDefine";
+import { HttpCode, HttpMsg } from "./http.codes.mgs";
 
 interface AppErrorArgs {
   name?: string;
@@ -17,7 +17,7 @@ class AppError extends Error {
 
     Object.setPrototypeOf(this, new.target.prototype);
 
-    this.name = args.name || 'Error';
+    this.name = args.name || "Error";
     this.httpCode = args.httpCode;
 
     if (args.isOperational !== undefined) {

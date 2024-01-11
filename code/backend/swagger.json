@@ -19,7 +19,7 @@
       "url": "http://localhost:5000"
     },
     {
-      "url": "http://16.170.235.219:5000"
+      "url": "http://13.235.86.11:5000"
     }
   ],
 
@@ -330,23 +330,10 @@
             }
           }
         }
-      }
-    },
-    "/manager/{id}": {
+      },
       "get": {
         "tags": ["ManagerEndpoints"],
         "summary": "Get Manager Details",
-        "parameters": [
-          {
-            "name": "managerId(Email)",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "example@example.com"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",

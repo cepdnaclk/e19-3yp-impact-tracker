@@ -11,7 +11,7 @@ const managerTeamSchema = new Schema({
 });
 
 const ManagerTeamModel = mongoose.model<ManagerTeamDocument>(
-  "ManagerTeam",
+  "ManagersInTeams",
   managerTeamSchema
 );
 

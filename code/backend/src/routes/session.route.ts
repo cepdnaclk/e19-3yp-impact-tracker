@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { mapToImpactPlayers } from "../utils/utils";
 import { SessionRequest } from "../models/session.model";
 import { checkTeamExist } from "../controllers/team.controller";
-import { HttpMsg } from "../exceptions/appErrorsDefine";
+import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import {
   checkSessionExists,
   createSession,
@@ -31,21 +31,21 @@ router.post("/", async (req: Request, res: Response) => {
     !updatedAt ||
     !impactHistoryOld
   ) {
-    res.status(400).send({ message: "Bad Request" });
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
     return;
   }
 
   const teamExists = await checkTeamExist(teamId);
 
   if (!teamExists) {
-    res.status(404).send({ message: "Team not found" });
+    res.status(HttpCode.NOT_FOUND).send({ message: HttpMsg.NOT_FOUND });
     return;
   }
 
   // check session exists
   const sessionExists = await checkSessionExists(sessionId);
   if (sessionExists) {
-    res.status(400).send({ message: "Session already exists" });
+    res.status(400).send({ message: HttpMsg.TEAM_NOT_FOUND });
     return;
   }
 

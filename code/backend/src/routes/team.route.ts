@@ -6,6 +6,7 @@ import {
   createTeam,
   getTeam,
   deleteTeam,
+  checkManagerExistsInTeam,
 } from "../controllers/team.controller";
 
 import {
@@ -16,7 +17,7 @@ import {
   TeamResponse,
   TeamManagerResponse,
 } from "../models/team.model";
-import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
+import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import { validateEmail } from "../utils/utils";
 import { Manager, ManagerResponse } from "../models/manager.model";
 import {
@@ -27,7 +28,7 @@ import {
 import {
   checkManagerExistsInTeamDetails,
   deleteManagerFromTeamDetails,
-} from "../services/team.manager.service";
+} from "../services/managers.in.teams.service";
 
 // Create an instance of the Express Router
 const router = Router();
@@ -149,27 +150,6 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-// Endpoint to get team details
-router.get("/:id", async (req: Request, res: Response) => {
-  // Check if the Team ID parameter is missing
-  if (!req.params.id) {
-    console.log(HttpMsg.BAD_REQUEST);
-    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
-    return;
-  }
-
-  try {
-    // Check if the Team ID exists
-    const teamResponse = await getTeam(req.params.id);
-    // const exists: boolean = existsResponse.exists;
-
-    res.send(teamResponse);
-  } catch (err) {
-    console.log(err);
-    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
-  }
-});
-
 // create team with manager detials
 router.post("/manager", async (req, res) => {
   // Extract Team ID and Team Name from the request body
@@ -204,7 +184,7 @@ router.post("/manager", async (req, res) => {
   }
 
   // Check if a manager with the given email exists
-  const exists: boolean = await checkManagerExists(email);
+  const exists: boolean = await checkManagerExistsInTeam(email, teamId);
 
   if (exists) {
     console.log(HttpMsg.MANAGER_EXISTS);
@@ -229,10 +209,9 @@ router.post("/manager", async (req, res) => {
     const teamResponse: TeamResponse | undefined = await createTeam(team);
 
     // Create the manager and get the response
-    const managerResponse: ManagerResponse | undefined = teamResponse ? await createManager(
-      manager,
-      teamId
-    ) : undefined;
+    const managerResponse: ManagerResponse | undefined = teamResponse
+      ? await createManager(manager, teamId)
+      : undefined;
 
     const teamManagerResponse: TeamManagerResponse = new TeamManagerResponse(
       teamId,
