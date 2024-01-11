@@ -1,26 +1,27 @@
-name: Run Script on EC2
+# name: Run Script on EC2
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  deploy:
-    runs-on: self-hosted
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+# jobs:
+#   deploy:
+#     runs-on: self-hosted
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
 
-      - name: Run Script on EC2
-        run: |
-          # Your deployment commands go here
-          # Example: ssh into EC2 and run a script
-          # ssh -i path/to/your/private/key.pem ec2-user@your-ec2-ip 'bash -s' < path/to/your/script.sh
-          cd code/backend
-          npm install
-          npm run build
-          sudo cp .env ./dist
-          sudo systemctl restart my-node-app
-          sudo systemctl daemon-reload
-          sudo systemctl enable my-node-app
+#       - name: Run Script on EC2
+#         run: |
+#           # Your deployment commands go here
+#           # Example: ssh into EC2 and run a script
+#           # ssh -i path/to/your/private/key.pem ec2-user@your-ec2-ip 'bash -s' < path/to/your/script.sh
+#           cd code/backend
+#           npm install
+#           npm run build
+#           sudo cp .env ./dist
+#           pm2 restart impax
+#           # sudo systemctl restart my-node-app
+#           # sudo systemctl daemon-reload
+#           # sudo systemctl enable my-node-app
