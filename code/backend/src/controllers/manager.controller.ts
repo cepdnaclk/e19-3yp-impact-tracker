@@ -1,12 +1,15 @@
 import { sendInvitationEmail } from "../email/managerInviteEmail";
 import { Manager, ManagerResponse } from "../models/manager.model";
+import TeamModel from "../db/team.schema";
 import managerService from "../services/manager.service";
 import { createManagerTeam } from "../services/team.manager.service";
 import { sendVerificationEmail } from "../email/managerVerifyEmail";
 import { v4 as uuidv4 } from 'uuid';
+import { TeamResponse } from "../models/team.model";
 
 export async function createManager(
-  manager: Manager
+  manager: Manager,
+  teamId: string
 ): Promise<ManagerResponse | undefined> {
   try {
     // Create a manager with an invitation token
@@ -14,10 +17,14 @@ export async function createManager(
     manager.acceptInvitation = false;
     manager.invitationToken = invitationToken;
 
+    // const teamName = teamResponse.teamName;
+
     const managerResponse = await managerService.createManager(manager);
+    const teamInstance = await TeamModel.findOne({ teamId });
+    const teamName = teamInstance?.teamName; // Add null check using optional chaining operator
 
     // Send the verification email
-    await sendVerificationEmail(manager.email, invitationToken);
+    await sendVerificationEmail(manager.email, invitationToken,teamName!);
 
     return managerResponse;
   } catch (error) {
@@ -80,9 +87,11 @@ export async function addNewManager(
     // };
 
     const createdManagerResponse = await createManagerTeam(newManagerEmail, teamId);
+    const teamInstance = await TeamModel.findOne({ teamId });
+    const teamName = teamInstance?.teamName; // Add null check using optional chaining operator
 
     // Send an invitation email
-    await sendInvitationEmail(newManagerEmail, invitationToken);
+    await sendInvitationEmail(newManagerEmail, invitationToken, teamName!);
 
     // Add the new manager to the team
     const managerTeamAdded = await createManagerTeam(newManagerEmail, teamId);

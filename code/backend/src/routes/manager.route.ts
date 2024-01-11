@@ -152,7 +152,8 @@ router.post("/", async (req: Request, res: Response) => {
 
     // Create the manager and get the response
     const managerResponse: ManagerResponse | undefined = await createManager(
-      manager
+      manager,
+      teamId
     );
 
     res.send(managerResponse);

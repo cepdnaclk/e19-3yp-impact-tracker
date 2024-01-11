@@ -229,9 +229,10 @@ router.post("/manager", async (req, res) => {
     const teamResponse: TeamResponse | undefined = await createTeam(team);
 
     // Create the manager and get the response
-    const managerResponse: ManagerResponse | undefined = await createManager(
-      manager
-    );
+    const managerResponse: ManagerResponse | undefined = teamResponse ? await createManager(
+      manager,
+      teamId
+    ) : undefined;
 
     const teamManagerResponse: TeamManagerResponse = new TeamManagerResponse(
       teamId,

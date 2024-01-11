@@ -8,9 +8,9 @@ const NoInternetConnection = () => {
         No Internet Connection Available
       </h2>
       <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis
-        autem tempore consectetur ex praesentium quidem odit nesciunt officiis
-        quo ratione.
+        You have not connected to the internet, if you are connected to the
+        IMPAX Hub's wifi, disconnect and connect to your own wifi network with
+        internet connection.
       </p>
     </div>
   );

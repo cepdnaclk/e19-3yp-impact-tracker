@@ -34,8 +34,8 @@ class Team {
 }
 
 class TeamResponse {
-  private teamId: string;
-  private teamName: string;
+  public teamId: string;
+  public teamName: string;
 
   public constructor(team: Team) {
     this.teamId = team.teamId;

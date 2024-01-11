@@ -1,0 +1,23 @@
+name: Run Script on EC2
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run Script on EC2
+        run: |
+          cd code/backend
+          npm install
+          npm run build
+          cp .env ./dist
+          pm2 restart backendserver
