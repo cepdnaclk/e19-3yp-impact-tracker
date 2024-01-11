@@ -1,6 +1,7 @@
-import { createPlayerTeam } from "../services/player.manager.service";
+import { createPlayerTeam } from "../services/players.in.teams.service";
 import managerService from "../services/manager.service";
 import playerService from "../services/player.service";
+import { HttpMsg } from "../exceptions/http.codes.mgs";
 
 export async function addNewPlayer(
   managerEmail: string,
@@ -16,7 +17,7 @@ export async function addNewPlayer(
     );
 
     if (!managerExists) {
-      throw new Error("Manager does not exist in the team");
+      throw new Error(HttpMsg.MANAGER_DEOS_NOT_EXIST);
     }
 
     await createPlayerTeam(newManagerEmail, teamId);
@@ -39,6 +40,6 @@ export async function checkPlayerExists(email: string): Promise<boolean> {
     return playerExists;
   } catch (error) {
     console.error(error);
-    throw new Error("Player exits error");
+    throw new Error(HttpMsg.PLAYER_EXIT_ERROR);
   }
 }

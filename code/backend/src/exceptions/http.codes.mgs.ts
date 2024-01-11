@@ -27,6 +27,8 @@ enum HttpMsg {
   MANAGER_ADD_SUCCESS = "Manager added successfully",
   MANAGER_ADD_FAILED = "Manager added failed",
   TEAM_NOT_FOUND = "Team not found",
+  MANAGER_DEOS_NOT_EXIST = "Manager does not exist",
+  PLAYER_EXIT_ERROR = "Player exited error",
 }
 
 export { HttpCode, HttpMsg };

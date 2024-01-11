@@ -10,7 +10,12 @@ import {
   checkAuthManager,
 } from "../services/auth.service";
 import { createJwt, checkJwtExists, deleteJwt } from "../services/jwt.service";
-import { createRefreshToken, createAccessToken } from "../utils/jwt.token";
+import {
+  createRefreshToken,
+  createAccessToken,
+  createRefreshTokenManager,
+  createAccessTokenManager,
+} from "../utils/jwt.token";
 import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import ROLES from "../config/roles";
 
@@ -42,10 +47,10 @@ async function loginManager(
 
   try {
     // create refresh token
-    const refreshToken = createRefreshToken(loginReq, role);
+    const refreshToken = createRefreshTokenManager(loginReq, role);
 
     // create access token
-    const accessToken = createAccessToken(loginReq, role);
+    const accessToken = createAccessTokenManager(loginReq, role);
 
     // return new LoginResponse(refreshToken, accessToken);
     const loginResponse = new LoginResponse(refreshToken, accessToken);

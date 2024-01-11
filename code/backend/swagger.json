@@ -330,23 +330,10 @@
             }
           }
         }
-      }
-    },
-    "/manager/{id}": {
+      },
       "get": {
         "tags": ["ManagerEndpoints"],
         "summary": "Get Manager Details",
-        "parameters": [
-          {
-            "name": "managerId(Email)",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "example@example.com"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",

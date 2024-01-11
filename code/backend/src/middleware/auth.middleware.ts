@@ -82,24 +82,18 @@ export async function accessTokenMiddleware(
       return;
     }
 
-    const status = false;
+    let status = false;
 
     if (req.body.role == ROLES.MANAGER) {
       req.body.teamId = decoded.teamId;
-      const status = await checkRoleAndUserName(
+      status = await checkRoleAndUserName(
         decoded.role,
         decoded.userName,
         decoded.teamId
       );
     } else if (req.body.role == ROLES.PLAYER) {
-      const status = await checkRoleAndUserName(
-        decoded.role,
-        decoded.userName,
-        ""
-      );
+      status = await checkRoleAndUserName(decoded.role, decoded.userName, "");
     }
-
-    // Check if password or userName is missing
 
     if (!status) {
       return res.status(401).json({ message: "Invalid user" });

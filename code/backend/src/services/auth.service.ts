@@ -91,7 +91,7 @@ async function checkAuthExistsForManager(
   teamId: string
 ): Promise<boolean> {
   try {
-    const existingAuth = await AuthModel.findOne({
+    const existingAuth = await AuthModelManager.findOne({
       email: email,
       teamId: teamId,
     });
@@ -126,7 +126,7 @@ async function checkAuthManager(
   teamId: string
 ): Promise<boolean> {
   try {
-    const existingAuth = await AuthModel.findOne({
+    const existingAuth = await AuthModelManager.findOne({
       email: email,
       teamId: teamId,
     });

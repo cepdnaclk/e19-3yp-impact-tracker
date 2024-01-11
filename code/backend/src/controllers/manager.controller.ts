@@ -33,9 +33,12 @@ export async function createManager(
   }
 }
 
-export async function getManager(managerId: string): Promise<ManagerResponse> {
+export async function getManager(
+  managerId: string,
+  teamId: string
+): Promise<ManagerResponse> {
   try {
-    const managerResponse = await managerService.getManager(managerId);
+    const managerResponse = await managerService.getManager(managerId, teamId);
     return managerResponse;
   } catch (error) {
     console.error(error);

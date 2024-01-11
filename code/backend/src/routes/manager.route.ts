@@ -175,16 +175,15 @@ router.post("/", async (req: Request, res: Response) => {
 });
 
 // Endpoint to get manager details
-router.get("/:id", async (req: Request, res: Response) => {
-  // Check if the manager ID parameter is missing
-  if (!req.params.id) {
+router.get("/", async (req: Request, res: Response) => {
+  if (!req.body.userName) {
     console.log(HttpMsg.BAD_REQUEST);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
     return;
   }
   try {
     // Get Manager details
-    const teamResponse = await getManager(req.params.id);
+    const teamResponse = await getManager(req.body.userName, req.body.teamId);
 
     res.send(teamResponse);
   } catch (err) {
