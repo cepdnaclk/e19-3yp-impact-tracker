@@ -1,0 +1,13 @@
+sudo systemctl daemon-reload
+
+sudo systemctl enable hubService
+sudo systemctl start hubService
+
+sudo systemctl status hubService
+
+sudo systemctl restart hubService
+
+/etc/systemd/system/
+
+/root/impax/e19-3yp-impact-tracker/code/backend
+
