@@ -14,6 +14,7 @@ import { validateEmail } from "../utils/utils";
 import { Manager, ManagerResponse } from "../models/manager.model";
 import managerController from "../controllers/manager.controller";
 import managersInTeamService from "../services/managers.in.team.service";
+import authService from "../services/auth.service";
 
 // Create an instance of the Express Router
 const router = Router();
@@ -231,6 +232,15 @@ router.post("/manager", async (req, res) => {
 
     if (teamManagerExits) {
       await managersInTeamService.deleteManagerFromTeamDetails(email, teamId);
+    }
+
+    const authManagerExists = await authService.checkAuthExistsForManager(
+      email,
+      teamId
+    );
+
+    if (authManagerExists) {
+      await authService.deleteAuthManager(email, teamId);
     }
 
     if (err instanceof Error) {

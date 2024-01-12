@@ -32,8 +32,8 @@ export async function sendVerificationEmail(
   `,
     attachments: [
       {
-        filename: "Impax.jpeg.jpg",
-        path: "./src/email/Impax.jpeg",
+        filename: "Impax.jpeg",
+        path: "./asserts/Impax.jpeg",
         cid: "Impax", // same cid value as in the html img src
       },
     ],

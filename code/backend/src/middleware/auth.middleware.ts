@@ -71,6 +71,7 @@ export async function accessTokenMiddleware(
     req.body.userName = decoded.userName;
     req.body.role = decoded.role;
     req.body.refreshToken = token;
+    req.body.teamId = decoded.teamId || "";
 
     if (!decoded.userName) {
       console.log(HttpMsg.BAD_REQUEST);
@@ -141,6 +142,7 @@ export async function refreshTokenMiddleware(
     // If the refresh token is valid, set the userName and role in the request
     req.body.userName = decoded.userName;
     req.body.role = decoded.role;
+    req.body.teamId = decoded.teamId || "";
 
     // Check if password or userName is missing
     if (!decoded.userName) {
@@ -157,10 +159,8 @@ export async function refreshTokenMiddleware(
     }
 
     let status = false;
-    console.log(decoded);
 
     if (req.body.role == ROLES.MANAGER) {
-      req.body.teamId = decoded.teamId;
       status = await checkRoleAndUserName(
         decoded.role,
         decoded.userName,

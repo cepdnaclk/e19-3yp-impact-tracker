@@ -1,9 +1,17 @@
 import { Router } from "express";
 import { Request, Response } from "express";
 import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
-import { createAccessToken } from "../utils/jwt.token";
-import { LoginResquest, LoginResponse } from "../models/login.model";
+import {
+  createAccessToken,
+  createAccessTokenManager,
+} from "../utils/jwt.token";
+import {
+  LoginResquest,
+  LoginResponse,
+  LoginResquestManager,
+} from "../models/login.model";
 import { refreshTokenMiddleware } from "../middleware/auth.middleware";
+import ROLES from "../config/roles";
 
 // Create an instance of the Express Router
 const router = Router();
@@ -13,16 +21,30 @@ router.get("/", refreshTokenMiddleware, async (req: Request, res: Response) => {
   const userName = req.body.userName;
   const role = req.body.role;
   const refreshToken = req.body.refreshToken;
+  const teamId = req.body.teamId;
 
   try {
-    // Create a LoginRequest instance for manager login
-    const loginReq: LoginResquest = new LoginResquest("", userName);
+    const loginResponse = new LoginResponse(refreshToken, "");
+    if (role == ROLES.PLAYER) {
+      // Create a LoginRequest instance for manager login
+      const loginReq: LoginResquest = new LoginResquest("", userName);
 
-    // create access token
-    const accessToken = createAccessToken(loginReq, role);
+      // create access token
+      const accessToken = createAccessToken(loginReq, role);
+      loginResponse.accessToken = accessToken;
+    } else if (role == ROLES.MANAGER) {
+      const loginReq: LoginResquestManager = new LoginResquestManager(
+        "",
+        userName,
+        teamId
+      );
+
+      // create access token for manager
+      const accessToken = createAccessTokenManager(loginReq, role);
+      loginResponse.accessToken = accessToken;
+    }
 
     // return new LoginResponse(refreshToken, accessToken);
-    const loginResponse = new LoginResponse(refreshToken, accessToken);
 
     res.send(loginResponse);
   } catch (err) {

@@ -4,9 +4,7 @@ export async function sendInvitationEmail(
   recipientEmail: string,
   invitationToken: string,
   teamName: string
-  
 ): Promise<void> {
-
   // Create a Nodemailer transporter
   const transporter = nodemailer.createTransport({
     // Configure your email service here
@@ -17,8 +15,7 @@ export async function sendInvitationEmail(
     },
   });
 
-  const signature = "IMPAX TEAM"; 
-
+  const signature = "IMPAX TEAM";
 
   // Compose the email
   const mailOptions = {
@@ -35,13 +32,13 @@ export async function sendInvitationEmail(
     <p><i><b>${signature}</b></i></p>
     
   `,
-  attachments: [
-    {
-      filename: "Impax.jpeg.jpg",
-      path: "./src/email/Impax.jpeg", 
-      cid: "Impax", // same cid value as in the html img src
-    },
-  ],
+    attachments: [
+      {
+        filename: "Impax.jpeg.jpg",
+        path: "./asserts/Impax.jpeg",
+        cid: "Impax", // same cid value as in the html img src
+      },
+    ],
   };
 
   // Send the email

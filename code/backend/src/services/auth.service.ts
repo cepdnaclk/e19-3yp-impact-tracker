@@ -121,6 +121,19 @@ class AuthService {
     return false;
   }
 
+  // delete auth managers
+  async deleteAuthManager(email: string, teamId: string): Promise<boolean> {
+    try {
+      await AuthModelManager.deleteOne({ email, teamId });
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+    return false;
+  }
+
   async checkAuthManager(
     email: string,
     password: string,
