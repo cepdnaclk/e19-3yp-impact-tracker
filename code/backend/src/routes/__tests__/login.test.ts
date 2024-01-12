@@ -76,7 +76,7 @@ describe("Login Routes", () => {
       .send(managerCredentials)
       .set("Accept", "application/json");
 
-    // expect(response.status).toBe(HttpCode.OK);
+    expect(response.status).toBe(HttpCode.OK);
     // You can customize the expectations based on the expected response for a successful manager login.
   });
 

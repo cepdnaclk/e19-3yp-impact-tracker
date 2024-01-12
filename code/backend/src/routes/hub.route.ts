@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { Request, Response } from "express";
 import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
-import { createHubDetails, getHub } from "../controllers/hub.controller";
+import hubController from "../controllers/hub.controller";
 import { Hub, HubRequest } from "../models/hub.model";
 
 // Create an instance of the Express Router
@@ -24,7 +24,7 @@ router.post("/credetials", async (req: Request, res: Response) => {
     const hubReq = new HubRequest(hubId, hubKey);
 
     // get hub details
-    const hub = await getHub(hubReq);
+    const hub = await hubController.getHub(hubReq);
 
     res.send(hub);
   } catch (err) {
@@ -65,7 +65,7 @@ router.post("/", async (req: Request, res: Response) => {
     const newHub = new Hub(mqttUsername, mqttPassword, mqttCA, hubKey, hubId);
 
     // get hub details
-    const hub = await createHubDetails(newHub);
+    const hub = await hubController.createHubDetails(newHub);
 
     res.send(hub);
   } catch (err) {

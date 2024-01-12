@@ -2,11 +2,10 @@ import { verifyRefreshToken, verifyAccessToken } from "../utils/jwt.token";
 import { Request, Response, NextFunction } from "express";
 import excludedRoutes from "../config/allowEndPoints";
 import ROLES from "../config/roles";
-import { checkManagerExists } from "../controllers/manager.controller";
-import { checkPlayerExists } from "../controllers/player.controller";
+import playerController from "../controllers/player.controller";
+import teamController from "../controllers/team.controller";
 import { validateEmail } from "../utils/utils";
 import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
-import { checkManagerExistsInTeam } from "../controllers/team.controller";
 
 // check the role and userName, and check the user exists from the database
 export async function checkRoleAndUserName(
@@ -16,10 +15,10 @@ export async function checkRoleAndUserName(
 ): Promise<boolean> {
   if (role == ROLES.MANAGER) {
     // check manager exists
-    return await checkManagerExistsInTeam(userName, teamId);
+    return await teamController.checkManagerExistsInTeam(userName, teamId);
   } else if (role == ROLES.PLAYER) {
     // check player exists
-    return await checkPlayerExists(userName);
+    return await playerController.checkPlayerExists(userName);
   }
 
   return false;
@@ -51,13 +50,17 @@ export async function accessTokenMiddleware(
   const authorizationHeader = req.header("Authorization");
 
   if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "" });
+    return res
+      .status(HttpCode.UNAUTHORIZED)
+      .json({ message: HttpMsg.AUTHENTICATION_TOKEN_NOT_FOUND });
   }
 
   const token = authorizationHeader.replace("Bearer ", "");
 
   if (!token) {
-    return res.status(401).json({ message: "Authorization token not found" });
+    return res
+      .status(HttpCode.UNAUTHORIZED)
+      .json({ message: HttpMsg.AUTHENTICATION_TOKEN_NOT_FOUND });
   }
 
   // Verify the access token
@@ -96,13 +99,17 @@ export async function accessTokenMiddleware(
     }
 
     if (!status) {
-      return res.status(401).json({ message: "Invalid user" });
+      return res
+        .status(HttpCode.UNAUTHORIZED)
+        .json({ message: HttpMsg.INVALID_USER });
     }
 
     next();
   } catch (err) {
     // If the access token is invalid, send an error message
-    res.status(401).send({ message: "Invalid access token" });
+    res
+      .status(HttpCode.UNAUTHORIZED)
+      .send({ message: HttpMsg.INVALID_ACCESS_TOKEN });
   }
 }
 
@@ -115,13 +122,17 @@ export async function refreshTokenMiddleware(
   const authorizationHeader = req.header("Authorization");
 
   if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Invalid authorization header" });
+    return res
+      .status(HttpCode.UNAUTHORIZED)
+      .json({ message: HttpMsg.AUTHENTICATION_TOKEN_NOT_FOUND });
   }
 
   const token = authorizationHeader.replace("Bearer ", "");
 
   if (!token) {
-    return res.status(401).json({ message: "Authorization token not found" });
+    return res
+      .status(HttpCode.UNAUTHORIZED)
+      .json({ message: HttpMsg.AUTHENTICATION_TOKEN_NOT_FOUND });
   }
 
   // Verify the refresh token
@@ -145,30 +156,31 @@ export async function refreshTokenMiddleware(
       return;
     }
 
-    const status = false;
+    let status = false;
+    console.log(decoded);
 
     if (req.body.role == ROLES.MANAGER) {
       req.body.teamId = decoded.teamId;
-      const status = await checkRoleAndUserName(
+      status = await checkRoleAndUserName(
         decoded.role,
         decoded.userName,
         decoded.teamId
       );
     } else if (req.body.role == ROLES.PLAYER) {
-      const status = await checkRoleAndUserName(
-        decoded.role,
-        decoded.userName,
-        ""
-      );
+      status = await checkRoleAndUserName(decoded.role, decoded.userName, "");
     }
 
     if (!status) {
-      return res.status(401).json({ message: "Invalid user" });
+      return res
+        .status(HttpCode.UNAUTHORIZED)
+        .json({ message: HttpMsg.INVALID_USER });
     }
 
     next();
   } catch (err) {
     // If the refresh token is invalid, send an error message
-    res.status(401).send({ message: "Invalid refresh token" });
+    res
+      .status(HttpCode.UNAUTHORIZED)
+      .send({ message: HttpMsg.INVALID_REFRESH_TOKEN });
   }
 }

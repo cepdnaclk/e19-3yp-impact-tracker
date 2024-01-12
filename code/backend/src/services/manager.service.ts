@@ -4,7 +4,7 @@ import {
   ManagerExistsResponse,
 } from "../models/manager.model";
 import ManagerModel from "../db/manager.schema";
-import { createAuth, createAuthManager } from "./auth.service";
+import authService from "./auth.service";
 
 class ManagerService {
   // delete manager
@@ -44,7 +44,7 @@ class ManagerService {
       const savedManager = await managerInstance.save();
 
       // save the manager auth
-      await createAuthManager(
+      await authService.createAuthManager(
         managerRequestBody.email,
         managerRequestBody.password,
         managerRequestBody.teamId
