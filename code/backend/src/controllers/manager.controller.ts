@@ -82,7 +82,7 @@ class ManagerController {
       // Generate an invitation token
       const invitationToken = generateInvitationToken();
 
-      // await createManagerTeam(newManagerEmail, teamId);
+      // await addManagerToTeam(newManagerEmail, teamId);
 
       // Create the manager and set the invitation token
       // const newManager: Manager = {
@@ -92,7 +92,7 @@ class ManagerController {
       // };
 
       const createdManagerResponse =
-        await managersInTeamService.createManagerTeam(newManagerEmail, teamId);
+        await managersInTeamService.addManagerToTeam(newManagerEmail, teamId);
       const teamInstance = await TeamModel.findOne({ teamId });
       const teamName = teamInstance?.teamName; // Add null check using optional chaining operator
 
@@ -100,7 +100,7 @@ class ManagerController {
       await sendInvitationEmail(newManagerEmail, invitationToken, teamName!);
 
       // Add the new manager to the team
-      const managerTeamAdded = await managersInTeamService.createManagerTeam(
+      const managerTeamAdded = await managersInTeamService.addManagerToTeam(
         newManagerEmail,
         teamId
       );
