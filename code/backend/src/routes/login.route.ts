@@ -5,14 +5,10 @@ import {
   LoginResponse,
   LoginResquestManager,
 } from "../models/login.model";
-import {
-  loginManager,
-  loginPlayer,
-  logout,
-} from "../controllers/login.controller";
+import loginController from "../controllers/login.controller";
 import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import { validateEmail } from "../utils/utils";
-import { checkManagerExistsInTeam } from "../controllers/team.controller";
+import teamController from "../controllers/team.controller";
 
 // Create an instance of the Express Router
 const router = Router();
@@ -39,7 +35,7 @@ router.post("/manager", async (req: Request, res: Response) => {
   }
 
   // check manager is in team
-  const exist = await checkManagerExistsInTeam(userName, teamId);
+  const exist = await teamController.checkManagerExistsInTeam(userName, teamId);
   if (!exist) {
     console.log(HttpMsg.MANAGER_LOGIN_FAILED);
     res
@@ -57,7 +53,9 @@ router.post("/manager", async (req: Request, res: Response) => {
     );
 
     // Perform manager login and get the status
-    const loginRes: LoginResponse = await loginManager(loginReq);
+    const loginRes: LoginResponse = await loginController.loginManager(
+      loginReq
+    );
 
     // Send a response (you may want to send the status or additional data here)
     res.send(loginRes);
@@ -97,7 +95,7 @@ router.post("/player", async (req: Request, res: Response) => {
     const loginReq: LoginResquest = new LoginResquest(password, userName);
 
     // Perform player login and get the status
-    const loginRes: LoginResponse = await loginPlayer(loginReq);
+    const loginRes: LoginResponse = await loginController.loginPlayer(loginReq);
 
     // Send a response (you may want to send the status or additional data here)
     res.send(loginRes);
@@ -119,7 +117,7 @@ router.post("/logout", async (req: Request, res: Response) => {
 
   try {
     // Perform player login and get the status
-    const loginRes = await logout(userName);
+    const loginRes = await loginController.logout(userName);
 
     // Send a response (you may want to send the status or additional data here)
     res.send({ message: loginRes });

@@ -17,14 +17,14 @@ String BUDDY_ID = "buddy/";
 // String password = "";
 // String ssid_default = "";
 // String password_defalt = "";
-String ssid = "Dialog 4G 629";
-String password = "189FFF07";
-String ssid_default = "SLT-Fiber";
-String password_defalt = "5CF@606a";
+String ssid = "impax";
+String password = "impax12345678";
+String ssid_default = "";
+String password_defalt = "";
 // {Dialog 4G 629,189FFF07,emqx,public,abcd}
 
 // MQTT Broker
-const char *mqtt_broker = "192.168.8.151";
+const char *mqtt_broker = "192.168.4.1";
 String mqtt_username = "impax";
 String mqtt_password = "impax";
 const int mqtt_port = 1883;

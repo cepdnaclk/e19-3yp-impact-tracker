@@ -5,7 +5,7 @@ import json
 import re
 
 # MQTT broker settings
-broker_address = "192.168.8.151"
+broker_address = "0.0.0.0"
 broker_port = 1883
 
 # MQTT topics

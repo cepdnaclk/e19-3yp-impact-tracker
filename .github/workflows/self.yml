@@ -20,4 +20,6 @@ jobs:
           npm install
           npm run build
           cp .env ./dist
-          pm2 restart backendserver
+          chmod +x run.sh
+          ./run.sh
+          pm2 save

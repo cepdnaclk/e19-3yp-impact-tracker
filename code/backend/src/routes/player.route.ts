@@ -2,7 +2,7 @@ import { Router } from "express";
 import { Request, Response } from "express";
 import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import { validateEmail } from "../utils/utils";
-import { addNewPlayer } from "../controllers/player.controller";
+import playerController from "../controllers/player.controller";
 
 // Create an instance of the Express Router
 const router = Router();
@@ -27,7 +27,11 @@ router.post("/add", async (req: Request, res: Response) => {
   }
 
   try {
-    const state = await addNewPlayer(managerEmail, newPlayerEmail, teamId);
+    const state = await playerController.addNewPlayer(
+      managerEmail,
+      newPlayerEmail,
+      teamId
+    );
 
     if (state == true) {
       res.send({ message: "Player added successfully" });

@@ -29,6 +29,12 @@ enum HttpMsg {
   TEAM_NOT_FOUND = "Team not found",
   MANAGER_DEOS_NOT_EXIST = "Manager does not exist",
   PLAYER_EXIT_ERROR = "Player exited error",
+  AUTHENTICATION_TOKEN_NOT_FOUND = "Authorization token not found",
+  INVALID_USER = "Invalid user",
+  INVALID_ACCESS_TOKEN = "Invalid access token",
+  INVALID_REFRESH_TOKEN = "Invalid refresh token",
+  HUB_EXIST = "Hub already exists",
+  HUB_NOT_FOUND = "Hub not found",
 }
 
 export { HttpCode, HttpMsg };

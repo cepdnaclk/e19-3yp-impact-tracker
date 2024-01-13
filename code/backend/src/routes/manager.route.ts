@@ -5,16 +5,10 @@ import {
   Manager,
   ManagerResponse,
 } from "../models/manager.model";
-import {
-  checkManagerExists,
-  createManager,
-  getManager,
-  addNewManager,
-  deleteManager,
-} from "../controllers/manager.controller";
+import managerController from "../controllers/manager.controller";
 import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import { validateEmail } from "../utils/utils";
-import { checkTeamExist } from "../controllers/team.controller";
+import teamController from "../controllers/team.controller";
 import ManagerModel from "../db/manager.schema";
 
 // Create an instance of the Express Router
@@ -40,7 +34,11 @@ router.post("/add", async (req: Request, res: Response) => {
   }
 
   try {
-    const state = await addNewManager(managerEmail, newManagerEmail, teamId);
+    const state = await managerController.addNewManager(
+      managerEmail,
+      newManagerEmail,
+      teamId
+    );
 
     if (state == true) {
       res.send({ message: HttpMsg.MANAGER_ADD_SUCCESS });
@@ -79,7 +77,7 @@ router.get("/exists/email/:email", async (req: Request, res: Response) => {
 
   try {
     // Check if a manager with the given email exists
-    const exists: boolean = await checkManagerExists(email);
+    const exists: boolean = await managerController.checkManagerExists(email);
     const existsResponse: ManagerExistsResponse = new ManagerExistsResponse(
       exists
     );
@@ -119,7 +117,7 @@ router.post("/", async (req: Request, res: Response) => {
     return;
   }
 
-  const teamExistsRes = await checkTeamExist(teamId);
+  const teamExistsRes = await teamController.checkTeamExist(teamId);
 
   // Check if the specified team exists
   if (teamExistsRes.teamExists === false) {
@@ -129,7 +127,7 @@ router.post("/", async (req: Request, res: Response) => {
   }
 
   // Check if a manager with the given email exists
-  const exists: boolean = await checkManagerExists(email);
+  const exists: boolean = await managerController.checkManagerExists(email);
 
   if (exists) {
     console.log(HttpMsg.MANAGER_EXISTS);
@@ -150,18 +148,16 @@ router.post("/", async (req: Request, res: Response) => {
     );
 
     // Create the manager and get the response
-    const managerResponse: ManagerResponse | undefined = await createManager(
-      manager,
-      teamId
-    );
+    const managerResponse: ManagerResponse | undefined =
+      await managerController.createManager(manager, teamId);
 
     res.send(managerResponse);
   } catch (err) {
     // Check if a manager with the given email exists
-    const exists: boolean = await checkManagerExists(email);
+    const exists: boolean = await managerController.checkManagerExists(email);
 
     if (exists) {
-      await deleteManager(email, teamId);
+      await managerController.deleteManager(email, teamId);
     }
 
     if (err instanceof Error) {
@@ -183,7 +179,10 @@ router.get("/", async (req: Request, res: Response) => {
   }
   try {
     // Get Manager details
-    const teamResponse = await getManager(req.body.userName, req.body.teamId);
+    const teamResponse = await managerController.getManager(
+      req.body.userName,
+      req.body.teamId
+    );
 
     res.send(teamResponse);
   } catch (err) {
