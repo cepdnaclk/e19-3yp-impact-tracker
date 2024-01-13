@@ -2,7 +2,7 @@ import ManagerTeamModel from "../db/managers.in.team.schema";
 
 class ManagersInTeamService {
   // create team manager instance
-  async createManagerTeam(
+  async addManagerToTeam(
     managerEmail: string,
     teamId: string
   ): Promise<boolean> {

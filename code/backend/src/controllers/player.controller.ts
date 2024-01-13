@@ -21,7 +21,7 @@ class PlayerController {
         throw new Error(HttpMsg.MANAGER_DEOS_NOT_EXIST);
       }
 
-      await playersInTeamService.createPlayerTeam(newManagerEmail, teamId);
+      await playersInTeamService.addPlayerToTeam(newManagerEmail, teamId);
 
       return true;
     } catch (error) {
