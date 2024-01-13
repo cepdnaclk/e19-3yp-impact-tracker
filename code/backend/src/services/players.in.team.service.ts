@@ -2,7 +2,7 @@ import PlayerTeamModel from "../db/players.in.team.schema";
 
 class PlayerInTeamService {
   // create team manager instance
-  async createPlayerTeam(
+  async addPlayerToTeam(
     managerEmail: string,
     teamId: string
   ): Promise<boolean> {

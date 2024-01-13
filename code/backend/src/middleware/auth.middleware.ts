@@ -1,6 +1,9 @@
 import { verifyRefreshToken, verifyAccessToken } from "../utils/jwt.token";
 import { Request, Response, NextFunction } from "express";
-import excludedRoutes from "../config/allowEndPoints";
+import {
+  excludedRoutes,
+  excludedRoutesStartWith,
+} from "../config/allowEndPoints";
 import ROLES from "../config/roles";
 import playerController from "../controllers/player.controller";
 import teamController from "../controllers/team.controller";
@@ -31,8 +34,9 @@ export async function accessTokenMiddleware(
   next: NextFunction
 ) {
   if (
-    req.path.startsWith("/team/exists/teamId") ||
-    req.path.startsWith("/manager/exists/email")
+    excludedRoutesStartWith.some((route) => {
+      return req.path.startsWith(route.path) && req.method === route.method;
+    })
   ) {
     // Skip token verification for specified routes
     return next();

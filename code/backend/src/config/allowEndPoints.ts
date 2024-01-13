@@ -10,4 +10,10 @@ const excludedRoutes = [
   // Add more entries as needed
 ];
 
-export default excludedRoutes;
+const excludedRoutesStartWith = [
+  { method: "GET", path: "/team/exists/teamId" },
+  { method: "GET", path: "/manager/exists/email" },
+  // Add more entries as needed
+];
+
+export { excludedRoutes, excludedRoutesStartWith };
