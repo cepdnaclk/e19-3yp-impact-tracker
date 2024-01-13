@@ -211,7 +211,10 @@ router.post("/manager", async (req, res) => {
     res.send(teamManagerResponse);
   } catch (err) {
     // Check if a manager with the given email exists
-    const exists: boolean = await managerController.checkManagerExists(email);
+    const exists: boolean = await managerController.checkManagerExistsInTeam(
+      email,
+      teamId
+    );
 
     if (exists) {
       await managerController.deleteManager(email, teamId);
