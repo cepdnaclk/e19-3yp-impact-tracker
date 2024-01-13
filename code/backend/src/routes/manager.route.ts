@@ -127,7 +127,10 @@ router.post("/", async (req: Request, res: Response) => {
   }
 
   // Check if a manager with the given email exists
-  const exists: boolean = await managerController.checkManagerExists(email);
+  const exists: boolean = await managerController.checkManagerExistsInTeam(
+    email,
+    teamId
+  );
 
   if (exists) {
     console.log(HttpMsg.MANAGER_EXISTS);

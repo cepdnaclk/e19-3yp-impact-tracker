@@ -62,6 +62,24 @@ class ManagerController {
       throw error;
     }
   }
+  async checkManagerExistsInTeam(
+    email: string,
+    teamId: string
+  ): Promise<boolean> {
+    try {
+      // const email = req.params.email;
+      // Call the function in service
+      const managerExists = await managerService.checkManagerExistsInTeam(
+        email,
+        teamId
+      );
+      // res.status(200).json(managerExists);
+      return managerExists;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 
   async addNewManager(
     managerEmail: string,
