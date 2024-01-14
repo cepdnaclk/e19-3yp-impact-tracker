@@ -386,7 +386,7 @@
         }
       }
     },
-    "/accept-invitation/{token}": {
+    "/accept-invitation/token/{token}": {
       "get": {
         "tags": ["ManagerEndpoints"],
         "summary": "Accept manager verification",

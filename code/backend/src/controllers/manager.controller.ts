@@ -14,8 +14,8 @@ class ManagerController {
     try {
       // Create a manager with an invitation token
       const invitationToken = generateInvitationToken();
-      manager.acceptInvitation = false;
       manager.invitationToken = invitationToken;
+      manager.isVerified = false; // Initially set to false
 
       // const teamName = teamResponse.teamName;
 

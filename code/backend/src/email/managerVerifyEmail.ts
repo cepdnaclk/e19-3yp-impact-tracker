@@ -15,15 +15,17 @@ export async function sendVerificationEmail(
 
   const signature = "IMPAX TEAM";
 
-  // <a href="http://16.170.235.219:5000/accept-invitation/${invitationToken}">Verify Email Here</a>
-  // <p>You've been created  the team ${teamName}! Click the following link to verify your email:</p>
+  // <a href="http://16.170.235.219:5000/accept-invitation/${invitationToken}">Verify Email Here</a><br><br>
   const mailOptions = {
     from: "impax.kmksh@gmail.com",
     to: recipientEmail,
-    subject: "Notification Email",
+    subject: "Verification Email",
     html: `
     <p>Hello,</p>
-    <p>You've been created  the team ${teamName}!</p>
+    
+    <p>You've been created  the team ${teamName}! Click the following link to verify your email:</p>
+    
+    <a href="http://localhost:5000/manager/accept-invitation/token/${invitationToken}">Verify Email Here</a><br><br>
     <div>
       <img src="cid:Impax" alt="Impax Team" style="width: 100px; height: auto; max-width: 100%;" />
     </div>
@@ -40,4 +42,5 @@ export async function sendVerificationEmail(
   };
 
   await transporter.sendMail(mailOptions);
+  console.log("email sent successfully");
 }

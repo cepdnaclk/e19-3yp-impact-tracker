@@ -146,8 +146,8 @@ router.post("/", async (req: Request, res: Response) => {
       lastName,
       email,
       password,
-      false, // Initially set to false
-      "" // Initially set to empty string
+      "", // Initially set to empty string
+      false // Initially set to false
     );
 
     // Create the manager and get the response
@@ -200,13 +200,13 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 // Endpoint Accept Invitation
-router.get("/accept-invitation/:token", async (req, res) => {
+router.get("/accept-invitation/token/:token", async (req, res) => {
   const token = req.params.token;
   const manager = await ManagerModel.findOne({ invitationToken: token });
 
-  if (manager && !(manager as any).acceptInvitation) {
+  if (manager && !manager.isVerified) {
     // Update manager status
-    (manager as any).acceptInvitation = true;
+    manager.isVerified = true;
     await manager.save();
     res.send("Invitation accepted successfully!");
   } else {
