@@ -40,7 +40,8 @@ function createWindow() {
     (event, portList, webContents, callback) => {
       // Add listeners to handle ports being added or removed before the callback for `select-serial-port`
       // is called.
-      if (win) {
+      event.preventDefault();
+      
         win.webContents.session.on("serial-port-added", (event, port) => {
           console.log("serial-port-added FIRED WITH", port);
           // Optionally update portList to add the new port
@@ -50,8 +51,6 @@ function createWindow() {
           console.log("serial-port-removed FIRED WITH", port);
           // Optionally update portList to remove the port
         });
-      }
-      event.preventDefault();
       if (portList && portList.length > 0) {
         callback(portList[0].portId);
       } else {
@@ -63,20 +62,14 @@ function createWindow() {
 
   win.webContents.session.setPermissionCheckHandler(
     (webContents, permission, requestingOrigin, details) => {
-      if (permission === "serial" && details.securityOrigin === "file:///") {
         return true;
-      }
 
-      return false;
     }
   );
 
   win.webContents.session.setDevicePermissionHandler((details) => {
-    if (details.deviceType === "serial" && details.origin === "file://") {
       return true;
-    }
 
-    return false;
   });
   // Test active push message to Renderer-process.
   win.webContents.on("did-finish-load", () => {
