@@ -36,10 +36,9 @@ String mqtt_username = "emqx";
 String mqtt_password = "public";
 const int mqtt_port = 1883;
 
-#define SAYHELLO_DELAY 20000
 #define BATTER_STATUS_DELAY 10000
-#define MEASURE_DELAY 100
-#define CLK_SPEED 10
+#define MEASURE_DELAY 50
+#define CLK_SPEED 5
 
 unsigned long batteryStatusTimer = 0;
 unsigned long measuringTimer = 0;
