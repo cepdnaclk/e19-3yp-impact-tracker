@@ -41,7 +41,7 @@ int getBatteryStatus()
     int val = (batteryVoltage / Vmax) * 100;
 
     // Calculate the percentage
-    return map(val, 0, 150, 0, 100);
+    return map(val, 0, 160, 0, 100);
 }
 
 void blink_LED_WIFI()
@@ -54,6 +54,19 @@ void blink_LED_WIFI()
         lastTime = millis();
         state = !state;
         digitalWrite(LED_WIFI, state);
+    }
+}
+
+void blink_LED_ON()
+{
+    static unsigned long lastTime = 0;
+    static bool state = false;
+
+    if (millis() - lastTime > LED_WIFI_BLINK)
+    {
+        lastTime = millis();
+        state = !state;
+        digitalWrite(LED_ON, state);
     }
 }
 
@@ -72,6 +85,11 @@ void led(int LED_STATE)
     else if (LED_STATE == LED_ON)
     {
         turnOn_LED_ON();
+        turnOn_LED_WIFI();
+    }
+    else if (LED_STATE == LED_BATTERY_LOW)
+    {
+        blink_LED_ON();
         turnOn_LED_WIFI();
     }
 }

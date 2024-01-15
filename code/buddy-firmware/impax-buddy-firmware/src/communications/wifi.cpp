@@ -62,19 +62,3 @@ void BuddyWIFI::initWIFIMulti(bool (*communicationDashboard)())
     Serial.print("Local ESP32 IP: ");
     Serial.println(WiFi.localIP());
 }
-
-// Reconnect to Wi-Fi in multi-mode
-void BuddyWIFI::reconnectWIFIMulti()
-{
-    if (wifiMulti.run(DELAY_WIFI_RECONNECT_MULTI) == WL_CONNECTED)
-    {
-        Serial.print("WiFi connected: ");
-        Serial.print(WiFi.SSID());
-        Serial.print(" ");
-        Serial.println(WiFi.RSSI());
-    }
-    else
-    {
-        Serial.println("WiFi not connected!");
-    }
-}

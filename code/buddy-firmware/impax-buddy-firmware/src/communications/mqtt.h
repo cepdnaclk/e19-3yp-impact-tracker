@@ -7,7 +7,7 @@
 #include "topics.h"
 #include "../utils/util.h"
 
-#define TIME_DELAY_RECONNECT 2000
+#define TIME_DELAY_RECONNECT 100
 
 // Declaration of the BuddyMQTT class
 class BuddyMQTT

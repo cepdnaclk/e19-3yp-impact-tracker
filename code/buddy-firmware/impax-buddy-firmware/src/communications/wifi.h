@@ -8,7 +8,6 @@
 
 // Define delays for Wi-Fi reconnection attempts
 #define DELAY_WIFI_RECONNECT 100
-#define DELAY_WIFI_RECONNECT_MULTI 2000
 
 // Declaration of the BuddyWIFI class
 class BuddyWIFI
@@ -31,7 +30,6 @@ public:
 
     void addWIFIMulti(const char *, const char *);
     void initWIFIMulti(bool (*communicationDashboard)());
-    void reconnectWIFIMulti();
 
 private:
 };
