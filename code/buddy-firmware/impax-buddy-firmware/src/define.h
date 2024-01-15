@@ -75,4 +75,4 @@ String ESP_RSA_key =
 unsigned long batteryStatusTimer = 0;
 unsigned long measuringTimer = 0;
 
-#define BATTERY_LIMIT 80
+#define BATTERY_LIMIT 30

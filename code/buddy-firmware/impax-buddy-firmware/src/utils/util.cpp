@@ -3,70 +3,119 @@
 // init leds
 void initLED()
 {
-    pinMode(LED_ON, OUTPUT);
-    pinMode(LED_WIFI, OUTPUT);
+    pinMode(LED_ON_PIN, OUTPUT);
+    pinMode(LED_WIFI_PIN, OUTPUT);
 }
 
-// // turn on LED_ON
-void turnOn_LED_ON()
+// // turn on LED_ON_PIN
+void onLedOn()
 {
-    digitalWrite(LED_ON, HIGH);
+    digitalWrite(LED_ON_PIN, HIGH);
 }
 
-void turnOff_LED_ON()
+void offLedOn()
 {
-    digitalWrite(LED_ON, LOW);
+    digitalWrite(LED_ON_PIN, LOW);
 }
 
-// turn on LED_WIFI
-void turnOn_LED_WIFI()
+// turn on LED_WIFI_PIN
+void onLedWifi()
 {
-    digitalWrite(LED_WIFI, HIGH);
+    digitalWrite(LED_WIFI_PIN, HIGH);
 }
 
-void turnOff_LED_WIFI()
+void offLedWifi()
 {
-    digitalWrite(LED_WIFI, LOW);
+    digitalWrite(LED_WIFI_PIN, LOW);
 }
 
 int getBatteryStatus()
 {
+    float voltage = getBatteryVoltage();
+
+    int percentage = 2808.3808 * pow(voltage, 4) - 43560.9157 * pow(voltage, 3) + 252848.5888 * pow(voltage, 2) - 650767.4615 * voltage + 626532.5703;
+    if (voltage > 4.19)
+        percentage = 100;
+    else if (voltage <= 3.50)
+        percentage = 0;
+
+    // Calculate the percentage
+    // return map(val, 0, 100, 0, 100);
+    return percentage;
+}
+
+void batteryInit()
+{
+    for (int i = 0; i < MOVING_AVERAGE_SIZE; i++)
+    {
+        getBatteryVoltage();
+        delay(1);
+    }
+}
+
+float getBatteryVoltage()
+{
+    static float readings[MOVING_AVERAGE_SIZE];
+    static int index = 0;
+    static float sum = 0;
+
+    // Read the raw value
     int rawValue = analogRead(BATTERY_READ);
 
     // Convert the raw value to voltage (assuming a voltage divider)
     float voltage = rawValue * (3.3 / 4095.0); // Adjust 3.3 to your actual reference voltage
 
     // Assuming a voltage divider with equal resistors, adjust the divisor accordingly
-    float batteryVoltage = voltage * 2.0;
-    int val = (batteryVoltage / Vmax) * 100;
+    voltage = voltage * 2.0;
 
-    // Calculate the percentage
-    return map(val, 0, 160, 0, 100);
+    // Update the sum with the new reading and subtract the oldest reading
+    sum = sum - readings[index] + voltage;
+
+    // Store the new reading in the array
+    readings[index] = voltage;
+
+    // Move to the next index
+    index = (index + 1) % MOVING_AVERAGE_SIZE;
+
+    // Calculate the moving average
+    float movingAverage = sum / MOVING_AVERAGE_SIZE;
+
+    // Serial.print(voltage);
+    // Serial.print(" - ");
+
+    // for (int i = 0; i < MOVING_AVERAGE_SIZE; i++)
+    // {
+    //     Serial.print(readings[i]);
+    //     Serial.print(", ");
+    // }
+    // Serial.println(movingAverage);
+
+    return movingAverage;
 }
 
-void blink_LED_WIFI()
+void blinkLedWifi()
 {
     static unsigned long lastTime = 0;
     static bool state = false;
 
-    if (millis() - lastTime > LED_WIFI_BLINK)
+    if (millis() - lastTime > LED_BLINK_DELAY)
     {
         lastTime = millis();
         state = !state;
-        digitalWrite(LED_WIFI, state);
+        digitalWrite(LED_WIFI_PIN, state);
     }
 }
 
-void blink_LED_ON()
+void blinkLedOn()
 {
     static unsigned long lastTime = 0;
     static bool state = false;
 
-    if (millis() - lastTime > LED_WIFI_BLINK)
+    if (millis() - lastTime > LED_BLINK_DELAY)
     {
         lastTime = millis();
         state = !state;
-        digitalWrite(LED_ON, state);
+        digitalWrite(LED_ON_PIN, state);
     }
 }
 
@@ -74,22 +123,22 @@ void led(int LED_STATE)
 {
     if (LED_STATE == LED_OFF)
     {
-        turnOff_LED_ON();
-        turnOff_LED_WIFI();
+        offLedOn();
+        offLedWifi();
     }
     else if (LED_STATE == LED_BLINK)
     {
-        turnOn_LED_ON();
-        blink_LED_WIFI();
+        onLedOn();
+        blinkLedWifi();
     }
     else if (LED_STATE == LED_ON)
     {
-        turnOn_LED_ON();
-        turnOn_LED_WIFI();
+        onLedOn();
+        onLedWifi();
     }
     else if (LED_STATE == LED_BATTERY_LOW)
     {
-        blink_LED_ON();
-        turnOn_LED_WIFI();
+        blinkLedOn();
+        onLedWifi();
     }
 }

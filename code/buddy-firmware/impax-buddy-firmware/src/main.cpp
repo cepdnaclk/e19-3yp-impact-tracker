@@ -87,6 +87,8 @@ void process()
     if (BATTER_STATUS_DELAY < millis() - batteryStatusTimer)
     {
         int batteryStatus = getBatteryStatus();
+        float vol = getBatteryVoltage();
+        buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), vol);
         batteryStatusSend(batteryStatus);
 
         if (batteryStatus < BATTERY_LIMIT)
@@ -117,6 +119,8 @@ void setup()
     initLED();
     ledStatus = LED_BLINK;
     led(ledStatus);
+
+    batteryInit();
 
     // EEPROM
     initEEPROM(ssid_default, password_defalt, BUDDY_ID, ID);
