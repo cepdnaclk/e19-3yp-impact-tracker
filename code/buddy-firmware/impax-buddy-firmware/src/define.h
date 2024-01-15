@@ -4,7 +4,7 @@
 #include "communications/wifi.h"
 #include "communications/mqtt.h"
 #include "utils/eeprom.h"
-#include "utils/util.h"
+#include "util.h"
 #include "communications/com.h"
 #include "combinedOutput.h"
 
@@ -36,6 +36,16 @@ String mqtt_username = "emqx";
 String mqtt_password = "public";
 const int mqtt_port = 1883;
 
+#define SAYHELLO_DELAY 20000
+#define BATTER_STATUS_DELAY 10000
+#define MEASURE_DELAY 100
+#define CLK_SPEED 10
+
+unsigned long batteryStatusTimer = 0;
+unsigned long measuringTimer = 0;
+
+#define BATTERY_LIMIT 30
+
 String CA_cert =
     "-----BEGIN CERTIFICATE-----\n"
     "MIIDJzCCAg+gAwIBAgIUPKKmid6OdQ5kxFZQxDI0tTTMOwgwDQYJKoZIhvcNAQEL\n"
@@ -66,13 +76,3 @@ String ESP_RSA_key =
     "-----BEGIN RSA PRIVATE KEY-----\n"
     "\n"
     "-----END RSA PRIVATE KEY-----";
-
-#define SAYHELLO_DELAY 20000
-#define BATTER_STATUS_DELAY 10000
-#define MEASURE_DELAY 100
-#define CLK_SPEED 10
-
-unsigned long batteryStatusTimer = 0;
-unsigned long measuringTimer = 0;
-
-#define BATTERY_LIMIT 30

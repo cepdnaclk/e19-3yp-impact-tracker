@@ -65,11 +65,6 @@ void connect()
     buddyMQTT.client.loop();
 }
 
-void batteryStatusSend(int batteryStatus)
-{
-    buddyMQTT.publish(buddyMQTT.topics.BATTERY.c_str(), batteryStatus);
-}
-
 void measureSensors()
 {
     int value = combinedOutput.getImpact();
@@ -87,9 +82,10 @@ void process()
     if (BATTER_STATUS_DELAY < millis() - batteryStatusTimer)
     {
         int batteryStatus = getBatteryStatus();
+        buddyMQTT.publish(buddyMQTT.topics.BATTERY.c_str(), batteryStatus);
+
         float vol = getBatteryVoltage();
         buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), vol);
-        batteryStatusSend(batteryStatus);
 
         if (batteryStatus < BATTERY_LIMIT)
         {
@@ -120,6 +116,7 @@ void setup()
     ledStatus = LED_BLINK;
     led(ledStatus);
 
+    // battery status init
     batteryInit();
 
     // EEPROM

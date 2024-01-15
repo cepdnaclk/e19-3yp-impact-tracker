@@ -13,11 +13,13 @@
 #define LED_WIFI_PIN 4
 #define LED_BLINK 1
 #define LED_OFF 0
+#define MOVING_AVERAGE_SIZE 6
+#define VOLTAGE_UPPER_LIMIT 4.19
+#define VOLTAGE_LOWER_LIMIT 3.50
 
 // Define battery-related constants
 #define BATTERY_READ 33
-const float Vmax = 4.2;
-const int MOVING_AVERAGE_SIZE = 6; // Adjust the size of the moving average window
+const float Vref = 3.3;
 
 // Function declarations
 void initLED();            // Initialize LED pins

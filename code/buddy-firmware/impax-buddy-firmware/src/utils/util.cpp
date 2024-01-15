@@ -34,13 +34,11 @@ int getBatteryStatus()
     float voltage = getBatteryVoltage();
 
     int percentage = 2808.3808 * pow(voltage, 4) - 43560.9157 * pow(voltage, 3) + 252848.5888 * pow(voltage, 2) - 650767.4615 * voltage + 626532.5703;
-    if (voltage > 4.19)
+    if (voltage > VOLTAGE_UPPER_LIMIT)
         percentage = 100;
-    else if (voltage <= 3.50)
+    else if (voltage <= VOLTAGE_LOWER_LIMIT)
         percentage = 0;
 
-    // Calculate the percentage
-    // return map(val, 0, 100, 0, 100);
     return percentage;
 }
 
@@ -63,7 +61,7 @@ float getBatteryVoltage()
     int rawValue = analogRead(BATTERY_READ);
 
     // Convert the raw value to voltage (assuming a voltage divider)
-    float voltage = rawValue * (3.3 / 4095.0); // Adjust 3.3 to your actual reference voltage
+    float voltage = rawValue * (Vref / 4095.0); // Adjust 3.3 to your actual reference voltage
 
     // Assuming a voltage divider with equal resistors, adjust the divisor accordingly
     voltage = voltage * 2.0;
