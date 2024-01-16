@@ -2,10 +2,10 @@
 
 #include <Arduino.h>
 #include "communications/wifi.h"
-#include "communications/mqtt.h"
+#include "mqtt.h"
 #include "utils/eeprom.h"
 #include "util.h"
-#include "communications/com.h"
+#include "com.h"
 #include "combinedOutput.h"
 
 #define BAUD_RATE 9600
