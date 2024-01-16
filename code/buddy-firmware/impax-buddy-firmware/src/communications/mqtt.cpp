@@ -132,13 +132,13 @@ void callback(char *topic, byte *payload, unsigned int length)
 }
 
 // Set MQTT username
-void BuddyMQTT::setUserName(String username)
+void BuddyMQTT::setUserName(const char *username)
 {
-    this->mqtt_username = username.c_str();
+    this->mqtt_username = username;
 }
 
 // Set MQTT password
-void BuddyMQTT::setPassword(String password)
+void BuddyMQTT::setPassword(const char *password)
 {
-    this->mqtt_password = password.c_str();
+    this->mqtt_password = password;
 }

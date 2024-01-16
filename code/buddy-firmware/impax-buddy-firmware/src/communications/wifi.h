@@ -27,6 +27,7 @@ public:
 
     void setSsidPassword(const char *, const char *);
     void init();
+    void init(bool (*communicationDashboard)());
 
     void addWIFIMulti(const char *, const char *);
     void initWIFIMulti(bool (*communicationDashboard)());

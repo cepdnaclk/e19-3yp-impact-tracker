@@ -37,6 +37,7 @@ bool communicationDashboard()
         buddyMQTT.setUserName(mqtt_username.c_str());
         buddyMQTT.setPassword(mqtt_password.c_str());
         buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
+
         buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
 
         return true;
@@ -136,6 +137,8 @@ void setup()
 
     buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
 
+    Serial.println("Wifi Done");
+
     if (readMQTTUserNameEEPROM(mqtt_username))
         buddyMQTT.setUserName(mqtt_username.c_str());
     if (readMQTTPasswordEEPROM(mqtt_password))
@@ -144,6 +147,8 @@ void setup()
     // MQTT
     buddyMQTT.client.setCallback(callback);
     buddyMQTT.init(BUDDY_ID, communicationDashboard);
+
+    Serial.println("MQTT Done");
 
     // Timers
     batteryStatusTimer = millis();
