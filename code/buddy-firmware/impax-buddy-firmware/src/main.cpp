@@ -136,10 +136,10 @@ void setup()
 
     buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
 
-    if (readMQTTUserNameEEPROM(mqtt_username))
-        buddyMQTT.setUserName(mqtt_username.c_str());
-    if (readMQTTPasswordEEPROM(mqtt_password))
-        buddyMQTT.setPassword(mqtt_password.c_str());
+    // if (readMQTTUserNameEEPROM(mqtt_username))
+    //     buddyMQTT.setUserName(mqtt_username.c_str());
+    // if (readMQTTPasswordEEPROM(mqtt_password))
+    //     buddyMQTT.setPassword(mqtt_password.c_str());
 
     // MQTT
     buddyMQTT.client.setCallback(callback);

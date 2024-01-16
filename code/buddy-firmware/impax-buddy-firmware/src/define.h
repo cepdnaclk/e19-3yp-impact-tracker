@@ -18,23 +18,23 @@ int ledStatus;
 // String password = "";
 String ssid_default = "";
 String password_defalt = "";
-String ssid = "Dialog 4G 629";
-String password = "189FFF07";
-// String ssid = "impax";
-// String password = "impax12345678";
+// String ssid = "Dialog 4G 629";
+// String password = "189FFF07";
+String ssid = "impax";
+String password = "impax12345678";
 // {Dialog 4G 629,189FFF07,emqx,public}
 // {WIFI_SSID,WIFI_PASSWORD,MQTT_USERNAME,MQTT_PASSWORD}
 
 // MQTT Broker
-// const char *mqtt_broker = "192.168.4.1";
-// String mqtt_username = "impax";
-// String mqtt_password = "impax";
-// const int mqtt_port = 1883;
-
-const char *mqtt_broker = "broker.emqx.io";
-String mqtt_username = "emqx";
-String mqtt_password = "public";
+const char *mqtt_broker = "192.168.4.1";
+String mqtt_username = "impax";
+String mqtt_password = "impax";
 const int mqtt_port = 1883;
+
+// const char *mqtt_broker = "broker.emqx.io";
+// String mqtt_username = "emqx";
+// String mqtt_password = "public";
+// const int mqtt_port = 1883;
 
 #define BATTER_STATUS_DELAY 10000
 #define MEASURE_DELAY 50

@@ -74,8 +74,7 @@ const Devices: React.FC = () => {
       await port.open({ baudRate: 9600 });
 
       await new Promise((resolve) => setTimeout(resolve, 3000));
-      const reqMessage =
-        "{WIFI_SSID,WIFI_PASSWORD,MQTT_USERNAME,MQTT_PASSWORD}";
+      const reqMessage = "{impax,impax12345678,impax,impax}";
 
       // await sendMessage("request", port, encoder);
       // const writer = port.writable.getWriter();
@@ -97,12 +96,12 @@ const Devices: React.FC = () => {
           //   encoder
           // );
           await new Promise((resolve) => setTimeout(resolve, 3000));
-          await sendMessage("wificonfig", port, encoder);
+          await sendMessage(reqMessage, port, encoder);
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
           const secondreply = await readMessage(port, decoder);
-          // console.log(secondreply);
-          if (secondreply == "ack") {
+          console.log("second reply " + secondreply);
+          if (secondreply === "ack") {
             console.log("Configuration sent successfully");
           } else {
             console.log("Configuration Not Sent!!");
