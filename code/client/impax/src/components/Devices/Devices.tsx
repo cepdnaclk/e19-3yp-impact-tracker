@@ -16,8 +16,10 @@ const Devices: React.FC = () => {
   const options: { value: string; label: string }[] = [];
 
   // let [info, setInfo] = useState(null);
+
   const start = async () => {
     const decoder = new TextDecoder();
+    const encoder = new TextEncoder();
     const filters = [
       { usbVendorId: 0x2341, usbProductId: 0x0043 },
       { usbVendorId: 0x2341, usbProductId: 0x0001 },
@@ -27,31 +29,56 @@ const Devices: React.FC = () => {
       // console.log(navigator.serial);
       console.log("Yahooo Serial is supported");
       const port = await (navigator.serial as any).requestPort({
-        VendorId: 0x2341,
-        ProductId: 0x0043,
+        filters,
       });
       console.log(port);
-      await port.open({ baudRate: 115200 });
-      console.log("Port Opened", port);
-      // Read Data
-      // while (port.readable) {
-      //   const reader = port.readable.getReader();
-      //   try {
-      //     while (true) {
-      //       const { value, done } = await reader.read();
-      //       if (done) {
-      //         // |reader| has been canceled.
-      //         break;
-      //       }
-      //       console.log(decoder.decode(value.buffer));
-      //       // Do something with |value|...
-      //     }
-      //   } catch (error) {
-      //     // Handle |error|...
-      //   } finally {
-      //     reader.releaseLock();
-      //   }
+      await port.open({ baudRate: 9600 });
+      // console.log("Port Opened", port);
+      // Write Data
+      // const writer = port.writable.getWriter();
+      // try {
+      //   await writer.write(encoder.encode("PING\n"));
+      //   console.log("Data written successfully");
+      // } catch (error) {
+      //   console.log(error);
+      // } finally {
+      //   writer.releaseLock();
       // }
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      const encoder = new TextEncoder();
+      const writer = port.writable.getWriter();
+      await writer.write(encoder.encode("request"));
+
+      writer.releaseLock();
+
+      // pause execution for 3 seconds
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      // port.close();
+      // console.log("Closed");
+      // Read Data
+      while (port.readable) {
+        const reader = port.readable.getReader();
+        try {
+          while (true) {
+            const { value, done } = await reader.read();
+            if (done) {
+              // |reader| has been canceled.
+              break;
+            }
+            console.log(decoder.decode(value.buffer));
+            // Do something with |value|...
+          }
+        } catch (error) {
+          // Handle |error|...
+        } finally {
+          reader.releaseLock();
+        }
+      }
+
+      // Close the port.
+
+      // Allow the serial port to be closed later.
       // The Web Serial API is supported.
       // const filters = [{ usbVendorId: 6790 }];
       // // Prompt user to select an Arduino Uno device.
@@ -85,7 +112,8 @@ const Devices: React.FC = () => {
   }
 
   //if mqtt is not connected, show no connection page
-  const isMqttOnline = useAppState((state) => state.isMqttOnine);
+  let isMqttOnline = useAppState((state) => state.isMqttOnine);
+  isMqttOnline = true;
   if (!isMqttOnline) {
     return (
       <main className="main">
