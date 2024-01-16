@@ -9,6 +9,44 @@ import { useAppState } from "../../states/appState";
 import { Buddies } from "../../types";
 import NoMqttConnection from "../StatusScreens/NoMqttConnection";
 
+async function sendMessage(message, port, encoder) {
+  const writer = port.writable.getWriter();
+  try {
+    await writer.write(encoder.encode(message + "\n")); // Add newline for clarity
+    console.log(`Message sent: ${message}`);
+  } catch (error) {
+    console.error("Error writing message:", error);
+  } finally {
+    writer.releaseLock();
+  }
+}
+
+async function readMessage(port, decoder) {
+  let message = "";
+  while (port.readable) {
+    const reader = port.readable.getReader();
+    try {
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+          // |reader| has been canceled.
+          break;
+        }
+        message += decoder.decode(value.buffer);
+        // console.log(message);
+        return message.trim();
+        // console.log(decoder.decode(value.buffer));
+        // Do something with |value|...
+      }
+    } catch (error) {
+      // Handle |error|...
+    } finally {
+      reader.releaseLock();
+    }
+  } // Remove potential trailing newline
+  return message;
+}
+
 const Devices: React.FC = () => {
   const buddies: Buddies = useAppState((state) => state.buddiesStatus);
   const playerDetails = useAppState((state) => state.playerDetails);
@@ -33,59 +71,67 @@ const Devices: React.FC = () => {
       });
       console.log(port);
       await port.open({ baudRate: 9600 });
-      // console.log("Port Opened", port);
-      // Write Data
-      // const writer = port.writable.getWriter();
-      // try {
-      //   await writer.write(encoder.encode("PING\n"));
-      //   console.log("Data written successfully");
-      // } catch (error) {
-      //   console.log(error);
-      // } finally {
-      //   writer.releaseLock();
-      // }
+
       await new Promise((resolve) => setTimeout(resolve, 3000));
+      const reqMessage =
+        "{WIFI_SSID,WIFI_PASSWORD,MQTT_USERNAME,MQTT_PASSWORD}";
 
-      const encoder = new TextEncoder();
-      const writer = port.writable.getWriter();
-      await writer.write(encoder.encode("request"));
-
-      writer.releaseLock();
+      // await sendMessage("request", port, encoder);
+      // const writer = port.writable.getWriter();
+      // await writer.write(encoder.encode("request"));
+      // writer.releaseLock();
 
       // pause execution for 3 seconds
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      try {
+        await sendMessage("request", port, encoder);
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        const ackMessage = await readMessage(port, decoder);
+        if (ackMessage === "ack") {
+          // console.log("ack Message Received");
+          // await sendMessage(
+          //   "{WIFI_SSID,WIFI_PASSWORD,MQTT_USERNAME,MQTT_PASSWORD}",
+          //   port,
+          //   encoder
+          // );
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+          await sendMessage("wificonfig", port, encoder);
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
+          const secondreply = await readMessage(port, decoder);
+          console.log(secondreply);
+
+          console.log("Configuration sent successfully");
+        } else {
+          console.error("Handshake failed: ACK not received");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        await port.close();
+        console.log("Port closed");
+      }
       // port.close();
       // console.log("Closed");
       // Read Data
-      while (port.readable) {
-        const reader = port.readable.getReader();
-        try {
-          while (true) {
-            const { value, done } = await reader.read();
-            if (done) {
-              // |reader| has been canceled.
-              break;
-            }
-            console.log(decoder.decode(value.buffer));
-            // Do something with |value|...
-          }
-        } catch (error) {
-          // Handle |error|...
-        } finally {
-          reader.releaseLock();
-        }
-      }
-
-      // Close the port.
-
-      // Allow the serial port to be closed later.
-      // The Web Serial API is supported.
-      // const filters = [{ usbVendorId: 6790 }];
-      // // Prompt user to select an Arduino Uno device.
-      // const port = await (navigator.serial as Serial).requestPort({ filters });
-      // // const { usbProductId, usbVendorId } = port.getInfo();
-      // console.log(port.send(222));
-      // port && setInfo(port.getInfo());
+      // while (port.readable) {
+      //   const reader = port.readable.getReader();
+      //   try {
+      //     while (true) {
+      //       const { value, done } = await reader.read();
+      //       if (done) {
+      //         // |reader| has been canceled.
+      //         break;
+      //       }
+      //       console.log(decoder.decode(value.buffer));
+      //       // Do something with |value|...
+      //     }
+      //   } catch (error) {
+      //     // Handle |error|...
+      //   } finally {
+      //     reader.releaseLock();
+      //   }
+      // }
     } else {
       console.log("its not");
     }
