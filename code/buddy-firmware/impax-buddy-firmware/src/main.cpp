@@ -13,12 +13,12 @@ bool communicationDashboardWFIFI()
     if (com.comInit() && com.dataDecode(&ssid, &password, &mqtt_username, &mqtt_password))
     {
         WiFi.disconnect();
-        setCustomeSSIDAndPasswordEEPROM(ssid, password);
+        setSSIDAndPasswordEEPROM(ssid, password);
         writeMQTTUserNameEEPROM(mqtt_username);
         writeMQTTPasswordEEPROM(mqtt_password);
         buddyMQTT.setUserName(mqtt_username.c_str());
         buddyMQTT.setPassword(mqtt_password.c_str());
-        buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
+        buddyWIFI.setSsidPassword(ssid.c_str(), password.c_str());
 
         return true;
     }
@@ -31,14 +31,13 @@ bool communicationDashboard()
     if (com.comInit() && com.dataDecode(&ssid, &password, &mqtt_username, &mqtt_password))
     {
         WiFi.disconnect();
-        setCustomeSSIDAndPasswordEEPROM(ssid, password);
+        setSSIDAndPasswordEEPROM(ssid, password);
         writeMQTTUserNameEEPROM(mqtt_username);
         writeMQTTPasswordEEPROM(mqtt_password);
         buddyMQTT.setUserName(mqtt_username.c_str());
         buddyMQTT.setPassword(mqtt_password.c_str());
-        buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
-
-        buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
+        buddyWIFI.setSsidPassword(ssid.c_str(), password.c_str());
+        buddyWIFI.init(communicationDashboardWFIFI);
 
         return true;
     }
@@ -52,13 +51,16 @@ void connect()
     {
         ledStatus = LED_BLINK;
         led(ledStatus);
-        buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
+        buddyWIFI.setSsidPassword(ssid.c_str(), password.c_str());
+        buddyWIFI.init(communicationDashboardWFIFI);
     }
 
     if (!buddyMQTT.client.connected())
     {
         ledStatus = LED_BLINK;
         led(ledStatus);
+        buddyMQTT.setUserName(mqtt_username.c_str());
+        buddyMQTT.setPassword(mqtt_password.c_str());
         buddyMQTT.reconnect(communicationDashboard);
         // buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
     }
@@ -121,30 +123,19 @@ void setup()
     batteryInit();
 
     // EEPROM
-    initEEPROM(ssid_default, password_defalt, BUDDY_ID, ID);
-    setCustomeSSIDAndPasswordEEPROM(ssid, password);
-    writeMQTTUserNameEEPROM(mqtt_username);
-    writeMQTTPasswordEEPROM(mqtt_password);
+    initEEPROM(ssid, password, mqtt_username, mqtt_password, BUDDY_ID, ID);
 
     // Initial sensors
     combinedOutput.init();
 
-    // Multi WIFI connection
-    buddyWIFI.addWIFIMulti(ssid_default.c_str(), password_defalt.c_str());
-
-    if (getCustomeSSIDAndPasswordEEPROM(ssid, password))
-        buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
-
-    buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
+    buddyWIFI.setSsidPassword(ssid.c_str(), password.c_str());
+    buddyWIFI.init(communicationDashboardWFIFI);
 
     Serial.println("Wifi Done");
 
-    if (readMQTTUserNameEEPROM(mqtt_username))
-        buddyMQTT.setUserName(mqtt_username.c_str());
-    if (readMQTTPasswordEEPROM(mqtt_password))
-        buddyMQTT.setPassword(mqtt_password.c_str());
-
     // MQTT
+    buddyMQTT.setUserName(mqtt_username.c_str());
+    buddyMQTT.setPassword(mqtt_password.c_str());
     buddyMQTT.client.setCallback(callback);
     buddyMQTT.init(BUDDY_ID, communicationDashboard);
 

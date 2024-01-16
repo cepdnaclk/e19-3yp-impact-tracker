@@ -50,31 +50,10 @@ void BuddyWIFI::init(bool (*communicationDashboard)())
     while (WiFi.status() != WL_CONNECTED)
     {
         led(LED_BLINK);
-        communicationDashboard();
-        Serial.print(".");
-        delay(DELAY_WIFI_RECONNECT);
-    }
 
-    Serial.println("\nConnected to the WiFi network");
-    Serial.print("Local ESP32 IP: ");
-    Serial.println(WiFi.localIP());
-}
+        if (communicationDashboard())
+            WiFi.begin(ssid, password);
 
-// Add Wi-Fi credentials to the multi-mode Wi-Fi manager
-void BuddyWIFI::addWIFIMulti(const char *ssid, const char *password)
-{
-    wifiMulti.addAP(ssid, password);
-}
-
-void BuddyWIFI::initWIFIMulti(bool (*communicationDashboard)())
-{
-    WiFi.mode(WIFI_STA);
-
-    Serial.println("\nConnecting");
-    while (wifiMulti.run() != WL_CONNECTED)
-    {
-        led(LED_BLINK);
-        communicationDashboard();
         Serial.print(".");
         delay(DELAY_WIFI_RECONNECT);
     }

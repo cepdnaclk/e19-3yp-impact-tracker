@@ -38,14 +38,14 @@ void BuddyMQTT::reconnect(bool (*communicationDashboard)())
         led(LED_BLINK);
         communicationDashboard();
         // Generate a client ID based on ESP32 MAC address
-        String client_id = "esp32-client-";
+        String client_id = "buddy-client-";
         client_id += String(WiFi.macAddress());
-        Serial.printf("The client %s connects to the public MQTT broker\n", client_id.c_str());
+        Serial.printf("The client %s connects to the MQTT broker\n", client_id.c_str());
 
         // Attempt to connect to the MQTT broker
         if (client.connect(client_id.c_str(), mqtt_username, mqtt_password))
         {
-            Serial.println("Public EMQX MQTT broker connected");
+            Serial.println("MQTT broker connected");
         }
         else
         {
