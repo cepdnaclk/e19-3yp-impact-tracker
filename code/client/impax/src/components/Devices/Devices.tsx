@@ -62,12 +62,13 @@ const Devices: React.FC = () => {
       { usbVendorId: 0x2341, usbProductId: 0x0043 },
       { usbVendorId: 0x2341, usbProductId: 0x0001 },
     ];
+    const filtersESP = [{ usbVendorId: 0x1a86, usbProductId: 0x7523 }];
     // console.log(navigator);
     if ("serial" in navigator) {
       // console.log(navigator.serial);
       console.log("Yahooo Serial is supported");
       const port = await (navigator.serial as any).requestPort({
-        filters,
+        filtersESP,
       });
       console.log(port);
       await port.open({ baudRate: 9600 });
