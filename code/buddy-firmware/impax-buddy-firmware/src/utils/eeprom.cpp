@@ -7,8 +7,8 @@ void initEEPROM(String &ssid, String &password, String &BUDDY_ID, int ID)
     // EEPROM.commit();
     BUDDY_ID += EEPROM.read(EEPROM_ID_ADDRESS);
 
-    writeEEPROMString(EEPROM_SSID_ADDRESS, ssid);
-    writeEEPROMString(EEPROM_PASSWORD_ADDRESS, password);
+    // writeEEPROMString(EEPROM_SSID_ADDRESS, ssid);
+    // writeEEPROMString(EEPROM_PASSWORD_ADDRESS, password);
 
     ssid = readEEPROMString(EEPROM_SSID_ADDRESS);
     password = readEEPROMString(EEPROM_PASSWORD_ADDRESS);

@@ -4,10 +4,9 @@
 #include <Arduino.h>
 #include <EEPROM.h>
 
-#define WORD_LENGTH 15
+#define WORD_LENGTH 32
 
 // Define the total size of the EEPROM and starting addresses for different data types
-#define EEPROM_SIZE 510
 #define EEPROM_ID_ADDRESS 0
 #define EEPROM_SSID_ADDRESS EEPROM_ID_ADDRESS + 1
 #define EEPROM_PASSWORD_ADDRESS EEPROM_SSID_ADDRESS + WORD_LENGTH
@@ -16,6 +15,7 @@
 #define EEPROM_USER_NAME EEPROM_PASSWORD_CUSTOM_ADDRESS + WORD_LENGTH
 #define EEPROM_PASSWORD EEPROM_USER_NAME + WORD_LENGTH
 #define MQTT_CA_CERTIFICATE_ADDRESS EEPROM_PASSWORD + WORD_LENGTH
+#define EEPROM_SIZE EEPROM_PASSWORD + WORD_LENGTH
 
 // Function declarations
 void initEEPROM(String &ssid, String &password, String &BUDDY_ID, int ID);

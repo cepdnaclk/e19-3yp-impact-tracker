@@ -72,6 +72,15 @@ void BuddyMQTT::publish(const char *topic, int msg)
     client.publish(topic, msgString.c_str(), true);
 }
 
+void BuddyMQTT::publish(const char *topic, float msg)
+{
+    // Convert the integer to a string before publishing
+    String msgString = String(msg);
+
+    // Publish the message
+    client.publish(topic, msgString.c_str(), true);
+}
+
 // Subscribe to a specified MQTT topic
 void BuddyMQTT::subscribe(const char *topic)
 {
