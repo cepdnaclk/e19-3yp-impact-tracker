@@ -12,7 +12,7 @@ import NoMqttConnection from "../StatusScreens/NoMqttConnection";
 async function sendMessage(message, port, encoder) {
   const writer = port.writable.getWriter();
   try {
-    await writer.write(encoder.encode(message + "\n")); // Add newline for clarity
+    await writer.write(encoder.encode(message)); // Add newline for clarity
     console.log(`Message sent: ${message}`);
   } catch (error) {
     console.error("Error writing message:", error);
