@@ -88,6 +88,7 @@ const Devices: React.FC = () => {
         await sendMessage("request", port, encoder);
         await new Promise((resolve) => setTimeout(resolve, 3000));
         const ackMessage = await readMessage(port, decoder);
+        console.log("First ACK " + ackMessage);
         if (ackMessage === "ack") {
           // console.log("ack Message Received");
           // await sendMessage(
