@@ -54,7 +54,6 @@ void BuddyWIFI::init(bool (*communicationDashboard)())
         if (communicationDashboard())
             WiFi.begin(ssid, password);
 
-        Serial.print(".");
         delay(DELAY_WIFI_RECONNECT);
     }
 

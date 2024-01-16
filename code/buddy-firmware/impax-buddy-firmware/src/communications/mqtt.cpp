@@ -40,7 +40,6 @@ void BuddyMQTT::reconnect(bool (*communicationDashboard)())
         // Generate a client ID based on ESP32 MAC address
         String client_id = "buddy-client-";
         client_id += String(WiFi.macAddress());
-        Serial.printf("The client %s connects to the MQTT broker\n", client_id.c_str());
 
         // Attempt to connect to the MQTT broker
         if (client.connect(client_id.c_str(), mqtt_username, mqtt_password))
@@ -50,8 +49,8 @@ void BuddyMQTT::reconnect(bool (*communicationDashboard)())
         else
         {
             // Print error message and wait before retrying
-            Serial.print("failed with state ");
-            Serial.print(client.state());
+            // Serial.print("failed with state ");
+            // Serial.print(client.state());
             delay(TIME_DELAY_RECONNECT);
         }
     }
