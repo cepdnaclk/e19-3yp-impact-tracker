@@ -99,9 +99,12 @@ const Devices: React.FC = () => {
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
           const secondreply = await readMessage(port, decoder);
-          console.log(secondreply);
-
-          console.log("Configuration sent successfully");
+          // console.log(secondreply);
+          if (secondreply == "ack") {
+            console.log("Configuration sent successfully");
+          } else {
+            console.log("Configuration Not Sent!!");
+          }
         } else {
           console.error("Handshake failed: ACK not received");
         }
