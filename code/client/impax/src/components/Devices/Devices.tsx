@@ -9,7 +9,7 @@ import { useAppState } from "../../states/appState";
 import { Buddies } from "../../types";
 import NoMqttConnection from "../StatusScreens/NoMqttConnection";
 
-async function sendMessage(message, port, encoder) {
+async function sendMessage(message: string, port, encoder) {
   const writer = port.writable.getWriter();
   try {
     await writer.write(encoder.encode(message + "\n")); // Add newline for clarity
@@ -87,7 +87,7 @@ const Devices: React.FC = () => {
         await sendMessage("request", port, encoder);
         await new Promise((resolve) => setTimeout(resolve, 3000));
         const ackMessage = await readMessage(port, decoder);
-        console.log("First ACK " + ackMessage);
+        console.log("First Reply" + ackMessage);
         if (ackMessage === "ack") {
           // console.log("ack Message Received");
           // await sendMessage(
@@ -96,7 +96,7 @@ const Devices: React.FC = () => {
           //   encoder
           // );
           await new Promise((resolve) => setTimeout(resolve, 3000));
-          await sendMessage(reqMessage, port, encoder);
+          await sendMessage("wificonfig", port, encoder);
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
           const secondreply = await readMessage(port, decoder);
