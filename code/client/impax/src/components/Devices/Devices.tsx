@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 import React from "react";
 import Title from "../Title/Title";
 import { MdDeviceHub } from "react-icons/md";
@@ -8,44 +9,7 @@ import MappedDevice from "./Card/MappedDevice";
 import { useAppState } from "../../states/appState";
 import { Buddies } from "../../types";
 import NoMqttConnection from "../StatusScreens/NoMqttConnection";
-
-async function sendMessage(message: string, port, encoder) {
-  const writer = port.writable.getWriter();
-  try {
-    await writer.write(encoder.encode(message + "\n")); // Add newline for clarity
-    console.log(`Message sent: ${message}`);
-  } catch (error) {
-    console.error("Error writing message:", error);
-  } finally {
-    writer.releaseLock();
-  }
-}
-
-async function readMessage(port, decoder) {
-  let message = "";
-  while (port.readable) {
-    const reader = port.readable.getReader();
-    try {
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) {
-          // |reader| has been canceled.
-          break;
-        }
-        message += decoder.decode(value.buffer);
-        // console.log(message);
-        return message.trim();
-        // console.log(decoder.decode(value.buffer));
-        // Do something with |value|...
-      }
-    } catch (error) {
-      // Handle |error|...
-    } finally {
-      reader.releaseLock();
-    }
-  } // Remove potential trailing newline
-  return message;
-}
+import { sendMessage, readMessage } from "../../utils/serialCom";
 
 const Devices: React.FC = () => {
   const buddies: Buddies = useAppState((state) => state.buddiesStatus);
@@ -67,8 +31,8 @@ const Devices: React.FC = () => {
     if ("serial" in navigator) {
       // console.log(navigator.serial);
       console.log("Yahooo Serial is supported");
-      const port = await (navigator.serial as any).requestPort({
-        filtersESP,
+      const port = await (navigator.serial as Serial).requestPort({
+        filters: filters,
       });
       console.log(port);
       await port.open({ baudRate: 9600 });
@@ -100,7 +64,7 @@ const Devices: React.FC = () => {
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
           const secondreply = await readMessage(port, decoder);
-          console.log("second reply " + secondreply);
+          console.log("Second reply " + secondreply);
           if (secondreply === "ack") {
             console.log("Configuration sent successfully");
           } else {

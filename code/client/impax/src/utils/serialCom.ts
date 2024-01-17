@@ -1,17 +1,21 @@
-
-export async function sendMessage(message, port, encoder) {
-    const writer = port.writable.getWriter();
+/* eslint-disable no-constant-condition */
+export async function sendMessage(
+    message: string,
+    port: SerialPort,
+    encoder: TextEncoder
+  ) {
+    const writer = port.writable?.getWriter();
     try {
-      await writer.write(encoder.encode(message + "\n")); // Add newline for clarity
+      await writer?.write(encoder.encode(message + "\n")); // Add newline for clarity
       console.log(`Message sent: ${message}`);
     } catch (error) {
       console.error("Error writing message:", error);
     } finally {
-      writer.releaseLock();
+      writer?.releaseLock();
     }
   }
   
-export async function readMessage(port, decoder) {
+export async function readMessage(port: SerialPort, decoder: TextDecoder) {
     let message = "";
     while (port.readable) {
       const reader = port.readable.getReader();
