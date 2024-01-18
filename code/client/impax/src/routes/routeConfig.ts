@@ -8,7 +8,13 @@ import PlayerManagement from "../components/PlayerManagement/PlayerManagement";
 import Profile from "../components/Profile/Profile";
 import TeamCreation from "../components/Profile/TeamCreation";
 
-const routes = [
+interface RouteConfig {
+  path: string;
+  component: React.ComponentType<any>;
+  props?: any;
+}
+
+const routes:RouteConfig[] = [  
   {
     path: "/",
     component: SignUp
