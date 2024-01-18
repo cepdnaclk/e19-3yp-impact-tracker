@@ -52,10 +52,10 @@ const Sidebar: React.FC<Props> = ({ isOnline }: Props) => {
           <MenuItem
             icon={MdBarChart}
             name="Analytics"
-            active={activePage === "analytics"}
+            active={activePage === "player-analytics"}
             onClick={() => {
-              setActivePage("analytics");
-              navigate("/analytics");
+              setActivePage("player-analytics");
+              navigate("/player-analytics");
             }}
           />
           <MenuItem

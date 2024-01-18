@@ -1,0 +1,178 @@
+@use "../../../variables.scss" as *;
+
+.summary {
+  @include banner;
+}
+
+.impactSummaryContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1em;
+
+  .card {
+    @include card;
+    border-radius: 0.4em;
+    padding: 1em 1em;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+    h3 {
+      font-size: 0.9em;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+    }
+
+    .value {
+      font-size: 4em;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.776);
+      span.metaUnits {
+        font-size: 1.8rem;
+      }
+    }
+
+    .trend {
+      display: flex;
+      align-items: center;
+      margin-top: 0.4em;
+      font-weight: 600;
+      font-size: 1.2em;
+      .iconUp,
+      .iconDown {
+        margin-right: 0.4em;
+      }
+
+      .iconUp {
+        color: $secondary-red;
+        & + span {
+          color: $secondary-red;
+        }
+      }
+
+      .iconDown {
+        color: $green;
+        & + span {
+          color: $green;
+        }
+      }
+      span.duration {
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 400;
+        font-size: 1rem;
+        margin-left: 0.4em;
+      }
+    }
+
+    &:first-child {
+      background-color: #1f1f1f;
+      box-shadow: 0 0 0 1px rgba(119, 135, 216, 0.1);
+    }
+  }
+}
+
+$button-bg: rgb(14, 61, 127);
+.selectTimeSpan {
+  margin: 1em 0;
+  margin-top: 2em;
+  padding: 0.6em 1em;
+  color: $body-color;
+  background-color: $button-bg;
+  border-radius: 1.2em;
+  .icon {
+    background-color: darken($color: $button-bg, $amount: 5);
+    color: white;
+    padding: 0.3em;
+    border-radius: 1em;
+    margin-left: 0.4em;
+    transform: scale(1.5);
+  }
+}
+.DropdownMenuContent {
+  margin-top: 1em;
+  min-width: 150px;
+  background-color: rgb(63, 63, 63);
+  border-radius: 1em;
+  padding: 0.4em 1em;
+  box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35),
+    0px 10px 20px -15px rgba(22, 23, 24, 0.2);
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.DropdownMenuItem {
+  font-size: 1em;
+  line-height: 2;
+  cursor: pointer;
+  color: white;
+  border-radius: 3px;
+  position: relative;
+  user-select: none;
+  outline: none;
+}
+.DropdownMenuContent[data-side="top"],
+.DropdownMenuSubContent[data-side="top"] {
+  animation-name: slideDownAndFade;
+}
+.DropdownMenuContent[data-side="right"],
+.DropdownMenuSubContent[data-side="right"] {
+  animation-name: slideLeftAndFade;
+}
+.DropdownMenuContent[data-side="bottom"],
+.DropdownMenuSubContent[data-side="bottom"] {
+  animation-name: slideUpAndFade;
+}
+.DropdownMenuContent[data-side="left"],
+.DropdownMenuSubContent[data-side="left"] {
+  animation-name: slideRightAndFade;
+}
+
+@keyframes slideUpAndFade {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideRightAndFade {
+  from {
+    opacity: 0;
+    transform: translateX(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideDownAndFade {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeftAndFade {
+  from {
+    opacity: 0;
+    transform: translateX(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.chartContainer {
+  height: 60dvh;
+  width: 50%;
+}
