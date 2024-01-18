@@ -9,7 +9,7 @@ import MappedDevice from "./Card/MappedDevice";
 import { useAppState } from "../../states/appState";
 import { Buddies } from "../../types";
 import NoMqttConnection from "../StatusScreens/NoMqttConnection";
-import { sendMessage, readMessage } from "../../utils/serialCom";
+import { syncDevice } from "../../utils/serialCom";
 
 const Devices: React.FC = () => {
   const buddies: Buddies = useAppState((state) => state.buddiesStatus);
@@ -18,92 +18,6 @@ const Devices: React.FC = () => {
   const options: { value: string; label: string }[] = [];
 
   // let [info, setInfo] = useState(null);
-
-  const start = async () => {
-    const decoder = new TextDecoder();
-    const encoder = new TextEncoder();
-    const filters = [
-      { usbVendorId: 0x2341, usbProductId: 0x0043 },
-      { usbVendorId: 0x2341, usbProductId: 0x0001 },
-    ];
-    const filtersESP = [{ usbVendorId: 0x1a86, usbProductId: 0x7523 }];
-    // console.log(navigator);
-    if ("serial" in navigator) {
-      // console.log(navigator.serial);
-      console.log("Yahooo Serial is supported");
-      const port = await (navigator.serial as Serial).requestPort({
-        filters: filters,
-      });
-      console.log(port);
-      await port.open({ baudRate: 9600 });
-
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      const reqMessage = "{impax,impax12345678,impax,impax}";
-
-      // await sendMessage("request", port, encoder);
-      // const writer = port.writable.getWriter();
-      // await writer.write(encoder.encode("request"));
-      // writer.releaseLock();
-
-      // pause execution for 3 seconds
-
-      try {
-        await sendMessage("request", port, encoder);
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-        const ackMessage = await readMessage(port, decoder);
-        console.log("First Reply" + ackMessage);
-        if (ackMessage === "ack") {
-          // console.log("ack Message Received");
-          // await sendMessage(
-          //   "{WIFI_SSID,WIFI_PASSWORD,MQTT_USERNAME,MQTT_PASSWORD}",
-          //   port,
-          //   encoder
-          // );
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-          await sendMessage("wificonfig", port, encoder);
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-
-          const secondreply = await readMessage(port, decoder);
-          console.log("Second reply " + secondreply);
-          if (secondreply === "ack") {
-            console.log("Configuration sent successfully");
-          } else {
-            console.log("Configuration Not Sent!!");
-          }
-        } else {
-          console.error("Handshake failed: ACK not received");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      } finally {
-        await port.close();
-        console.log("Port closed");
-      }
-      // port.close();
-      // console.log("Closed");
-      // Read Data
-      // while (port.readable) {
-      //   const reader = port.readable.getReader();
-      //   try {
-      //     while (true) {
-      //       const { value, done } = await reader.read();
-      //       if (done) {
-      //         // |reader| has been canceled.
-      //         break;
-      //       }
-      //       console.log(decoder.decode(value.buffer));
-      //       // Do something with |value|...
-      //     }
-      //   } catch (error) {
-      //     // Handle |error|...
-      //   } finally {
-      //     reader.releaseLock();
-      //   }
-      // }
-    } else {
-      console.log("its not");
-    }
-  };
 
   //find mapped buddy_ids and unmapped buddy_ids
   const mappedBuddies = Object.keys(playerMap).map((buddy_id) =>
@@ -146,7 +60,7 @@ const Devices: React.FC = () => {
           children="Add new device"
           buttonStyle="secondary"
           onClick={() => {
-            start();
+            syncDevice();
           }}
         />
         <p className="devicesTotal">
