@@ -1028,6 +1028,15 @@
       "PlayerTeamRequest": {
         "type": "object",
         "properties": {
+          "jersyId": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
           "playerEmail": {
             "type": "string"
           },
@@ -1036,6 +1045,9 @@
           }
         },
         "example": {
+          "jersyId": "exampleJersyId",
+          "firstName": "John",
+          "lastName": "Doe",
           "playerEmail": "example@example.com",
           "teamId": "teamId"
         }
