@@ -32,15 +32,15 @@ const routes:RouteConfig[] = [
     component: Live
   },
   {
-    path: "devices",
+    path: "/devices",
     component: Devices
   },
   {
-    path: "analytics",
+    path: "/analytics",
     component: Test
   },
   {
-    path: "player-management",
+    path: "/player-management",
     component: PlayerManagement
   },
   {
