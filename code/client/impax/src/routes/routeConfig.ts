@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import SignUp from "../components/Profile/SignUp";
 import Success from "../components/StatusScreens/Success";
 import TeamExists from "../components/StatusScreens/TeamExists";
