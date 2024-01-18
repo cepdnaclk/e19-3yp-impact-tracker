@@ -17,20 +17,15 @@ const LoginManager = () => {
     reset,
   } = useForm();
   const getTeamInfo = async (teamId: string, token: string) => {
-    // console.log("Hello", tokens.accessToken);
     try {
-      const response = await fetch(
-        `http://16.170.235.219:5000/manager/${teamId}`,
-        {
-          // Use the constructed URL with query params
-          method: "GET", // Change the method to GET
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Keep the Content-Type header for consistency
-          },
-        }
-      );
-      console.log(response.status);
+      const response = await fetch(`http://localhost:5000/team/${teamId}`, {
+        // Use the constructed URL with query params
+        method: "GET", // Change the method to GET
+        headers: {
+          Authorization: `Bearer ${token}`, // Keep the Content-Type header for consistency
+          "Content-type": "application/json",
+        },
+      });
       const responseData = await response.json();
       return responseData.teamName;
     } catch (error) {
@@ -40,8 +35,7 @@ const LoginManager = () => {
 
   const onSubmit = async (data: FieldValues) => {
     const { teamId, email, password } = data;
-    // console.log(teamId, email, password);
-    const response = await fetch("http://16.170.235.219:5000/login/manager", {
+    const response = await fetch("http://localhost:5000/login/manager", {
       method: "POST",
       body: JSON.stringify({
         teamId: teamId,
@@ -53,15 +47,15 @@ const LoginManager = () => {
       },
     });
     const responseData = await response.json();
-    console.log(responseData);
     if (response.ok) {
       setIsLoggedIn(true);
       setTokens({
         accessToken: responseData.accessToken,
         refreshToken: responseData.refreshToken,
       });
-      // const teamName = await getTeamInfo(teamId, responseData.accessToken);
-      setLoginInfo({ teamId, teamName: "Sri Lanka A", email });
+      const teamName = await getTeamInfo(teamId, responseData.accessToken);
+
+      setLoginInfo({ teamId, teamName: teamName, email });
       navigate("/login/manager");
     }
 
