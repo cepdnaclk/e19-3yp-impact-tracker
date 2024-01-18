@@ -13,6 +13,7 @@ import Success from "./components/StatusScreens/Success";
 import TeamExists from "./components/StatusScreens/TeamExists";
 import { useSignupState } from "./states/formState";
 import Profile from "./components/Profile/Profile";
+import routes from "./routes/routeConfig";
 function App() {
   MqttClient.getInstance();
   const isLoggedIn = useSignupState((state) => state.isLoggedIn);
@@ -24,42 +25,20 @@ function App() {
           <>
             <Sidebar isOnline={online} />
             <Routes>
-              <Route path="/" element={<SignUp />} />
-              {/* <Route path="/" element={<ListDevices />} /> */}
-
-              <Route
-                path="login/manager"
-                element={
-                  <Success
-                    title="Login"
-                    description="We're thrilled to see you again Feel free to explore all the features and functionalities we offer. "
-                  />
-                }
-              />
-              <Route path="/live" Component={Live} />
-              <Route path="devices" element={<Devices />} />
-              <Route path="analytics" element={<Test />} />
-              <Route path="player-management" element={<PlayerManagement />} />
-              <Route
-                path="/profile"
-                element={isLoggedIn ? <Profile /> : <SignUp />}
-              />
-              <Route path="/signup/manager" element={<TeamCreation />} />
-              <Route
-                path="/signup/manager/success"
-                element={
-                  <Success
-                    title="Signup"
-                    description="Welcome to our platform! We're excited to have you join our community. Get ready to explore all the amazing features and services we offer. "
-                  />
-                }
-              />
-              <Route
-                path="/signup/manager/teamexists"
-                element={<TeamExists />}
-              />
+              {routes.map((route, index) => (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    route.props ? (
+                      <route.component {...route.props} />
+                    ) : (
+                      <route.component />
+                    )
+                  }
+                />
+              ))}
             </Routes>
-            {/* <Content isOnline={online} /> */}
           </>
         )}
       />
