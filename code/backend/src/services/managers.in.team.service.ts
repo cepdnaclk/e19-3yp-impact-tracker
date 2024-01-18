@@ -20,6 +20,7 @@ class ManagersInTeamService {
       const managerTeamInstance = new ManagerTeamModel({
         managerEmail: managerEmail,
         teamId: teamId,
+        accepted: false,
       });
 
       // Save the manager to the database

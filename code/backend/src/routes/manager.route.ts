@@ -10,6 +10,7 @@ import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import { validateEmail } from "../utils/utils";
 import teamController from "../controllers/team.controller";
 import ManagerModel from "../db/manager.schema";
+import ManagerTeamModel  from '../db/managers.in.team.schema'; // Import the missing ManagerTeamModel
 
 // Create an instance of the Express Router
 const router = Router();
@@ -202,14 +203,18 @@ router.get("/", async (req: Request, res: Response) => {
 // Endpoint Accept Invitation
 router.get("/accept-invitation/token/:token", async (req, res) => {
   const token = req.params.token;
-  const manager = await ManagerModel.findOne({ invitationToken: token });
-
+  const manager = await ManagerModel.findOne({ invitationToken: token }); 
+  const managerInTeam = await ManagerTeamModel.findOne({ invitationToken: token }); 
   if (manager && !manager.isVerified) {
     // Update manager status
     manager.isVerified = true;
     await manager.save();
     res.send("Invitation accepted successfully!");
-  } else {
+  } else if (managerInTeam && !managerInTeam.accepted){
+    // Update manager status
+    managerInTeam.accepted = true;
+    await managerInTeam.save();
+  } else{
     res.status(400).send("Invalid or expired token.");
   }
 });
