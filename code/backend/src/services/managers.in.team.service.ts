@@ -1,4 +1,4 @@
-import ManagerTeamModel from "../db/managers.in.team.schema";
+  import ManagerTeamModel from "../db/managers.in.team.schema";
 
 class ManagersInTeamService {
   // create team manager instance

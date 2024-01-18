@@ -1,9 +1,9 @@
-import { sendInvitationEmail } from "../email/managerInviteEmail";
 import { Manager, ManagerResponse } from "../models/manager.model";
 import TeamModel from "../db/team.schema";
 import managerService from "../services/manager.service";
 import managersInTeamService from "../services/managers.in.team.service";
 import { sendVerificationEmail } from "../email/managerVerifyEmail";
+import { sendInvitationEmail } from "../email/managerInviteEmail";
 import { v4 as uuidv4 } from "uuid";
 
 class ManagerController {
