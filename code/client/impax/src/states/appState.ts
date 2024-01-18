@@ -7,6 +7,7 @@ import {
   Session,
   PlayersImpact,
   PlayerImpactHistory,
+  PlayersActiveTime,
 } from "../types";
 import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
@@ -34,6 +35,8 @@ interface AppState {
   playersImpactHistory: PlayerImpactHistory;
 
   playerDetails: Players;
+
+  playersActiveTime: PlayersActiveTime;
 
   playerMap: PlayerMap;
   setPlayerMap: (playerMap: PlayerMap) => void;
@@ -117,6 +120,9 @@ export const useAppState = create<AppState>()((set) => ({
       return { playerMap, monitoringBuddies };
     });
   },
+
+  //For player active time map
+  playersActiveTime: {} as PlayersActiveTime,
 
   //For the session details
   sessionDetails: {} as Session,

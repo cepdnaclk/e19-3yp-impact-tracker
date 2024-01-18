@@ -43,6 +43,9 @@ export type Players = {
   };
 };
 
+export type PlayersActiveTime = {
+  [jersey_number: number]: number;
+};
 export type Session = {
   session_id: string;
   session_name: string;
@@ -57,4 +60,5 @@ export type activePage =
   | "analytics"
   | "profile"
   | "test"
-  | "player-management";
+  | "player-management"
+  | "player-analytics";
