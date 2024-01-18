@@ -17,8 +17,6 @@ const Devices: React.FC = () => {
   const playerMap = useAppState((state) => state.playerMap);
   const options: { value: string; label: string }[] = [];
 
-  // let [info, setInfo] = useState(null);
-
   //find mapped buddy_ids and unmapped buddy_ids
   const mappedBuddies = Object.keys(playerMap).map((buddy_id) =>
     parseInt(buddy_id)
