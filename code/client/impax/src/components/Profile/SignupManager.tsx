@@ -15,8 +15,6 @@ const SignupManager = () => {
     setError,
   } = useForm();
   const onSubmit = async (data: FieldValues) => {
-    // TODO: submit to server
-    // ...\
     const { teamId, email } = data;
     setSignupInfo({ teamId, email });
 

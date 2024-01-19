@@ -140,6 +140,7 @@ export const useAppState = create<AppState>()((set) => ({
       sessionDetails.session_name = sessionName;
       sessionDetails.updatedAt = Date.now();
 
+
       // publish session to mqtt
       MqttClient.getInstance().publishSession(sessionDetails);
       return { ...prevState, sessionDetails };
@@ -150,6 +151,14 @@ export const useAppState = create<AppState>()((set) => ({
       const sessionDetails = { ...prevState.sessionDetails };
       sessionDetails.active = false;
       sessionDetails.updatedAt = Date.now();
+// TODO: store session details and player impact history and upload when internet available
+      const playerImpactHistory = { ...prevState.playersImpactHistory };
+      
+      localStorage.setItem("sessionDetails", JSON.stringify(sessionDetails));
+      localStorage.setItem("playerImpactHistory", JSON.stringify(playerImpactHistory));
+
+
+
 
       // publish session to mqtt
       MqttClient.getInstance().publishSession(sessionDetails);

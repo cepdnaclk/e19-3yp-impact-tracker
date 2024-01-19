@@ -18,7 +18,7 @@ const LoginManager = () => {
   } = useForm();
   const getTeamInfo = async (teamId: string, token: string) => {
     try {
-      const response = await fetch(`http://localhost:5000/team/${teamId}`, {
+      const response = await fetch(`http://13.235.86.11:5000/team/${teamId}`, {
         // Use the constructed URL with query params
         method: "GET", // Change the method to GET
         headers: {
@@ -35,7 +35,7 @@ const LoginManager = () => {
 
   const onSubmit = async (data: FieldValues) => {
     const { teamId, email, password } = data;
-    const response = await fetch("http://localhost:5000/login/manager", {
+    const response = await fetch("http://13.235.86.11:5000/login/manager", {
       method: "POST",
       body: JSON.stringify({
         teamId: teamId,
@@ -49,6 +49,8 @@ const LoginManager = () => {
     const responseData = await response.json();
     if (response.ok) {
       setIsLoggedIn(true);
+      localStorage.setItem("refreshToken", responseData.refreshToken);
+      localStorage.setItem("accessToken", responseData.accessToken);
       setTokens({
         accessToken: responseData.accessToken,
         refreshToken: responseData.refreshToken,
