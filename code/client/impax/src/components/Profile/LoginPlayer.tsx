@@ -32,6 +32,9 @@ const LoginPlayer = () => {
     const responseData = await response.json();
     if (response.ok) {
       setIsLoggedIn(true);
+      localStorage.setItem("refreshToken", responseData.refreshToken);
+      localStorage.setItem("accessToken", responseData.accessToken);
+
       setTokens({
         accessToken: responseData.accessToken,
         refreshToken: responseData.refreshToken,
