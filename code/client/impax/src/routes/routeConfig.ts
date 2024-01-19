@@ -21,7 +21,7 @@ const routes: RouteConfig[] = [
     component: SignUp,
   },
   {
-    path: "login/manager",
+    path: "login/manager" || "login/player",
     component: Success,
     props: {
       title: "Login",
