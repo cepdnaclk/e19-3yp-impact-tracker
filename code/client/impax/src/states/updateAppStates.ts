@@ -77,7 +77,7 @@ export const setSessionDetails = (sessionString: string) => {
   useAppState.setState({ sessionDetails: session });
 };
 
-const checkBuddiesAvailability = () => {
+export const checkBuddiesAvailability = () => {
   //check if all buddies are available
   //if timestamp is more than 60 seconds ago, remove from buddiesStatus
 
@@ -148,6 +148,3 @@ export const updatePlayersImpactHistory = (
     return { playersImpactHistory };
   });
 };
-
-//check buddies availability every 60 seconds
-setInterval(checkBuddiesAvailability, 60000);

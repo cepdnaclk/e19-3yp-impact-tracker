@@ -6,6 +6,7 @@ import {
   setPlayerMap,
   setSessionDetails,
   updatePlayersImpactHistory,
+  checkBuddiesAvailability,
 } from "../states/updateAppStates";
 import { Session } from "../types";
 
@@ -42,6 +43,8 @@ class MqttClient {
     this.client.on("message", (topic, message) =>
       this.handleMessage(topic, message)
     );
+
+    setInterval(checkBuddiesAvailability);
   }
 
   private handleConnect = () => {
