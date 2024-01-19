@@ -20,10 +20,7 @@ sessionDetails.forEach(function(object:sessionToBeUploaded) {
 
 // Update the modified array in local storage
 localStorage.setItem("sessionDetails", JSON.stringify(sessionDetails));
-
-
-
-    
+   
 }
 
 
