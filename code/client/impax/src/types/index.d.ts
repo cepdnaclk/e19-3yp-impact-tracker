@@ -62,3 +62,10 @@ export type activePage =
   | "test"
   | "player-management"
   | "player-analytics";
+
+
+
+  export type sessionToBeUploaded = {
+    session: Session;
+    playerImpactHistory: PlayerImpactHistory;
+  }
