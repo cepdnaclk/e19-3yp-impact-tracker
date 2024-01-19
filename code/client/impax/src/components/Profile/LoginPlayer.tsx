@@ -1,70 +1,80 @@
-import React, { useState } from "react";
 import styles from "./SignUp.module.scss";
-import { Role } from "../../types";
-import { useRoleState, useSignupState } from "../../states/formState";
+import { FieldValues, useForm } from "react-hook-form";
+import { useLoginState } from "../../states/profileState";
+import { useSignupState } from "../../states/formState";
+import { useNavigate } from "react-router-dom";
+
 const LoginPlayer = () => {
-  const isSignup = useSignupState((state) => state.isSignup);
   const setIsSignup = useSignupState((state) => state.setIsSignup);
-  interface formData {
-    role: Role;
-    teamId: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    password: string;
-    retypePassword: string;
-    teamName: string;
-  }
-  const [formData, setFormData] = useState<formData>({
-    role: "manager",
-    teamId: "",
-    email: "",
-    firstName: "",
-    lastName: "",
-    password: "",
-    retypePassword: "",
-    teamName: "",
-  });
+  const setIsLoggedIn = useSignupState((state) => state.setIsLoggedIn);
+  const setLoginInfo = useLoginState((state) => state.setLoginInfo);
+  const setTokens = useLoginState((state) => state.setTokens);
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [id]: value,
-    }));
+  const onSubmit = async (data: FieldValues) => {
+    const { email, password } = data;
+    const response = await fetch("http://13.235.86.11:5000/login/player", {
+      method: "POST",
+      body: JSON.stringify({
+        userName: email,
+        password: password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const responseData = await response.json();
+    if (response.ok) {
+      setIsLoggedIn(true);
+      setTokens({
+        accessToken: responseData.accessToken,
+        refreshToken: responseData.refreshToken,
+      });
+
+      // setLoginInfo({ teamId, teamName: teamName, email });
+      navigate("/login/player");
+    }
+
+    reset();
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formData); // Log the form data object
-  };
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputContainer}>
           <label htmlFor="email">Email</label>
+          <p>{`${errors.email?.message}`}</p>
           <input
+            {...register("email", { required: true })}
             type="email"
             id="email"
             required
             placeholder="johndoe@email.com"
-            value={formData.email}
-            onChange={handleInputChange}
           />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="password">Password</label>
+          <p>{`${errors.password?.message}`}</p>
           <input
+            {...register("password", { required: true })}
             type="password"
             id="password"
             required
             placeholder="Enter password"
-            value={formData.password}
-            onChange={handleInputChange}
           />
         </div>
 
-        <button type="submit" className={styles.nextBtn}>
+        <button
+          type="submit"
+          className={styles.nextBtn}
+          disabled={isSubmitting}
+        >
           Login
         </button>
       </form>
