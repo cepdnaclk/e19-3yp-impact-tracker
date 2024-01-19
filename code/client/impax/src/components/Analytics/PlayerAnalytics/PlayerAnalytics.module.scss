@@ -110,6 +110,9 @@ $button-bg: rgb(14, 61, 127);
   position: relative;
   user-select: none;
   outline: none;
+  button {
+    all: unset;
+  }
 }
 .DropdownMenuContent[data-side="top"],
 .DropdownMenuSubContent[data-side="top"] {
@@ -173,6 +176,13 @@ $button-bg: rgb(14, 61, 127);
 }
 
 .chartContainer {
+  height: 100%;
+  width: 100%;
+}
+
+.chartAndRecentSessionsContainer {
+  margin-top: 4em;
+  display: grid;
   height: 60dvh;
-  width: 50%;
+  grid-template-columns: 2fr 1fr;
 }

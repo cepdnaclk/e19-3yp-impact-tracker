@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Title from "../../Title/Title";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import styles from "./PlayerAnalytics.module.scss";
@@ -11,9 +11,9 @@ import {
 import { data } from "./playerData";
 import { StackedBarChart } from "./StackedBarChart";
 
-type timeSpan = "7-days" | "month" | "all";
+type timeSpan = "Last 7 Days" | "Last Month" | "All Time";
 const PlayerAnalytics = () => {
-  const [timeSpan, setTimeSpan] = useState<timeSpan>("7-days");
+  const [timeSpan, setTimeSpan] = useState<timeSpan>("Last 7 Days");
   return (
     <main>
       <Title Icon={MdBarChart} title="Player Analytics" />
@@ -27,19 +27,23 @@ const PlayerAnalytics = () => {
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
           <button className={styles.selectTimeSpan}>
-            Last 7 Days <FaChevronDown className={styles.icon} />
+            {timeSpan} <FaChevronDown className={styles.icon} />
           </button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Portal>
           <DropdownMenu.Content className={styles.DropdownMenuContent}>
             <DropdownMenu.Item className={styles.DropdownMenuItem}>
-              <button>Last 7 Days</button>
+              <button onClick={() => setTimeSpan("Last 7 Days")}>
+                Last 7 Days
+              </button>
             </DropdownMenu.Item>
             <DropdownMenu.Item className={styles.DropdownMenuItem}>
-              <button>Last Month</button>
+              <button onClick={() => setTimeSpan("Last Month")}>
+                Last Month
+              </button>
             </DropdownMenu.Item>
             <DropdownMenu.Item className={styles.DropdownMenuItem}>
-              <button>All Time</button>
+              <button onClick={() => setTimeSpan("All Time")}>All Time</button>
             </DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu.Portal>
@@ -68,8 +72,11 @@ const PlayerAnalytics = () => {
         ))}
       </div>
 
-      <div className={styles.chartContainer}>
-        <StackedBarChart />
+      <div className={styles.chartAndRecentSessionsContainer}>
+        <div className={styles.chartContainer}>
+          <StackedBarChart />
+        </div>
+        <div>Recent Sessions</div>
       </div>
     </main>
   );
