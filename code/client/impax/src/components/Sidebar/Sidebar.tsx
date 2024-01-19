@@ -7,20 +7,8 @@ import { useAppState } from "../../states/appState";
 import { useSignupState } from "../../states/formState";
 
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-interface Props {
-  isOnline: boolean;
-}
 
-const Sidebar: React.FC<Props> = ({ isOnline }: Props) => {
-  const setIsInternetAvailable = useAppState(
-    (state) => state.setIsInternetAvailable
-  );
-
-  useEffect(() => {
-    isOnline ? setIsInternetAvailable(true) : setIsInternetAvailable(false);
-  }, [isOnline, setIsInternetAvailable]);
-
+const Sidebar: React.FC = () => {
   const activePage = useAppState((state) => state.activePage);
   const setActivePage = useAppState((state) => state.setActivePage);
   const navigate = useNavigate();
