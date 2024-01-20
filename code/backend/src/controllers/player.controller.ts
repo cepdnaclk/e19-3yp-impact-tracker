@@ -4,8 +4,16 @@ import playerService from "../services/player.service";
 import { HttpMsg } from "../exceptions/http.codes.mgs";
 import { TeamIdEmailExistsResponse} from "../models/team.model";
 import teamService from "../services/team.service";
+import { v4 as uuidv4 } from "uuid";
+import PlayerModel from "../db/player.schema";
+import TeamModel from "../db/team.schema";
+import { sendVerificationEmail } from "../email/playerVerifyEmail";
+import { findSourceMap } from "module";
+import { PlayerRequestBody, PlayerResponse } from "../models/player.model";
 
 class PlayerController {
+  
+  // add player to the player team collection
   async addNewPlayer(
     jersyId: string,
     firstName: string,
@@ -41,21 +49,42 @@ class PlayerController {
         teamId,
       );
 
-      // If player not exist in that team => added to the team (player in teams)
+      
       if (playerExistsInTeam) {
         throw new Error(HttpMsg.PLAYER_ALREADY_EXISTS_IN_TEAM);
+
+      // If player not exist in that team => added to the team (player in teams)
       }else{
-        await playersInTeamService.addPlayerToTeam(newPlayerEmail, teamId,jersyId);
+        // Create a player with an invitation token
+        const invitationToken = generateInvitationToken();
+        const teamInstance = await TeamModel.findOne({ teamId });
+        const teamName = teamInstance?.teamName; // Add null check using optional chaining operator
+
+        await playersInTeamService.addPlayerToTeam(
+          newPlayerEmail, 
+          teamId,
+          jersyId,
+          firstName,
+          lastName,
+          invitationToken
+        );
+
+        // Send the verification email
+        await sendVerificationEmail(firstName, lastName, newPlayerEmail, invitationToken, teamName!);
       }
-      // check if new player already has an account
+
+      
+      // check if new player already has an account 
+      //TODO: Remove if user will not be able to create an account within 30 days 
       const playerExists = await playerService.checkPlayerExists(newPlayerEmail);
 
       // If player not exist in the player collection => added to the player collection
       if (!playerExists) {
+
         await playerService.addPlayer(
           firstName,
           lastName,
-          newPlayerEmail,
+          newPlayerEmail
         );
       }
 
@@ -67,6 +96,43 @@ class PlayerController {
     }
     return false;
   }
+
+  async createPlayer(
+    firstName: string,
+    lastName: string,
+    email: string, 
+    password: string
+    ): Promise<boolean> {
+    try {
+      // check if player already has an account
+      const exists: boolean = await playerService.checkPlayerExists(email);
+
+      if (exists) {
+        // Update the password for an existing player
+        await playerService.updatePlayerPassword(email, password);
+      } else {
+        // Create a new player account
+        const playerRequestBody: PlayerRequestBody  = new PlayerRequestBody(
+          firstName,
+          lastName,
+          email,
+          password
+        );
+        const playerResponse = await playerService.createPlayer(playerRequestBody);
+        if(playerResponse) {
+          return true;
+        }
+        
+      }
+
+      return false;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+   
+  }
+
 
   // player exists
   async checkPlayerExists(email: string): Promise<boolean> {
@@ -81,6 +147,13 @@ class PlayerController {
       throw error;
     }
   }
-}
 
+  
+}
+function generateInvitationToken(): string {
+  // Generate a UUID (v4) using the uuid library
+  const uniqueToken = uuidv4();
+
+  return uniqueToken;
+}
 export default new PlayerController();

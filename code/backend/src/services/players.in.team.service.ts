@@ -7,6 +7,9 @@ class PlayerInTeamService {
     playerEmail: string,
     teamId: string,
     jersyId: string,
+    firstName: string,
+    lastName: string,
+    invitationToken: string
 
   ): Promise<boolean> {
     try {
@@ -24,6 +27,9 @@ class PlayerInTeamService {
         playerEmail: playerEmail,
         teamId: teamId,
         jesryId: jersyId,
+        firstName: firstName,
+        lastName: lastName,
+        invitationToken: invitationToken,
         isVerified: false,
       });
 
