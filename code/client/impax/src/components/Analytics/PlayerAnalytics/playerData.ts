@@ -26,3 +26,26 @@ export const data: {
     trend: 40,
   },
 ];
+
+export const criticalSessions: {
+  name: string;
+  date: string;
+  cumulative: number;
+  average: number;
+  highest: number;
+}[] = [
+  {
+    name: "Sri Lanka vs England",
+    date: "12 Jan 2024",
+    cumulative: 560,
+    average: 40,
+    highest: 96,
+  },
+  {
+    name: "Sri Lanka vs Zimbabwe",
+    date: "23 Dec 2023",
+    cumulative: 400,
+    average: 25,
+    highest: 75,
+  },
+];

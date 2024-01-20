@@ -8,8 +8,9 @@ import {
   FaArrowTrendUp,
   FaChevronDown,
 } from "react-icons/fa6";
-import { data } from "./playerData";
+import { data, criticalSessions } from "./playerData";
 import { StackedBarChart } from "./StackedBarChart";
+import CriticalSession from "./CriticalSession";
 
 type timeSpan = "Last 7 Days" | "Last Month" | "All Time";
 const PlayerAnalytics = () => {
@@ -21,33 +22,35 @@ const PlayerAnalytics = () => {
         <div className={styles.info}>
           <h2>Total Impacts: 9820g </h2> <span>0 marked concussion</span>
         </div>
-        <div className={styles.controls}></div>
+        <div className={styles.controls}>
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild>
+              <button className={styles.selectTimeSpan}>
+                {timeSpan} <FaChevronDown className={styles.icon} />
+              </button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Portal>
+              <DropdownMenu.Content className={styles.DropdownMenuContent}>
+                <DropdownMenu.Item className={styles.DropdownMenuItem}>
+                  <button onClick={() => setTimeSpan("Last 7 Days")}>
+                    Last 7 Days
+                  </button>
+                </DropdownMenu.Item>
+                <DropdownMenu.Item className={styles.DropdownMenuItem}>
+                  <button onClick={() => setTimeSpan("Last Month")}>
+                    Last Month
+                  </button>
+                </DropdownMenu.Item>
+                <DropdownMenu.Item className={styles.DropdownMenuItem}>
+                  <button onClick={() => setTimeSpan("All Time")}>
+                    All Time
+                  </button>
+                </DropdownMenu.Item>
+              </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Root>
+        </div>
       </div>
-
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger asChild>
-          <button className={styles.selectTimeSpan}>
-            {timeSpan} <FaChevronDown className={styles.icon} />
-          </button>
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Portal>
-          <DropdownMenu.Content className={styles.DropdownMenuContent}>
-            <DropdownMenu.Item className={styles.DropdownMenuItem}>
-              <button onClick={() => setTimeSpan("Last 7 Days")}>
-                Last 7 Days
-              </button>
-            </DropdownMenu.Item>
-            <DropdownMenu.Item className={styles.DropdownMenuItem}>
-              <button onClick={() => setTimeSpan("Last Month")}>
-                Last Month
-              </button>
-            </DropdownMenu.Item>
-            <DropdownMenu.Item className={styles.DropdownMenuItem}>
-              <button onClick={() => setTimeSpan("All Time")}>All Time</button>
-            </DropdownMenu.Item>
-          </DropdownMenu.Content>
-        </DropdownMenu.Portal>
-      </DropdownMenu.Root>
 
       <div className={styles.impactSummaryContainer}>
         {data.map((metric) => (
@@ -74,9 +77,23 @@ const PlayerAnalytics = () => {
 
       <div className={styles.chartAndRecentSessionsContainer}>
         <div className={styles.chartContainer}>
+          <h2>Impact Histogram</h2>
           <StackedBarChart />
         </div>
-        <div>Recent Sessions</div>
+        <div className={styles.criticalSessions}>
+          <h2>Critical Sessions</h2>
+          {criticalSessions.map((session) => (
+            <div className={styles.criticalSessionContainer}>
+              <CriticalSession
+                name={session.name}
+                date={session.date}
+                cumulative={session.cumulative}
+                average={session.average}
+                highest={session.highest}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   );
