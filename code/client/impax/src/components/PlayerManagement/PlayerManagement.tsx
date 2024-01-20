@@ -1,6 +1,6 @@
 import Title from "../Title/Title";
 import { FaUsers } from "react-icons/fa";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./PlayerManagement.module.scss";
 import tableStyles from "./PlayersTable/PlayersTable.module.scss";
 
@@ -22,6 +22,7 @@ import Btn from "../Buttons/Btn";
 import PlayersTable from "./PlayersTable/PlayersTable";
 import NoInternetConnection from "../StatusScreens/NoInternetConnection";
 import { useAppState } from "../../states/appState";
+import DialogModal from "../Modal/DialogModal";
 
 export type Player = {
   jerseyId: number;
@@ -85,6 +86,17 @@ const columns: ColumnDef<Player>[] = [
 ];
 
 const PlayerManagement = () => {
+  //if internet unavailable return prematurely with no internet connection component
+  const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
+  if (!isInternetAvailable) {
+    return (
+      <main>
+        <Title title={"Player Management"} Icon={FaUsers} />
+        <NoInternetConnection />
+      </main>
+    );
+  }
+
   const defaultData: Player[] = [];
   //fill defaultData with playerDetails from useAppState
   const playerDetails = useAppState((state) => state.playerDetails);
@@ -115,15 +127,9 @@ const PlayerManagement = () => {
       columnFilters,
     },
   });
-  const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
-  if (!isInternetAvailable) {
-    return (
-      <main>
-        <Title title={"Player Management"} Icon={FaUsers} />
-        <NoInternetConnection />
-      </main>
-    );
-  }
+
+  //Modal State
+  const [addPlayerOpen, setAddPlayerOpen] = useState<boolean>(false);
 
   return (
     <main>
@@ -136,9 +142,50 @@ const PlayerManagement = () => {
         </div>
         <div className={styles.controls}>
           <div className={styles.addNew}>
-            <Btn buttonStyle="primary" Icon={FaPlus} iconSizeEm={0.8}>
-              Add New Player
-            </Btn>
+            <DialogModal
+              open={addPlayerOpen}
+              setOpen={setAddPlayerOpen}
+              trigger={
+                <Btn buttonStyle="primary" Icon={FaPlus} iconSizeEm={0.8}>
+                  Add New Player
+                </Btn>
+              }
+              title="Add New Player"
+              description="Add a new player to your team, you can add player's email if you want them to see their impact analysis"
+            >
+              <form
+                className={styles.addPlayerForm}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setAddPlayerOpen(false);
+                }}
+              >
+                <label htmlFor="jersey_number">Jersey Number</label>
+                <input
+                  type="number"
+                  name="jersey_number"
+                  id="jersey_number"
+                  placeholder="25"
+                />
+                <label htmlFor="name">Player Name</label>
+                <input type="text" name="name" placeholder="Johnathan Doe" />
+                <label htmlFor="email">
+                  Player's Email (Optional)
+                  <span className={styles.additionalInfo}>
+                    Link Impax Account
+                  </span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="johndoe@gmail.com"
+                />
+                <Btn type="submit" Icon={FaPlus}>
+                  Add New Player
+                </Btn>
+              </form>
+            </DialogModal>
           </div>
           <div className={styles.searchBox}>
             <FaSearch className={styles.icon} />
