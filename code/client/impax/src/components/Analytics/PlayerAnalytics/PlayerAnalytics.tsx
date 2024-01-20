@@ -17,11 +17,12 @@ const PlayerAnalytics = () => {
     ["impactSummaryData", { timeSpan }],
     fetchImpactSummary
   );
-  // const {
-  //   data: metricData,
-  //   // isLoading: isMetricDataLoading,
-  //   // isError: isMetricDataError,
-  // } = useQuery(["metricData", { timeSpan }], fetchMetricData);
+  const {
+    data: metricData,
+    // isLoading: isMetricDataLoading,
+    // isError: isMetricDataError,
+  } = useQuery(["metricData", { timeSpan }], fetchMetricData);
+
   const {
     data: criticalSessionsData,
     // isLoading: isSessionDataLoading,
@@ -38,13 +39,29 @@ const PlayerAnalytics = () => {
     if (timeSpan == "Last Month") return data2;
   }
 
-  // async function fetchMetricData() {
-  //   const response = await fetch("<METRIC_DATA_API_ENDPOINT_URL>"); // Replace <METRIC_DATA_API_ENDPOINT_URL> with the actual URL to fetch metric data from
-  //   if (!response.ok) {
-  //     throw new Error("Failed to fetch metric data");
-  //   }
-  //   return response.json();
-  // }
+  async function fetchMetricData() {
+    // const response = await fetch("<METRIC_DATA_API_ENDPOINT_URL>"); // Replace <METRIC_DATA_API_ENDPOINT_URL> with the actual URL to fetch metric data from
+    // if (!response.ok) {
+    //   throw new Error("Failed to fetch metric data");
+    // }
+    // return response.json();
+    const sampleObject = {
+      left: [10, 30, 50, 70, 90, 110, 130, 150, 170, 190],
+      right: [20, 40, 60, 80, 100, 120, 140, 160, 180, 200],
+      front: [15, 35, 55, 75, 95, 115, 135, 155, 175, 195],
+      back: [25, 45, 65, 85, 105, 125, 145, 165, 185, 205],
+    };
+
+    const sampleObject2 = {
+      left: [5, 12, 8, 20, 15, 25, 18, 30, 22, 10],
+      right: [14, 28, 7, 19, 32, 11, 24, 16, 9, 26],
+      front: [21, 13, 27, 6, 17, 23, 29, 31, 4, 3],
+      back: [2, 1, 34, 36, 33, 37, 38, 39, 40, 42],
+    };
+
+    if (timeSpan == "Last Week") return sampleObject;
+    if (timeSpan == "Last Month") return sampleObject2;
+  }
 
   async function fetchCriticalSessionsData() {
     // const response = await fetch("<SESSION_DATA_API_ENDPOINT_URL>"); // Replace <SESSION_DATA_API_ENDPOINT_URL> with the actual URL to fetch session data from
