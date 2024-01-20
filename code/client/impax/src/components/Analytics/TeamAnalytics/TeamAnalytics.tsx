@@ -2,16 +2,12 @@ import { useState } from "react";
 import Title from "../../Title/Title";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import styles from "./TeamAnalytics.module.scss";
-import cardStyles from "../ImpactSummaryCard.module.scss";
 import { MdBarChart } from "react-icons/md";
-import {
-  FaArrowTrendDown,
-  FaArrowTrendUp,
-  FaChevronDown,
-} from "react-icons/fa6";
+import { FaChevronDown } from "react-icons/fa6";
 import ImpactSummaryCard from "../ImpactSummaryCard";
 import { teamAnalyticsSummary } from "./teamData";
 import { TimeSpan } from "../../../types";
+import TeamAnalyticsTable from "./TeamAnalyticsTable";
 
 const TeamAnalytics = () => {
   const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
@@ -56,6 +52,10 @@ const TeamAnalytics = () => {
         {teamAnalyticsSummary.map((metric) => (
           <ImpactSummaryCard metric={metric} timeSpan={timeSpan} />
         ))}
+      </div>
+
+      <div className={styles.tableContainer}>
+        <TeamAnalyticsTable />
       </div>
     </main>
   );
