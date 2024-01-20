@@ -77,4 +77,4 @@ export type Metric = {
   metaUnits?: string;
 };
 
-export type TimeSpan = "Last 7 Days" | "Last Month" | "All Time";
+export type TimeSpan = "Last Week" | "Last Month" | "All Time";

@@ -24,7 +24,7 @@ const ImpactSummaryCard: React.FC<{ metric: Metric; timeSpan: TimeSpan }> = ({
             <FaArrowTrendDown className={cardStyles.iconDown} />
           )}
           <span>{metric.trend}%</span>
-          <span className={cardStyles.duration}>vs Last Week</span>
+          <span className={cardStyles.duration}>vs {timeSpan}</span>
         </p>
       )}
     </div>

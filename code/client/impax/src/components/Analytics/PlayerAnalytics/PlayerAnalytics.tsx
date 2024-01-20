@@ -16,7 +16,7 @@ import { TimeSpan } from "../../../types";
 import ImpactSummaryCard from "../ImpactSummaryCard";
 
 const PlayerAnalytics = () => {
-  const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last 7 Days");
+  const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
   return (
     <main>
       <Title Icon={MdBarChart} title="Player Analytics" />
@@ -34,7 +34,7 @@ const PlayerAnalytics = () => {
             <DropdownMenu.Portal>
               <DropdownMenu.Content className={styles.DropdownMenuContent}>
                 <DropdownMenu.Item className={styles.DropdownMenuItem}>
-                  <button onClick={() => setTimeSpan("Last 7 Days")}>
+                  <button onClick={() => setTimeSpan("Last Week")}>
                     Last 7 Days
                   </button>
                 </DropdownMenu.Item>
