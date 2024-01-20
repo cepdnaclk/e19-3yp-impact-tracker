@@ -1,0 +1,60 @@
+@use "../../variables.scss" as *;
+.card {
+  @include card;
+  border-radius: 0.4em;
+  padding: 1em 1em;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  h3 {
+    font-size: 0.9em;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+  }
+
+  .value {
+    font-size: 4em;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.776);
+    span.metaUnits {
+      font-size: 1.8rem;
+    }
+  }
+
+  .trend {
+    display: flex;
+    align-items: center;
+    margin-top: 0.4em;
+    font-weight: 600;
+    font-size: 1.2em;
+    .iconUp,
+    .iconDown {
+      margin-right: 0.4em;
+    }
+
+    .iconUp {
+      color: $secondary-red;
+      & + span {
+        color: $secondary-red;
+      }
+    }
+
+    .iconDown {
+      color: $green;
+      & + span {
+        color: $green;
+      }
+    }
+    span.duration {
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 400;
+      font-size: 1rem;
+      margin-left: 0.4em;
+    }
+  }
+
+  &:first-child {
+    background-color: #1f1f1f;
+    box-shadow: 0 0 0 1px rgba(119, 135, 216, 0.1);
+  }
+}
