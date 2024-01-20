@@ -78,3 +78,28 @@ export type Metric = {
 };
 
 export type TimeSpan = "Last Week" | "Last Month" | "All Time";
+
+//for player analytics
+export type HistogramData = {
+  [direction: Impact.direction]: number[];
+};
+
+//for player critical sessions
+export type CriticalSession = {
+  name: string;
+  date: string;
+  cumulative: number;
+  average: number;
+  highest: number;
+};
+
+//analyticsTableColumns
+export type TeamAnalyticsColumns = {
+  jersey_number: number;
+  name: string;
+  impacts_recorded: number;
+  highest_impact: number;
+  average_impact: number;
+  dominant_direction: Impact.direction;
+  concussions: number;
+};
