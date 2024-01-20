@@ -41,6 +41,7 @@ const LoginPlayer = () => {
       });
 
       // setLoginInfo({ teamId, teamName: teamName, email });
+
       navigate("/login/player");
     }
 
