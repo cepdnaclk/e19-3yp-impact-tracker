@@ -2,6 +2,7 @@ import { useState } from "react";
 import Title from "../../Title/Title";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import styles from "./PlayerAnalytics.module.scss";
+import cardStyles from "../ImpactSummaryCard.module.scss";
 import { MdBarChart } from "react-icons/md";
 import {
   FaArrowTrendDown,
@@ -11,10 +12,11 @@ import {
 import { data, criticalSessions } from "./playerData";
 import { StackedBarChart } from "./StackedBarChart";
 import CriticalSession from "./CriticalSession";
+import { TimeSpan } from "../../../types";
+import ImpactSummaryCard from "../ImpactSummaryCard";
 
-type timeSpan = "Last 7 Days" | "Last Month" | "All Time";
 const PlayerAnalytics = () => {
-  const [timeSpan, setTimeSpan] = useState<timeSpan>("Last 7 Days");
+  const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last 7 Days");
   return (
     <main>
       <Title Icon={MdBarChart} title="Player Analytics" />
@@ -54,24 +56,7 @@ const PlayerAnalytics = () => {
 
       <div className={styles.impactSummaryContainer}>
         {data.map((metric) => (
-          <div className={styles.card}>
-            <h3>{metric.title}</h3>
-            <p className={styles.value}>
-              {metric.value}
-              {metric.metaUnits && (
-                <span className={styles.metaUnits}>{metric.metaUnits}</span>
-              )}
-            </p>
-            <p className={styles.trend}>
-              {metric.trend > 0 ? (
-                <FaArrowTrendUp className={styles.iconUp} />
-              ) : (
-                <FaArrowTrendDown className={styles.iconDown} />
-              )}
-              <span>{metric.trend}%</span>
-              <span className={styles.duration}>vs Last Week</span>
-            </p>
-          </div>
+          <ImpactSummaryCard metric={metric} timeSpan={timeSpan} />
         ))}
       </div>
 
@@ -82,6 +67,7 @@ const PlayerAnalytics = () => {
         </div>
         <div className={styles.criticalSessions}>
           <h2>Critical Sessions</h2>
+          {criticalSessions.length == 0 && <p>No sessions recorded</p>}
           {criticalSessions.map((session) => (
             <div className={styles.criticalSessionContainer}>
               <CriticalSession
