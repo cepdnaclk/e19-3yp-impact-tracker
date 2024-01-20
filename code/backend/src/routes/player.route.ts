@@ -9,6 +9,9 @@ const router = Router();
 
 // add plpayer to the player team collection
 router.post("/add", async (req: Request, res: Response) => {
+  const jersyId = req.body.jersyId;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
   const newPlayerEmail = req.body.playerEmail;
   const teamId = req.body.teamId;
   const managerEmail = req.body.userName;
@@ -28,9 +31,12 @@ router.post("/add", async (req: Request, res: Response) => {
 
   try {
     const state = await playerController.addNewPlayer(
-      managerEmail,
+      jersyId,
+      firstName,
+      lastName,
       newPlayerEmail,
-      teamId
+      teamId,
+      managerEmail,
     );
 
     if (state == true) {
@@ -49,4 +55,8 @@ router.post("/add", async (req: Request, res: Response) => {
   }
 });
 
+// create player instance
+
+
+// 
 export default router;

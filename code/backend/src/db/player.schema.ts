@@ -1,17 +1,19 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 interface PlayerDocument extends Document {
-  teamId: string;
   firstName: string;
   lastName: string;
   email: string;
+  password: string;
+
 }
 
 const playerSchema = new Schema({
-  teamId: String,
   firstName: String,
   lastName: String,
   email: String,
+  password: String,
+
 });
 
 const PlayerModel = mongoose.model<PlayerDocument>("Player", playerSchema);

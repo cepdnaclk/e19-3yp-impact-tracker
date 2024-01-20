@@ -28,6 +28,29 @@ class PlayerService {
       throw new Error("Error checking player existence");
     }
   }
+
+  async addPlayer(
+    firstName: string,
+    lastName: string,
+    email: string,) {
+    try {
+      const playerInstanceNoPassword = new PlayerModel({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: null
+      });
+
+      // Save the player to the database
+      const savedPlayer = await playerInstanceNoPassword.save();
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error adding player");
+    }
+    
+  }
 }
 
 export default new PlayerService();

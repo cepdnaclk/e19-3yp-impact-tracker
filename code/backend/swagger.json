@@ -1028,9 +1028,7 @@
       "PlayerTeamRequest": {
         "type": "object",
         "properties": {
-          "jersyId": {
-            "type": "string"
-          },
+          
           "firstName": {
             "type": "string"
           },
@@ -1039,17 +1037,13 @@
           },
           "playerEmail": {
             "type": "string"
-          },
-          "teamId": {
-            "type": "string"
           }
         },
         "example": {
           "jersyId": "exampleJersyId",
           "firstName": "John",
           "lastName": "Doe",
-          "playerEmail": "example@example.com",
-          "teamId": "teamId"
+          "playerEmail": "example@example.com"
         }
       },
 
@@ -1124,9 +1118,6 @@
       "PlayerCreateRequest": {
         "type": "object",
         "properties": {
-          "jersyId": {
-            "type": "string"
-          },
           "firstName": {
             "type": "string"
           },
@@ -1138,26 +1129,18 @@
           },
           "password": {
             "type": "string"
-          },
-          "teamId": {
-            "type": "array"
           }
         },
         "example": {
-          "jersyId": "exampleJersyId",
           "firstName": "John",
           "lastName": "Doe",
           "email": "example@example.com",
-          "password": "securePassword",
-          "teamId": "teamId123"
+          "password": "securePassword"
         }
       },
       "PlayerUpdateRequest": {
         "type": "object",
         "properties": {
-          "jersyId": {
-            "type": "string"
-          },
           "firstName": {
             "type": "string"
           },
@@ -1169,28 +1152,19 @@
           },
           "password": {
             "type": "string"
-          },
-          "teamId": {
-            "type": "array"
           }
         },
         "example": {
-          "jersyId": "exampleJersyId",
           "firstName": "John",
           "lastName": "Doe",
           "email": "example@example.com",
-          "password": "securePassword",
-          "teamId": "teamId123"
+          "password": "securePassword"
         }
       },
 
       "PlayerResponse": {
         "type": "object",
         "properties": {
-          "jersyId": {
-            "type": "string",
-            "example": "12345"
-          },
           "email": {
             "type": "string",
             "example": "example@example.com"
@@ -1202,10 +1176,6 @@
           "lastName": {
             "type": "string",
             "example": "Doe"
-          },
-          "teamId": {
-            "type": "string",
-            "example": "teamId123"
           }
         }
       },
