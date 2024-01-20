@@ -8,6 +8,7 @@ import PlayerAnalytics from "../components/Analytics/PlayerAnalytics/PlayerAnaly
 import PlayerManagement from "../components/PlayerManagement/PlayerManagement";
 import Profile from "../components/Profile/Profile";
 import TeamCreation from "../components/Profile/TeamCreation";
+import JoinTeam from "../components/Profile/JoinTeam";
 
 interface RouteConfig {
   path: string;
@@ -65,6 +66,10 @@ const routes: RouteConfig[] = [
   {
     path: "/signup/manager/teamexists",
     component: TeamExists,
+  },
+  {
+    path: "/signup/manager/jointean",
+    component: JoinTeam,
   },
 ];
 

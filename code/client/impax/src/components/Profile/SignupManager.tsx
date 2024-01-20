@@ -40,11 +40,25 @@ const SignupManager = () => {
 
       // setIsTeamExists(true);
       // setIsManagerExists(true);
-    } else if (responseData.teamExists && !responseData.managerExists) {
-      console.log("um here");
-      setError("teamId", { type: "manual", message: "Team ID already exists" });
+    } else if (
+      responseData.teamExists &&
+      !responseData.managerExists &&
+      !responseData.managerVerified
+    ) {
+      setError("teamId", {
+        type: "manual",
+        message: "You are not approved to join this team!",
+      });
       console.log(errors.teamId);
+    } else if (
+      responseData.teamExists &&
+      !responseData.managerExists &&
+      responseData.managerVerified
+    ) {
+      navigate("/signup/manager/jointeam");
+      reset();
     }
+
     // console.log(signupInfo);
     // const responseData = await response.json();
     // await new Promise((resolve) => setTimeout(resolve, 5000));
