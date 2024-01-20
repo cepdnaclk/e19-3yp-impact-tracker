@@ -10,23 +10,30 @@ const ImpactSummaryCard: React.FC<{ metric: Metric; timeSpan: TimeSpan }> = ({
   return (
     <div className={cardStyles.card}>
       <h3>{metric.title}</h3>
-      <p className={cardStyles.value}>
-        {metric.value}
-        {metric.metaUnits && (
-          <span className={cardStyles.metaUnits}>{metric.metaUnits}</span>
-        )}
-      </p>
-      {timeSpan != "All Time" && metric.trend && (
-        <p className={cardStyles.trend}>
-          {metric.trend > 0 ? (
-            <FaArrowTrendUp className={cardStyles.iconUp} />
-          ) : (
-            <FaArrowTrendDown className={cardStyles.iconDown} />
+      <div>
+        <p
+          className={`${cardStyles.value} ${
+            (String(metric.value).length > 20 && cardStyles.longlongText) ||
+            (String(metric.value).length > 10 && cardStyles.longText)
+          }`}
+        >
+          {metric.value}
+          {metric.metaUnits && (
+            <span className={cardStyles.metaUnits}>{metric.metaUnits}</span>
           )}
-          <span>{metric.trend}%</span>
-          <span className={cardStyles.duration}>vs {timeSpan}</span>
         </p>
-      )}
+        {timeSpan != "All Time" && metric.trend && (
+          <p className={cardStyles.trend}>
+            {metric.trend > 0 ? (
+              <FaArrowTrendUp className={cardStyles.iconUp} />
+            ) : (
+              <FaArrowTrendDown className={cardStyles.iconDown} />
+            )}
+            <span>{metric.trend}%</span>
+            <span className={cardStyles.duration}>vs {timeSpan}</span>
+          </p>
+        )}
+      </div>
     </div>
   );
 };

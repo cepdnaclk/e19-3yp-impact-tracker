@@ -4,6 +4,9 @@
   border-radius: 0.4em;
   padding: 1em 1em;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 
   h3 {
     font-size: 0.9em;
@@ -16,8 +19,21 @@
     font-size: 4em;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.776);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
     span.metaUnits {
       font-size: 1.8rem;
+    }
+
+    &.longText {
+      font-size: 3em;
+    }
+
+    &.longlongText {
+      font-size: 2.4em;
+      line-height: 0.9;
+      letter-spacing: 0.8;
     }
   }
 
