@@ -35,7 +35,7 @@ const PlayerAnalytics = () => {
               <DropdownMenu.Content className={styles.DropdownMenuContent}>
                 <DropdownMenu.Item className={styles.DropdownMenuItem}>
                   <button onClick={() => setTimeSpan("Last Week")}>
-                    Last 7 Days
+                    Last Week
                   </button>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item className={styles.DropdownMenuItem}>

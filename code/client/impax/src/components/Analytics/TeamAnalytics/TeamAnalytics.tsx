@@ -11,10 +11,10 @@ import {
 } from "react-icons/fa6";
 import ImpactSummaryCard from "../ImpactSummaryCard";
 import { teamAnalyticsSummary } from "./teamData";
+import { TimeSpan } from "../../../types";
 
-type timeSpan = "Last 7 Days" | "Last Month" | "All Time";
 const TeamAnalytics = () => {
-  const [timeSpan, setTimeSpan] = useState<timeSpan>("Last 7 Days");
+  const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
   return (
     <main>
       <Title Icon={MdBarChart} title="Team Analytics" />
@@ -32,8 +32,8 @@ const TeamAnalytics = () => {
             <DropdownMenu.Portal>
               <DropdownMenu.Content className={styles.DropdownMenuContent}>
                 <DropdownMenu.Item className={styles.DropdownMenuItem}>
-                  <button onClick={() => setTimeSpan("Last 7 Days")}>
-                    Last 7 Days
+                  <button onClick={() => setTimeSpan("Last Week")}>
+                    Last Week
                   </button>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item className={styles.DropdownMenuItem}>
@@ -52,7 +52,11 @@ const TeamAnalytics = () => {
         </div>
       </div>
 
-      <div className={styles.impactSummaryContainer}></div>
+      <div className={styles.impactSummaryContainer}>
+        {teamAnalyticsSummary.map((metric) => (
+          <ImpactSummaryCard metric={metric} timeSpan={timeSpan} />
+        ))}
+      </div>
     </main>
   );
 };
