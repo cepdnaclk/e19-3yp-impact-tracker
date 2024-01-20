@@ -39,7 +39,16 @@ const Sidebar: React.FC = () => {
           />
           <MenuItem
             icon={MdBarChart}
-            name="Analytics"
+            name="Team Analytics"
+            active={activePage === "team-analytics"}
+            onClick={() => {
+              setActivePage("team-analytics");
+              navigate("/team-analytics");
+            }}
+          />
+          <MenuItem
+            icon={MdBarChart}
+            name="Player Analytics"
             active={activePage === "player-analytics"}
             onClick={() => {
               setActivePage("player-analytics");

@@ -48,4 +48,11 @@ export const criticalSessions: {
     average: 25,
     highest: 75,
   },
+  {
+    name: "Sri Lanka vs India",
+    date: "06 Dec 2023",
+    cumulative: 100,
+    average: 25,
+    highest: 30,
+  },
 ];

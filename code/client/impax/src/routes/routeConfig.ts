@@ -9,7 +9,7 @@ import PlayerManagement from "../components/PlayerManagement/PlayerManagement";
 import Profile from "../components/Profile/Profile";
 import TeamCreation from "../components/Profile/TeamCreation";
 import JoinTeam from "../components/Profile/JoinTeam";
-
+import TeamAnalytics from "../components/Analytics/TeamAnalytics/TeamAnalytics";
 interface RouteConfig {
   path: string;
   component: React.ComponentType<any>;
@@ -41,6 +41,10 @@ const routes: RouteConfig[] = [
   {
     path: "/player-analytics",
     component: PlayerAnalytics,
+  },
+  {
+    path: "/team-analytics",
+    component: TeamAnalytics,
   },
   {
     path: "/player-management",

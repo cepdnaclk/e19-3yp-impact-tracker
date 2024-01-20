@@ -61,11 +61,20 @@ export type activePage =
   | "profile"
   | "test"
   | "player-management"
-  | "player-analytics";
+  | "player-analytics"
+  | "team-analytics";
 
+export type sessionToBeUploaded = {
+  session: Session;
+  playerImpactHistory: PlayerImpactHistory;
+};
 
+//Types for analytics
+export type Metric = {
+  title: string;
+  value: string | number;
+  trend?: number;
+  metaUnits?: string;
+};
 
-  export type sessionToBeUploaded = {
-    session: Session;
-    playerImpactHistory: PlayerImpactHistory;
-  }
+export type TimeSpan = "Last 7 Days" | "Last Month" | "All Time";
