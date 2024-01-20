@@ -9,13 +9,17 @@ import { uploadSession } from "./services/httpClient";
 
 function App() {
   MqttClient.getInstance();
-
+  const setIsInternetAvailable = useAppState(
+    (state) => state.setIsInternetAvailable
+  );
   return (
     <HashRouter>
       <Detector
         render={({ online }) => {
-          if (online) uploadSession();
-          useAppState.setState({ isInternetAvailable: online });
+          if (online) {
+            uploadSession();
+          }
+          setIsInternetAvailable(online);
           return (
             <>
               <Sidebar />
