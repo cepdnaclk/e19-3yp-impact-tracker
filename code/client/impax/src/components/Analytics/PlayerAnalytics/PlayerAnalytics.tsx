@@ -2,20 +2,14 @@ import { useState } from "react";
 import Title from "../../Title/Title";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import styles from "./PlayerAnalytics.module.scss";
-import cardStyles from "../ImpactSummaryCard.module.scss";
 import { MdBarChart } from "react-icons/md";
-import {
-  FaArrowTrendDown,
-  FaArrowTrendUp,
-  FaChevronDown,
-} from "react-icons/fa6";
+import { FaChevronDown } from "react-icons/fa6";
 import { data, criticalSessions, data2, criticalSessions2 } from "./playerData";
 import { StackedBarChart } from "./StackedBarChart";
 import CriticalSession from "./CriticalSession";
 import { TimeSpan } from "../../../types";
 import ImpactSummaryCard from "../ImpactSummaryCard";
-import { useQueries, useQuery } from "react-query";
-import { Metric } from "../../../types";
+import { useQuery } from "react-query";
 const PlayerAnalytics = () => {
   const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
 
@@ -44,13 +38,13 @@ const PlayerAnalytics = () => {
     if (timeSpan == "Last Month") return data2;
   }
 
-  async function fetchMetricData() {
-    const response = await fetch("<METRIC_DATA_API_ENDPOINT_URL>"); // Replace <METRIC_DATA_API_ENDPOINT_URL> with the actual URL to fetch metric data from
-    if (!response.ok) {
-      throw new Error("Failed to fetch metric data");
-    }
-    return response.json();
-  }
+  // async function fetchMetricData() {
+  //   const response = await fetch("<METRIC_DATA_API_ENDPOINT_URL>"); // Replace <METRIC_DATA_API_ENDPOINT_URL> with the actual URL to fetch metric data from
+  //   if (!response.ok) {
+  //     throw new Error("Failed to fetch metric data");
+  //   }
+  //   return response.json();
+  // }
 
   async function fetchCriticalSessionsData() {
     // const response = await fetch("<SESSION_DATA_API_ENDPOINT_URL>"); // Replace <SESSION_DATA_API_ENDPOINT_URL> with the actual URL to fetch session data from
