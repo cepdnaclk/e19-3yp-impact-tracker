@@ -2,13 +2,8 @@ import { useState } from "react";
 import Title from "../../Title/Title";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import styles from "./PlayerAnalytics.module.scss";
-import cardStyles from "../ImpactSummaryCard.module.scss";
 import { MdBarChart } from "react-icons/md";
-import {
-  FaArrowTrendDown,
-  FaArrowTrendUp,
-  FaChevronDown,
-} from "react-icons/fa6";
+import { FaChevronDown } from "react-icons/fa6";
 import { data, criticalSessions } from "./playerData";
 import { StackedBarChart } from "./StackedBarChart";
 import CriticalSession from "./CriticalSession";
@@ -22,7 +17,8 @@ const PlayerAnalytics = () => {
       <Title Icon={MdBarChart} title="Player Analytics" />
       <div className={styles.summary}>
         <div className={styles.info}>
-          <h2>Total Impacts: 9820g </h2> <span>0 marked concussion</span>
+          <h2>John Doe's Individual Analytics</h2>{" "}
+          <span>0 marked concussion</span>
         </div>
         <div className={styles.controls}>
           <DropdownMenu.Root>
