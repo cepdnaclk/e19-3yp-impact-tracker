@@ -13,7 +13,7 @@ const Profile = () => {
   const setIsLoggedIn = useSignupState((state) => state.setIsLoggedIn);
   const loginInfo = useLoginState((state) => state.loginInfo);
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
-
+  // TODO: Stay logged in for 90 days and so much more
   return (
     <main>
       <Title Icon={FaRegUserCircle} title="Profile" />
