@@ -1,7 +1,7 @@
 export const data: {
   title: string;
   value: string;
-  trend: number;
+  trend?: number;
   metaUnits?: string;
 }[] = [
   {
@@ -30,7 +30,7 @@ export const data: {
 export const data2: {
   title: string;
   value: string;
-  trend: number;
+  trend?: number;
   metaUnits?: string;
 }[] = [
   {
@@ -43,16 +43,29 @@ export const data2: {
     value: "987",
     trend: 29,
   },
-  {
-    title: "Impact Frequency",
-    value: "899",
-    metaUnits: "/hr",
-    trend: 69,
-  },
+  // {
+  //   title: "Impact Frequency",
+  //   value: "899",
+  //   metaUnits: "/hr",
+  //   trend: 69,
+  // },
   {
     title: "Average Impact",
     value: "43 g",
     trend: 40,
+  },
+  {
+    title: "Highest Impact",
+    value: "70g",
+    trend: 10,
+  },
+  // {
+  //   title: "Concussions",
+  //   value: "1",
+  // },
+  {
+    title: "Dominant Direction",
+    value: "Left",
   },
 ];
 
