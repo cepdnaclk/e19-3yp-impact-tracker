@@ -25,7 +25,10 @@ export async function sendVerificationEmail(
     
     <p>You've been created  the team ${teamName}! Click the following link to verify your email:</p>
     
-    <a href="http://localhost:5000/manager/accept-invitation/token/${invitationToken}">Verify Email Here</a><br><br>
+    <a href="http://localhost:5000/manager/accept-invitation/token/${invitationToken}" 
+    style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: #ffffff; 
+    text-decoration: none; border-radius: 5px;">Verify Email Here</a><br><br>
+    
     <div>
       <img src="cid:Impax" alt="Impax Team" style="width: 100px; height: auto; max-width: 100%;" />
     </div>

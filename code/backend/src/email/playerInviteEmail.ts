@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-export async function sendVerificationEmail(
+export async function sendInvitationEmail(
     firstName: string,
     lastName: string,
     recipientEmail: string,
@@ -21,13 +21,16 @@ export async function sendVerificationEmail(
   const mailOptions = {
     from: "impax.kmksh@gmail.com",
     to: recipientEmail,
-    subject: "Verification Email",
+    subject: "Invitation Email",
     html: `
     <p>Hello ${firstName } ${lastName},</p>
     
-    <p>You've been created  the team ${teamName}! Click the following link to verify your email:</p>
+    <p>You've been invited to join the team ${teamName}! </p>
     
-    <a href="http://localhost:5000/player/accept-invitation/token/${invitationToken}">Verify Email Here</a><br><br>
+    <a href="http://localhost:5000/player/accept-invitation/token/${invitationToken}" 
+    style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: #ffffff; 
+    text-decoration: none; border-radius: 5px;">Accept Invitation</a><br><br>
+    
     <div>
       <img src="cid:Impax" alt="Impax Team" style="width: 100px; height: auto; max-width: 100%;" />
     </div>
