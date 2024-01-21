@@ -40,7 +40,7 @@ void BuddyWIFI::init()
 }
 
 // Initialize Wi-Fi in single mode
-void BuddyWIFI::init(bool (*communicationDashboard)())
+void BuddyWIFI::init(bool (*communicationDashboard)(), void (*turnOffHandler)())
 {
     WiFi.mode(WIFI_STA); // Set Wi-Fi mode to station (client)
 
@@ -53,6 +53,7 @@ void BuddyWIFI::init(bool (*communicationDashboard)())
 
         if (communicationDashboard())
             WiFi.begin(ssid, password);
+        turnOffHandler();
 
         delay(DELAY_WIFI_RECONNECT);
     }

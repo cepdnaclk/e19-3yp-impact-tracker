@@ -24,7 +24,7 @@ public:
 
     void setSsidPassword(const char *, const char *);
     void init();
-    void init(bool (*communicationDashboard)());
+    void init(bool (*communicationDashboard)(), void (*turnOffHandler)());
 
 private:
 };

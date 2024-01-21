@@ -34,4 +34,6 @@ float getBatteryVoltage(); // Get the voltage of the battery
 void batteryInit();
 void led(int);
 
+int wakeup_reason();
+
 #endif

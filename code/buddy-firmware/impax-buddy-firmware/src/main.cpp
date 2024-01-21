@@ -8,6 +8,42 @@ CombinedOutput combinedOutput;
 BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username.c_str(), mqtt_password.c_str(), mqtt_port, CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
 Com com;
 
+/*
+Method to print the reason by which ESP32
+has been awaken from sleep
+*/
+
+bool buddyCheckTurnOnHandle()
+{
+    delay(100);
+
+    int val = digitalRead(GPIO_NUM_32);
+
+    if (val == 1)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+void buddyCheckTurnOffHandle()
+{
+    int val = digitalRead(GPIO_NUM_32);
+
+    if (val == 0)
+    {
+        // set state
+        buddyState = BUDDY_OFF;
+        ledStatus = LED_OFF;
+        led(ledStatus);
+
+        // Go to sleep now
+        Serial.println("Going to sleep now");
+        esp_deep_sleep_start();
+    }
+}
+
 bool communicationDashboardWFIFI()
 {
     if (com.comInit() && com.dataDecode(&ssid, &password, &mqtt_username, &mqtt_password))
@@ -37,7 +73,7 @@ bool communicationDashboard()
         buddyMQTT.setUserName(mqtt_username.c_str());
         buddyMQTT.setPassword(mqtt_password.c_str());
         buddyWIFI.setSsidPassword(ssid.c_str(), password.c_str());
-        buddyWIFI.init(communicationDashboardWFIFI);
+        buddyWIFI.init(communicationDashboardWFIFI, buddyCheckTurnOffHandle);
 
         return true;
     }
@@ -52,7 +88,7 @@ void connect()
         ledStatus = LED_BLINK;
         led(ledStatus);
         buddyWIFI.setSsidPassword(ssid.c_str(), password.c_str());
-        buddyWIFI.init(communicationDashboardWFIFI);
+        buddyWIFI.init(communicationDashboardWFIFI, buddyCheckTurnOffHandle);
     }
 
     if (!buddyMQTT.client.connected())
@@ -61,7 +97,7 @@ void connect()
         led(ledStatus);
         buddyMQTT.setUserName(mqtt_username.c_str());
         buddyMQTT.setPassword(mqtt_password.c_str());
-        buddyMQTT.reconnect(communicationDashboard);
+        buddyMQTT.reconnect(communicationDashboard, buddyCheckTurnOffHandle);
         // buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
     }
 
@@ -109,13 +145,9 @@ void process()
     }
 }
 
-void setup()
+void buddyInit()
 {
-    // serial monitor
-    Serial.begin(BAUD_RATE);
-
     // leds
-    initLED();
     ledStatus = LED_BLINK;
     led(ledStatus);
 
@@ -129,7 +161,7 @@ void setup()
     combinedOutput.init();
 
     buddyWIFI.setSsidPassword(ssid.c_str(), password.c_str());
-    buddyWIFI.init(communicationDashboardWFIFI);
+    buddyWIFI.init(communicationDashboardWFIFI, buddyCheckTurnOffHandle);
 
     Serial.println("Wifi Done");
 
@@ -137,7 +169,7 @@ void setup()
     buddyMQTT.setUserName(mqtt_username.c_str());
     buddyMQTT.setPassword(mqtt_password.c_str());
     buddyMQTT.client.setCallback(callback);
-    buddyMQTT.init(BUDDY_ID, communicationDashboard);
+    buddyMQTT.init(BUDDY_ID, communicationDashboard, buddyCheckTurnOffHandle);
 
     Serial.println("MQTT Done");
 
@@ -152,8 +184,44 @@ void setup()
     ledStatus = LED_ON;
 }
 
+void setup()
+{
+    // serial monitor
+    Serial.begin(BAUD_RATE);
+
+    initLED();
+    ledStatus = LED_OFF;
+    led(ledStatus);
+    // define off button
+    pinMode(GPIO_NUM_32, INPUT);
+
+    esp_sleep_enable_ext0_wakeup(GPIO_NUM_32, 1);
+
+    // Increment boot number and print it every reboot
+    ++bootCount;
+    Serial.print("Boot number: ");
+    Serial.println(bootCount);
+
+    // esp_sleep_enable_ext0_wakeup(GPIO_NUM_32, 1); // 1 = High, 0 = Low
+
+    int wakeUpReason = wakeup_reason();
+
+    if (buddyState == BUDDY_OFF && buddyCheckTurnOnHandle())
+    {
+        buddyInit();
+        buddyState = BUDDY_ON;
+    }
+
+    delay(1000);
+
+    // check if turn off
+    buddyCheckTurnOffHandle();
+}
+
 void loop()
 {
+    buddyCheckTurnOffHandle();
+
     // Create a client connection
     connect();
     communicationDashboard();
@@ -162,5 +230,7 @@ void loop()
     process();
 
     led(ledStatus);
+
     delay(CLK_SPEED);
+    // Serial.println("loop");
 }

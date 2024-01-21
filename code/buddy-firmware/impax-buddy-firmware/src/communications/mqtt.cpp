@@ -14,18 +14,18 @@ BuddyMQTT::BuddyMQTT(const char *mqtt_broker, const char *mqtt_username, const c
 }
 
 // Initialize the BuddyMQTT instance
-void BuddyMQTT::init(String id, bool (*communicationDashboard)())
+void BuddyMQTT::init(String id, bool (*communicationDashboard)(), void (*turnOffHandler)())
 {
     this->id = id;
 
     // Attempt to connect to the MQTT broker
-    reconnect(communicationDashboard);
+    reconnect(communicationDashboard, turnOffHandler);
     // Update MQTT topics based on the device ID
     updateTopics();
 }
 
 // Attempt to reconnect to the MQTT broker
-void BuddyMQTT::reconnect(bool (*communicationDashboard)())
+void BuddyMQTT::reconnect(bool (*communicationDashboard)(), void (*turnOffHandler)())
 {
     // Set MQTT certificates
     setCertificates(CA_cert, ESP_CA_cert, ESP_RSA_key);
@@ -37,6 +37,7 @@ void BuddyMQTT::reconnect(bool (*communicationDashboard)())
     {
         led(LED_BLINK);
         communicationDashboard();
+        turnOffHandler();
         // Generate a client ID based on ESP32 MAC address
         String client_id = "buddy-client-";
         client_id += String(WiFi.macAddress());
