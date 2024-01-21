@@ -106,7 +106,7 @@ const columns: ColumnDef<TeamAnalyticsColumns>[] = [
 const TeamAnalyticsTable: React.FC<{
   teamAnalyticsTableData: TeamAnalyticsColumns[];
 }> = ({ teamAnalyticsTableData }) => {
-  const [data] = React.useState(() => [...teamAnalyticsTableData]);
+  const [data] = React.useState(teamAnalyticsTableData);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
