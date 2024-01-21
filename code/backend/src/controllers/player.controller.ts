@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import PlayerModel from "../db/player.schema";
 import TeamModel from "../db/team.schema";
 import { sendInvitationEmail } from "../email/playerInviteEmail";
+import { sendVerificationEmail } from "../email/playerVerifyEmail";
 import { findSourceMap } from "module";
 import { PlayerInTeamResponse, PlayerRequestBody, PlayerResponse } from "../models/player.model";
 
@@ -56,7 +57,7 @@ class PlayerController {
           invitationToken
         );
 
-        // Send the verification email
+        // Send the invitation email
         await sendInvitationEmail(fullName, newPlayerEmail, invitationToken, teamName!);
         return playerInTeamResponse
       }
@@ -88,15 +89,13 @@ class PlayerController {
   async createPlayer(
     email: string, 
     password: string
-    ): Promise<boolean> {
+    ): Promise<PlayerResponse> {
     try {
       // check if player already has an account
       const exists: boolean = await playerService.checkPlayerExists(email);
 
       if (exists) {
-        // Update the password for an existing player
-        const playerResponse = await playerService.updatePlayerPassword(email, password);
-        return playerResponse;
+        throw new Error(HttpMsg.PLAYER_ALREADY_HAS_ACCOUNT);
 
       } else {
         // Create a new player account
@@ -104,14 +103,16 @@ class PlayerController {
         //   email,
         //   password
         // );
-        const playerResponse = await playerService.createPlayer(email, password);
-        if(playerResponse) {
-          return true;
-        }
+        
+        // Create a player with an invitation token
+        const invitationToken = generateInvitationToken();
+        const playerResponse = await playerService.createPlayer(email, password, invitationToken);
+        // Send the verification email
+        await sendVerificationEmail(email, invitationToken);
+
+        return playerResponse;
         
       }
-
-      return false;
     } catch (error) {
       console.error(error);
       throw error;

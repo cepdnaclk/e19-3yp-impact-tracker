@@ -1,22 +1,31 @@
 class Player {
     public email: string;
+    public invitationToken: string;
+    public isVerified: string;
 
     public constructor(
       email: string,
+      invitationToken: string,
+      isVerified: string,
 
     ) {
         this.email = email;
+        this.invitationToken = invitationToken;
+        this.isVerified = isVerified;
 
     }
   }
   
   class PlayerResponse {
     public email: string;
+    public isVerified: string;
 
     public constructor(
       email: string,
+      isVerified: string,
       ) {
       this.email = email;
+      this.isVerified = isVerified;
     }
   }
   

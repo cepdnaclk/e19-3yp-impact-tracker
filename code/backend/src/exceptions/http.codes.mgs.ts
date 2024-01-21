@@ -29,6 +29,7 @@ enum HttpMsg {
   TEAM_NOT_FOUND = "Team not found",
   MANAGER_DEOS_NOT_EXIST = "Manager does not exist",
   PLAYER_EXIT_ERROR = "Player exited error",
+  PLAYER_ALREADY_HAS_ACCOUNT = "Player already has an account",
   PLAYER_ALREADY_EXISTS_IN_TEAM = "Player already exists in team",
   AUTHENTICATION_TOKEN_NOT_FOUND = "Authorization token not found",
   INVALID_USER = "Invalid user",

@@ -53,10 +53,16 @@ class PlayerService {
     }
 
   }
-  async createPlayer(email: string, password: string): Promise<boolean> {
+  async createPlayer(
+    email: string, 
+    password: string,
+    invitationToken: string
+    ): Promise<PlayerResponse> {
       try {
         const playerInstance = new PlayerModel({
           email: email,
+          invitationToken: invitationToken,
+          isVerified: "Pending",
         });
   
         // Save the player to the database
@@ -69,10 +75,11 @@ class PlayerService {
 
       // Create a PalyerResponse object
       const playerResponse: PlayerResponse = new PlayerResponse(
-        email
+        playerInstance.email,
+        playerInstance.isVerified,
       );
   
-        return !!playerResponse;
+        return playerResponse;
       } catch (error) {
         console.error(error);
         throw new Error("Error adding player");
@@ -103,7 +110,8 @@ class PlayerService {
 
       // Create a ManagerResponse object
       const playerResponse = new PlayerResponse(
-        playerInstance.email
+        playerInstance.email,
+        playerInstance.isVerified,
       );
 
       return playerResponse;

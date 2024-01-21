@@ -1114,13 +1114,9 @@
             "type": "string",
             "example": "example@example.com"
           },
-          "firstName": {
-            "type": "string",
-            "example": "John"
-          },
-          "lastName": {
-            "type": "string",
-            "example": "Doe"
+          "isVerified": {
+            "type": "boolean",
+            "example": "Pending"
           }
         }
       },

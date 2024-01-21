@@ -74,9 +74,9 @@ router.post("/", async (req: Request, res: Response) => {
   try {
     const playerResponse = await playerController.createPlayer( email, password);
     if (playerResponse) {
-      res.send({ message: "Player created successfully"});
+      res.send(playerResponse);
     } else {
-      res.send({ message: "Player created failed" });
+      res.send({ message: "Player create new account failed" });
     }
     
   } catch (err) {
@@ -123,10 +123,26 @@ router.get("/accept-invitation/token/:token", async (req, res) => {
   const token = req.params.token;
   // const player = await PlayerModel.findOne({ invitationToken: token }); 
   const playerInTeam = await PlayerTeamModel.findOne({ invitationToken: token }); 
-  if (playerInTeam && !playerInTeam.isVerified) {
-    // Update manager status
+  if (playerInTeam && playerInTeam.isVerified == "Pending") {
+    // Update player status
     playerInTeam.isVerified = "Accepted";
     await playerInTeam.save();
+    res.send("Invitation accepted successfully!");
+  }
+  else{
+    res.status(400).send("Invalid or expired token.");
+  }
+});
+
+// Endpoint verify email
+router.get("/verify-email/token/:token", async (req, res) => {
+  const token = req.params.token;
+  const player = await PlayerModel.findOne({ invitationToken: token }); 
+  // const playerInTeam = await PlayerTeamModel.findOne({ invitationToken: token }); 
+  if (player && player.isVerified == "Pending") {
+    // Update player status
+    player.isVerified = "Accepted";
+    await player.save();
     res.send("Invitation accepted successfully!");
   }
   else{
