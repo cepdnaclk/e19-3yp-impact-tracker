@@ -86,7 +86,7 @@ const routes: RouteConfig[] = [
     component: TeamExists,
   },
   {
-    path: "/signup/manager/jointean",
+    path: "/signup/manager/jointeam",
     component: JoinTeam,
   },
 ];

@@ -1,9 +1,9 @@
-import { sendInvitationEmail } from "../email/managerInviteEmail";
 import { Manager, ManagerResponse } from "../models/manager.model";
 import TeamModel from "../db/team.schema";
 import managerService from "../services/manager.service";
 import managersInTeamService from "../services/managers.in.team.service";
 import { sendVerificationEmail } from "../email/managerVerifyEmail";
+import { sendInvitationEmail } from "../email/managerInviteEmail";
 import { v4 as uuidv4 } from "uuid";
 
 class ManagerController {
@@ -14,8 +14,8 @@ class ManagerController {
     try {
       // Create a manager with an invitation token
       const invitationToken = generateInvitationToken();
-      manager.acceptInvitation = false;
       manager.invitationToken = invitationToken;
+      manager.isVerified = false; // Initially set to false
 
       // const teamName = teamResponse.teamName;
 
@@ -109,23 +109,33 @@ class ManagerController {
       //   acceptInvitation: false, // Initially set to false
       // };
 
-      const createdManagerResponse =
-        await managersInTeamService.addManagerToTeam(newManagerEmail, teamId);
+      const managerTeamAdded = await managersInTeamService.addManagerToTeam(
+        newManagerEmail,
+        teamId
+      );
+
       const teamInstance = await TeamModel.findOne({ teamId });
       const teamName = teamInstance?.teamName; // Add null check using optional chaining operator
 
       // Send an invitation email
       await sendInvitationEmail(newManagerEmail, invitationToken, teamName!);
 
-      // Add the new manager to the team
-      const managerTeamAdded = await managersInTeamService.addManagerToTeam(
+      return managerTeamAdded;
+    } catch (error) {
+      console.error(error);
+
+      const exist = await managersInTeamService.checkManagerExistsInTeamDetails(
         newManagerEmail,
         teamId
       );
 
-      return managerTeamAdded;
-    } catch (error) {
-      console.error(error);
+      if (exist) {
+        await managersInTeamService.deleteManagerFromTeamDetails(
+          newManagerEmail,
+          teamId
+        );
+      }
+
       throw error;
     }
     return false;

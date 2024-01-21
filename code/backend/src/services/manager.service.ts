@@ -36,8 +36,8 @@ class ManagerService {
         firstName: managerRequestBody.firstName,
         lastName: managerRequestBody.lastName,
         email: managerRequestBody.email,
-        acceptInvitation: managerRequestBody.acceptInvitation,
         invitationToken: managerRequestBody.invitationToken,
+        isVerified: managerRequestBody.isVerified,
       });
 
       // Save the manager to the database
@@ -78,6 +78,7 @@ class ManagerService {
         firstName: managerInstance.firstName,
         lastName: managerInstance.lastName,
         email: managerInstance.email,
+        isVerified: managerInstance.isVerified,
       });
 
       return managerResponse;

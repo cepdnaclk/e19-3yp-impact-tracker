@@ -10,7 +10,7 @@
 #define LED_BATTERY_LOW 5
 #define LED_ON 2
 #define LED_ON_PIN 2
-#define LED_WIFI_PIN 4
+#define LED_WIFI_PIN 0
 #define LED_BLINK 1
 #define LED_OFF 0
 #define MOVING_AVERAGE_SIZE 6
@@ -33,5 +33,7 @@ int getBatteryStatus();    // Get battery status based on voltage
 float getBatteryVoltage(); // Get the voltage of the battery
 void batteryInit();
 void led(int);
+
+int wakeup_reason();
 
 #endif
