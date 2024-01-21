@@ -9,20 +9,19 @@ import PlayerModel from "../db/player.schema";
 import TeamModel from "../db/team.schema";
 import { sendInvitationEmail } from "../email/playerInviteEmail";
 import { findSourceMap } from "module";
-import { PlayerRequestBody, PlayerResponse } from "../models/player.model";
+import { PlayerInTeamResponse, PlayerRequestBody, PlayerResponse } from "../models/player.model";
 
 class PlayerController {
   
   // add player to the player team collection
   async addNewPlayer(
     jersyId: string,
-    firstName: string,
-    lastName: string,
+    fullName: string,
     newPlayerEmail: string,
     teamId: string,
     managerEmail: string,
 
-  ): Promise<boolean> {
+  ): Promise<PlayerInTeamResponse> {
     try {
       // check the team exist
       const teamIdEmailExistsResponse: TeamIdEmailExistsResponse = await teamService.checkTeamEmailExist(teamId,managerEmail);
@@ -32,18 +31,7 @@ class PlayerController {
       if (!teamIdEmailExistsResponse.managerExists) {
         throw new Error(HttpMsg.MANAGER_DEOS_NOT_EXIST);
       }
-
-      // // check the manager exits in that team
-      // const managerExists = await managerService.checkManagerExistsInTeam(
-      //   managerEmail,
-      //   teamId
-      // );
-
-      // if (!managerExists) {
-      //   throw new Error(HttpMsg.MANAGER_DEOS_NOT_EXIST);
-      // }
-
-      // check player exist in that team
+      // check if player already exists in the team
       const playerExistsInTeam = await playersInTeamService.checkPlayerExistsInTeam(
         newPlayerEmail,
         teamId,
@@ -60,47 +48,44 @@ class PlayerController {
         const teamInstance = await TeamModel.findOne({ teamId });
         const teamName = teamInstance?.teamName; // Add null check using optional chaining operator
 
-        await playersInTeamService.addPlayerToTeam(
+        const playerInTeamResponse = await playersInTeamService.addPlayerToTeam(
           newPlayerEmail, 
           teamId,
           jersyId,
-          firstName,
-          lastName,
+          fullName,
           invitationToken
         );
 
         // Send the verification email
-        await sendInvitationEmail(firstName, lastName, newPlayerEmail, invitationToken, teamName!);
+        await sendInvitationEmail(fullName, newPlayerEmail, invitationToken, teamName!);
+        return playerInTeamResponse
       }
 
       
-      // check if new player already has an account 
-      //TODO: Remove if user will not be able to create an account within 30 days 
-      const playerExists = await playerService.checkPlayerExists(newPlayerEmail);
+      // // check if new player already has an account 
+      // //TODO: Remove if user will not be able to create an account within 30 days 
+      // const playerExists = await playerService.checkPlayerExists(newPlayerEmail);
 
-      // If player not exist in the player collection => added to the player collection
-      if (!playerExists) {
+      // // If player not exist in the player collection => added to the player collection
+      // if (!playerExists) {
 
-        await playerService.addPlayer(
-          firstName,
-          lastName,
-          newPlayerEmail
-        );
-      }
+      //   await playerService.addPlayer(
+      //     firstName,
+      //     lastName,
+      //     newPlayerEmail
+      //   );
+      // }
 
 
-      return true;
     } catch (error) {
       console.error(error);
       throw error;
     }
-    return false;
+
   }
 
   // create player 
   async createPlayer(
-    firstName: string,
-    lastName: string,
     email: string, 
     password: string
     ): Promise<boolean> {
@@ -115,13 +100,11 @@ class PlayerController {
 
       } else {
         // Create a new player account
-        const playerRequestBody: PlayerRequestBody  = new PlayerRequestBody(
-          firstName,
-          lastName,
-          email,
-          password
-        );
-        const playerResponse = await playerService.createPlayer(playerRequestBody);
+        // const playerRequestBody: PlayerRequestBody  = new PlayerRequestBody(
+        //   email,
+        //   password
+        // );
+        const playerResponse = await playerService.createPlayer(email, password);
         if(playerResponse) {
           return true;
         }

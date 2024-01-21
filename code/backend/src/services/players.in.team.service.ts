@@ -1,5 +1,6 @@
 import PlayerModel from "../db/player.schema";
 import PlayerTeamModel from "../db/players.in.team.schema";
+import { PlayerInTeamResponse } from "../models/player.model";
 
 class PlayerInTeamService {
   // create team player instance
@@ -7,13 +8,12 @@ class PlayerInTeamService {
     playerEmail: string,
     teamId: string,
     jersyId: string,
-    firstName: string,
-    lastName: string,
+    fullName: string,
     invitationToken: string
 
-  ): Promise<boolean> {
+  ): Promise<PlayerInTeamResponse> {
     try {
-      // check entry exists
+      // check entry exists in player in teams
       const playerTeam = await PlayerTeamModel.findOne({
         playerEmail: playerEmail,
         teamId: teamId,
@@ -27,22 +27,27 @@ class PlayerInTeamService {
         playerEmail: playerEmail,
         teamId: teamId,
         jesryId: jersyId,
-        firstName: firstName,
-        lastName: lastName,
+        fullName: fullName,
         invitationToken: invitationToken,
-        isVerified: false,
+        isVerified: "Pending",
       });
 
 
       // Save the manager to the database
       const savedManager = await playerTeamInstance.save();
+      const playerInTeamResponse = new PlayerInTeamResponse(
+        playerEmail,
+        teamId,
+        jersyId,
+        fullName,
+        "Pending",
+      );
 
-      return true;
+      return playerInTeamResponse;
     } catch (error) {
       console.error(error);
       throw error;
     }
-    return false;
   }
 
   // async addPlayer(

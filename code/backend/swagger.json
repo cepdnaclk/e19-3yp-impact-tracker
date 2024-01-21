@@ -982,20 +982,20 @@
         "type": "object",
         "properties": {
           
-          "firstName": {
+          "jersyID": {
             "type": "string"
           },
-          "lastName": {
+          "fullName": {
             "type": "string"
           },
+          
           "playerEmail": {
             "type": "string"
           }
         },
         "example": {
           "jersyId": "exampleJersyId",
-          "firstName": "John",
-          "lastName": "Doe",
+          "fullName": "John Doe",
           "playerEmail": "example@example.com"
         }
       },
@@ -1071,12 +1071,6 @@
       "PlayerCreateRequest": {
         "type": "object",
         "properties": {
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
           "email": {
             "type": "string"
           },
@@ -1085,8 +1079,6 @@
           }
         },
         "example": {
-          "firstName": "John",
-          "lastName": "Doe",
           "email": "example@example.com",
           "password": "securePassword"
         }

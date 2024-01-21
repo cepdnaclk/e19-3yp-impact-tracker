@@ -3,22 +3,22 @@ import authService from "./auth.service";
 import { PlayerRequestBody, PlayerResponse } from "../models/player.model";
 
 class PlayerService {
-  async checkPlayerExistsInTeam(
-    managerEmail: string,
-    teamId: string
-  ): Promise<boolean> {
-    try {
-      const player = await PlayerModel.findOne({
-        email: managerEmail,
-        teamId: teamId,
-      });
-      const playerExists = !!player;
-      return playerExists;
-    } catch (error) {
-      console.error(error);
-      throw new Error("Error checking manager existence");
-    }
-  }
+  // async checkPlayerExistsInTeam(
+  //   managerEmail: string,
+  //   teamId: string
+  // ): Promise<boolean> {
+  //   try {
+  //     const player = await PlayerModel.findOne({
+  //       email: managerEmail,
+  //       teamId: teamId,
+  //     });
+  //     const playerExists = !!player;
+  //     return playerExists;
+  //   } catch (error) {
+  //     console.error(error);
+  //     throw new Error("Error checking manager existence");
+  //   }
+  // }
 
   async checkPlayerExists(email: string): Promise<boolean> {
     try {
@@ -53,31 +53,26 @@ class PlayerService {
     }
 
   }
-  async createPlayer(playerRequestBody: PlayerRequestBody) {
+  async createPlayer(email: string, password: string): Promise<boolean> {
       try {
         const playerInstance = new PlayerModel({
-          firstName: playerRequestBody.firstName,
-          lastName: playerRequestBody.lastName,
-          email: playerRequestBody.email,
-          password: playerRequestBody.password,
+          email: email,
         });
   
         // Save the player to the database
         const savedPlayer = await playerInstance.save();
 
         await authService.createAuth(
-          playerRequestBody.email,
-          playerRequestBody.password,
+          email,
+          password,
         );
 
       // Create a PalyerResponse object
       const playerResponse: PlayerResponse = new PlayerResponse(
-        playerRequestBody.firstName,
-        playerRequestBody.lastName,
-        playerRequestBody.email
+        email
       );
   
-        return playerResponse;
+        return !!playerResponse;
       } catch (error) {
         console.error(error);
         throw new Error("Error adding player");
@@ -108,8 +103,6 @@ class PlayerService {
 
       // Create a ManagerResponse object
       const playerResponse = new PlayerResponse(
-        playerInstance.firstName,
-        playerInstance.lastName,
         playerInstance.email
       );
 

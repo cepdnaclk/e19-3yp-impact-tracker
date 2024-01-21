@@ -7,7 +7,7 @@ interface PlayerTeamDocument extends Document {
   firstName: string;
   lastName: string;
   invitationToken: string;
-  isVerified: boolean;
+  isVerified: string;
 }
 
 const playerTeamSchema = new Schema({
@@ -17,7 +17,7 @@ const playerTeamSchema = new Schema({
   firstName: String,
   lastName: String,
   invitationToken: String, 
-  isVerified: Boolean,
+  isVerified: String,
 
 });
 

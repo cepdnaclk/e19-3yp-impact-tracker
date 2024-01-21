@@ -1,8 +1,7 @@
 import nodemailer from "nodemailer";
 
 export async function sendInvitationEmail(
-    firstName: string,
-    lastName: string,
+    fullName: string,
     recipientEmail: string,
     invitationToken: string,
     teamName: string
@@ -23,7 +22,7 @@ export async function sendInvitationEmail(
     to: recipientEmail,
     subject: "Invitation Email",
     html: `
-    <p>Hello ${firstName } ${lastName},</p>
+    <p>Hello ${fullName},</p>
     
     <p>You've been invited to join the team ${teamName}! </p>
     

@@ -9,11 +9,10 @@ import PlayerTeamModel from "../db/players.in.team.schema";
 // Create an instance of the Express Router
 const router = Router();
 
-// add plpayer to the player team collection
+// add plpayer to the player team collection by Manager
 router.post("/add", async (req: Request, res: Response) => {
   const jersyId = req.body.jersyId;
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
+  const fullName = req.body.fullName;
   const newPlayerEmail = req.body.playerEmail;
   const teamId = req.body.teamId;
   const managerEmail = req.body.userName;
@@ -32,20 +31,15 @@ router.post("/add", async (req: Request, res: Response) => {
   }
 
   try {
-    const state = await playerController.addNewPlayer(
+    const playerInTeamResponse = await playerController.addNewPlayer(
       jersyId,
-      firstName,
-      lastName,
+      fullName,
       newPlayerEmail,
       teamId,
       managerEmail,
     );
+    res.send(playerInTeamResponse);
 
-    if (state == true) {
-      res.send({ message: "Player added successfully" });
-    } else {
-      res.send({ message: "Player added failed" });
-    }
   } catch (err) {
     if (err instanceof Error) {
       // If 'err' is an instance of Error, send the error message
@@ -60,8 +54,6 @@ router.post("/add", async (req: Request, res: Response) => {
 // Endpoint to create a new player
 router.post("/", async (req: Request, res: Response) => {
   // Extract player details from the request body
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
   const email = req.body.email;
   const password = req.body.password;
 
@@ -80,7 +72,7 @@ router.post("/", async (req: Request, res: Response) => {
   }
 
   try {
-    const playerResponse = await playerController.createPlayer(firstName, lastName, email, password);
+    const playerResponse = await playerController.createPlayer( email, password);
     if (playerResponse) {
       res.send({ message: "Player created successfully"});
     } else {
@@ -98,7 +90,7 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-//Endpoint to get player details
+// Endpoint to get player details
 router.get("/", async (req: Request, res: Response) => {
   if (!req.body.userName) {
     console.log(HttpMsg.BAD_REQUEST);
@@ -123,6 +115,9 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+// Endpoint to update player details
+
+
 // Endpoint Accept Invitation
 router.get("/accept-invitation/token/:token", async (req, res) => {
   const token = req.params.token;
@@ -130,7 +125,7 @@ router.get("/accept-invitation/token/:token", async (req, res) => {
   const playerInTeam = await PlayerTeamModel.findOne({ invitationToken: token }); 
   if (playerInTeam && !playerInTeam.isVerified) {
     // Update manager status
-    playerInTeam.isVerified = true;
+    playerInTeam.isVerified = "Accepted";
     await playerInTeam.save();
     res.send("Invitation accepted successfully!");
   }
