@@ -7,12 +7,25 @@ import { FaChevronDown } from "react-icons/fa6";
 import { data, criticalSessions, data2, criticalSessions2 } from "./playerData";
 import { StackedBarChart } from "./StackedBarChart";
 import CriticalSession from "./CriticalSession";
-import { TimeSpan } from "../../../types";
+import { HistogramData, TimeSpan } from "../../../types";
 import ImpactSummaryCard from "../ImpactSummaryCard";
 import { useQuery } from "react-query";
 const PlayerAnalytics = () => {
   const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
 
+  const sampleObject: HistogramData = {
+    left: [10, 30, 50, 70, 90, 110, 130, 150, 170, 190],
+    right: [20, 40, 60, 80, 100, 120, 140, 160, 180, 200],
+    front: [15, 35, 55, 75, 95, 115, 135, 155, 175, 195],
+    back: [25, 45, 65, 85, 105, 125, 145, 165, 185, 205],
+  };
+
+  const sampleObject2: HistogramData = {
+    left: [5, 12, 8, 20, 15, 25, 18, 30, 22, 10],
+    right: [14, 28, 7, 19, 32, 11, 24, 16, 9, 26],
+    front: [21, 13, 27, 6, 17, 23, 29, 31, 4, 3],
+    back: [2, 1, 34, 36, 33, 37, 38, 39, 40, 42],
+  };
   const { data: impactSummary } = useQuery(
     ["impactSummaryData", { timeSpan }],
     fetchImpactSummary
@@ -45,19 +58,6 @@ const PlayerAnalytics = () => {
     //   throw new Error("Failed to fetch metric data");
     // }
     // return response.json();
-    const sampleObject = {
-      left: [10, 30, 50, 70, 90, 110, 130, 150, 170, 190],
-      right: [20, 40, 60, 80, 100, 120, 140, 160, 180, 200],
-      front: [15, 35, 55, 75, 95, 115, 135, 155, 175, 195],
-      back: [25, 45, 65, 85, 105, 125, 145, 165, 185, 205],
-    };
-
-    const sampleObject2 = {
-      left: [5, 12, 8, 20, 15, 25, 18, 30, 22, 10],
-      right: [14, 28, 7, 19, 32, 11, 24, 16, 9, 26],
-      front: [21, 13, 27, 6, 17, 23, 29, 31, 4, 3],
-      back: [2, 1, 34, 36, 33, 37, 38, 39, 40, 42],
-    };
 
     if (timeSpan == "Last Week") return sampleObject;
     if (timeSpan == "Last Month") return sampleObject2;
@@ -120,7 +120,7 @@ const PlayerAnalytics = () => {
       <div className={styles.chartAndRecentSessionsContainer}>
         <div className={styles.chartContainer}>
           <h2>Impact Histogram</h2>
-          <StackedBarChart />
+          <StackedBarChart {...sampleObject} />
         </div>
         <div className={styles.criticalSessions}>
           <h2>Critical Sessions</h2>

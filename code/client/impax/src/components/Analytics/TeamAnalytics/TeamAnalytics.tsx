@@ -5,7 +5,7 @@ import styles from "./TeamAnalytics.module.scss";
 import { MdBarChart } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa6";
 import ImpactSummaryCard from "../ImpactSummaryCard";
-import { teamAnalyticsSummary } from "./teamData";
+import { teamAnalyticsSummary, teamAnalyticsTableData } from "./teamData";
 import { TimeSpan } from "../../../types";
 import TeamAnalyticsTable from "./TeamAnalyticsTable";
 
@@ -55,7 +55,7 @@ const TeamAnalytics = () => {
       </div>
 
       <div className={styles.tableContainer}>
-        <TeamAnalyticsTable />
+        <TeamAnalyticsTable teamAnalyticsTableData={teamAnalyticsTableData} />
       </div>
     </main>
   );
