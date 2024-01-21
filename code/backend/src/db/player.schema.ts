@@ -4,7 +4,6 @@ interface PlayerDocument extends Document {
   firstName: string;
   lastName: string;
   email: string;
-
 }
 
 const playerSchema = new Schema({

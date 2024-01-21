@@ -98,6 +98,31 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
+//Endpoint to get player details
+router.get("/", async (req: Request, res: Response) => {
+  if (!req.body.userName) {
+    console.log(HttpMsg.BAD_REQUEST);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    return;
+  }
+  try {
+    // Get Player details
+    const playerResponse = await playerController.getPlayer(
+      req.body.userName
+    );
+
+    res.send(playerResponse);
+  } catch (err) {
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
+  }
+});
+
 // Endpoint Accept Invitation
 router.get("/accept-invitation/token/:token", async (req, res) => {
   const token = req.params.token;

@@ -136,7 +136,21 @@ class PlayerController {
    
   }
 
-
+  //get player details
+  async getPlayer(
+    playerEmail: string
+  ): Promise<PlayerResponse> {
+    try {
+      const playerResponse = await playerService.getPlayer(
+        playerEmail
+      );
+      return playerResponse;
+    } catch (error) {
+      console.error(error);
+      // Handle the error, either by returning a default value or throwing an error
+      throw error;
+    }
+  }
   // player exists
   async checkPlayerExists(email: string): Promise<boolean> {
     try {

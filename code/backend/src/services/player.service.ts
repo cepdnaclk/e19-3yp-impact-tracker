@@ -72,7 +72,9 @@ class PlayerService {
 
       // Create a PalyerResponse object
       const playerResponse: PlayerResponse = new PlayerResponse(
-        playerRequestBody
+        playerRequestBody.firstName,
+        playerRequestBody.lastName,
+        playerRequestBody.email
       );
   
         return playerResponse;
@@ -93,7 +95,30 @@ class PlayerService {
         return playerResponse;
       }
       return false;
+  }
+  async getPlayer(email: string): Promise<PlayerResponse> {
+    try {
+      // Get the player details
+      const playerInstance = await PlayerModel.findOne({ email });
+
+      // Check if playerInstance is null
+      if (!playerInstance) {
+        throw new Error("Player not found");
+      }
+
+      // Create a ManagerResponse object
+      const playerResponse = new PlayerResponse(
+        playerInstance.firstName,
+        playerInstance.lastName,
+        playerInstance.email
+      );
+
+      return playerResponse;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error getting manager details");
     }
+  }
 }
 
 export default new PlayerService();
