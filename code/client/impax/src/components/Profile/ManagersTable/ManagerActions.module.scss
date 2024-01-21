@@ -1,0 +1,21 @@
+@use "../../../variables.scss" as *;
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1em;
+  button {
+    font-size: 0.9em;
+  }
+
+  button:last-child {
+    .icon {
+      font-size: 0.8em;
+    }
+  }
+}
+
+.editManagerForm {
+  @include modalInnerForm;
+}
