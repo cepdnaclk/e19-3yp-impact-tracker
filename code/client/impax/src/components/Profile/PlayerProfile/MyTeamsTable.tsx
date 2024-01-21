@@ -19,7 +19,7 @@ import TeamActions from "./TeamsActions";
 const columns: ColumnDef<MyTeam>[] = [
   {
     accessorKey: "team_id",
-    size: 4,
+    size: 60,
     id: "team_id",
     header: "Team ID",
   },
@@ -28,7 +28,7 @@ const columns: ColumnDef<MyTeam>[] = [
     accessorKey: "team_name",
     header: "Team Name",
     id: "team_name",
-    minSize: 120,
+    size: 80,
   },
 
   {
@@ -42,7 +42,7 @@ const columns: ColumnDef<MyTeam>[] = [
     accessorKey: "edit",
     header: "",
     id: "edit",
-    maxSize: 10,
+    size: 20,
     cell: ({ row }) => (
       <TeamActions
         team_id={row.getValue("team_id")}
@@ -77,7 +77,12 @@ const MyTeamsTable = () => {
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <th key={header.id}>
+              <th
+                key={header.id}
+                style={{
+                  width: header.column.getSize(),
+                }}
+              >
                 {header.isPlaceholder
                   ? null
                   : flexRender(
@@ -93,7 +98,12 @@ const MyTeamsTable = () => {
         {table.getRowModel().rows.map((row) => (
           <tr key={row.id}>
             {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>
+              <td
+                key={cell.id}
+                style={{
+                  width: cell.column.getSize(),
+                }}
+              >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>
             ))}

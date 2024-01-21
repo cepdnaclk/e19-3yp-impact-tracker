@@ -41,7 +41,7 @@ const columns: ColumnDef<TeamAnalyticsColumns>[] = [
     accessorKey: "name",
     header: "Name",
     id: "name",
-    size: 10,
+    size: 80,
   },
 
   {
@@ -130,6 +130,9 @@ const TeamAnalyticsTable: React.FC<{
     []
   );
   const table = useReactTable({
+    defaultColumn: {
+      size: 20,
+    },
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -143,7 +146,7 @@ const TeamAnalyticsTable: React.FC<{
     },
   });
   return (
-    <table className={styles.playersTable}>
+    <table className={styles.analyticsTable}>
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>

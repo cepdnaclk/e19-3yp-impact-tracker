@@ -21,7 +21,7 @@ const columns: ColumnDef<Manager>[] = [
   {
     //TODO:Until verified manager will not have a name
     accessorKey: "name",
-    minSize: 120,
+    size: 100,
     header: ({ column }) => {
       return (
         <button
@@ -40,7 +40,7 @@ const columns: ColumnDef<Manager>[] = [
     accessorKey: "email",
     header: "Email",
     id: "email",
-    size: 20,
+    size: 100,
   },
 
   {
@@ -54,7 +54,7 @@ const columns: ColumnDef<Manager>[] = [
     accessorKey: "edit",
     header: "",
     id: "edit",
-    maxSize: 10,
+    size: 3,
     cell: ({ row }) => (
       <ManagerActions
         name={row.getValue("name")}
@@ -70,6 +70,9 @@ const ManagersTable = () => {
     []
   );
   const table = useReactTable({
+    defaultColumn: {
+      size: 20,
+    },
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -88,7 +91,7 @@ const ManagersTable = () => {
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <th key={header.id}>
+              <th key={header.id} style={{ width: header.column.getSize() }}>
                 {header.isPlaceholder
                   ? null
                   : flexRender(
@@ -104,7 +107,12 @@ const ManagersTable = () => {
         {table.getRowModel().rows.map((row) => (
           <tr key={row.id}>
             {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>
+              <td
+                key={cell.id}
+                style={{
+                  width: cell.column.getSize(),
+                }}
+              >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>
             ))}
