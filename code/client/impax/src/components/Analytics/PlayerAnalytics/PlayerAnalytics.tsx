@@ -120,7 +120,7 @@ const PlayerAnalytics = () => {
       <div className={styles.chartAndRecentSessionsContainer}>
         <div className={styles.chartContainer}>
           <h2>Impact Histogram</h2>
-          <StackedBarChart {...sampleObject} />
+          <StackedBarChart {...metricData} />
         </div>
         <div className={styles.criticalSessions}>
           <h2>Critical Sessions</h2>
