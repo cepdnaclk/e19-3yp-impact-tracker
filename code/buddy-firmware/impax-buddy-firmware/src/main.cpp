@@ -8,11 +8,6 @@ CombinedOutput combinedOutput;
 BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username.c_str(), mqtt_password.c_str(), mqtt_port, CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
 Com com;
 
-/*
-Method to print the reason by which ESP32
-has been awaken from sleep
-*/
-
 bool buddyCheckTurnOnHandle()
 {
     delay(100);
@@ -220,6 +215,7 @@ void setup()
 
 void loop()
 {
+    // check if turn off
     buddyCheckTurnOffHandle();
 
     // Create a client connection

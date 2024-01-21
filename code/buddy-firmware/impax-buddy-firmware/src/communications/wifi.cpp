@@ -53,6 +53,8 @@ void BuddyWIFI::init(bool (*communicationDashboard)(), void (*turnOffHandler)())
 
         if (communicationDashboard())
             WiFi.begin(ssid, password);
+
+        // check if turn off
         turnOffHandler();
 
         delay(DELAY_WIFI_RECONNECT);

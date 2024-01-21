@@ -37,6 +37,7 @@ void BuddyMQTT::reconnect(bool (*communicationDashboard)(), void (*turnOffHandle
     {
         led(LED_BLINK);
         communicationDashboard();
+        // check if turn off
         turnOffHandler();
         // Generate a client ID based on ESP32 MAC address
         String client_id = "buddy-client-";
