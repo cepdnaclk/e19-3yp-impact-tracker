@@ -13,23 +13,26 @@ import {
 } from "./teamData";
 import { Metric, TeamAnalyticsColumns, TimeSpan } from "../../../types";
 import TeamAnalyticsTable from "./TeamAnalyticsTable";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const TeamAnalytics = () => {
   const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Month");
 
-  const { data: impactSummary } = useQuery(
-    ["impactSummaryData", { timeSpan }],
-    fetchImpactSummary
-  );
+  const { data: impactSummaryTeam } = useQuery({
+    queryFn: () => fetchImpactSummaryTeam(),
+    queryKey: ["impactSummaryTeamData", { timeSpan }],
+  });
 
   const {
     data: tableData,
     // isLoading: isMetricDataLoading,
     // isError: isMetricDataError,
-  } = useQuery(["tableData", { timeSpan }], fetchTableData);
+  } = useQuery({
+    queryFn: () => fetchTableData(),
+    queryKey: ["tableData", { timeSpan }],
+  });
   console.log(tableData);
-  async function fetchImpactSummary(): Promise<Metric[]> {
+  async function fetchImpactSummaryTeam(): Promise<Metric[]> {
     // const response = await fetch("<PLAYER_DATA_API_ENDPOINT_URL>"); // Replace <PLAYER_DATA_API_ENDPOINT_URL> with the actual URL to fetch player data from
     // if (!response.ok) {
     //   throw new Error("Failed to fetch player data");
@@ -88,7 +91,7 @@ const TeamAnalytics = () => {
       </div>
 
       <div className={styles.impactSummaryContainer}>
-        {impactSummary?.map((metric) => (
+        {impactSummaryTeam?.map((metric) => (
           <ImpactSummaryCard
             metric={metric}
             timeSpan={timeSpan}
