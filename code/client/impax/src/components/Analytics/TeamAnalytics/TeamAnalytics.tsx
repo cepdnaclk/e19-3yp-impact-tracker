@@ -25,13 +25,12 @@ const TeamAnalytics = () => {
 
   const {
     data: tableData,
-    // isLoading: isMetricDataLoading,
     // isError: isMetricDataError,
   } = useQuery({
     queryFn: () => fetchTableData(),
     queryKey: ["tableData", { timeSpan }],
   });
-  console.log(tableData);
+
   async function fetchImpactSummaryTeam(): Promise<Metric[]> {
     // const response = await fetch("<PLAYER_DATA_API_ENDPOINT_URL>"); // Replace <PLAYER_DATA_API_ENDPOINT_URL> with the actual URL to fetch player data from
     // if (!response.ok) {
@@ -58,7 +57,7 @@ const TeamAnalytics = () => {
       <Title Icon={MdBarChart} title="Team Analytics" />
       <div className={styles.summary}>
         <div className={styles.info}>
-          <h2>Total Impacts: 9820g </h2> <span>0 marked concussion</span>
+          <h2>{timeSpan} </h2> <span>{tableData && tableData[0].name}</span>
         </div>
         <div className={styles.controls}>
           <DropdownMenu.Root>
@@ -89,7 +88,6 @@ const TeamAnalytics = () => {
           </DropdownMenu.Root>
         </div>
       </div>
-
       <div className={styles.impactSummaryContainer}>
         {impactSummaryTeam?.map((metric) => (
           <ImpactSummaryCard
@@ -101,10 +99,11 @@ const TeamAnalytics = () => {
       </div>
       {/* TODO: table render issue */}
       <div className={styles.tableContainer}>
-        {tableData ? (
-          <TeamAnalyticsTable teamAnalyticsTableData={tableData} />
-        ) : (
-          <div>No Data is available</div>
+        {tableData && (
+          <TeamAnalyticsTable
+            teamAnalyticsTableData={tableData}
+            key={Date.now()}
+          />
         )}
       </div>
     </main>
