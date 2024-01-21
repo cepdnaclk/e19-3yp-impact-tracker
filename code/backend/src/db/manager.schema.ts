@@ -5,6 +5,8 @@ interface ManagerDocument extends Document {
   firstName: string;
   lastName: string;
   email: string;
+  invitationToken: string;
+  isVerified: boolean;
 }
 
 const managerSchema = new Schema({
@@ -12,6 +14,8 @@ const managerSchema = new Schema({
   firstName: String,
   lastName: String,
   email: String,
+  invitationToken: String,
+  isVerified: Boolean,
 });
 
 const ManagerModel = mongoose.model<ManagerDocument>("Manager", managerSchema);

@@ -12,8 +12,8 @@ class Manager {
   public lastName: string;
   public email: string;
   public password: string;
-  public acceptInvitation: boolean;
   public invitationToken: string;
+  public isVerified: boolean;
 
   public constructor(
     teamId: string,
@@ -21,16 +21,16 @@ class Manager {
     lastName: string,
     email: string,
     password: string,
-    acceptInvitation: boolean,
-    invitationToken: string
+    invitationToken: string,
+    isVerified: boolean
   ) {
     this.teamId = teamId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.password = password;
-    this.acceptInvitation = acceptInvitation;
     this.invitationToken = invitationToken;
+    this.isVerified = isVerified;
   }
 }
 
@@ -39,12 +39,14 @@ class ManagerResponse {
   public firstName: string;
   public lastName: string;
   public email: string;
+  public isVerified: boolean;
 
   public constructor(manager: ManagerResponse) {
     this.teamId = manager.teamId;
     this.firstName = manager.firstName;
     this.lastName = manager.lastName;
     this.email = manager.email;
+    this.isVerified = manager.isVerified;
   }
 }
 
@@ -54,8 +56,8 @@ class ManagerRequestBody {
   public lastName: string;
   public email: string;
   public password: string;
-  public acceptInvitation: boolean;
   public invitationToken: string;
+  public isVerified: boolean;
 
   public constructor(
     teamId: string,
@@ -63,16 +65,16 @@ class ManagerRequestBody {
     lastName: string,
     email: string,
     password: string,
-    acceptInvitation: boolean,
-    invitationToken: string
+    invitationToken: string,
+    isVerified: boolean
   ) {
     this.teamId = teamId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.password = password;
-    this.acceptInvitation = acceptInvitation;
     this.invitationToken = invitationToken;
+    this.isVerified = isVerified;
   }
 }
 
