@@ -1,15 +1,20 @@
 @use "../../../variables.scss" as *;
 
-.playersTable {
+.analyticsTable {
   width: 100%;
   border-collapse: collapse;
   font-size: 1em;
-  //   table-layout: auto;
+  table-layout: fixed;
+
+  @media (max-width: 800px) {
+    table-layout: auto;
+  }
   //   text-overflow: ellipsis;
   thead th {
     font-size: 0.9em;
     color: rgb(232, 232, 232);
-    text-wrap: nowrap;
+    text-wrap: wrap;
+    text-align: left;
 
     button {
       padding: 0;
@@ -17,6 +22,8 @@
       background-color: transparent;
       color: inherit;
       font-weight: 600;
+      text-align: left;
+      display: flex;
       &:hover,
       &:focus {
         .icon {

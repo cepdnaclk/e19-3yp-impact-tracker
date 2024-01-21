@@ -4,12 +4,13 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 1em;
-  table-layout: auto;
-  text-overflow: ellipsis;
+  table-layout: fixed;
+  //text-overflow: ellipsis;
   thead th {
     font-size: 0.9em;
     color: rgb(232, 232, 232);
-    text-wrap: nowrap;
+    text-wrap: wrap;
+    text-align: left;
 
     button {
       padding: 0;
