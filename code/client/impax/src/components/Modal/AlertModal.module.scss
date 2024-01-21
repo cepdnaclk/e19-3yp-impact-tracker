@@ -100,11 +100,11 @@
 
   &.forceAction {
     button:last-child {
-      background-color: #622a2a !important;
-      color: #ff9d9d;
+      background-color: darken($color: $green, $amount: 15) !important;
+      color: lighten($color: $green, $amount: 30);
       &:hover,
       &:focus {
-        outline: 1px solid lighten($color: $secondary-red, $amount: 30);
+        outline: 1px solid lighten($color: $green, $amount: 30);
       }
     }
 
