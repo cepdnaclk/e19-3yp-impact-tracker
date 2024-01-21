@@ -1,16 +1,16 @@
 import { IoMdExit } from "react-icons/io";
-import Btn from "../Buttons/Btn";
-import Title from "../Title/Title";
-import styles from "./Profile.module.scss";
+import Btn from "../../Buttons/Btn";
+import Title from "../../Title/Title";
+import styles from "./ManagerProfile.module.scss";
 import { FaRegUserCircle } from "react-icons/fa";
-import { useLoginState } from "../../states/profileState";
-import { useSignupState } from "../../states/formState";
-import ManagersTable from "./ManagersTable/ManagersTable";
-import DialogModal from "../Modal/DialogModal";
+import { useLoginState } from "../../../states/profileState";
+import { useSignupState } from "../../../states/formState";
+import ManagersTable from "./../ManagerProfile/ManagersTable";
+import DialogModal from "../../Modal/DialogModal";
 import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
 
-const Profile = () => {
+const ManagerProfile = () => {
   // Get team-id
   // Get team-name
   // Get manager email
@@ -22,7 +22,7 @@ const Profile = () => {
   // TODO: Stay logged in for 90 days and so much more
   return (
     <main>
-      <Title Icon={FaRegUserCircle} title="Profile" />
+      <Title Icon={FaRegUserCircle} title="Manager's Profile" />
       <div className={styles.loggedInStatus}>
         <div className={styles.info}>
           <h2>
@@ -104,4 +104,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ManagerProfile;

@@ -6,7 +6,8 @@ import Live from "../components/Live/Live";
 import Devices from "../components/Devices/Devices";
 import PlayerAnalytics from "../components/Analytics/PlayerAnalytics/PlayerAnalytics";
 import PlayerManagement from "../components/PlayerManagement/PlayerManagement";
-import Profile from "../components/Profile/Profile";
+import ManagerProfile from "../components/Profile/ManagerProfile/ManagerProfile";
+import PlayerProfile from "../components/Profile/PlayerProfile/PlayerProfile";
 import TeamCreation from "../components/Profile/TeamCreation";
 import JoinTeam from "../components/Profile/JoinTeam";
 import TeamAnalytics from "../components/Analytics/TeamAnalytics/TeamAnalytics";
@@ -60,8 +61,12 @@ const routes: RouteConfig[] = [
     component: PlayerManagement,
   },
   {
-    path: "/profile",
-    component: Profile,
+    path: "/player-profile",
+    component: PlayerProfile,
+  },
+  {
+    path: "/manager-profile",
+    component: ManagerProfile,
   },
   {
     path: "/signup/manager",

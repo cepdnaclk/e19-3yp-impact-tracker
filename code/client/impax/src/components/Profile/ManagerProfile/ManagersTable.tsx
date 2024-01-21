@@ -20,7 +20,7 @@ import { managers } from "./managersData";
 const columns: ColumnDef<Manager>[] = [
   {
     accessorKey: "name",
-    size: 2,
+    size: 20,
     header: ({ column }) => {
       return (
         <button
@@ -42,14 +42,14 @@ const columns: ColumnDef<Manager>[] = [
     accessorKey: "verification",
     header: "Verification",
     id: "verification",
-    size: 40,
+    size: 10,
     cell: ({ row }) => <Verification status={row.getValue("verification")} />,
   },
   {
     accessorKey: "edit",
     header: "",
     id: "edit",
-    size: 20,
+    size: 10,
     cell: ({ row }) => (
       <ManagerActions
         name={row.getValue("name")}
