@@ -9,7 +9,7 @@ import { StackedBarChart } from "./StackedBarChart";
 import CriticalSession from "./CriticalSession";
 import { HistogramData, TimeSpan } from "../../../types";
 import ImpactSummaryCard from "../ImpactSummaryCard";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { CriticalSessionType, Metric } from "../../../types";
 const PlayerAnalytics = () => {
   const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
@@ -27,23 +27,29 @@ const PlayerAnalytics = () => {
     front: [21, 13, 27, 6, 17, 23, 29, 31, 4, 3],
     back: [2, 1, 34, 36, 33, 37, 38, 39, 40, 42],
   };
-  const { data: impactSummary } = useQuery(
-    ["impactSummaryData", { timeSpan }],
-    fetchImpactSummary
-  );
+  const { data: impactSummaryPlayer } = useQuery({
+    queryFn: () => fetchImpactSummaryPlayer(),
+    queryKey: ["impactSummaryPlayerData", { timeSpan }],
+  });
   const {
     data: metricData,
     // isLoading: isMetricDataLoading,
     // isError: isMetricDataError,
-  } = useQuery(["metricData", { timeSpan }], fetchMetricData);
+  } = useQuery({
+    queryFn: () => fetchMetricData(),
+    queryKey: ["metricData", { timeSpan }],
+  });
 
   const {
     data: criticalSessionsData,
     // isLoading: isSessionDataLoading,
     // isError: isSessionDataError,
-  } = useQuery(["sessionData", { timeSpan }], fetchCriticalSessionsData);
+  } = useQuery({
+    queryFn: () => fetchCriticalSessionsData(),
+    queryKey: ["sessionData", { timeSpan }],
+  });
 
-  async function fetchImpactSummary(): Promise<Metric[]> {
+  async function fetchImpactSummaryPlayer(): Promise<Metric[]> {
     // const response = await fetch("<PLAYER_DATA_API_ENDPOINT_URL>"); // Replace <PLAYER_DATA_API_ENDPOINT_URL> with the actual URL to fetch player data from
     // if (!response.ok) {
     //   throw new Error("Failed to fetch player data");
@@ -116,7 +122,7 @@ const PlayerAnalytics = () => {
       </div>
 
       <div className={styles.impactSummaryContainer}>
-        {impactSummary?.map((metric) => (
+        {impactSummaryPlayer?.map((metric) => (
           <ImpactSummaryCard
             metric={metric}
             timeSpan={timeSpan}
