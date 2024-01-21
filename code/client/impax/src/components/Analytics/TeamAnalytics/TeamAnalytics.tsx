@@ -89,7 +89,11 @@ const TeamAnalytics = () => {
 
       <div className={styles.impactSummaryContainer}>
         {impactSummary?.map((metric) => (
-          <ImpactSummaryCard metric={metric} timeSpan={timeSpan} />
+          <ImpactSummaryCard
+            metric={metric}
+            timeSpan={timeSpan}
+            key={metric.title}
+          />
         ))}
       </div>
       {/* TODO: table render issue */}
