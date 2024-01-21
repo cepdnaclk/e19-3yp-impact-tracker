@@ -86,13 +86,13 @@ class PlayerInTeamService {
   // }
 
   async checkPlayerExistsInTeam(
-    playerEmail: string,
+    jersyId: string,
     teamId: string
   ): Promise<boolean> {
     try {
       // check entry exists
       const playerTeam = await PlayerTeamModel.findOne({
-        playerEmail: playerEmail,
+        jesryId: jersyId,
         teamId: teamId,
       });
 
@@ -134,6 +134,31 @@ class PlayerInTeamService {
         throw new Error("Player not found");
 
       }
-    }
   }
+
+  async removePlayerInTeam(
+    jersyId: string,
+    teamId: string
+  ): Promise<boolean>{
+    try{
+
+      const playerInTeam = await PlayerTeamModel.findOne({
+        teamId: teamId,
+        jesryId: jersyId
+      })
+
+      if (playerInTeam != null){
+        await playerInTeam.deleteOne();
+        return true;
+      }else{
+        return false
+      }
+
+    }catch (error) {
+        console.error(error);
+        throw error;
+      }
+      return false;
+  }
+}
 export default new PlayerInTeamService();

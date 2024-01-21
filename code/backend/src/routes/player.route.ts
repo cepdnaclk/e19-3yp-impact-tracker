@@ -196,35 +196,25 @@ router.put("/update", async (req: Request, res: Response) => {
 // Endpoint to remove player from team
 router.delete("/remove",async (req:Request, res: Response) => {
     const jersyId = req.body.jersyId;
-    const managerEmail = req.body.userName;
     const teamId = req.body.teamId;
+    const managerEmail = req.body.userName;
 
     // Check if any required field is missing
     if (!jersyId) {
  
-    console.log(HttpMsg.BAD_REQUEST);
-    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
-    return;
+      console.log(HttpMsg.BAD_REQUEST);
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+      return;
     }
   
     try{
-      const player = await PlayerTeamModel.findOne({
-        jersyId: jersyId,  
-        teamId: teamId
-      });
+      const isRemoved = await playerController.removePlayer(jersyId, teamId, managerEmail);
 
-      
-      if (player){
-
-        await playerController.removePlayer(
-          player
-        )
-        res.send({ message: "Player removed from team successfully" });
-
-      }else{
-        throw new Error(HttpMsg.PLAYER_NOT_EXISTS_IN_TEAM);
+      if (isRemoved) {
+        return res.send({ message: "Player removed from team successfully" });
+      } else {
+        throw new Error(HttpMsg.PLAYER_REMOVE_FAILED);
       }
-      
 
     } catch (err) {
       if (err instanceof Error) {

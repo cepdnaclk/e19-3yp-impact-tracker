@@ -35,7 +35,7 @@ class PlayerController {
       }
       // check if player already exists in the team
       const playerExistsInTeam = await playersInTeamService.checkPlayerExistsInTeam(
-        newPlayerEmail,
+        jersyId,
         teamId,
       );
 
@@ -167,7 +167,7 @@ class PlayerController {
       }
       // check if player exists in the team
       const playerExistsInTeam = await playersInTeamService.checkPlayerExistsInTeam(
-        playerTeamRequest.playerEmail,
+        playerTeamRequest.jesryId,
         playerTeamRequest.teamId,
       );
 
@@ -186,7 +186,44 @@ class PlayerController {
   }
 
   // Remove player in team
-  async removePlayer(player: typeof PlayerTeamModel): Promise<boolean>
+  async removePlayer(
+    jersyId: string,
+    teamId: string,
+    managerEmail: string
+
+  ): Promise<boolean>{
+
+    try{
+      // check the team exist
+      const teamIdEmailExistsResponse: TeamIdEmailExistsResponse = await teamService.checkTeamEmailExist(teamId,managerEmail);
+      if (!teamIdEmailExistsResponse.teamExists) {
+        throw new Error(HttpMsg.TEAM_NOT_FOUND);
+      }
+      if (!teamIdEmailExistsResponse.managerExists) {
+        throw new Error(HttpMsg.MANAGER_DEOS_NOT_EXIST);
+      }
+      // check if player already exists in the team
+      const playerExistsInTeam = await playersInTeamService.checkPlayerExistsInTeam(
+        jersyId,
+        teamId,
+      );
+      if (playerExistsInTeam){
+        const isRemoved = await playersInTeamService.removePlayerInTeam(
+          jersyId,
+          teamId
+        );
+        return isRemoved;
+      }else{
+        throw new Error(HttpMsg.PLAYER_NOT_EXISTS_IN_TEAM);
+      }  
+      
+      
+    }catch(error){
+      console.error(error);
+      throw error;
+    }
+  }
+
   
 }
 function generateInvitationToken(): string {
