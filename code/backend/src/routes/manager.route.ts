@@ -10,7 +10,9 @@ import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import { validateEmail } from "../utils/utils";
 import teamController from "../controllers/team.controller";
 import ManagerModel from "../db/manager.schema";
+import ManagerTeamModel  from '../db/managers.in.team.schema'; // Import the missing ManagerTeamModel
 import ROLES from "../config/roles";
+
 
 // Create an instance of the Express Router
 const router = Router();
@@ -147,8 +149,8 @@ router.post("/", async (req: Request, res: Response) => {
       lastName,
       email,
       password,
-      false, // Initially set to false
-      "" // Initially set to empty string
+      "", // Initially set to empty string
+      false // Initially set to false
     );
 
     // Create the manager and get the response
@@ -211,16 +213,20 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 // Endpoint Accept Invitation
-router.get("/accept-invitation/:token", async (req, res) => {
+router.get("/accept-invitation/token/:token", async (req, res) => {
   const token = req.params.token;
-  const manager = await ManagerModel.findOne({ invitationToken: token });
-
-  if (manager && !(manager as any).acceptInvitation) {
+  const manager = await ManagerModel.findOne({ invitationToken: token }); 
+  const managerInTeam = await ManagerTeamModel.findOne({ invitationToken: token }); 
+  if (manager && !manager.isVerified) {
     // Update manager status
-    (manager as any).acceptInvitation = true;
+    manager.isVerified = true;
     await manager.save();
     res.send("Invitation accepted successfully!");
-  } else {
+  } else if (managerInTeam && !managerInTeam.accepted){
+    // Update manager status
+    managerInTeam.accepted = true;
+    await managerInTeam.save();
+  } else{
     res.status(400).send("Invalid or expired token.");
   }
 });

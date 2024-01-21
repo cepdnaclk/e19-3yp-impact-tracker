@@ -1,4 +1,4 @@
-import ManagerTeamModel from "../db/managers.in.team.schema";
+  import ManagerTeamModel from "../db/managers.in.team.schema";
 
 class ManagersInTeamService {
   // create team manager instance
@@ -20,6 +20,7 @@ class ManagersInTeamService {
       const managerTeamInstance = new ManagerTeamModel({
         managerEmail: managerEmail,
         teamId: teamId,
+        accepted: false,
       });
 
       // Save the manager to the database

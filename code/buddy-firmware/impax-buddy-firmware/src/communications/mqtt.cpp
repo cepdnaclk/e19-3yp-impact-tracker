@@ -14,18 +14,18 @@ BuddyMQTT::BuddyMQTT(const char *mqtt_broker, const char *mqtt_username, const c
 }
 
 // Initialize the BuddyMQTT instance
-void BuddyMQTT::init(String id, bool (*communicationDashboard)())
+void BuddyMQTT::init(String id, bool (*communicationDashboard)(), void (*turnOffHandler)())
 {
     this->id = id;
 
     // Attempt to connect to the MQTT broker
-    reconnect(communicationDashboard);
+    reconnect(communicationDashboard, turnOffHandler);
     // Update MQTT topics based on the device ID
     updateTopics();
 }
 
 // Attempt to reconnect to the MQTT broker
-void BuddyMQTT::reconnect(bool (*communicationDashboard)())
+void BuddyMQTT::reconnect(bool (*communicationDashboard)(), void (*turnOffHandler)())
 {
     // Set MQTT certificates
     setCertificates(CA_cert, ESP_CA_cert, ESP_RSA_key);
@@ -37,21 +37,22 @@ void BuddyMQTT::reconnect(bool (*communicationDashboard)())
     {
         led(LED_BLINK);
         communicationDashboard();
+        // check if turn off
+        turnOffHandler();
         // Generate a client ID based on ESP32 MAC address
-        String client_id = "esp32-client-";
+        String client_id = "buddy-client-";
         client_id += String(WiFi.macAddress());
-        Serial.printf("The client %s connects to the public MQTT broker\n", client_id.c_str());
 
         // Attempt to connect to the MQTT broker
         if (client.connect(client_id.c_str(), mqtt_username, mqtt_password))
         {
-            Serial.println("Public EMQX MQTT broker connected");
+            Serial.println("MQTT broker connected");
         }
         else
         {
             // Print error message and wait before retrying
-            Serial.print("failed with state ");
-            Serial.print(client.state());
+            // Serial.print("failed with state ");
+            // Serial.print(client.state());
             delay(TIME_DELAY_RECONNECT);
         }
     }
@@ -132,13 +133,13 @@ void callback(char *topic, byte *payload, unsigned int length)
 }
 
 // Set MQTT username
-void BuddyMQTT::setUserName(String username)
+void BuddyMQTT::setUserName(const char *username)
 {
-    this->mqtt_username = username.c_str();
+    this->mqtt_username = username;
 }
 
 // Set MQTT password
-void BuddyMQTT::setPassword(String password)
+void BuddyMQTT::setPassword(const char *password)
 {
-    this->mqtt_password = password.c_str();
+    this->mqtt_password = password;
 }
