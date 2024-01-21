@@ -41,6 +41,12 @@ const Profile = () => {
           </Btn>
         </div>
       </div>
+      <div className={styles.gridLayout}>
+        <div className={styles.managersContainer}>
+          <h2>Add/Remove Managers</h2>
+          <div className={styles.managersTableContainer}></div>
+        </div>
+      </div>
     </main>
   );
 };

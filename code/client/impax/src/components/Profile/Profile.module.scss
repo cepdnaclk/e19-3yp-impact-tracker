@@ -2,3 +2,17 @@
 .loggedInStatus {
   @include banner;
 }
+
+.gridLayout {
+  margin: 2em 0;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+}
+
+.managersContainer {
+}

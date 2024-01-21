@@ -1,27 +1,33 @@
 import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import { ChartOptions } from "chart.js";
+import { HistogramData } from "../../../types";
 
-export const StackedBarChart = () => {
+export const StackedBarChart: React.FC<HistogramData> = ({
+  left,
+  right,
+  front,
+  back,
+}) => {
   const xVals = [10, 30, 50, 70, 90, 110, 130, 150, 170, 190];
 
-  const yValsLeft = [5, 8, 24, 16, 32, 42, 30, 17, 11, 2];
-  const arraySize = yValsLeft.length;
+  // const yValsLeft = [5, 8, 24, 16, 32, 42, 30, 17, 11, 2];
+  // const arraySize = yValsLeft.length;
 
-  const yValsRight = Array.from({ length: arraySize }, () =>
-    Math.floor(Math.random() * 50)
-  );
-  const yValsFront = Array.from({ length: arraySize }, () =>
-    Math.floor(Math.random() * 50)
-  );
-  const yValsBack = Array.from({ length: arraySize }, () =>
-    Math.floor(Math.random() * 50)
-  );
+  // const yValsRight = Array.from({ length: arraySize }, () =>
+  //   Math.floor(Math.random() * 50)
+  // );
+  // const yValsFront = Array.from({ length: arraySize }, () =>
+  //   Math.floor(Math.random() * 50)
+  // );
+  // const yValsBack = Array.from({ length: arraySize }, () =>
+  //   Math.floor(Math.random() * 50)
+  // );
 
-  const dataLeft = xVals.map((k, i) => ({ x: k, y: yValsLeft[i] }));
-  const dataRight = xVals.map((k, i) => ({ x: k, y: yValsRight[i] }));
-  const dataFront = xVals.map((k, i) => ({ x: k, y: yValsFront[i] }));
-  const dataBack = xVals.map((k, i) => ({ x: k, y: yValsBack[i] }));
+  const dataLeft = xVals.map((k, i) => ({ x: k, y: left[i] }));
+  const dataRight = xVals.map((k, i) => ({ x: k, y: right[i] }));
+  const dataFront = xVals.map((k, i) => ({ x: k, y: front[i] }));
+  const dataBack = xVals.map((k, i) => ({ x: k, y: back[i] }));
 
   const backgroundColorLeft = Array(xVals.length).fill(
     "rgba(255, 99, 180, 0.2)"
