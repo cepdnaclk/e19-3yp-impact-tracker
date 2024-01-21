@@ -32,7 +32,7 @@ const ManagerProfile = () => {
         </div>
         <div className={styles.controls}>
           <Btn
-            buttonStyle="primary"
+            buttonStyle="secondary"
             Icon={IoMdExit}
             onClick={() => {
               setIsLoggedIn(false);

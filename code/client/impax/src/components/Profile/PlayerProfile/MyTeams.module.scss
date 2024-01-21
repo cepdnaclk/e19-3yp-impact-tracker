@@ -4,12 +4,17 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 1em;
-  table-layout: auto;
+  table-layout: fixed;
   text-overflow: ellipsis;
+
+  @media (max-width: 800px) {
+    table-layout: auto;
+  }
+
   thead th {
     font-size: 0.9em;
     color: rgb(232, 232, 232);
-    text-wrap: nowrap;
+    text-wrap: wrap;
 
     button {
       padding: 0;

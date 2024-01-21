@@ -75,7 +75,7 @@ const Sidebar: React.FC = () => {
         active={activePage === "profile"}
         onClick={() => {
           setActivePage("profile");
-          navigate("/manager-profile");
+          navigate("/player-profile");
         }}
       />
     </aside>
