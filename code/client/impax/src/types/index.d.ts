@@ -88,7 +88,7 @@ export type HistogramData = {
 };
 
 //for player critical sessions
-export type CriticalSession = {
+export type CriticalSessionType = {
   name: string;
   date: string;
   cumulative: number;

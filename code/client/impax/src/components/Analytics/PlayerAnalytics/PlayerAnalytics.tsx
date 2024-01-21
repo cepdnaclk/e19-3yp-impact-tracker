@@ -10,6 +10,7 @@ import CriticalSession from "./CriticalSession";
 import { HistogramData, TimeSpan } from "../../../types";
 import ImpactSummaryCard from "../ImpactSummaryCard";
 import { useQuery } from "react-query";
+import { CriticalSessionType, Metric } from "../../../types";
 const PlayerAnalytics = () => {
   const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
 
@@ -42,7 +43,7 @@ const PlayerAnalytics = () => {
     // isError: isSessionDataError,
   } = useQuery(["sessionData", { timeSpan }], fetchCriticalSessionsData);
 
-  async function fetchImpactSummary() {
+  async function fetchImpactSummary(): Promise<Metric[]> {
     // const response = await fetch("<PLAYER_DATA_API_ENDPOINT_URL>"); // Replace <PLAYER_DATA_API_ENDPOINT_URL> with the actual URL to fetch player data from
     // if (!response.ok) {
     //   throw new Error("Failed to fetch player data");
@@ -50,20 +51,22 @@ const PlayerAnalytics = () => {
     // return response.json();
     if (timeSpan == "Last Week") return data;
     if (timeSpan == "Last Month") return data2;
+    else return data;
   }
 
-  async function fetchMetricData() {
+  async function fetchMetricData(): Promise<HistogramData> {
     // const response = await fetch("<METRIC_DATA_API_ENDPOINT_URL>"); // Replace <METRIC_DATA_API_ENDPOINT_URL> with the actual URL to fetch metric data from
     // if (!response.ok) {
     //   throw new Error("Failed to fetch metric data");
     // }
     // return response.json();
-
+    // return sampleObject;
     if (timeSpan == "Last Week") return sampleObject;
     if (timeSpan == "Last Month") return sampleObject2;
+    else return sampleObject;
   }
 
-  async function fetchCriticalSessionsData() {
+  async function fetchCriticalSessionsData(): Promise<CriticalSessionType[]> {
     // const response = await fetch("<SESSION_DATA_API_ENDPOINT_URL>"); // Replace <SESSION_DATA_API_ENDPOINT_URL> with the actual URL to fetch session data from
     // if (!response.ok) {
     //   throw new Error("Failed to fetch session data");
@@ -71,6 +74,7 @@ const PlayerAnalytics = () => {
     // return response.json();
     if (timeSpan == "Last Week") return criticalSessions;
     if (timeSpan == "Last Month") return criticalSessions2;
+    else return criticalSessions;
   }
 
   return (
@@ -120,7 +124,11 @@ const PlayerAnalytics = () => {
       <div className={styles.chartAndRecentSessionsContainer}>
         <div className={styles.chartContainer}>
           <h2>Impact Histogram</h2>
-          <StackedBarChart {...metricData} />
+          {metricData ? (
+            <StackedBarChart {...metricData} />
+          ) : (
+            <div>No data Available</div>
+          )}
         </div>
         <div className={styles.criticalSessions}>
           <h2>Critical Sessions</h2>
