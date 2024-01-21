@@ -88,20 +88,12 @@ const columns: ColumnDef<Player>[] = [
 const PlayerManagement = () => {
   //if internet unavailable return prematurely with no internet connection component
   const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
-  if (!isInternetAvailable) {
-    return (
-      <main>
-        <Title title={"Player Management"} Icon={FaUsers} />
-        <NoInternetConnection />
-      </main>
-    );
-  }
 
   const defaultData: Player[] = [];
   //fill defaultData with playerDetails from useAppState
   const playerDetails = useAppState((state) => state.playerDetails);
 
-  for (let jersey_number in playerDetails) {
+  for (const jersey_number in playerDetails) {
     defaultData.push({
       jerseyId: parseInt(jersey_number),
       name: playerDetails[jersey_number].name,
@@ -131,6 +123,14 @@ const PlayerManagement = () => {
   //Modal State
   const [addPlayerOpen, setAddPlayerOpen] = useState<boolean>(false);
 
+  if (!isInternetAvailable) {
+    return (
+      <main>
+        <Title title={"Player Management"} Icon={FaUsers} />
+        <NoInternetConnection />
+      </main>
+    );
+  }
   return (
     <main>
       <Title title={"Player Management"} Icon={FaUsers} />
