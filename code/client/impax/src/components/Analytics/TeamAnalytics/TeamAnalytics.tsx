@@ -5,12 +5,51 @@ import styles from "./TeamAnalytics.module.scss";
 import { MdBarChart } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa6";
 import ImpactSummaryCard from "../ImpactSummaryCard";
-import { teamAnalyticsSummary, teamAnalyticsTableData } from "./teamData";
-import { TimeSpan } from "../../../types";
+import {
+  teamAnalyticsSummary,
+  teamAnalyticsSummary2,
+  teamAnalyticsTableData,
+  teamAnalyticsTableData2,
+} from "./teamData";
+import { Metric, TeamAnalyticsColumns, TimeSpan } from "../../../types";
 import TeamAnalyticsTable from "./TeamAnalyticsTable";
+import { useQuery } from "react-query";
 
 const TeamAnalytics = () => {
-  const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
+  const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Month");
+
+  const { data: impactSummary } = useQuery(
+    ["impactSummaryData", { timeSpan }],
+    fetchImpactSummary
+  );
+
+  const {
+    data: tableData,
+    // isLoading: isMetricDataLoading,
+    // isError: isMetricDataError,
+  } = useQuery(["tableData", { timeSpan }], fetchTableData);
+  console.log(tableData);
+  async function fetchImpactSummary(): Promise<Metric[]> {
+    // const response = await fetch("<PLAYER_DATA_API_ENDPOINT_URL>"); // Replace <PLAYER_DATA_API_ENDPOINT_URL> with the actual URL to fetch player data from
+    // if (!response.ok) {
+    //   throw new Error("Failed to fetch player data");
+    // }
+    // return response.json();
+    if (timeSpan == "Last Week") return teamAnalyticsSummary;
+    if (timeSpan == "Last Month") return teamAnalyticsSummary2;
+    else return teamAnalyticsSummary;
+  }
+  async function fetchTableData(): Promise<TeamAnalyticsColumns[]> {
+    // const response = await fetch("<PLAYER_DATA_API_ENDPOINT_URL>"); // Replace <PLAYER_DATA_API_ENDPOINT_URL> with the actual URL to fetch player data from
+    // if (!response.ok) {
+    //   throw new Error("Failed to fetch player data");
+    // }
+    // return response.json();
+    if (timeSpan == "Last Week") return teamAnalyticsTableData;
+    if (timeSpan == "Last Month") return teamAnalyticsTableData2;
+    else return teamAnalyticsTableData;
+  }
+
   return (
     <main>
       <Title Icon={MdBarChart} title="Team Analytics" />
@@ -49,13 +88,17 @@ const TeamAnalytics = () => {
       </div>
 
       <div className={styles.impactSummaryContainer}>
-        {teamAnalyticsSummary.map((metric) => (
+        {impactSummary?.map((metric) => (
           <ImpactSummaryCard metric={metric} timeSpan={timeSpan} />
         ))}
       </div>
-
+      {/* TODO: table render issue */}
       <div className={styles.tableContainer}>
-        <TeamAnalyticsTable teamAnalyticsTableData={teamAnalyticsTableData} />
+        {tableData ? (
+          <TeamAnalyticsTable teamAnalyticsTableData={tableData} />
+        ) : (
+          <div>No Data is available</div>
+        )}
       </div>
     </main>
   );
