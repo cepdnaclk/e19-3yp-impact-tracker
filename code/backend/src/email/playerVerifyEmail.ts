@@ -1,9 +1,8 @@
 import nodemailer from "nodemailer";
 
 export async function sendVerificationEmail(
-  recipientEmail: string,
-  invitationToken: string,
-  teamName: string
+    recipientEmail: string,
+    invitationToken: string
 ): Promise<void> {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -23,9 +22,10 @@ export async function sendVerificationEmail(
     html: `
     <p>Hello,</p>
     
-    <p>You've been created  the team ${teamName}! Click the following link to verify your email:</p>
+    <p>Thank you for registering with Impax!</p>
+    <p>You've been created  the account successfully! </p>
     
-    <a href="http://localhost:5000/manager/accept-invitation/token/${invitationToken}" 
+    <a href="http://localhost:5000/player/verify-email/token/${invitationToken}" 
     style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: #ffffff; 
     text-decoration: none; border-radius: 5px;">Verify Email Here</a><br><br>
     
