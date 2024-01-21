@@ -15,4 +15,18 @@
 }
 
 .managersContainer {
+  .info {
+    padding: 1em 2em;
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+
+    button {
+      padding: 0.6em 1em;
+    }
+  }
+}
+.addManagerForm {
+  @include modalInnerForm;
 }
