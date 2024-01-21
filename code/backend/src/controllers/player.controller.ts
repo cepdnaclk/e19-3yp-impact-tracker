@@ -7,7 +7,7 @@ import teamService from "../services/team.service";
 import { v4 as uuidv4 } from "uuid";
 import PlayerModel from "../db/player.schema";
 import TeamModel from "../db/team.schema";
-import { sendVerificationEmail } from "../email/playerVerifyEmail";
+import { sendInvitationEmail } from "../email/playerInviteEmail";
 import { findSourceMap } from "module";
 import { PlayerRequestBody, PlayerResponse } from "../models/player.model";
 
@@ -70,7 +70,7 @@ class PlayerController {
         );
 
         // Send the verification email
-        await sendVerificationEmail(firstName, lastName, newPlayerEmail, invitationToken, teamName!);
+        await sendInvitationEmail(firstName, lastName, newPlayerEmail, invitationToken, teamName!);
       }
 
       
@@ -97,6 +97,7 @@ class PlayerController {
     return false;
   }
 
+  // create player 
   async createPlayer(
     firstName: string,
     lastName: string,
@@ -109,7 +110,9 @@ class PlayerController {
 
       if (exists) {
         // Update the password for an existing player
-        await playerService.updatePlayerPassword(email, password);
+        const playerResponse = await playerService.updatePlayerPassword(email, password);
+        return playerResponse;
+
       } else {
         // Create a new player account
         const playerRequestBody: PlayerRequestBody  = new PlayerRequestBody(

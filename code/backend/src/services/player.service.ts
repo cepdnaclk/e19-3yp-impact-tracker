@@ -82,17 +82,17 @@ class PlayerService {
       }
   
   }
-  async updatePlayerPassword(email: string, password: string): Promise<void> {
+  async updatePlayerPassword(email: string, password: string): Promise<boolean> {
       const player = await PlayerModel.findOne({ email: email });
   
       if (player) {
-        // player.password = password;
-        // await player.save();
-        await authService.createAuth(
+        const playerResponse = await authService.createAuth(
           player.email,
           password,
         );
+        return playerResponse;
       }
+      return false;
     }
 }
 
