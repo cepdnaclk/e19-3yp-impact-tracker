@@ -97,7 +97,6 @@ const TeamAnalytics = () => {
           />
         ))}
       </div>
-      {/* TODO: table render issue */}
       <div className={styles.tableContainer}>
         {tableData && (
           <TeamAnalyticsTable
