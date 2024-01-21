@@ -21,6 +21,27 @@ export const teamAnalyticsSummary: Metric[] = [
   },
 ];
 
+export const teamAnalyticsSummary2: Metric[] = [
+  {
+    title: "Impacts Recorded",
+    value: "999",
+    trend: 20,
+  },
+  {
+    title: "Contributing Players",
+    value: "999",
+    trend: 10,
+  },
+  {
+    title: "Highest Contributor",
+    value: "69 Kaushitha Silva",
+  },
+  {
+    title: "Frequent Direction",
+    value: "Front",
+  },
+];
+
 export const teamAnalyticsTableData: TeamAnalyticsColumns[] = [
   {
     jersey_number: 69,
@@ -121,4 +142,26 @@ export const teamAnalyticsTableData: TeamAnalyticsColumns[] = [
     dominant_direction: "front",
     concussions: 2,
   },
+];
+
+export const teamAnalyticsTableData2: TeamAnalyticsColumns[] = [
+  {
+    jersey_number: 69,
+    name: "Kaushitha Silva",
+    impacts_recorded: 35,
+    average_impact: 10,
+    highest_impact: 89,
+    dominant_direction: "left",
+    concussions: 1,
+  },
+  {
+    jersey_number: 23,
+    name: "Mansitha Eashwara",
+    impacts_recorded: 28,
+    average_impact: 8,
+    highest_impact: 78,
+    dominant_direction: "right",
+    concussions: 0,
+  }
+  
 ];
