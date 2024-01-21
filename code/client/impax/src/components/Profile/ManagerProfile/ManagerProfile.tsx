@@ -69,19 +69,19 @@ const ManagerProfile = () => {
                   setAddManagerOpen(false);
                 }}
               >
-                <label htmlFor="manager_name">Manager Name</label>
+                {/* <label htmlFor="manager_name">Manager Name</label>
                 <input
                   type="text"
                   name="manager_name"
                   id="manager_name"
                   placeholder="Johnathan Doe"
-                />
+                /> */}
 
                 <label htmlFor="email">
                   Manager's Email
-                  <span className={styles.additionalInfo}>
+                  {/* <span className={styles.additionalInfo}>
                     Link Impax Account
-                  </span>
+                  </span> */}
                 </label>
                 <input
                   type="email"
