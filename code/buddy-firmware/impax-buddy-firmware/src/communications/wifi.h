@@ -2,13 +2,12 @@
 #define WIFI_H
 
 #include <Arduino.h>
+#include "WiFiClientSecure.h"
 #include <WiFi.h>
-#include <WiFiMulti.h>
-#include "../utils/util.h"
+#include "util.h"
 
 // Define delays for Wi-Fi reconnection attempts
 #define DELAY_WIFI_RECONNECT 100
-#define DELAY_WIFI_RECONNECT_MULTI 2000
 
 // Declaration of the BuddyWIFI class
 class BuddyWIFI
@@ -18,9 +17,6 @@ public:
     BuddyWIFI(const char *, const char *); // Constructor with parameters for setting Wi-Fi credentials
     BuddyWIFI();                           // Default constructor
 
-    // Wi-FiMulti object for managing multiple Wi-Fi connections
-    WiFiMulti wifiMulti = WiFiMulti();
-
     // Public data members
     const char *ssid;     // Wi-Fi SSID
     const char *password; // Wi-Fi password
@@ -28,10 +24,7 @@ public:
 
     void setSsidPassword(const char *, const char *);
     void init();
-
-    void addWIFIMulti(const char *, const char *);
-    void initWIFIMulti(bool (*communicationDashboard)());
-    void reconnectWIFIMulti();
+    void init(bool (*communicationDashboard)(), void (*turnOffHandler)());
 
 private:
 };

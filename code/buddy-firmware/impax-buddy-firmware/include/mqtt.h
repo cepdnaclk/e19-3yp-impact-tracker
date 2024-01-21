@@ -5,9 +5,9 @@
 #include <PubSubClient.h>
 #include "WiFiClientSecure.h"
 #include "topics.h"
-#include "../utils/util.h"
+#include "util.h"
 
-#define TIME_DELAY_RECONNECT 2000
+#define TIME_DELAY_RECONNECT 100
 
 // Declaration of the BuddyMQTT class
 class BuddyMQTT
@@ -35,16 +35,17 @@ public:
     int mqtt_port; // MQTT broker port
 
     // Public member functions
-    void init(String id, bool (*communicationDashboard)());         // Initialize the MQTT client
-    void reconnect(bool (*communicationDashboard)());               // Reconnect to the MQTT broker
-    void publish(const char *, const char *);                       // Publish a message to an MQTT topic
-    void publish(const char *, int);                                // Publish a message to an MQTT topic
-    void subscribe(const char *);                                   // Subscribe to an MQTT topic
-    void setBroker(const char *, const char *, const char *, int);  // Set MQTT broker details
-    void updateTopics();                                            // Update MQTT topics based on the device ID
-    void setCertificates(const char *, const char *, const char *); // Set MQTT certificates
-    void setUserName(String);
-    void setPassword(String);
+    void init(String id, bool (*communicationDashboard)(), void (*turnOffHandler)()); // Initialize the MQTT client
+    void reconnect(bool (*communicationDashboard)(), void (*turnOffHandler)());       // Reconnect to the MQTT broker
+    void publish(const char *, const char *);                                         // Publish a message to an MQTT topic
+    void publish(const char *, int);                                                  // Publish a message to an MQTT topic
+    void publish(const char *, float);                                                // Publish a message to an MQTT topic
+    void subscribe(const char *);                                                     // Subscribe to an MQTT topic
+    void setBroker(const char *, const char *, const char *, int);                    // Set MQTT broker details
+    void updateTopics();                                                              // Update MQTT topics based on the device ID
+    void setCertificates(const char *, const char *, const char *);                   // Set MQTT certificates
+    void setUserName(const char *);
+    void setPassword(const char *);
 
 private:
 };

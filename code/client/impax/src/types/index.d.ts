@@ -43,6 +43,9 @@ export type Players = {
   };
 };
 
+export type PlayersActiveTime = {
+  [jersey_number: number]: number;
+};
 export type Session = {
   session_id: string;
   session_name: string;
@@ -57,4 +60,56 @@ export type activePage =
   | "analytics"
   | "profile"
   | "test"
-  | "player-management";
+  | "player-management"
+  | "player-analytics"
+  | "team-analytics";
+
+export type sessionToBeUploaded = {
+  session: Session;
+  playerImpactHistory: PlayerImpactHistory;
+};
+
+//Types for analytics
+export type Metric = {
+  title: string;
+  value: string | number;
+  trend?: number;
+  metaUnits?: string;
+};
+
+export type TimeSpan = "Last Week" | "Last Month" | "All Time";
+
+//for player analytics
+export type HistogramData = {
+  left: number[];
+  right: number[];
+  front: number[];
+  back: number[];
+};
+
+//for player critical sessions
+export type CriticalSessionType = {
+  name: string;
+  date: string;
+  cumulative: number;
+  average: number;
+  highest: number;
+};
+
+//analyticsTableColumns
+export type TeamAnalyticsColumns = {
+  jersey_number: number;
+  name: string;
+  impacts_recorded: number;
+  highest_impact: number;
+  average_impact: number;
+  dominant_direction: Impact.direction;
+  concussions: number;
+};
+
+//Profile Managers
+export type Manager = {
+  name: string;
+  email: string;
+  verification: "pending" | "rejected" | "verified";
+};

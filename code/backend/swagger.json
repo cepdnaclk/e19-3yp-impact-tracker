@@ -265,6 +265,10 @@
       }
     },
 
+
+
+
+
     "/manager/exists/email/{email}": {
       "get": {
         "tags": ["ManagerEndpoints"],
@@ -386,42 +390,9 @@
         }
       }
     },
-    "/accept-invitation/{token}": {
-      "get": {
-        "tags": ["ManagerEndpoints"],
-        "summary": "Accept manager verification",
-        "parameters": [
-          {
-            "name": "token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "f476d19f-8035-4811-9c40-da0fbe300527"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "example": "Invitation accepted successfully! You can now log in."
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "example": "Invalid or expired token. Please contact support."
-              }
-            }
-          }
-        }
-      }
-    },
 
+
+    
     "/player": {
       "post": {
         "tags": ["PlayerEndpoints"],
@@ -449,24 +420,11 @@
             }
           }
         }
-      }
-    },
-
-    "/player/{email}": {
+      },
       "get": {
         "tags": ["PlayerEndpoints"],
         "summary": "Get player details",
-        "parameters": [
-          {
-            "name": "email",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "example@example.com"
-          }
-        ],
+        
         "responses": {
           "200": {
             "description": "Success",
@@ -488,6 +446,7 @@
           }
         }
       }
+
     },
 
     "/player/{playerID}/sessions": {
@@ -528,27 +487,19 @@
       }
     },
 
-    "/players/{playerID}/total-impacts": {
-      "get": {
+    "/player/add": {
+      "post": {
         "tags": ["PlayerEndpoints"],
-        "summary": "Get total impacts for a player",
-        "parameters": [
-          {
-            "name": "playerID",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "examplePlayerId"
-          }
-        ],
+        "summary": "Add a new player to a team for manager - Access Token required",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PlayerTeamRequest"
+        },
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
-                "$ref": "#/components/schemas/TotalImpactsResponse"
+                "$ref": "#/components/schemas/PlayerTeamRequest"
               }
             }
           },
@@ -566,16 +517,51 @@
       }
     },
 
-    "/highest-impact": {
-      "get": {
+    "/player/update": {
+      "put": {
         "tags": ["PlayerEndpoints"],
-        "summary": "Get the highest impact among all records with the date",
+        "summary": "Update player details - Access Token required",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PlayerUpdateRequest"
+        },
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
-                "$ref": "#/components/schemas/HighestImpactRecord"
+                "$ref": "#/components/schemas/PlayerResponse"
+                
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },    
+    "/player/remove": {
+      "delete": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Remove a player from a team by Jersey ID and Team ID - Access Token required",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PlayerRemoveRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Player removed successfully"
+                }
               }
             }
           },
@@ -592,6 +578,48 @@
         }
       }
     },
+    
+    "/player/analytics-summary/{duration}": {
+      "get": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Get analytics summary for a specific duration",
+        "parameters": [
+          {
+            "name": "duration",
+            "in": "path",
+            "description": "Duration for analytics summary (e.g., '7days', '3months', 'all')",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/AnalyticsSummary"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+
+
+
 
     "/hub/credetials": {
       "post": {
@@ -711,37 +739,7 @@
         }
       }
     },
-
-    "/player/add": {
-      "post": {
-        "tags": ["PlayerEndpoints"],
-        "summary": "Add a new player to a team for manager - Access Token required",
-        "requestBody": {
-          "$ref": "#/components/requestBodies/PlayerTeamRequest"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "$ref": "#/components/schemas/PlayerTeamRequest"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Bad Request"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-
+    
     "/login/player": {
       "post": {
         "tags": ["LoginEndpoints"],
@@ -792,15 +790,13 @@
         "type": "object",
         "properties": {
           "password": {
-            "type": "string"
+            "type": "string",
+            "example": "securePassword"
           },
           "userName": {
-            "type": "string"
+            "type": "string",
+            "example": "example@example.com"
           }
-        },
-        "example": {
-          "password": "securePassword",
-          "userName": "example@example.com"
         }
       },
 
@@ -985,19 +981,146 @@
       "PlayerTeamRequest": {
         "type": "object",
         "properties": {
+          
+          "jersyID": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          
           "playerEmail": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "jersyId": "exampleJersyId",
+          "fullName": "John Doe",
+          "playerEmail": "example@example.com"
+        }
+      },
+
+      "AnalyticsSummary": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "trend": {
+            "type": "number"
+          },
+          "metaUnits": {
+            "type": "string"
+          }
+        },
+        "example": [
+          {
+            "title": "Cumulative Impacts",
+            "value": "850 g",
+            "trend": -20
+          },
+          {
+            "title": "Impacts Recorded",
+            "value": "50",
+            "trend": 20
+          },
+          {
+            "title": "Impact Frequency",
+            "value": "400",
+            "metaUnits": "/hr",
+            "trend": 10
+          },
+          {
+            "title": "Average Impact",
+            "value": "43 g",
+            "trend": 40
+          }
+        ]
+      },
+      "PlayerRemoveRequest": {
+        "type": "object",
+        "properties": {
+          "jersyId": {
             "type": "string"
           },
           "teamId": {
             "type": "string"
           }
         },
+        "required": ["jersyId", "teamId"],
         "example": {
-          "playerEmail": "example@example.com",
-          "teamId": "teamId"
+          "jersyId": "exampleJersyId",
+          "teamId": "exampleTeamId"
+        }
+      },
+  
+      "PlayerRemoveResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "Player removed successfully"
+        }
+      },
+      "PlayerCreateRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "example@example.com",
+          "password": "securePassword"
+        }
+      },
+      "PlayerUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "firstName": "John",
+          "lastName": "Doe",
+          "email": "example@example.com",
+          "password": "securePassword"
         }
       },
 
+      "PlayerResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "example@example.com"
+          },
+          "isVerified": {
+            "type": "boolean",
+            "example": "Pending"
+          }
+        }
+      },
+      
       "LoginResponse": {
         "type": "object",
         "properties": {
@@ -1156,79 +1279,7 @@
         }
       },
 
-      "PlayerCreateRequest": {
-        "type": "object",
-        "properties": {
-          "playerId": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "address": {
-            "type": "string"
-          },
-          "teams": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "example": {
-          "playerId": "examplePlayerId",
-          "firstName": "John",
-          "lastName": "Doe",
-          "email": "example@example.com",
-          "password": "securePassword",
-          "address": "123 Main St",
-          "teams": ["Team1", "Team2"]
-        }
-      },
-
-      "PlayerResponse": {
-        "type": "object",
-        "properties": {
-          "playerId": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "address": {
-            "type": "string"
-          },
-          "teams": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "example": {
-          "playerId": "12345",
-          "email": "example@example.com",
-          "firstName": "John",
-          "lastName": "Doe",
-          "address": "123 Main St",
-          "teams": ["Team1", "Team2"]
-        }
-      },
+      
 
       "SessionDetailsResponse": {
         "type": "object",
@@ -1270,44 +1321,8 @@
           "hostManagerId": "host123",
           "players": ["player1", "player2"]
         }
-      },
-
-      "TotalImpactsResponse": {
-        "type": "object",
-        "properties": {
-          "playerId": {
-            "type": "string"
-          },
-          "totalImpacts": {
-            "type": "integer"
-          }
-        },
-        "example": {
-          "playerId": "12345",
-          "totalImpacts": 1000
-        }
-      },
-
-      "HighestImpactRecord": {
-        "type": "object",
-        "properties": {
-          "sessionId": {
-            "type": "string"
-          },
-          "date": {
-            "type": "string",
-            "format": "date"
-          },
-          "highestImpact": {
-            "type": "number"
-          }
-        },
-        "example": {
-          "sessionId": "12345",
-          "date": "2023-01-01",
-          "highestImpact": 10.5
-        }
       }
+      
     },
 
     "requestBodies": {
@@ -1320,7 +1335,15 @@
           }
         }
       },
-
+      "AnalyticsSummaryRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AnalyticsSummary"
+            }
+          }
+        }
+      },
       "PlayerCreateRequest": {
         "content": {
           "application/json": {
@@ -1330,7 +1353,24 @@
           }
         }
       },
-
+      "PlayerUpdateRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PlayerUpdateRequest"
+            }
+          }
+        }
+      },
+      "PlayerRemoveRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PlayerRemoveRequest"
+            }
+          }
+        }
+      },
       "ManagerTeamRequest": {
         "content": {
           "application/json": {

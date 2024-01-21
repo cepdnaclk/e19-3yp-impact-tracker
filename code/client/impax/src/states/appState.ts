@@ -7,6 +7,7 @@ import {
   Session,
   PlayersImpact,
   PlayerImpactHistory,
+  PlayersActiveTime,
 } from "../types";
 import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
@@ -34,6 +35,8 @@ interface AppState {
   playersImpactHistory: PlayerImpactHistory;
 
   playerDetails: Players;
+
+  playersActiveTime: PlayersActiveTime;
 
   playerMap: PlayerMap;
   setPlayerMap: (playerMap: PlayerMap) => void;
@@ -118,6 +121,9 @@ export const useAppState = create<AppState>()((set) => ({
     });
   },
 
+  //For player active time map
+  playersActiveTime: {} as PlayersActiveTime,
+
   //For the session details
   sessionDetails: {} as Session,
   setSessionDetails: (session: Session) => {
@@ -134,6 +140,7 @@ export const useAppState = create<AppState>()((set) => ({
       sessionDetails.session_name = sessionName;
       sessionDetails.updatedAt = Date.now();
 
+
       // publish session to mqtt
       MqttClient.getInstance().publishSession(sessionDetails);
       return { ...prevState, sessionDetails };
@@ -144,6 +151,14 @@ export const useAppState = create<AppState>()((set) => ({
       const sessionDetails = { ...prevState.sessionDetails };
       sessionDetails.active = false;
       sessionDetails.updatedAt = Date.now();
+// TODO: store session details and player impact history and upload when internet available
+      const playerImpactHistory = { ...prevState.playersImpactHistory };
+      
+      localStorage.setItem("sessionDetails", JSON.stringify(sessionDetails));
+      localStorage.setItem("playerImpactHistory", JSON.stringify(playerImpactHistory));
+
+
+
 
       // publish session to mqtt
       MqttClient.getInstance().publishSession(sessionDetails);

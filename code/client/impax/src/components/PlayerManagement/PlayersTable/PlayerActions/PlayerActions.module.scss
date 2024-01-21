@@ -15,3 +15,7 @@
     }
   }
 }
+
+.editPlayerForm {
+  @include modalInnerForm;
+}

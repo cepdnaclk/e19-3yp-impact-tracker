@@ -8,19 +8,48 @@ CombinedOutput combinedOutput;
 BuddyMQTT buddyMQTT(mqtt_broker, mqtt_username.c_str(), mqtt_password.c_str(), mqtt_port, CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
 Com com;
 
+bool buddyCheckTurnOnHandle()
+{
+    delay(100);
+
+    int val = digitalRead(GPIO_NUM_32);
+
+    if (val == 1)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+void buddyCheckTurnOffHandle()
+{
+    int val = digitalRead(GPIO_NUM_32);
+
+    if (val == 0)
+    {
+        // set state
+        buddyState = BUDDY_OFF;
+        ledStatus = LED_OFF;
+        led(ledStatus);
+
+        // Go to sleep now
+        Serial.println("Going to sleep now");
+        esp_deep_sleep_start();
+    }
+}
+
 bool communicationDashboardWFIFI()
 {
-    if (com.comInit() && com.dataDecode(&ssid, &password, &mqtt_username, &mqtt_password, &ESP_RSA_key))
+    if (com.comInit() && com.dataDecode(&ssid, &password, &mqtt_username, &mqtt_password))
     {
         WiFi.disconnect();
-        setCustomeSSIDAndPasswordEEPROM(ssid, password);
+        setSSIDAndPasswordEEPROM(ssid, password);
         writeMQTTUserNameEEPROM(mqtt_username);
         writeMQTTPasswordEEPROM(mqtt_password);
-        writeMQTTCaCertificateEEPROM(CA_cert);
         buddyMQTT.setUserName(mqtt_username.c_str());
         buddyMQTT.setPassword(mqtt_password.c_str());
-        buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
-        buddyMQTT.setCertificates(CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
+        buddyWIFI.setSsidPassword(ssid.c_str(), password.c_str());
 
         return true;
     }
@@ -30,18 +59,16 @@ bool communicationDashboardWFIFI()
 
 bool communicationDashboard()
 {
-    if (com.comInit() && com.dataDecode(&ssid, &password, &mqtt_username, &mqtt_password, &ESP_RSA_key))
+    if (com.comInit() && com.dataDecode(&ssid, &password, &mqtt_username, &mqtt_password))
     {
         WiFi.disconnect();
-        setCustomeSSIDAndPasswordEEPROM(ssid, password);
+        setSSIDAndPasswordEEPROM(ssid, password);
         writeMQTTUserNameEEPROM(mqtt_username);
         writeMQTTPasswordEEPROM(mqtt_password);
-        writeMQTTCaCertificateEEPROM(CA_cert);
         buddyMQTT.setUserName(mqtt_username.c_str());
         buddyMQTT.setPassword(mqtt_password.c_str());
-        buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
-        buddyMQTT.setCertificates(CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
-        buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
+        buddyWIFI.setSsidPassword(ssid.c_str(), password.c_str());
+        buddyWIFI.init(communicationDashboardWFIFI, buddyCheckTurnOffHandle);
 
         return true;
     }
@@ -53,26 +80,23 @@ void connect()
 {
     if (WiFi.status() != WL_CONNECTED)
     {
-        led(LED_BLINK);
-        buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
-    }
-    else
-    {
-        led(LED_ON);
+        ledStatus = LED_BLINK;
+        led(ledStatus);
+        buddyWIFI.setSsidPassword(ssid.c_str(), password.c_str());
+        buddyWIFI.init(communicationDashboardWFIFI, buddyCheckTurnOffHandle);
     }
 
     if (!buddyMQTT.client.connected())
     {
-        buddyMQTT.reconnect(communicationDashboard);
-        buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
+        ledStatus = LED_BLINK;
+        led(ledStatus);
+        buddyMQTT.setUserName(mqtt_username.c_str());
+        buddyMQTT.setPassword(mqtt_password.c_str());
+        buddyMQTT.reconnect(communicationDashboard, buddyCheckTurnOffHandle);
+        // buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
     }
 
     buddyMQTT.client.loop();
-}
-
-void batteryStatusSend()
-{
-    buddyMQTT.publish(buddyMQTT.topics.BATTERY.c_str(), getBatteryStatus());
 }
 
 void measureSensors()
@@ -88,23 +112,71 @@ void measureSensors()
 
 void process()
 {
-    if (SAYHELLO_DELAY < millis() - sayHelloTimer)
-    {
-        buddyMQTT.publish(buddyMQTT.topics.SAY_HELLO.c_str(), BUDDY_ID.c_str());
-        sayHelloTimer = millis();
-    }
 
     if (BATTER_STATUS_DELAY < millis() - batteryStatusTimer)
     {
-        batteryStatusSend();
+        int batteryStatus = getBatteryStatus();
+        buddyMQTT.publish(buddyMQTT.topics.BATTERY.c_str(), batteryStatus);
+
+        float vol = getBatteryVoltage();
+        buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), vol);
+
+        if (batteryStatus < BATTERY_LIMIT)
+        {
+            ledStatus = LED_BATTERY_LOW;
+        }
+        else
+        {
+            ledStatus = LED_ON;
+        }
+
         batteryStatusTimer = millis();
     }
 
-    if (MEASURE_DELAY < millis() - systemTimer)
+    if (MEASURE_DELAY < millis() - measuringTimer)
     {
         measureSensors();
-        systemTimer = millis();
+        measuringTimer = millis();
     }
+}
+
+void buddyInit()
+{
+    // leds
+    ledStatus = LED_BLINK;
+    led(ledStatus);
+
+    // battery status init
+    batteryInit();
+
+    // EEPROM
+    initEEPROM(ssid, password, mqtt_username, mqtt_password, BUDDY_ID, ID);
+
+    // Initial sensors
+    combinedOutput.init();
+
+    buddyWIFI.setSsidPassword(ssid.c_str(), password.c_str());
+    buddyWIFI.init(communicationDashboardWFIFI, buddyCheckTurnOffHandle);
+
+    Serial.println("Wifi Done");
+
+    // MQTT
+    buddyMQTT.setUserName(mqtt_username.c_str());
+    buddyMQTT.setPassword(mqtt_password.c_str());
+    buddyMQTT.client.setCallback(callback);
+    buddyMQTT.init(BUDDY_ID, communicationDashboard, buddyCheckTurnOffHandle);
+
+    Serial.println("MQTT Done");
+
+    // Timers
+    batteryStatusTimer = millis();
+    measuringTimer = millis();
+
+    // buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
+    Serial.println("Setup done");
+    Serial.println(WiFi.SSID());
+
+    ledStatus = LED_ON;
 }
 
 void setup()
@@ -112,51 +184,40 @@ void setup()
     // serial monitor
     Serial.begin(BAUD_RATE);
 
-    // leds
     initLED();
-    led(LED_BLINK);
+    ledStatus = LED_OFF;
+    led(ledStatus);
+    // define off button
+    pinMode(GPIO_NUM_32, INPUT);
 
-    // EEPROM
-    initEEPROM(ssid_default, password_defalt, BUDDY_ID, ID);
-    setCustomeSSIDAndPasswordEEPROM(ssid, password);
-    writeMQTTUserNameEEPROM(mqtt_username);
-    writeMQTTPasswordEEPROM(mqtt_password);
+    esp_sleep_enable_ext0_wakeup(GPIO_NUM_32, 1);
 
-    // Initial sensors
-    combinedOutput.init();
+    // Increment boot number and print it every reboot
+    ++bootCount;
+    Serial.print("Boot number: ");
+    Serial.println(bootCount);
 
-    // Multi WIFI connection
-    buddyWIFI.addWIFIMulti(ssid_default.c_str(), password_defalt.c_str());
+    // esp_sleep_enable_ext0_wakeup(GPIO_NUM_32, 1); // 1 = High, 0 = Low
 
-    if (getCustomeSSIDAndPasswordEEPROM(ssid, password))
-        buddyWIFI.addWIFIMulti(ssid.c_str(), password.c_str());
+    int wakeUpReason = wakeup_reason();
 
-    buddyWIFI.initWIFIMulti(communicationDashboardWFIFI);
+    if (buddyState == BUDDY_OFF && buddyCheckTurnOnHandle())
+    {
+        buddyInit();
+        buddyState = BUDDY_ON;
+    }
 
-    // get the certificates from EEPROM
-    if (readMQTTCaCertificateEEPROM(CA_cert))
-        buddyMQTT.setCertificates(CA_cert.c_str(), ESP_CA_cert.c_str(), ESP_RSA_key.c_str());
-    // if (readMQTTUserNameEEPROM(mqtt_username))
-    //     buddyMQTT.setUserName(mqtt_username.c_str());
-    // if (readMQTTPasswordEEPROM(mqtt_password))
-    //     buddyMQTT.setPassword(mqtt_password.c_str());
+    delay(1000);
 
-    // MQTT
-    buddyMQTT.client.setCallback(callback);
-    buddyMQTT.init(BUDDY_ID, communicationDashboard);
-
-    // Timers
-    sayHelloTimer = millis();
-    batteryStatusTimer = millis();
-    systemTimer = millis();
-
-    buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
-    Serial.println("Setup done");
-    Serial.println(WiFi.SSID());
+    // check if turn off
+    buddyCheckTurnOffHandle();
 }
 
 void loop()
 {
+    // check if turn off
+    buddyCheckTurnOffHandle();
+
     // Create a client connection
     connect();
     communicationDashboard();
@@ -164,6 +225,8 @@ void loop()
     // send data
     process();
 
+    led(ledStatus);
+
     delay(CLK_SPEED);
-    led(LED_ON);
+    // Serial.println("loop");
 }

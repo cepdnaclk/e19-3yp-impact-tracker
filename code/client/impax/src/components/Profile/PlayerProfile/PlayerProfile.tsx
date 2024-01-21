@@ -1,12 +1,13 @@
 import { IoMdExit } from "react-icons/io";
-import Btn from "../Buttons/Btn";
-import Title from "../Title/Title";
-import styles from "./Profile.module.scss";
+import Btn from "../../Buttons/Btn";
+import Title from "../../Title/Title";
+import styles from "./PlayerProfile.module.scss";
 import { FaRegUserCircle } from "react-icons/fa";
-import { useLoginState } from "../../states/profileState";
-import { useSignupState } from "../../states/formState";
+import { useLoginState } from "../../../states/profileState";
+import { useSignupState } from "../../../states/formState";
+import { useState } from "react";
 
-const Profile = () => {
+const PlayerProfile = () => {
   // Get team-id
   // Get team-name
   // Get manager email
@@ -14,9 +15,11 @@ const Profile = () => {
   const loginInfo = useLoginState((state) => state.loginInfo);
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
 
+  const [addManagerOpen, setAddManagerOpen] = useState<boolean>(false);
+  // TODO: Stay logged in for 90 days and so much more
   return (
     <main>
-      <Title Icon={FaRegUserCircle} title="Profile" />
+      <Title Icon={FaRegUserCircle} title="Player's Profile" />
       <div className={styles.loggedInStatus}>
         <div className={styles.info}>
           <h2>
@@ -41,8 +44,9 @@ const Profile = () => {
           </Btn>
         </div>
       </div>
+      <div className={styles.gridLayout}></div>
     </main>
   );
 };
 
-export default Profile;
+export default PlayerProfile;

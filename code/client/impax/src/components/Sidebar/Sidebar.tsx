@@ -7,24 +7,13 @@ import { useAppState } from "../../states/appState";
 import { useSignupState } from "../../states/formState";
 
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-interface Props {
-  isOnline: boolean;
-}
 
-const Sidebar: React.FC<Props> = ({ isOnline }: Props) => {
-  const setIsInternetAvailable = useAppState(
-    (state) => state.setIsInternetAvailable
-  );
-
-  useEffect(() => {
-    isOnline ? setIsInternetAvailable(true) : setIsInternetAvailable(false);
-  }, [isOnline, setIsInternetAvailable]);
-
+const Sidebar: React.FC = () => {
   const activePage = useAppState((state) => state.activePage);
   const setActivePage = useAppState((state) => state.setActivePage);
   const navigate = useNavigate();
-  const isLoggedIn = useSignupState((state) => state.isLoggedIn);
+  let isLoggedIn = useSignupState((state) => state.isLoggedIn);
+  isLoggedIn = true;
 
   return (
     <aside className={styles.sideBar}>
@@ -48,15 +37,24 @@ const Sidebar: React.FC<Props> = ({ isOnline }: Props) => {
               navigate("/devices");
             }}
           />
-          {/* <MenuItem
+          <MenuItem
             icon={MdBarChart}
-            name="Analytics"
-            active={activePage === "analytics"}
+            name="Team Analytics"
+            active={activePage === "team-analytics"}
             onClick={() => {
-              setActivePage("analytics");
-              navigate("/analytics");
+              setActivePage("team-analytics");
+              navigate("/team-analytics");
             }}
-          /> */}
+          />
+          <MenuItem
+            icon={MdBarChart}
+            name="Player Analytics"
+            active={activePage === "player-analytics"}
+            onClick={() => {
+              setActivePage("player-analytics");
+              navigate("/player-analytics");
+            }}
+          />
           <MenuItem
             icon={FaUsers}
             name="Player Management"
@@ -77,7 +75,7 @@ const Sidebar: React.FC<Props> = ({ isOnline }: Props) => {
         active={activePage === "profile"}
         onClick={() => {
           setActivePage("profile");
-          navigate("/profile");
+          navigate("/manager-profile");
         }}
       />
     </aside>

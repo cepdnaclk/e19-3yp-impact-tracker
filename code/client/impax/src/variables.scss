@@ -7,6 +7,7 @@ $grey-color: rgb(170, 170, 170);
 $sidebar-cl: #1a1a1a;
 $grey-highlight-1: #2e2e2e;
 $grey-highlight-2: #262626;
+$green: #2d9380;
 $breakpoints: (
   mobile: 768px,
   laptop: 1240px,
@@ -40,6 +41,11 @@ $breakpoints: (
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0.6rem;
   color: $body-color;
+  font-size: 1rem;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    display: none;
+  }
 
   &::placeholder {
     color: rgba(255, 255, 255, 0.4);
@@ -82,4 +88,26 @@ $breakpoints: (
   grid-template-columns: 1fr 1fr;
   padding: 0;
   height: 100dvh;
+}
+
+@mixin modalInnerForm {
+  input {
+    @include inputText;
+  }
+
+  label {
+    margin-bottom: -0.4em;
+    font-size: 0.9em;
+  }
+  .additionalInfo {
+    display: block;
+    color: $grey-color;
+    font-size: 0.8em;
+  }
+
+  button {
+    justify-content: center;
+    gap: 1em;
+    padding: 1em;
+  }
 }

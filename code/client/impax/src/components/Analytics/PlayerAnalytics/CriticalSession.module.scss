@@ -1,0 +1,32 @@
+@use "../../../variables.scss" as *;
+
+.session {
+  @include card;
+  max-width: 100%;
+  background-color: rgb(37, 55, 87);
+  padding: 1em 1em;
+  border-radius: 0.4em;
+
+  p {
+    color: $grey-color;
+  }
+}
+
+.impactsSummary {
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .title {
+    text-transform: uppercase;
+    font-size: 0.7em;
+    width: 60%;
+    color: rgb(194 198 228);
+  }
+  .value {
+    font-size: 2em;
+
+    color: rgb(129 175 255);
+    font-weight: 600;
+  }
+}

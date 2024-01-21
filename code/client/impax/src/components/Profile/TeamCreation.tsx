@@ -29,7 +29,6 @@ const TeamCreation = () => {
     };
     // console.log(data);
     console.log(request);
-    // TODO: submit to server
     const response = await fetch("http://16.170.235.219:5000/team/manager", {
       method: "POST",
       body: JSON.stringify(request),
