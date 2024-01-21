@@ -81,6 +81,12 @@ $breakpoints: (
       color: $grey-color;
     }
   }
+  .controls {
+    button {
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
 }
 
 @mixin mainDivider {
