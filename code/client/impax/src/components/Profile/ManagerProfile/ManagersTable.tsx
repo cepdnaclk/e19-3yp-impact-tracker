@@ -19,8 +19,9 @@ import { managers } from "./managersData";
 
 const columns: ColumnDef<Manager>[] = [
   {
+    //TODO:Until verified manager will not have a name
     accessorKey: "name",
-    size: 40,
+    minSize: 120,
     header: ({ column }) => {
       return (
         <button
@@ -30,12 +31,16 @@ const columns: ColumnDef<Manager>[] = [
         </button>
       );
     },
+    cell: ({ row }) => {
+      return row.getValue("name") ?? <span className={styles.noName}>---</span>;
+    },
   },
 
   {
     accessorKey: "email",
     header: "Email",
     id: "email",
+    size: 20,
   },
 
   {
@@ -49,7 +54,7 @@ const columns: ColumnDef<Manager>[] = [
     accessorKey: "edit",
     header: "",
     id: "edit",
-    size: 10,
+    maxSize: 10,
     cell: ({ row }) => (
       <ManagerActions
         name={row.getValue("name")}
