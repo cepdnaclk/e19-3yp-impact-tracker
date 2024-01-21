@@ -978,27 +978,7 @@
         }
       },
 
-      "PlayerTeamRequest": {
-        "type": "object",
-        "properties": {
-          
-          "jersyID": {
-            "type": "string"
-          },
-          "fullName": {
-            "type": "string"
-          },
-          
-          "playerEmail": {
-            "type": "string"
-          }
-        },
-        "example": {
-          "jersyId": "exampleJersyId",
-          "fullName": "John Doe",
-          "playerEmail": "example@example.com"
-        }
-      },
+
 
       "AnalyticsSummary": {
         "type": "object",
@@ -1068,6 +1048,52 @@
           "message": "Player removed successfully"
         }
       },
+      "PlayerTeamRequest": {
+        "type": "object",
+        "properties": {
+          
+          "jersyID": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          
+          "playerEmail": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "jersyId": "exampleJersyId",
+          "fullName": "John Doe",
+          "playerEmail": "example@example.com"
+        }
+      },
+      "PlayerTeamResponse": {
+        "type": "object",
+        "properties": {
+          
+          "jersyID": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          
+          "playerEmail": {
+            "type": "string"
+          },
+          "teamId":{
+            "type": "string"
+          }
+        },
+        "example": {
+          "jersyId": "exampleJersyId",
+          "fullName": "John Doe",
+          "playerEmail": "example@example.com",
+          "teamId": "exampleTeamId"
+        }
+      },
       "PlayerCreateRequest": {
         "type": "object",
         "properties": {
@@ -1086,24 +1112,20 @@
       "PlayerUpdateRequest": {
         "type": "object",
         "properties": {
-          "firstName": {
+          "fullName": {
             "type": "string"
           },
-          "lastName": {
+          "playerEmail": {
             "type": "string"
           },
-          "email": {
-            "type": "string"
-          },
-          "password": {
+          "jersyId": {
             "type": "string"
           }
         },
         "example": {
-          "firstName": "John",
-          "lastName": "Doe",
-          "email": "example@example.com",
-          "password": "securePassword"
+          "fullName": "John Doe",
+          "playerEmail": "example@example.com",
+          "jersyId": "exampleJersyId"
         }
       },
 

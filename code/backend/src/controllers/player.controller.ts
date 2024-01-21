@@ -10,7 +10,8 @@ import TeamModel from "../db/team.schema";
 import { sendInvitationEmail } from "../email/playerInviteEmail";
 import { sendVerificationEmail } from "../email/playerVerifyEmail";
 import { findSourceMap } from "module";
-import { PlayerInTeamResponse, PlayerRequestBody, PlayerResponse } from "../models/player.model";
+import { Player, PlayerInTeamResponse, PlayerRequestBody, PlayerResponse, PlayerTeamRequest } from "../models/player.model";
+import PlayerTeamModel from "../db/players.in.team.schema";
 
 class PlayerController {
   
@@ -148,7 +149,44 @@ class PlayerController {
       throw error;
     }
   }
+  // Update player in Team
+  async updatePlayer(
+  playerTeamRequest: PlayerTeamRequest,
+  managerEmail: string
 
+): Promise<PlayerInTeamResponse> {
+
+    try{
+      // check the team exist and manager exist
+      const teamIdEmailExistsResponse: TeamIdEmailExistsResponse = await teamService.checkTeamEmailExist(playerTeamRequest.teamId,managerEmail);
+      if (!teamIdEmailExistsResponse.teamExists) {
+        throw new Error(HttpMsg.TEAM_NOT_FOUND);
+      }
+      if (!teamIdEmailExistsResponse.managerExists) {
+        throw new Error(HttpMsg.MANAGER_DEOS_NOT_EXIST);
+      }
+      // check if player exists in the team
+      const playerExistsInTeam = await playersInTeamService.checkPlayerExistsInTeam(
+        playerTeamRequest.playerEmail,
+        playerTeamRequest.teamId,
+      );
+
+      if (playerExistsInTeam){
+        const playerInTeamResponse = await playersInTeamService.updatePlayerInTeam(playerTeamRequest);
+        return playerInTeamResponse;
+      }else{
+        throw new Error(HttpMsg.PLAYER_NOT_EXISTS_IN_TEAM)
+      }
+
+    }catch(error){
+      console.error(error);
+      throw error;
+    }
+    
+  }
+
+  // Remove player in team
+  async removePlayer(player: typeof PlayerTeamModel): Promise<boolean>
   
 }
 function generateInvitationToken(): string {

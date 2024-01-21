@@ -68,5 +68,27 @@ class Player {
 
     }
   }
-  export { Player, PlayerResponse, PlayerRequestBody, PlayerInTeamResponse };
+
+  class PlayerTeamRequest{
+    public playerEmail: string;
+    public teamId: string;
+    public jesryId: string;
+    public fullName: string;
+
+    public constructor(
+      playerEmail: string,
+      teamId: string,
+      jesryId: string,
+      fullName: string,
+
+
+    ) {
+      this.playerEmail = playerEmail;
+      this.teamId = teamId;
+      this.jesryId = jesryId;
+      this.fullName = fullName;
+
+    }
+  }
+  export { Player, PlayerResponse, PlayerRequestBody, PlayerInTeamResponse, PlayerTeamRequest };
   

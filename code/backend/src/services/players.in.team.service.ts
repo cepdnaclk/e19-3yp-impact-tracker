@@ -1,6 +1,6 @@
 import PlayerModel from "../db/player.schema";
 import PlayerTeamModel from "../db/players.in.team.schema";
-import { PlayerInTeamResponse } from "../models/player.model";
+import { PlayerInTeamResponse, PlayerTeamRequest } from "../models/player.model";
 
 class PlayerInTeamService {
   // create team player instance
@@ -105,6 +105,35 @@ class PlayerInTeamService {
     }
     return false;
   }
-}
+  async updatePlayerInTeam(
+    playerTeamRequest : PlayerTeamRequest
+    ): Promise<PlayerInTeamResponse>{
+      const existingPlayer = await PlayerTeamModel.findOne({ playerEmail: playerTeamRequest.playerEmail });
 
+      if (existingPlayer) {
+        // Update properties based on your requirements
+        existingPlayer.playerEmail = playerTeamRequest.playerEmail;
+        existingPlayer.teamId = playerTeamRequest.teamId;
+        existingPlayer.jesryId = playerTeamRequest.jesryId;
+        existingPlayer.fullName = playerTeamRequest.fullName; 
+        
+    
+        await existingPlayer.save();
+
+        const playerInTeamResponse = new PlayerInTeamResponse(
+          existingPlayer.playerEmail,
+          existingPlayer.teamId,
+          existingPlayer.jesryId,
+          existingPlayer.fullName,
+          existingPlayer.isVerified,
+        );
+        return playerInTeamResponse;
+
+      } else {
+        // Handle case where player is not found
+        throw new Error("Player not found");
+
+      }
+    }
+  }
 export default new PlayerInTeamService();

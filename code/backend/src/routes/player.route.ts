@@ -5,6 +5,7 @@ import { validateEmail } from "../utils/utils";
 import playerController from "../controllers/player.controller";
 import PlayerModel from "../db/player.schema";
 import PlayerTeamModel from "../db/players.in.team.schema";
+import { PlayerInTeamResponse, PlayerTeamRequest } from "../models/player.model";
 
 // Create an instance of the Express Router
 const router = Router();
@@ -116,6 +117,125 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 // Endpoint to update player details
+router.put("/update", async (req: Request, res: Response) => {
+  const newPlayerEmail = req.body.playerEmail;
+  const teamId = req.body.teamId;
+  const jersyId = req.body.jersyId;
+  const fullName = req.body.fullName;
+  const managerEmail = req.body.userName;
+
+  // Check if any required field is missing
+  if (!jersyId || !fullName || !newPlayerEmail ) {
+    const missingFields = [];
+  if (!jersyId) missingFields.push("jersyId");
+  if (!fullName) missingFields.push("fullName");
+  if (!newPlayerEmail) missingFields.push("newPlayerEmail");
+
+  const errorMessage = `Missing required fields: ${missingFields.join(", ")}`;
+  console.log(errorMessage);
+  res.status(HttpCode.BAD_REQUEST).send({ message: errorMessage });
+  }
+
+  // Validate email format
+  if (!validateEmail(newPlayerEmail)) {
+    console.log(HttpMsg.INVALID_EMAIL);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.INVALID_EMAIL });
+    return;
+  }
+
+  try {
+    const player = await PlayerTeamModel.findOne({ 
+      playerEmail: newPlayerEmail, 
+      teamId: teamId });
+
+    const playerTeamRequest = new PlayerTeamRequest(
+      newPlayerEmail,
+      teamId,
+      jersyId,
+      fullName
+    );
+
+      
+    let playerInTeamResponse;
+
+    if (player){
+      if (player.playerEmail == newPlayerEmail) {
+        // Player with the same email already exists, update the existing player
+        playerInTeamResponse = await playerController.updatePlayer(playerTeamRequest, managerEmail);
+        res.send({ message: "Player updated successfully", playerInTeamResponse });
+      } else {
+        // Player with a new email, create a new player
+        playerInTeamResponse = await playerController.addNewPlayer(
+          jersyId,
+          fullName,
+          newPlayerEmail,
+          teamId,
+          managerEmail
+        );
+        res.send({ message: "Player created successfully", playerInTeamResponse });
+      }
+      
+    }else{
+      throw new Error(HttpMsg.PLAYER_NOT_EXISTS_IN_TEAM);
+    }
+    
+    
+    
+    
+  } catch (err) {
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
+  }
+});
+
+// Endpoint to remove player from team
+router.delete("/remove",async (req:Request, res: Response) => {
+    const jersyId = req.body.jersyId;
+    const managerEmail = req.body.userName;
+    const teamId = req.body.teamId;
+
+    // Check if any required field is missing
+    if (!jersyId) {
+ 
+    console.log(HttpMsg.BAD_REQUEST);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    return;
+    }
+  
+    try{
+      const player = await PlayerTeamModel.findOne({
+        jersyId: jersyId,  
+        teamId: teamId
+      });
+
+      
+      if (player){
+
+        await playerController.removePlayer(
+          player
+        )
+        res.send({ message: "Player removed from team successfully" });
+
+      }else{
+        throw new Error(HttpMsg.PLAYER_NOT_EXISTS_IN_TEAM);
+      }
+      
+
+    } catch (err) {
+      if (err instanceof Error) {
+        // If 'err' is an instance of Error, send the error message
+        res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+      } else {
+        // If 'err' is of unknown type, send a generic error message
+        res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+      }
+    }
+});
 
 
 // Endpoint Accept Invitation
