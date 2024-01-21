@@ -6,7 +6,7 @@
 .gridLayout {
   margin: 2em 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
 
   @media (max-width: 720px) {
     grid-template-columns: 1fr;
@@ -29,4 +29,10 @@
 }
 .addManagerForm {
   @include modalInnerForm;
+}
+
+.myTeamsContainer {
+  h2 {
+    margin-left: 1em;
+  }
 }

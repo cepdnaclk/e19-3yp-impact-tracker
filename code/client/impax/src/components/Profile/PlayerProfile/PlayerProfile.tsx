@@ -6,6 +6,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { useLoginState } from "../../../states/profileState";
 import { useSignupState } from "../../../states/formState";
 import { useState } from "react";
+import MyTeamsTable from "./MyTeamsTable";
 
 const PlayerProfile = () => {
   // Get team-id
@@ -44,7 +45,14 @@ const PlayerProfile = () => {
           </Btn>
         </div>
       </div>
-      <div className={styles.gridLayout}></div>
+      <div className={styles.gridLayout}>
+        <div className={styles.myTeamsContainer}>
+          <h2>My Teams</h2>
+          <div className={styles.tableContainer}>
+            <MyTeamsTable />
+          </div>
+        </div>
+      </div>
     </main>
   );
 };
