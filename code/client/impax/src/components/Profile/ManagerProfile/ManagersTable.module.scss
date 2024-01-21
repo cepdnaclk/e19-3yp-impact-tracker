@@ -74,17 +74,7 @@
     padding: 1em 2em;
   }
 
-  td:has(div.jerseyId) {
-    width: 2ch;
-    max-width: 2ch;
-  }
-
   td:has(button) {
     width: 10em;
   }
-}
-
-.jerseyId {
-  font-family: "MADE Outer Sans";
-  font-size: 2em;
 }

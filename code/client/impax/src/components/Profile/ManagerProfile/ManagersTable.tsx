@@ -20,7 +20,7 @@ import { managers } from "./managersData";
 const columns: ColumnDef<Manager>[] = [
   {
     accessorKey: "name",
-    size: 20,
+    size: 40,
     header: ({ column }) => {
       return (
         <button
