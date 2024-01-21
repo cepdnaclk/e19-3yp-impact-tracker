@@ -13,7 +13,6 @@ import {
 } from "@tanstack/react-table";
 import { FaSort } from "react-icons/fa";
 import { TeamAnalyticsColumns } from "../../../types";
-import { teamAnalyticsTableData } from "./teamData";
 
 const columns: ColumnDef<TeamAnalyticsColumns>[] = [
   {
@@ -104,7 +103,9 @@ const columns: ColumnDef<TeamAnalyticsColumns>[] = [
     id: "concussions",
   },
 ];
-const TeamAnalyticsTable = () => {
+const TeamAnalyticsTable: React.FC<{
+  teamAnalyticsTableData: TeamAnalyticsColumns[];
+}> = ({ teamAnalyticsTableData }) => {
   const [data] = React.useState(() => [...teamAnalyticsTableData]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(

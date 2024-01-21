@@ -81,7 +81,10 @@ export type TimeSpan = "Last Week" | "Last Month" | "All Time";
 
 //for player analytics
 export type HistogramData = {
-  [direction: Impact.direction]: number[];
+  left: number[];
+  right: number[];
+  front: number[];
+  back: number[];
 };
 
 //for player critical sessions
@@ -102,4 +105,11 @@ export type TeamAnalyticsColumns = {
   average_impact: number;
   dominant_direction: Impact.direction;
   concussions: number;
+};
+
+//Profile Managers
+export type Manager = {
+  name: string;
+  email: string;
+  verification: "pending" | "rejected" | "verified";
 };
