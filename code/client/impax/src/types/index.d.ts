@@ -35,11 +35,12 @@ export type PlayerMap = {
   [buddy_id: number]: number;
 };
 
+type Verification = "verified" | "pending" | "rejected";
 export type Players = {
   [jersey_number: number]: {
     name: string;
     email?: string;
-    verification?: "verified" | "pending" | "rejected";
+    verification?: Verification;
   };
 };
 
@@ -73,7 +74,7 @@ export type sessionToBeUploaded = {
 export type Metric = {
   title: string;
   value: string | number;
-  trend?: number;
+  trend?: number | Impact.direction;
   metaUnits?: string;
 };
 
@@ -101,6 +102,7 @@ export type TeamAnalyticsColumns = {
   jersey_number: number;
   name: string;
   impacts_recorded: number;
+  cumulative_impact: number;
   highest_impact: number;
   average_impact: number;
   dominant_direction: Impact.direction;
@@ -108,8 +110,20 @@ export type TeamAnalyticsColumns = {
 };
 
 //Profile Managers
-export type Manager = {
-  name: string;
-  email: string;
-  verification: "pending" | "rejected" | "verified";
+export type Manager =
+  | {
+      name: string;
+      email: string;
+      verification: "verified";
+    }
+  | {
+      email: string;
+      verification: "pending" | "rejected";
+    };
+
+//Player Profile - My Teams
+export type MyTeam = {
+  team_id: string;
+  team_name: string;
+  verification: Verification;
 };
