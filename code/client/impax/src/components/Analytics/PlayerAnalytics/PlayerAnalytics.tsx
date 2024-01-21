@@ -138,7 +138,7 @@ const PlayerAnalytics = () => {
           <h2>Critical Sessions</h2>
           {criticalSessionsData?.length == 0 && <p>No sessions recorded</p>}
           {criticalSessionsData?.map((session) => (
-            <div className={styles.criticalSessionContainer}>
+            <div className={styles.criticalSessionContainer} key={session.name}>
               <CriticalSession
                 name={session.name}
                 date={session.date}
