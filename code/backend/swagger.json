@@ -390,44 +390,9 @@
         }
       }
     },
-    "/accept-invitation/token/{token}": {
-      "get": {
-        "tags": ["ManagerEndpoints"],
-        "summary": "Accept manager verification",
-        "parameters": [
-          {
-            "name": "token",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "f476d19f-8035-4811-9c40-da0fbe300527"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "example": "Invitation accepted successfully! You can now log in."
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "example": "Invalid or expired token. Please contact support."
-              }
-            }
-          }
-        }
-      }
-    },
 
 
-
+    
     "/player": {
       "post": {
         "tags": ["PlayerEndpoints"],
@@ -455,24 +420,11 @@
             }
           }
         }
-      }
-    },
-
-    "/player/{email}": {
+      },
       "get": {
         "tags": ["PlayerEndpoints"],
         "summary": "Get player details",
-        "parameters": [
-          {
-            "name": "email",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "example@example.com"
-          }
-        ],
+        
         "responses": {
           "200": {
             "description": "Success",
@@ -494,6 +446,7 @@
           }
         }
       }
+
     },
 
     "/player/{playerID}/sessions": {
