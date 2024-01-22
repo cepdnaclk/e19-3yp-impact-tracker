@@ -6,7 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 const LoginPlayer = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
-  const setIsLoggedIn = useSignupState((state) => state.setIsLoggedIn);
+  const setIsLoggedInPlayer = useSignupState(
+    (state) => state.setIsLoggedInPlayer
+  );
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
   const setTokens = useLoginState((state) => state.setTokens);
   const navigate = useNavigate();
@@ -31,7 +33,7 @@ const LoginPlayer = () => {
     });
     const responseData = await response.json();
     if (response.ok) {
-      setIsLoggedIn(true);
+      setIsLoggedInPlayer(true);
       localStorage.setItem("refreshToken", responseData.refreshToken);
       localStorage.setItem("accessToken", responseData.accessToken);
 
@@ -39,8 +41,8 @@ const LoginPlayer = () => {
         accessToken: responseData.accessToken,
         refreshToken: responseData.refreshToken,
       });
-
-      // setLoginInfo({ teamId, teamName: teamName, email });
+      // TODO: Pass the teamInfo the to the profile page
+      setLoginInfo({ teamId: "", teamName: "", email });
 
       navigate("/login/player");
     }
