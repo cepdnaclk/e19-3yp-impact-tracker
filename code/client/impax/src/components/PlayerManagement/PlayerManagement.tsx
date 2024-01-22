@@ -3,7 +3,7 @@ import { FaUsers } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import styles from "./PlayerManagement.module.scss";
 import tableStyles from "./PlayersTable/PlayersTable.module.scss";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, set, useForm } from "react-hook-form";
 
 import {
   ColumnDef,
@@ -152,25 +152,35 @@ const PlayerManagement = () => {
     formState: { errors, isSubmitting },
     reset,
   } = useForm();
+  const setPlayerDetails = useAppState((state) => state.setPlayerDetails);
+
   const onSubmit = async (data: FieldValues) => {
     setAddPlayerOpen(false);
-
-    const { teamId, email, password } = data;
-    const response = await fetch("http://13.235.86.11:5000/exampleURL", {
-      method: "POST",
-      body: JSON.stringify({
-        teamId: teamId,
-        password: password,
-        userName: email,
-      }),
-      headers: {
-        "Content-Type": "application/json",
+    setPlayerDetails({
+      ...playerDetails,
+      [data.jersey_number]: {
+        name: data.name,
+        email: data.email,
+        verification: "pending",
       },
     });
-    const responseData = await response.json();
-    if (response.ok) {
-      // do something
-    }
+
+    // const { teamId, email, password } = data;
+    // const response = await fetch("http://13.235.86.11:5000/exampleURL", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     teamId: teamId,
+    //     password: password,
+    //     userName: email,
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    // const responseData = await response.json();
+    // if (response.ok) {
+    //   // do something
+    // }
 
     reset();
   };
@@ -211,13 +221,23 @@ const PlayerManagement = () => {
               >
                 <label htmlFor="jersey_number">Jersey Number</label>
                 <input
+                  {...register("jersey_number", {
+                    required: true,
+                  })}
                   type="number"
                   name="jersey_number"
                   id="jersey_number"
                   placeholder="25"
                 />
                 <label htmlFor="name">Player Name</label>
-                <input type="text" name="name" placeholder="Johnathan Doe" />
+                <input
+                  {...register("name", {
+                    required: true,
+                  })}
+                  type="text"
+                  name="name"
+                  placeholder="Johnathan Doe"
+                />
                 <label htmlFor="email">
                   Player's Email (Optional)
                   <span className={styles.additionalInfo}>
@@ -225,6 +245,7 @@ const PlayerManagement = () => {
                   </span>
                 </label>
                 <input
+                  {...register("email", { required: true })}
                   type="email"
                   name="email"
                   id="email"
