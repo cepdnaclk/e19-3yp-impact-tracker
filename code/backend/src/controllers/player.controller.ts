@@ -152,13 +152,14 @@ class PlayerController {
   // Update player in Team
   async updatePlayer(
   playerTeamRequest: PlayerTeamRequest,
-  managerEmail: string
+  managerEmail: string,
+  teamId: string,
 
 ): Promise<PlayerInTeamResponse> {
 
-    try{
+    try{ 
       // check the team exist and manager exist
-      const teamIdEmailExistsResponse: TeamIdEmailExistsResponse = await teamService.checkTeamEmailExist(playerTeamRequest.teamId,managerEmail);
+      const teamIdEmailExistsResponse: TeamIdEmailExistsResponse = await teamService.checkTeamEmailExist(teamId,managerEmail);
       if (!teamIdEmailExistsResponse.teamExists) {
         throw new Error(HttpMsg.TEAM_NOT_FOUND);
       }
@@ -168,11 +169,25 @@ class PlayerController {
       // check if player exists in the team
       const playerExistsInTeam = await playersInTeamService.checkPlayerExistsInTeam(
         playerTeamRequest.jesryId,
-        playerTeamRequest.teamId,
+        teamId,
       );
 
       if (playerExistsInTeam){
         const playerInTeamResponse = await playersInTeamService.updatePlayerInTeam(playerTeamRequest);
+
+        //If the email get changed => send verification email
+        if (playerInTeamResponse.playerEmail != playerTeamRequest.playerEmail){
+
+          // Create a player with an invitation token
+          const invitationToken = generateInvitationToken();
+          const teamInstance = await TeamModel.findOne({ teamId });
+          const teamName = teamInstance?.teamName; // Add null check using optional chaining operator
+
+            // Send the invitation email
+          await sendInvitationEmail(playerInTeamResponse.fullName, playerInTeamResponse.playerEmail, invitationToken, teamName!);
+        }
+
+        
         return playerInTeamResponse;
       }else{
         throw new Error(HttpMsg.PLAYER_NOT_EXISTS_IN_TEAM)

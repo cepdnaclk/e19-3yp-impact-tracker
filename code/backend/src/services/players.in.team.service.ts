@@ -108,12 +108,12 @@ class PlayerInTeamService {
   async updatePlayerInTeam(
     playerTeamRequest : PlayerTeamRequest
     ): Promise<PlayerInTeamResponse>{
-      const existingPlayer = await PlayerTeamModel.findOne({ playerEmail: playerTeamRequest.playerEmail });
+      const existingPlayer = await PlayerTeamModel.findOne({ 
+        jesryId: playerTeamRequest.jesryId});
 
       if (existingPlayer) {
         // Update properties based on your requirements
-        existingPlayer.playerEmail = playerTeamRequest.playerEmail;
-        existingPlayer.teamId = playerTeamRequest.teamId;
+        // existingPlayer.playerEmail = playerTeamRequest.playerEmail;
         existingPlayer.jesryId = playerTeamRequest.jesryId;
         existingPlayer.fullName = playerTeamRequest.fullName; 
         

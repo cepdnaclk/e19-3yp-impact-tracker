@@ -119,10 +119,10 @@ router.get("/", async (req: Request, res: Response) => {
 // Endpoint to update player details
 router.put("/update", async (req: Request, res: Response) => {
   const newPlayerEmail = req.body.playerEmail;
-  const teamId = req.body.teamId;
   const jersyId = req.body.jersyId;
   const fullName = req.body.fullName;
-  const managerEmail = req.body.userName;
+  const managerEmail = req.body.userName; // extract from middleware
+  const teamId = req.body.teamId;         // extract from middleware
 
   // Check if any required field is missing
   if (!jersyId || !fullName || !newPlayerEmail ) {
@@ -145,12 +145,11 @@ router.put("/update", async (req: Request, res: Response) => {
 
   try {
     const player = await PlayerTeamModel.findOne({ 
-      playerEmail: newPlayerEmail, 
+      jesryId: jersyId,
       teamId: teamId });
 
     const playerTeamRequest = new PlayerTeamRequest(
       newPlayerEmail,
-      teamId,
       jersyId,
       fullName
     );
@@ -159,10 +158,15 @@ router.put("/update", async (req: Request, res: Response) => {
     let playerInTeamResponse;
 
     if (player){
-      if (player.playerEmail == newPlayerEmail) {
+
+      playerInTeamResponse = await playerController.updatePlayer(
+        playerTeamRequest, 
+        managerEmail, 
+        teamId);
+
+      if (player.playerEmail != newPlayerEmail) {
         // Player with the same email already exists, update the existing player
-        playerInTeamResponse = await playerController.updatePlayer(playerTeamRequest, managerEmail);
-        res.send({ message: "Player updated successfully", playerInTeamResponse });
+
       } else {
         // Player with a new email, create a new player
         playerInTeamResponse = await playerController.addNewPlayer(
@@ -170,11 +174,14 @@ router.put("/update", async (req: Request, res: Response) => {
           fullName,
           newPlayerEmail,
           teamId,
-          managerEmail
+          managerEmail,
         );
         res.send({ message: "Player created successfully", playerInTeamResponse });
       }
-      
+
+
+      res.send({ message: "Player updated successfully", playerInTeamResponse });
+
     }else{
       throw new Error(HttpMsg.PLAYER_NOT_EXISTS_IN_TEAM);
     }
