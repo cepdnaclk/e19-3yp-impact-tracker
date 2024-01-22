@@ -579,6 +579,34 @@
       }
     },
     
+    "/player/myTeams": {
+      "get": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Get all teams of a player - Access Token required",
+
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/PlayerTeamsResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
     "/player/analytics-summary/{duration}": {
       "get": {
         "tags": ["PlayerEndpoints"],
@@ -587,7 +615,7 @@
           {
             "name": "duration",
             "in": "path",
-            "description": "Duration for analytics summary (e.g., '7days', '3months', 'all')",
+            "description": "Duration for analytics summary (e.g., 'LastWeek', 'LastMonth', 'All')",
             "required": true,
             "schema": {
               "type": "string"
@@ -978,27 +1006,7 @@
         }
       },
 
-      "PlayerTeamRequest": {
-        "type": "object",
-        "properties": {
-          
-          "jersyID": {
-            "type": "string"
-          },
-          "fullName": {
-            "type": "string"
-          },
-          
-          "playerEmail": {
-            "type": "string"
-          }
-        },
-        "example": {
-          "jersyId": "exampleJersyId",
-          "fullName": "John Doe",
-          "playerEmail": "example@example.com"
-        }
-      },
+
 
       "AnalyticsSummary": {
         "type": "object",
@@ -1028,32 +1036,28 @@
             "trend": 20
           },
           {
-            "title": "Impact Frequency",
-            "value": "400",
-            "metaUnits": "/hr",
-            "trend": 10
-          },
-          {
             "title": "Average Impact",
             "value": "43 g",
             "trend": 40
+          },
+          {
+            "title": "Dominent Direction",
+            "value": "Left",
+            "trend": 10
           }
         ]
       },
+
       "PlayerRemoveRequest": {
         "type": "object",
         "properties": {
           "jersyId": {
             "type": "string"
-          },
-          "teamId": {
-            "type": "string"
           }
         },
-        "required": ["jersyId", "teamId"],
+        "required": ["jersyId"],
         "example": {
-          "jersyId": "exampleJersyId",
-          "teamId": "exampleTeamId"
+          "jersyId": "exampleJersyId"
         }
       },
   
@@ -1066,6 +1070,52 @@
         },
         "example": {
           "message": "Player removed successfully"
+        }
+      },
+      "PlayerTeamRequest": {
+        "type": "object",
+        "properties": {
+          
+          "jersyID": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          
+          "playerEmail": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "jersyId": "exampleJersyId",
+          "fullName": "John Doe",
+          "playerEmail": "example@example.com"
+        }
+      },
+      "PlayerTeamResponse": {
+        "type": "object",
+        "properties": {
+          
+          "jersyID": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          
+          "playerEmail": {
+            "type": "string"
+          },
+          "teamId":{
+            "type": "string"
+          }
+        },
+        "example": {
+          "jersyId": "exampleJersyId",
+          "fullName": "John Doe",
+          "playerEmail": "example@example.com",
+          "teamId": "exampleTeamId"
         }
       },
       "PlayerCreateRequest": {
@@ -1086,24 +1136,20 @@
       "PlayerUpdateRequest": {
         "type": "object",
         "properties": {
-          "firstName": {
+          "fullName": {
             "type": "string"
           },
-          "lastName": {
+          "playerEmail": {
             "type": "string"
           },
-          "email": {
-            "type": "string"
-          },
-          "password": {
+          "jersyId": {
             "type": "string"
           }
         },
         "example": {
-          "firstName": "John",
-          "lastName": "Doe",
-          "email": "example@example.com",
-          "password": "securePassword"
+          "fullName": "John Doe",
+          "playerEmail": "example@example.com",
+          "jersyId": "exampleJersyId"
         }
       },
 
@@ -1120,6 +1166,32 @@
           }
         }
       },
+
+      "PlayerTeamsResponse": {
+        "type": "object",
+        "properties": {
+          "teams": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "teamId": {
+                  "type": "string",
+                  "description": "The ID of the team"
+                },
+                "teamName": {
+                  "type": "string",
+                  "description": "The name of the team"
+                }
+              }
+            },
+            "description": "Array of teams with teamId and teamName"
+          }
+        }
+      },
+      
+
+
       
       "LoginResponse": {
         "type": "object",
@@ -1371,6 +1443,7 @@
           }
         }
       },
+
       "ManagerTeamRequest": {
         "content": {
           "application/json": {

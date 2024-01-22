@@ -5,6 +5,7 @@ import { validateEmail } from "../utils/utils";
 import playerController from "../controllers/player.controller";
 import PlayerModel from "../db/player.schema";
 import PlayerTeamModel from "../db/players.in.team.schema";
+import { PlayerInTeamResponse, PlayerTeamRequest } from "../models/player.model";
 
 // Create an instance of the Express Router
 const router = Router();
@@ -116,7 +117,151 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 // Endpoint to update player details
+router.put("/update", async (req: Request, res: Response) => {
+  const newPlayerEmail = req.body.playerEmail;
+  const jersyId = req.body.jersyId;
+  const fullName = req.body.fullName;
+  const managerEmail = req.body.userName; // extract from middleware
+  const teamId = req.body.teamId;         // extract from middleware
 
+  // Check if any required field is missing
+  if (!jersyId || !fullName || !newPlayerEmail ) {
+    const missingFields = [];
+  if (!jersyId) missingFields.push("jersyId");
+  if (!fullName) missingFields.push("fullName");
+  if (!newPlayerEmail) missingFields.push("newPlayerEmail");
+
+  const errorMessage = `Missing required fields: ${missingFields.join(", ")}`;
+  console.log(errorMessage);
+  res.status(HttpCode.BAD_REQUEST).send({ message: errorMessage });
+  }
+
+  // Validate email format
+  if (!validateEmail(newPlayerEmail)) {
+    console.log(HttpMsg.INVALID_EMAIL);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.INVALID_EMAIL });
+    return;
+  }
+
+  try {
+    const player = await PlayerTeamModel.findOne({ 
+      jesryId: jersyId,
+      teamId: teamId });
+
+    const playerTeamRequest = new PlayerTeamRequest(
+      newPlayerEmail,
+      jersyId,
+      fullName
+    );
+
+      
+    let playerInTeamResponse;
+
+    if (player){
+
+      playerInTeamResponse = await playerController.updatePlayer(
+        playerTeamRequest, 
+        managerEmail, 
+        teamId);
+
+      // if (player.playerEmail != newPlayerEmail) {
+      //   // Player with the same email already exists, update the existing player
+
+      // } else {
+      //   // Player with a new email, create a new player
+      //   playerInTeamResponse = await playerController.addNewPlayer(
+      //     jersyId,
+      //     fullName,
+      //     newPlayerEmail,
+      //     teamId,
+      //     managerEmail,
+      //   );
+      //   res.send({ message: "Player created successfully", playerInTeamResponse });
+      // }
+
+
+      res.send({ message: "Player updated successfully", playerInTeamResponse });
+
+    }else{
+      throw new Error(HttpMsg.PLAYER_NOT_EXISTS_IN_TEAM);
+    }
+    
+    
+    
+    
+  } catch (err) {
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
+  }
+});
+
+// Endpoint to remove player from team
+router.delete("/remove",async (req:Request, res: Response) => {
+    const jersyId = req.body.jersyId;
+    const teamId = req.body.teamId;
+    const managerEmail = req.body.userName;
+
+    // Check if any required field is missing
+    if (!jersyId) {
+ 
+      console.log(HttpMsg.BAD_REQUEST);
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+      return;
+    }
+  
+    try{
+      const isRemoved = await playerController.removePlayer(jersyId, teamId, managerEmail);
+
+      if (isRemoved) {
+        return res.send({ message: "Player removed from team successfully" });
+      } else {
+        throw new Error(HttpMsg.PLAYER_REMOVE_FAILED);
+      }
+
+    } catch (err) {
+      if (err instanceof Error) {
+        // If 'err' is an instance of Error, send the error message
+        res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+      } else {
+        // If 'err' is of unknown type, send a generic error message
+        res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+      }
+    }
+});
+
+// Endpoint to get all the teams of Player
+router.get("/myTeams", async (req, res) => {
+  const playerEmail = req.body.userName;
+  try {
+
+    const teams = await playerController.getTeamsForPlayer(playerEmail);
+
+    if (teams.length > 0) {
+      res.send({ teams });
+    } else {
+      res.send({ message: "Player is not part of any teams" });
+    }
+  } catch (err) {
+
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
+  }
+});
+
+// Endpoint to get analytics summary
+router.get("/analytics-summary/{duration}",async (req:Request, res: Response) => {
+  const playerEmail = req.body.userName;
+});
 
 // Endpoint Accept Invitation
 router.get("/accept-invitation/token/:token", async (req, res) => {
