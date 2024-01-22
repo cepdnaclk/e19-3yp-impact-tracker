@@ -28,7 +28,7 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
       [jerseyId]: {
         name: data.name,
         email: data.email,
-        verification: playerDetails[jerseyId].verification,
+        verification: playerDetails[jerseyId]?.verification,
       },
     });
     // const response = await fetch("http://13.235.86.11:5000/exampleURL", {
