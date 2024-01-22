@@ -35,6 +35,8 @@ interface AppState {
   playersImpactHistory: PlayerImpactHistory;
 
   playerDetails: Players;
+  setPlayerDetails: (players: Players) => void;
+  
 
   playersActiveTime: PlayersActiveTime;
 
@@ -86,6 +88,7 @@ export const useAppState = create<AppState>()((set) => ({
 
   //TODO: Clashing of players with other dashbaords
   playerDetails: players,
+  setPlayerDetails: (players: Players) => set({ playerDetails: players }),
 
   //For the player map
   playerMap: {} as PlayerMap,
