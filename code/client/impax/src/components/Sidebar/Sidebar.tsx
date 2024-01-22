@@ -12,8 +12,8 @@ const Sidebar: React.FC = () => {
   const activePage = useAppState((state) => state.activePage);
   const setActivePage = useAppState((state) => state.setActivePage);
   const navigate = useNavigate();
-  let isLoggedIn = useSignupState((state) => state.isLoggedIn);
-  isLoggedIn = true;
+  const isLoggedIn = useSignupState((state) => state.isLoggedIn);
+  // isLoggedIn = true;
 
   return (
     <aside className={styles.sideBar}>
