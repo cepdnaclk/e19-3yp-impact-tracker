@@ -16,7 +16,7 @@ export type Role = "player" | "manager";
 
 export type Impact = {
   magnitude: number;
-  direction: "left" | "right" | "front" | "back" | "top" | "bottom";
+  direction: "left" | "right" | "front" | "back";
   timestamp: number;
   isConcussion?: boolean;
 };
