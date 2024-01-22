@@ -53,7 +53,7 @@ const LoginPlayer = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputContainer}>
           <label htmlFor="email">Email</label>
-          <p>{`${errors.email?.message}`}</p>
+          {errors.email && <p>{`${errors.email?.message}`}</p>}
           <input
             {...register("email", { required: true })}
             type="email"
@@ -64,7 +64,7 @@ const LoginPlayer = () => {
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="password">Password</label>
-          <p>{`${errors.password?.message}`}</p>
+          {errors.password && <p>{`${errors.password?.message}`}</p>}
           <input
             {...register("password", { required: true })}
             type="password"
