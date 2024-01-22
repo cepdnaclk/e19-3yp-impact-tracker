@@ -35,6 +35,8 @@ main {
   left: $nav-width;
   padding: 4em 4em;
   color: $body-color;
+  @include fade;
+  @include keyframesFade;
 }
 
 button {

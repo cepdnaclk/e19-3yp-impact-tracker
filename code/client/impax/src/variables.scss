@@ -117,3 +117,20 @@ $breakpoints: (
     padding: 1em;
   }
 }
+
+@mixin fade {
+  animation: fade ease 0.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@mixin keyframesFade {
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
