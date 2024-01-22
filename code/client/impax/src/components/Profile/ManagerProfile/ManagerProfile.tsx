@@ -14,7 +14,9 @@ const ManagerProfile = () => {
   // Get team-id
   // Get team-name
   // Get manager email
-  const setIsLoggedIn = useSignupState((state) => state.setIsLoggedIn);
+  const setIsLoggedInManager = useSignupState(
+    (state) => state.setIsLoggedInManager
+  );
   const loginInfo = useLoginState((state) => state.loginInfo);
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
 
@@ -35,7 +37,7 @@ const ManagerProfile = () => {
             buttonStyle="secondary"
             Icon={IoMdExit}
             onClick={() => {
-              setIsLoggedIn(false);
+              setIsLoggedInManager(false);
               setLoginInfo({
                 teamId: "",
                 teamName: "",
