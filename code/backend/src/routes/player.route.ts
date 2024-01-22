@@ -164,20 +164,20 @@ router.put("/update", async (req: Request, res: Response) => {
         managerEmail, 
         teamId);
 
-      if (player.playerEmail != newPlayerEmail) {
-        // Player with the same email already exists, update the existing player
+      // if (player.playerEmail != newPlayerEmail) {
+      //   // Player with the same email already exists, update the existing player
 
-      } else {
-        // Player with a new email, create a new player
-        playerInTeamResponse = await playerController.addNewPlayer(
-          jersyId,
-          fullName,
-          newPlayerEmail,
-          teamId,
-          managerEmail,
-        );
-        res.send({ message: "Player created successfully", playerInTeamResponse });
-      }
+      // } else {
+      //   // Player with a new email, create a new player
+      //   playerInTeamResponse = await playerController.addNewPlayer(
+      //     jersyId,
+      //     fullName,
+      //     newPlayerEmail,
+      //     teamId,
+      //     managerEmail,
+      //   );
+      //   res.send({ message: "Player created successfully", playerInTeamResponse });
+      // }
 
 
       res.send({ message: "Player updated successfully", playerInTeamResponse });
