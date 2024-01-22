@@ -124,8 +124,7 @@ class PlayerService {
     }
   }
 
-  async getTeamsForPlayer(email: string
-    ): Promise<Array<TeamResponse>>{
+  async getTeamsForPlayer(email: string): Promise<Array<TeamResponse>>{
       try {
         const playerTeams = await PlayerTeamModel.find({ playerEmail: email  }, 'teamId');
         

@@ -90,5 +90,10 @@ class Player {
 
     }
   }
-  export { Player, PlayerResponse, PlayerRequestBody, PlayerInTeamResponse, PlayerTeamRequest };
+  export { 
+    Player, 
+    PlayerResponse, 
+    PlayerRequestBody, 
+    PlayerInTeamResponse, 
+    PlayerTeamRequest };
   
