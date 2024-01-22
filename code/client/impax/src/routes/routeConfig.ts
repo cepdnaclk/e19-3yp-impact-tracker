@@ -11,6 +11,7 @@ import PlayerProfile from "../components/Profile/PlayerProfile/PlayerProfile";
 import TeamCreation from "../components/Profile/TeamCreation";
 import JoinTeam from "../components/Profile/JoinTeam";
 import TeamAnalytics from "../components/Analytics/TeamAnalytics/TeamAnalytics";
+import SignupSuccess from "../components/StatusScreens/SignupSuccess";
 interface RouteConfig {
   path: string;
   component: React.ComponentType<any>;
@@ -74,11 +75,20 @@ const routes: RouteConfig[] = [
   },
   {
     path: "/signup/manager/success",
-    component: Success,
+    component: SignupSuccess,
     props: {
       title: "Signup",
       description:
-        "Welcome to our platform! We're excited to have you join our community. Get ready to explore all the amazing features and services we offer.",
+        "Please Verify your email address.",
+    },
+  },
+  {
+    path: "/signup/player/success",
+    component: SignupSuccess,
+    props: {
+      title: "Signup",
+      description:
+        "Please Verify your email address.",
     },
   },
   {
