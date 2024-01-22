@@ -615,7 +615,7 @@
           {
             "name": "duration",
             "in": "path",
-            "description": "Duration for analytics summary (e.g., 'LastWeek', 'LastMonth', 'All')",
+            "description": "Duration for analytics summary (e.g., 'Last Week' , 'Last Month' , 'All Time')",
             "required": true,
             "schema": {
               "type": "string"
@@ -1007,46 +1007,131 @@
       },
 
 
-
       "AnalyticsSummary": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string"
+          "type": "object",
+          "properties": {
+            "summaryData": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  },
+                  "trend": {
+                    "type": "number"
+                  },
+                  "metaUnits": {
+                    "type": "string"
+                  }
+                }
+            },
+            "histogramData": {
+              "type": "object",
+              "properties": {
+                "left": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "right": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "front": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "back": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "criticalSessions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "session_name": {
+                    "type": "string"
+                  },
+                  "session_date": {
+                    "type": "string"
+                  },
+                  "cumulative_impact": {
+                    "type": "string"
+                  },
+                  "largest_impact": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           },
-          "value": {
-            "type": "string"
-          },
-          "trend": {
-            "type": "number"
-          },
-          "metaUnits": {
-            "type": "string"
+          "example": {
+            "summaryData": [
+              {
+                "title": "Cumulative Impacts",
+                "value": "850 g",
+                "trend": -20
+              },
+              {
+                "title": "Impacts Recorded",
+                "value": "50",
+                "trend": 20
+              },
+              {
+                "title": "Average Impact",
+                "value": "43 g",
+                "trend": 40
+              },
+              {
+                "title": "Dominant Direction",
+                "value": "Left",
+                "trend": 10
+              }
+            ],
+            "histogramData": {
+              "left": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0],
+              "right": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0],
+              "front": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0],
+              "back": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0]
+            },
+            "criticalSessions": [
+              {
+                "session_name": "Session 1",
+                "session_date": "2024-01-22",
+                "cumulative_impact": "50 g",
+                "largest_impact": "15 g"
+              },
+              {
+                "session_name": "Session 2",
+                "session_date": "2024-01-23",
+                "cumulative_impact": "70 g",
+                "largest_impact": "20 g"
+              },
+              {
+                "session_name": "Session 3",
+                "session_date": "2024-01-24",
+                "cumulative_impact": "90 g",
+                "largest_impact": "25 g"
+              }
+            ]
           }
-        },
-        "example": [
-          {
-            "title": "Cumulative Impacts",
-            "value": "850 g",
-            "trend": -20
-          },
-          {
-            "title": "Impacts Recorded",
-            "value": "50",
-            "trend": 20
-          },
-          {
-            "title": "Average Impact",
-            "value": "43 g",
-            "trend": 40
-          },
-          {
-            "title": "Dominent Direction",
-            "value": "Left",
-            "trend": 10
-          }
-        ]
+        }  
       },
+      
 
       "PlayerRemoveRequest": {
         "type": "object",
