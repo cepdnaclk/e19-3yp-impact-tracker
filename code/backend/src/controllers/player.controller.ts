@@ -2,7 +2,7 @@ import playersInTeamService from "../services/players.in.team.service";
 import managerService from "../services/manager.service";
 import playerService from "../services/player.service";
 import { HttpMsg } from "../exceptions/http.codes.mgs";
-import { TeamIdEmailExistsResponse} from "../models/team.model";
+import { TeamIdEmailExistsResponse, TeamResponse} from "../models/team.model";
 import teamService from "../services/team.service";
 import { v4 as uuidv4 } from "uuid";
 import PlayerModel from "../db/player.schema";
@@ -224,6 +224,20 @@ class PlayerController {
     }
   }
 
+  // Get all the teams of player
+  async getTeamsForPlayer(
+    playerEmail: string
+    ): Promise<Array<TeamResponse>>{
+     
+      try {
+        const teams = await playerService.getTeamsForPlayer(playerEmail);
+        return teams;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Error in player service");
+      }
+  }
+  
   
 }
 function generateInvitationToken(): string {

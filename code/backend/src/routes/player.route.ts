@@ -227,6 +227,34 @@ router.delete("/remove",async (req:Request, res: Response) => {
     }
 });
 
+// Endpoint to get all the teams of Player
+router.get("/myTeams", async (req, res) => {
+  const playerEmail = req.body.userName;
+  try {
+
+    const teams = await playerController.getTeamsForPlayer(playerEmail);
+
+    if (teams.length > 0) {
+      res.send({ teams });
+    } else {
+      res.send({ message: "Player is not part of any teams" });
+    }
+  } catch (err) {
+
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
+  }
+});
+
+// Endpoint to get analytics summary
+router.get("/analytics-summary/{duration}",async (req:Request, res: Response) => {
+  const playerEmail = req.body.userName;
+});
 
 // Endpoint Accept Invitation
 router.get("/accept-invitation/token/:token", async (req, res) => {

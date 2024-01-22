@@ -1,6 +1,9 @@
 import PlayerModel from "../db/player.schema";
 import authService from "./auth.service";
 import { PlayerRequestBody, PlayerResponse } from "../models/player.model";
+import { TeamResponse } from "../models/team.model";
+import PlayerTeamModel from "../db/players.in.team.schema";
+import TeamModel from "../db/team.schema";
 
 class PlayerService {
   // async checkPlayerExistsInTeam(
@@ -119,6 +122,27 @@ class PlayerService {
       console.error(error);
       throw new Error("Error getting manager details");
     }
+  }
+
+  async getTeamsForPlayer(email: string
+    ): Promise<Array<TeamResponse>>{
+      try {
+        const playerTeams = await PlayerTeamModel.find({ playerEmail: email  }, 'teamId');
+        
+        if (playerTeams.length === 0) {
+          return [];
+        }
+
+    
+        const teamIds = playerTeams.map(playerTeam => playerTeam.teamId);
+    
+        const teams = await TeamModel.find({ teamId: { $in: teamIds } }, 'teamId teamName-_id');
+        
+        return teams;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Error while fetching teams for player");
+      }
   }
 }
 
