@@ -1,6 +1,9 @@
 import PlayerModel from "../db/player.schema";
 import authService from "./auth.service";
 import { PlayerRequestBody, PlayerResponse } from "../models/player.model";
+import { TeamResponseWithIsVerified } from "../models/team.model";
+import PlayerTeamModel from "../db/players.in.team.schema";
+import TeamModel from "../db/team.schema";
 
 class PlayerService {
   // async checkPlayerExistsInTeam(
@@ -120,6 +123,35 @@ class PlayerService {
       throw new Error("Error getting manager details");
     }
   }
-}
 
+  async getTeamsForPlayer(email: string): Promise<Array<TeamResponseWithIsVerified>> {
+    try {
+      // Fetch playerTeams
+      const playerTeams = await PlayerTeamModel.find({ playerEmail: email }, 'teamId isVerified');
+  
+      if (playerTeams.length === 0) {
+        return [];
+      }
+
+      const teamIds = playerTeams.map(playerTeam => playerTeam.teamId);
+      
+      // Fetch teams from TeamModel
+      const teams = await TeamModel.find({ teamId: { $in: teamIds } }, 'teamId teamName isVerified -_id');
+
+      const teamsWithIsVerified: Array<TeamResponseWithIsVerified> = teams
+        .map(team => {
+          const matchingPlayerTeam = playerTeams.find(playerTeam => playerTeam.teamId === team.teamId);
+          return matchingPlayerTeam
+            ? new TeamResponseWithIsVerified(team.teamId, team.teamName, matchingPlayerTeam.isVerified)
+            : null;
+        })
+        .filter((teamWithIsVerified): teamWithIsVerified is TeamResponseWithIsVerified => teamWithIsVerified !== null);
+  
+      return teamsWithIsVerified;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error while fetching teams for player");
+    }
+  }
+}
 export default new PlayerService();
