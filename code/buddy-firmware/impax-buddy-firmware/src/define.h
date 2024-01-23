@@ -49,7 +49,7 @@ const int mqtt_port = 1883;
 unsigned long batteryStatusTimer = 0;
 unsigned long measuringTimer = 0;
 
-#define BATTERY_LIMIT 30
+
 
 String CA_cert =
     "-----BEGIN CERTIFICATE-----\n"
