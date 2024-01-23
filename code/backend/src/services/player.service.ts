@@ -1,7 +1,7 @@
 import PlayerModel from "../db/player.schema";
 import authService from "./auth.service";
 import { PlayerRequestBody, PlayerResponse } from "../models/player.model";
-import { TeamResponseWithIsVerified } from "../models/team.model";
+import { TeamResponseWithIsVerified, TeamResponseWithJerseyId } from "../models/team.model";
 import PlayerTeamModel from "../db/players.in.team.schema";
 import TeamModel from "../db/team.schema";
 import { AnalyticsSummary } from "../types/types";
@@ -147,7 +147,8 @@ class PlayerService {
             : null;
         })
         .filter((teamWithIsVerified): teamWithIsVerified is TeamResponseWithIsVerified => teamWithIsVerified !== null);
-  
+      
+      console.log(teamsWithIsVerified);
       return teamsWithIsVerified;
     } catch (error) {
       console.error(error);
@@ -157,25 +158,50 @@ class PlayerService {
   
   async getAnalyticsSummary(email: string, duration:number): Promise<void>{
     try{
+      // // Fetch playerTeams
+      // const playerTeams = await PlayerTeamModel.find({ playerEmail: email });
+      // console.log(playerTeams);
+  
+      // if (playerTeams.length === 0) {
+      //   console.log("No teams found for player");
+      // }
+
+      // const teamIds = playerTeams.map(playerTeam => playerTeam.teamId);
+      
+      // // Fetch teams from TeamModel
+      // const teams = await PlayerTeamModel.find({ teamId: { $in: teamIds }, playerEmail: email });
+      // console.log(teams[0].jerseyId);
+
+      // let teamResponsesWithJerseyId: Array<TeamResponseWithJerseyId> = [];
+
+      // for (const team of teams) {
+        
+      //   teamResponsesWithJerseyId.push(new TeamResponseWithJerseyId(team.teamId, team.jerseyId));
+
+      // }
+      // Fetch playerTeams
       const playerTeams = await PlayerTeamModel.find({ playerEmail: email }, 'teamId jerseyId');
+  
+      if (playerTeams.length === 0) {
+        // return [];
+        console.log("No teams found for player");
+      }
 
-    // if (playerTeams.length === 0) {
-    //   return [];
-    // }
+      const teamIds = playerTeams.map(playerTeam => playerTeam.teamId);
+      
+      // Fetch teams from TeamModel
+      const teams = await TeamModel.find({ teamId: { $in: teamIds } }, 'teamId jerseyId -_id');
 
-    const jerseyIdsByTeam: Record<string, number[]> = {};
-
-    // playerTeams.forEach(playerTeam => { jersyId = playerTeam.playerEmail == email
-
-    //   // Add logging to identify the issue
-    //   console.log(`teamId: ${teamId}, jerseyId: ${jerseyId}`);
-
-    //   jerseyIdsByTeam[teamId] = jerseyIdsByTeam[teamId] || [];
-    //   jerseyIdsByTeam[teamId].push(jerseyId);
-    // });
-
-    // // Now jerseyIdsByTeam is an object where each teamId is associated with an array of jerseyIds
-    // console.log(jerseyIdsByTeam);
+      const teamResponsesWithJerseyId: Array<TeamResponseWithJerseyId> = teams
+        .map(team => {
+          const matchingPlayerTeam = playerTeams.find(playerTeam => playerTeam.teamId === team.teamId);
+          return matchingPlayerTeam
+            ? new TeamResponseWithJerseyId(team.teamId, matchingPlayerTeam.jerseyId)
+            : null;
+        })
+        .filter((teamWithJerseyId): teamWithJerseyId is TeamResponseWithJerseyId => teamWithJerseyId !== null);
+  
+      console.log(teamResponsesWithJerseyId);
 
     }catch (error) {
       console.error(error);

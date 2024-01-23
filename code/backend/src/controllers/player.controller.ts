@@ -268,6 +268,7 @@ class PlayerController {
     } else if (duration == "Last Week"){
       durationNumber = 7 * 24 * 60 * 60 * 1000;
     }
+    // console.log(durationNumber);
 
     try {
       const analyticsSummary = await playerService.getAnalyticsSummary(email, durationNumber);
