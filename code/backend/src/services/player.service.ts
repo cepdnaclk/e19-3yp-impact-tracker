@@ -165,14 +165,17 @@ class PlayerService {
 
     const jerseyIdsByTeam: Record<string, number[]> = {};
 
-    playerTeams.forEach(playerTeam => {
-      const { teamId, jerseyId } = playerTeam;
-      jerseyIdsByTeam[teamId] = jerseyIdsByTeam[teamId] || [];
-      jerseyIdsByTeam[teamId].push(jerseyId);
-    });
+    // playerTeams.forEach(playerTeam => { jersyId = playerTeam.playerEmail == email
 
-    // Now jerseyIdsByTeam is an object where each teamId is associated with an array of jerseyIds
-    console.log(jerseyIdsByTeam);
+    //   // Add logging to identify the issue
+    //   console.log(`teamId: ${teamId}, jerseyId: ${jerseyId}`);
+
+    //   jerseyIdsByTeam[teamId] = jerseyIdsByTeam[teamId] || [];
+    //   jerseyIdsByTeam[teamId].push(jerseyId);
+    // });
+
+    // // Now jerseyIdsByTeam is an object where each teamId is associated with an array of jerseyIds
+    // console.log(jerseyIdsByTeam);
 
     }catch (error) {
       console.error(error);
