@@ -10,6 +10,7 @@ import { useAppState } from "../../states/appState";
 import { Buddies } from "../../types";
 import NoMqttConnection from "../StatusScreens/NoMqttConnection";
 import { syncDevice } from "../../utils/serialCom";
+import DialogModal from "../Modal/DialogModal";
 
 const Devices: React.FC = () => {
   const buddies: Buddies = useAppState((state) => state.buddiesStatus);
@@ -37,6 +38,7 @@ const Devices: React.FC = () => {
     });
   }
 
+  const [addBuddyOpen, setAddBuddyOpen] = React.useState<boolean>(false);
   //if mqtt is not connected, show no connection page
   let isMqttOnline = useAppState((state) => state.isMqttOnine);
   isMqttOnline = true;
@@ -52,18 +54,54 @@ const Devices: React.FC = () => {
     <main className="main">
       <Title title="Buddy Connectivity" Icon={MdDeviceHub} />
       <div className={styles.summary}>
-        <Btn
-          Icon={IoAdd}
-          // onClick={() => setOpen(true)}
-          children="Add new device"
-          buttonStyle="secondary"
-          onClick={() => {
-            syncDevice();
-          }}
-        />
-        <p className="devicesTotal">
-          {Object.keys(buddies).length} Devices Connected
-        </p>
+        <div className={styles.info}>
+          <h3>Configure Buddy, and Map Players</h3>
+          <span className="devicesTotal">
+            {Object.keys(buddies).length} Devices Connected
+          </span>
+        </div>
+        <div className={styles.controls}>
+          <DialogModal
+            open={addBuddyOpen}
+            setOpen={setAddBuddyOpen}
+            title="Add new buddy"
+            description="Please connect the buddy to the computer and enter the Hub's WiFi credentials."
+            trigger={
+              <Btn
+                Icon={IoAdd}
+                children="Add new buddy"
+                buttonStyle="primary"
+              />
+            }
+          >
+            <form className={styles.newBuddyForm}>
+              <label htmlFor="SSID">WiFi SSID</label>
+              <input
+                type="text"
+                name="SSID"
+                placeholder="Impax-Hub"
+                id="SSID"
+              />
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="*******"
+              />
+              <Btn
+                buttonStyle="primary"
+                children="Add New Buddy"
+                Icon={IoAdd}
+                onClick={() => {
+                  syncDevice();
+                  //TODO: if success, close modal, else show error
+                  setAddBuddyOpen(false);
+                }}
+              />
+            </form>
+          </DialogModal>
+        </div>
       </div>
 
       {mappedBuddies.length > 0 && (
