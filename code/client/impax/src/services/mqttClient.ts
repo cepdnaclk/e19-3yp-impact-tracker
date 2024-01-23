@@ -35,6 +35,7 @@ class MqttClient {
       "player/+/impact_with_timestamp",
       "player/+/concussion",
       "player_map",
+      "hub/old_session",
     ];
 
     this.client.on("connect", this.handleConnect);
@@ -57,6 +58,8 @@ class MqttClient {
   private handleDisconnect = () => {
     console.log("Disconnected");
     useAppState.setState({ isMqttOnine: false });
+
+    //TODO: flush all states
   };
   private handleReconnect = () => {
     console.log("reconnecting");
