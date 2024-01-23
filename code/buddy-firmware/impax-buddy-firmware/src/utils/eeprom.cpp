@@ -1,17 +1,27 @@
 #include "eeprom.h"
 
-void initEEPROM(String &ssid, String &password, String &BUDDY_ID, int ID)
+void initEEPROM(String &ssid, String &password, String &mqtt_username, String &mqtt_password, String &BUDDY_ID, int ID)
 {
     EEPROM.begin(EEPROM_SIZE);
-    // EEPROM.write(EEPROM_START_ADDRESS, ID);
-    // EEPROM.commit();
+
+    // setBuddyIdEEPROM(ID);
     BUDDY_ID += EEPROM.read(EEPROM_ID_ADDRESS);
 
-    writeEEPROMString(EEPROM_SSID_ADDRESS, ssid);
-    writeEEPROMString(EEPROM_PASSWORD_ADDRESS, password);
+    setSSIDAndPasswordEEPROM(ssid, password);
+    getSSIDAndPasswordEEPROM(ssid, password);
 
-    ssid = readEEPROMString(EEPROM_SSID_ADDRESS);
-    password = readEEPROMString(EEPROM_PASSWORD_ADDRESS);
+    writeMQTTUserNameEEPROM(mqtt_username);
+    readMQTTUserNameEEPROM(mqtt_username);
+
+    writeMQTTPasswordEEPROM(mqtt_password);
+    readMQTTPasswordEEPROM(mqtt_password);
+}
+
+bool setBuddyIdEEPROM(int ID)
+{
+    EEPROM.write(EEPROM_ID_ADDRESS, ID);
+    EEPROM.commit();
+    return true;
 }
 
 // Function to write a string to EEPROM
@@ -41,42 +51,24 @@ String readEEPROMString(int startAddr)
     return data;
 }
 
-bool getCustomeSSIDAndPasswordEEPROM(String &ssid, String &password)
+bool getSSIDAndPasswordEEPROM(String &ssid, String &password)
 {
-    if (EEPROM.read(EEPROM_SSID_CUSTOM_ADDRESS) == 1)
+    if (EEPROM.read(EEPROM_SSID_ADDRESS) == 1)
     {
-        ssid = readEEPROMString(EEPROM_SSID_CUSTOM_ADDRESS + 1);
-        password = readEEPROMString(EEPROM_PASSWORD_CUSTOM_ADDRESS + 1);
+        ssid = readEEPROMString(EEPROM_SSID_ADDRESS + 1);
+        password = readEEPROMString(EEPROM_PASSWORD_ADDRESS + 1);
         return true;
     }
     return false;
 }
 
-bool setCustomeSSIDAndPasswordEEPROM(String &ssid, String &password)
+bool setSSIDAndPasswordEEPROM(String &ssid, String &password)
 {
-    writeEEPROMString(EEPROM_SSID_CUSTOM_ADDRESS + 1, ssid);
-    writeEEPROMString(EEPROM_PASSWORD_CUSTOM_ADDRESS + 1, password);
-    EEPROM.write(EEPROM_SSID_CUSTOM_ADDRESS, 1);
+    writeEEPROMString(EEPROM_SSID_ADDRESS + 1, ssid);
+    writeEEPROMString(EEPROM_PASSWORD_ADDRESS + 1, password);
+    EEPROM.write(EEPROM_SSID_ADDRESS, 1);
     EEPROM.commit();
     return true;
-}
-
-bool writeMQTTCaCertificateEEPROM(String &data)
-{
-    writeEEPROMString(MQTT_CA_CERTIFICATE_ADDRESS + 1, data);
-    EEPROM.write(MQTT_CA_CERTIFICATE_ADDRESS, 1);
-    EEPROM.commit();
-    return true;
-}
-
-bool readMQTTCaCertificateEEPROM(String &data)
-{
-    if (EEPROM.read(MQTT_CA_CERTIFICATE_ADDRESS) == 1)
-    {
-        data = readEEPROMString(MQTT_CA_CERTIFICATE_ADDRESS + 1);
-        return true;
-    }
-    return false;
 }
 
 bool writeMQTTUserNameEEPROM(String &data)

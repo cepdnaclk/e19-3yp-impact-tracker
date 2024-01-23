@@ -7,69 +7,75 @@ import { useAppState } from "../../states/appState";
 import { useSignupState } from "../../states/formState";
 
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-interface Props {
-  isOnline: boolean;
-}
 
-const Sidebar: React.FC<Props> = ({ isOnline }: Props) => {
-  const setIsInternetAvailable = useAppState(
-    (state) => state.setIsInternetAvailable
-  );
-
-  useEffect(() => {
-    isOnline ? setIsInternetAvailable(true) : setIsInternetAvailable(false);
-  }, [isOnline, setIsInternetAvailable]);
-
+const Sidebar: React.FC = () => {
   const activePage = useAppState((state) => state.activePage);
   const setActivePage = useAppState((state) => state.setActivePage);
   const navigate = useNavigate();
-  const isLoggedIn = useSignupState((state) => state.isLoggedIn);
+  let isLoggedInPlayer = useSignupState((state) => state.isLoggedInPlayer);
+  let isLoggedInManager = useSignupState((state) => state.isLoggedInManager);
+  // isLoggedIn = true;
+  // isLoggedInManager = true;
 
   return (
     <aside className={styles.sideBar}>
-      {isLoggedIn ? (
-        <nav className={styles.menu}>
-          <MenuItem
-            icon={BsBroadcast}
-            name="Live"
-            active={activePage === "live"}
-            onClick={() => {
-              setActivePage("live");
-              navigate("/live");
-            }}
-          />
-          <MenuItem
-            icon={MdDeviceHub}
-            name="Buddy Connectivity"
-            active={activePage === "devices"}
-            onClick={() => {
-              setActivePage("devices");
-              navigate("/devices");
-            }}
-          />
+      <nav className={styles.menu}>
+        {isLoggedInManager ? (
+          <>
+            <MenuItem
+              icon={BsBroadcast}
+              name="Live"
+              active={activePage === "live"}
+              onClick={() => {
+                setActivePage("live");
+                navigate("/live");
+              }}
+            />
+            <MenuItem
+              icon={MdDeviceHub}
+              name="Buddy Connectivity"
+              active={activePage === "devices"}
+              onClick={() => {
+                setActivePage("devices");
+                navigate("/devices");
+              }}
+            />
+            <MenuItem
+              icon={MdBarChart}
+              name="Team Analytics"
+              active={activePage === "team-analytics"}
+              onClick={() => {
+                setActivePage("team-analytics");
+                navigate("/team-analytics");
+              }}
+            />
+            <MenuItem
+              icon={FaUsers}
+              name="Player Management"
+              active={activePage === "player-management"}
+              onClick={() => {
+                setActivePage("player-management");
+                navigate("/player-management");
+              }}
+            />
+          </>
+        ) : (
+          <div></div>
+        )}
+        {isLoggedInPlayer ? (
           <MenuItem
             icon={MdBarChart}
-            name="Analytics"
-            active={activePage === "analytics"}
+            name="Player Analytics"
+            active={activePage === "player-analytics"}
             onClick={() => {
-              setActivePage("analytics");
-              navigate("/analytics");
+              setActivePage("player-analytics");
+              navigate("/player-analytics");
             }}
           />
-          <MenuItem
-            icon={FaUsers}
-            name="Player Management"
-            active={activePage === "player-management"}
-            onClick={() => {
-              setActivePage("player-management");
-              navigate("/player-management");
-            }}
-          />
-        </nav>
-      ) : (
-        <div></div>
-      )}
+        ) : (
+          <div></div>
+        )}
+      </nav>
 
       <MenuItem
         icon={FaRegUserCircle}
@@ -77,7 +83,7 @@ const Sidebar: React.FC<Props> = ({ isOnline }: Props) => {
         active={activePage === "profile"}
         onClick={() => {
           setActivePage("profile");
-          navigate("/profile");
+          navigate("/player-profile");
         }}
       />
     </aside>

@@ -7,6 +7,7 @@ import {
   Session,
   PlayersImpact,
   PlayerImpactHistory,
+  PlayersActiveTime,
 } from "../types";
 import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
@@ -34,6 +35,9 @@ interface AppState {
   playersImpactHistory: PlayerImpactHistory;
 
   playerDetails: Players;
+  setPlayerDetails: (players: Players) => void;
+
+  playersActiveTime: PlayersActiveTime;
 
   playerMap: PlayerMap;
   setPlayerMap: (playerMap: PlayerMap) => void;
@@ -43,7 +47,7 @@ interface AppState {
   sessionDetails: Session;
   setSessionDetails: (session: Session) => void;
   updateSessionDetails: (sessionName: string) => void;
-  endSession: () => void;
+  endSession: (save: boolean) => void;
 
   monitoringBuddies: Set<number>;
   addToMonitoringBuddies: (buddy_id: number) => void;
@@ -83,6 +87,7 @@ export const useAppState = create<AppState>()((set) => ({
 
   //TODO: Clashing of players with other dashbaords
   playerDetails: players,
+  setPlayerDetails: (players: Players) => set({ playerDetails: players }),
 
   //For the player map
   playerMap: {} as PlayerMap,
@@ -118,6 +123,9 @@ export const useAppState = create<AppState>()((set) => ({
     });
   },
 
+  //For player active time map
+  playersActiveTime: {} as PlayersActiveTime,
+
   //For the session details
   sessionDetails: {} as Session,
   setSessionDetails: (session: Session) => {
@@ -139,11 +147,23 @@ export const useAppState = create<AppState>()((set) => ({
       return { ...prevState, sessionDetails };
     });
   },
-  endSession: () => {
+  endSession: (save: boolean) => {
     set((prevState) => {
       const sessionDetails = { ...prevState.sessionDetails };
       sessionDetails.active = false;
       sessionDetails.updatedAt = Date.now();
+
+      if (save) {
+        //save session to history
+        const playerImpactHistory = { ...prevState.playersImpactHistory };
+
+        //TODO: These should be arrays intead of single objects
+        localStorage.setItem("sessionDetails", JSON.stringify(sessionDetails));
+        localStorage.setItem(
+          "playerImpactHistory",
+          JSON.stringify(playerImpactHistory)
+        );
+      }
 
       // publish session to mqtt
       MqttClient.getInstance().publishSession(sessionDetails);

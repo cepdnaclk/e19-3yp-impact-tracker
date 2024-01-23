@@ -6,7 +6,8 @@ import {
 } from "../models/team.model";
 Team;
 import TeamModel from "../db/team.schema";
-import ManagerTeamModel from "../db/manager.team.schema";
+import ManagerTeamModel from "../db/managers.in.team.schema";
+import managersInTeamService from "./managers.in.team.service";
 
 class TeamService {
   // delete team
@@ -38,13 +39,10 @@ class TeamService {
       // Save the manager to the database
       const savedTeam = await teamInstance.save();
 
-      const managerTeamInstance = new ManagerTeamModel({
-        managerEmail: team.teamManager,
-        teamId: team.teamId,
-      });
-
-      // Save the manager to the database
-      const savedManager = await managerTeamInstance.save();
+      await managersInTeamService.addManagerToTeam(
+        team.teamManager,
+        team.teamId
+      );
 
       // Create a TeamResponse object
       const teamResponse = new TeamResponse({

@@ -51,8 +51,30 @@ $battery-green: #22ab7f;
       background-color: $battery-red;
     }
   }
+
+  &.charging .batteryLevel {
+    animation: 1s ease-in-out both infinite chargingAnimation;
+    background-color: $battery-green;
+  }
 }
 
+@keyframes chargingAnimation {
+  0% {
+    width: 0%;
+  }
+  25% {
+    width: 25%;
+  }
+  50% {
+    width: 50%;
+  }
+  75% {
+    width: 75%;
+  }
+  100% {
+    width: 100%;
+  }
+}
 @keyframes pulse {
   from {
     opacity: 100;

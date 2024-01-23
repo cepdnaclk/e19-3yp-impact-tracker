@@ -37,6 +37,13 @@ form {
   flex-direction: column;
   gap: 1em;
   .inputContainer {
+    p {
+      position: relative;
+      left: 0.6em;
+      font-size: 0.9em;
+      margin-bottom: 0.3em;
+      color: red;
+    }
     label {
       display: block;
       font-size: 0.9em;
@@ -68,7 +75,8 @@ form {
   border-radius: 0.4rem;
   cursor: pointer;
   padding: 1rem;
-  &:disabled,&[disabled] {
+  &:disabled,
+  &[disabled] {
     background-color: rgba(32, 48, 103, 0.5);
     color: rgba(211, 216, 255, 0.5);
     cursor: not-allowed;

@@ -1,0 +1,11 @@
+sudo systemctl daemon-reload
+
+sudo systemctl enable hubService
+sudo systemctl start hubService
+
+sudo systemctl status hubService
+
+sudo systemctl restart hubService
+
+sudo nano /etc/systemd/system/hubService.service
+

@@ -1,5 +1,5 @@
 import app from "../../../app";
-import { HttpCode, HttpMsg } from "../../exceptions/appErrorsDefine";
+import { HttpCode, HttpMsg } from "../../exceptions/http.codes.mgs";
 import request from "supertest";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
@@ -45,6 +45,7 @@ describe("Login Routes", () => {
     const teamData = {
       teamId: "exampleTeamId",
       teamName: "Example Team",
+      teamManager: "john.doe@example.com",
     };
 
     const responseTeam = await request(app)
@@ -68,6 +69,7 @@ describe("Login Routes", () => {
     const managerCredentials = {
       userName: managerData.email,
       password: managerData.password,
+      teamId: managerData.teamId,
     };
 
     const response = await request(app)
@@ -83,6 +85,7 @@ describe("Login Routes", () => {
     const invalidManagerCredentials = {
       userName: "invalid.manager@example.com",
       password: "invalidPassword",
+      teamId: "exampleTeamId",
     };
 
     const response = await request(app)
@@ -93,7 +96,7 @@ describe("Login Routes", () => {
     expect(response.status).toBe(HttpCode.BAD_REQUEST);
     expect(response.body).toHaveProperty(
       "message",
-      HttpMsg.AUTH_DOES_NOT_EXIST
+      HttpMsg.MANAGER_LOGIN_FAILED
     );
   });
 

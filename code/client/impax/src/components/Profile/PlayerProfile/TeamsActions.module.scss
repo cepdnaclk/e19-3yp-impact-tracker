@@ -1,0 +1,29 @@
+@use "../../../variables.scss" as *;
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1em;
+  max-width: 10em;
+  button {
+    font-size: 0.9em;
+    font-weight: 600;
+
+    &:first-child {
+      color: lighten($color: $green, $amount: 10);
+
+      &:disabled {
+        background-color: transparent !important;
+        color: $grey-color;
+      }
+    }
+    &:last-child {
+      //color: desaturate($color: $secondary-red, $amount: 20) !important;
+      color: $grey-color;
+      .icon {
+        font-size: 0.8em;
+      }
+    }
+  }
+}

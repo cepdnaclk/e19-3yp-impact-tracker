@@ -1,8 +1,9 @@
+@use "../../variables.scss" as *;
 $primary-cl: rgb(14, 61, 127);
 $secondary-cl: #313131;
 button {
   font-size: 1em;
-  padding: 0.4em 1.2em;
+  padding: 0.4rem 1.2rem;
   font-weight: 500;
   border-radius: 0.5em;
   cursor: pointer;
@@ -17,6 +18,7 @@ button {
 
   &:disabled {
     opacity: 0.5;
+    background-color: $grey-highlight-1;
     cursor: not-allowed;
     &:hover {
       outline: none;

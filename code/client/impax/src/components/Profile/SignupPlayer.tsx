@@ -1,82 +1,89 @@
-import React, { useState } from "react";
 import styles from "./SignUp.module.scss";
-import { Role } from "../../types";
-import { useRoleState, useSignupState } from "../../states/formState";
+import { useSignupState } from "../../states/formState";
+import { useForm, type FieldValues } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
 const SignupPlayer = () => {
-  const isSignup = useSignupState((state) => state.isSignup);
   const setIsSignup = useSignupState((state) => state.setIsSignup);
-  interface formData {
-    role: Role;
-    teamId: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    password: string;
-    retypePassword: string;
-    teamName: string;
-  }
-  const [formData, setFormData] = useState<formData>({
-    role: "manager",
-    teamId: "",
-    email: "",
-    firstName: "",
-    lastName: "",
-    password: "",
-    retypePassword: "",
-    teamName: "",
-  });
+  const setSignupInfo = useSignupState((state) => state.setSignupInfo);
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+    setError,
+    getValues,
+  } = useForm();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [id]: value,
-    }));
+  const onSubmit = async (data: FieldValues) => {
+    const { password, email } = data;
+    const request = { email, password };
+    // console.log(data);
+    const response = await fetch("http://13.235.86.11:5000/player", {
+      method: "POST",
+      body: JSON.stringify(request),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const responseData = await response.json();
+    console.log(responseData);
+    if (response.ok) {
+      navigate("/signup/player/success");
+    }
+    reset();
+    // setSignupInfo({ teamId, email });
+
+    // reset();
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formData); // Log the form data object
-  };
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputContainer}>
           <label htmlFor="email">Email</label>
+          {errors.email && <p>{`${errors.email.message}`}</p>}
           <input
+            {...register("email", { required: true })}
             type="email"
             id="email"
             required
             placeholder="johndoe@email.com"
-            value={formData.email}
-            onChange={handleInputChange}
           />
         </div>
 
         <div className={styles.inputContainer}>
           <label htmlFor="password">Password</label>
+          {errors.password && <p>{`${errors.password.message}`}</p>}
           <input
+            {...register("password", { required: "Password is required" })}
             type="password"
             id="password"
             required
             placeholder="Enter password"
-            value={formData.password}
-            onChange={handleInputChange}
           />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="retypePassword">Retype Password</label>
+          {errors.retypepassword && <p>{`${errors.retypepassword.message}`}</p>}
           <input
+            {...register("retypepassword", {
+              required: "Retype password is required",
+              validate: (value) =>
+                value === getValues("password") || "Passwords must match",
+            })}
             type="password"
             id="retypePassword"
-            required
             placeholder="Retype password"
-            value={formData.retypePassword}
-            onChange={handleInputChange}
           />
         </div>
 
-        <button type="submit" className={styles.nextBtn}>
+        <button
+          type="submit"
+          className={styles.nextBtn}
+          disabled={isSubmitting}
+        >
           Signup
         </button>
       </form>

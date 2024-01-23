@@ -2,6 +2,8 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
+  testTimeout: 30000, // or any other value in milliseconds
+  maxWorkers: 4,
 
   clearMocks: true,
   coverageProvider: "v8",

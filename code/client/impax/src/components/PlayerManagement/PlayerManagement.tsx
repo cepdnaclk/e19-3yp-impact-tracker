@@ -1,8 +1,9 @@
 import Title from "../Title/Title";
 import { FaUsers } from "react-icons/fa";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./PlayerManagement.module.scss";
 import tableStyles from "./PlayersTable/PlayersTable.module.scss";
+import { FieldValues, set, useForm } from "react-hook-form";
 
 import {
   ColumnDef,
@@ -22,6 +23,7 @@ import Btn from "../Buttons/Btn";
 import PlayersTable from "./PlayersTable/PlayersTable";
 import NoInternetConnection from "../StatusScreens/NoInternetConnection";
 import { useAppState } from "../../states/appState";
+import DialogModal from "../Modal/DialogModal";
 
 export type Player = {
   jerseyId: number;
@@ -85,19 +87,43 @@ const columns: ColumnDef<Player>[] = [
 ];
 
 const PlayerManagement = () => {
-  const defaultData: Player[] = [];
-  //fill defaultData with playerDetails from useAppState
+  //if internet unavailable return prematurely with no internet connection component
+  const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
+
+  // const defaultData: Player[] = [];
+  // //fill defaultData with playerDetails from useAppState
+  // const playerDetails = useAppState((state) => state.playerDetails);
+
+  // for (const jersey_number in playerDetails) {
+  //   defaultData.push({
+  //     jerseyId: parseInt(jersey_number),
+  //     name: playerDetails[jersey_number].name,
+  //     email: playerDetails[jersey_number].email,
+  //     verification: playerDetails[jersey_number].verification,
+  //   });
+  // }
+  // const [data] = React.useState(() => [...defaultData]);
+  // RENDER ISSUE FIX START
+  const [data, setData] = useState<Player[]>([]);
+
+  // Player details from app state
   const playerDetails = useAppState((state) => state.playerDetails);
 
-  for (let jersey_number in playerDetails) {
-    defaultData.push({
-      jerseyId: parseInt(jersey_number),
-      name: playerDetails[jersey_number].name,
-      email: playerDetails[jersey_number].email,
-      verification: playerDetails[jersey_number].verification,
-    });
-  }
-  const [data] = React.useState(() => [...defaultData]);
+  // Update data state when playerDetails change
+  useEffect(() => {
+    const updatedData: Player[] = [];
+    for (const jersey_number in playerDetails) {
+      updatedData.push({
+        jerseyId: parseInt(jersey_number),
+        name: playerDetails[jersey_number].name,
+        email: playerDetails[jersey_number].email,
+        verification: playerDetails[jersey_number].verification,
+      });
+    }
+    setData(updatedData);
+  }, [playerDetails]);
+  // RENDER ISSUE FIX END
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -115,7 +141,50 @@ const PlayerManagement = () => {
       columnFilters,
     },
   });
-  const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
+
+  //Modal State
+  const [addPlayerOpen, setAddPlayerOpen] = useState<boolean>(false);
+
+  // Form Hook
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm();
+  const setPlayerDetails = useAppState((state) => state.setPlayerDetails);
+
+  const onSubmit = async (data: FieldValues) => {
+    setAddPlayerOpen(false);
+    setPlayerDetails({
+      ...playerDetails,
+      [data.jersey_number]: {
+        name: data.name,
+        email: data.email,
+        verification: "pending",
+      },
+    });
+
+    // const { teamId, email, password } = data;
+    // const response = await fetch("http://13.235.86.11:5000/exampleURL", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     teamId: teamId,
+    //     password: password,
+    //     userName: email,
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    // const responseData = await response.json();
+    // if (response.ok) {
+    //   // do something
+    // }
+
+    reset();
+  };
+
   if (!isInternetAvailable) {
     return (
       <main>
@@ -124,7 +193,6 @@ const PlayerManagement = () => {
       </main>
     );
   }
-
   return (
     <main>
       <Title title={"Player Management"} Icon={FaUsers} />
@@ -136,9 +204,58 @@ const PlayerManagement = () => {
         </div>
         <div className={styles.controls}>
           <div className={styles.addNew}>
-            <Btn buttonStyle="primary" Icon={FaPlus} iconSizeEm={0.8}>
-              Add New Player
-            </Btn>
+            <DialogModal
+              open={addPlayerOpen}
+              setOpen={setAddPlayerOpen}
+              trigger={
+                <Btn buttonStyle="primary" Icon={FaPlus} iconSizeEm={0.8}>
+                  Add New Player
+                </Btn>
+              }
+              title="Add New Player"
+              description="Add a new player to your team, you can add player's email if you want them to see their impact analysis"
+            >
+              <form
+                className={styles.addPlayerForm}
+                onSubmit={handleSubmit(onSubmit)}
+              >
+                <label htmlFor="jersey_number">Jersey Number</label>
+                <input
+                  {...register("jersey_number", {
+                    required: true,
+                  })}
+                  type="number"
+                  name="jersey_number"
+                  id="jersey_number"
+                  placeholder="25"
+                />
+                <label htmlFor="name">Player Name</label>
+                <input
+                  {...register("name", {
+                    required: true,
+                  })}
+                  type="text"
+                  name="name"
+                  placeholder="Johnathan Doe"
+                />
+                <label htmlFor="email">
+                  Player's Email (Optional)
+                  <span className={styles.additionalInfo}>
+                    Link Impax Account
+                  </span>
+                </label>
+                <input
+                  {...register("email", { required: true })}
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="johndoe@gmail.com"
+                />
+                <Btn type="submit" Icon={FaPlus}>
+                  Add New Player
+                </Btn>
+              </form>
+            </DialogModal>
           </div>
           <div className={styles.searchBox}>
             <FaSearch className={styles.icon} />

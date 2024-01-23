@@ -16,7 +16,7 @@ export type Role = "player" | "manager";
 
 export type Impact = {
   magnitude: number;
-  direction: "left" | "right" | "front" | "back" | "top" | "bottom";
+  direction: "left" | "right" | "front" | "back";
   timestamp: number;
   isConcussion?: boolean;
 };
@@ -35,14 +35,18 @@ export type PlayerMap = {
   [buddy_id: number]: number;
 };
 
+type Verification = "verified" | "pending" | "rejected";
 export type Players = {
   [jersey_number: number]: {
     name: string;
     email?: string;
-    verification?: "verified" | "pending" | "rejected";
+    verification?: Verification;
   };
 };
 
+export type PlayersActiveTime = {
+  [jersey_number: number]: number;
+};
 export type Session = {
   session_id: string;
   session_name: string;
@@ -57,4 +61,69 @@ export type activePage =
   | "analytics"
   | "profile"
   | "test"
-  | "player-management";
+  | "player-management"
+  | "player-analytics"
+  | "team-analytics";
+
+export type sessionToBeUploaded = {
+  session: Session;
+  playerImpactHistory: PlayerImpactHistory;
+};
+
+//Types for analytics
+export type Metric = {
+  title: string;
+  value: string | number;
+  trend?: number | Impact.direction;
+  metaUnits?: string;
+};
+
+export type TimeSpan = "Last Week" | "Last Month" | "All Time";
+
+//for player analytics
+export type HistogramData = {
+  left: number[];
+  right: number[];
+  front: number[];
+  back: number[];
+};
+
+//for player critical sessions
+export type CriticalSessionType = {
+  name: string;
+  date: string;
+  cumulative: number;
+  average: number;
+  highest: number;
+};
+
+//analyticsTableColumns
+export type TeamAnalyticsColumns = {
+  jersey_number: number;
+  name: string;
+  impacts_recorded: number;
+  cumulative_impact: number;
+  highest_impact: number;
+  average_impact: number;
+  dominant_direction: Impact.direction;
+  concussions: number;
+};
+
+//Profile Managers
+export type Manager =
+  | {
+      name: string;
+      email: string;
+      verification: "verified";
+    }
+  | {
+      email: string;
+      verification: "pending" | "rejected";
+    };
+
+//Player Profile - My Teams
+export type MyTeam = {
+  team_id: string;
+  team_name: string;
+  verification: Verification;
+};

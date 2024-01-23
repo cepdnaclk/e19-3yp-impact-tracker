@@ -18,12 +18,51 @@ export function createRefreshToken(credentials: LoginResquest, role: string) {
   return refreshToken;
 }
 
+export function createRefreshTokenManager(
+  credentials: LoginResquestManager,
+  role: string
+) {
+  const jwtSecret = process.env.JWT_REFRESH_TOKEN_KEY || "";
+  const refreshToken = jwt.sign(
+    {
+      userName: credentials.userName,
+      teamId: credentials.teamId,
+      role: role,
+    },
+    jwtSecret,
+    {
+      expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY_TIME,
+    }
+  );
+
+  return refreshToken;
+}
+
 // create access token
 export function createAccessToken(credentials: LoginResquest, role: string) {
   const jwtSecret = process.env.JWT_ACCESS_TOKEN_KEY || "";
   const accessToken = jwt.sign(
     {
       userName: credentials.userName,
+      role: role,
+    },
+    jwtSecret,
+    {
+      expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY_TIME,
+    }
+  );
+  return accessToken;
+}
+
+export function createAccessTokenManager(
+  credentials: LoginResquestManager,
+  role: string
+) {
+  const jwtSecret = process.env.JWT_ACCESS_TOKEN_KEY || "";
+  const accessToken = jwt.sign(
+    {
+      userName: credentials.userName,
+      teamId: credentials.teamId,
       role: role,
     },
     jwtSecret,

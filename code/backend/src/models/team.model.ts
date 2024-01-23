@@ -34,12 +34,24 @@ class Team {
 }
 
 class TeamResponse {
-  private teamId: string;
-  private teamName: string;
+  public teamId: string;
+  public teamName: string;
 
   public constructor(team: Team) {
     this.teamId = team.teamId;
     this.teamName = team.teamName;
+  }
+}
+
+class TeamResponseWithIsVerified {
+  public teamId: string;
+  public teamName: string;
+  public isVerified: string;
+
+  constructor(teamId: string, teamName: string, isVerified: string) {
+    this.teamId = teamId;
+    this.teamName = teamName;
+    this.isVerified = isVerified;
   }
 }
 
@@ -60,4 +72,5 @@ export {
   Team,
   TeamResponse,
   TeamManagerResponse,
+  TeamResponseWithIsVerified
 };

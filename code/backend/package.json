@@ -58,7 +58,7 @@
     "typescript": "^5.3.2"
   },
   "engines": {
-    "node": "14"
+    "node": "18"
   },
   "resolutions": {
     "fsevents": "^2.3.3"

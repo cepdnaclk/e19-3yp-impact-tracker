@@ -1,127 +1,169 @@
-import { sendInvitationEmail } from "../email/managerInviteEmail";
 import { Manager, ManagerResponse } from "../models/manager.model";
+import TeamModel from "../db/team.schema";
 import managerService from "../services/manager.service";
-import { createManagerTeam } from "../services/team.manager.service";
+import managersInTeamService from "../services/managers.in.team.service";
 import { sendVerificationEmail } from "../email/managerVerifyEmail";
-import { v4 as uuidv4 } from 'uuid';
+import { sendInvitationEmail } from "../email/managerInviteEmail";
+import { v4 as uuidv4 } from "uuid";
 
-export async function createManager(
-  manager: Manager
-): Promise<ManagerResponse | undefined> {
-  try {
-    // Create a manager with an invitation token
-    const invitationToken = generateInvitationToken();
-    manager.acceptInvitation = false;
-    manager.invitationToken = invitationToken;
+class ManagerController {
+  async createManager(
+    manager: Manager,
+    teamId: string
+  ): Promise<ManagerResponse | undefined> {
+    try {
+      // Create a manager with an invitation token
+      const invitationToken = generateInvitationToken();
+      manager.invitationToken = invitationToken;
+      manager.isVerified = false; // Initially set to false
 
-    const managerResponse = await managerService.createManager(manager);
+      // const teamName = teamResponse.teamName;
 
-    // Send the verification email
-    await sendVerificationEmail(manager.email, invitationToken);
+      const managerResponse = await managerService.createManager(manager);
+      const teamInstance = await TeamModel.findOne({ teamId });
+      const teamName = teamInstance?.teamName; // Add null check using optional chaining operator
 
-    return managerResponse;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Failed to create manager");
-  }
-}
+      // Send the verification email
+      await sendVerificationEmail(manager.email, invitationToken, teamName!);
 
-export async function getManager(managerId: string): Promise<ManagerResponse> {
-  try {
-    const managerResponse = await managerService.getManager(managerId);
-    return managerResponse;
-  } catch (error) {
-    console.error(error);
-    // Handle the error, either by returning a default value or throwing an error
-    throw new Error("Failed to get manager");
-  }
-}
-
-export async function checkManagerExists(email: string): Promise<boolean> {
-  try {
-    // const email = req.params.email;
-    // Call the function in service
-    const managerExists = await managerService.checkManagerExists(email);
-    // res.status(200).json(managerExists);
-    return managerExists.managerExists;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Internal Server Error");
-  }
-}
-
-export async function addNewManager(
-  managerEmail: string,
-  newManagerEmail: string,
-  teamId: string
-): Promise<boolean> {
-  try {
-    // check the manager exits in that team
-    const managerExists = await managerService.checkManagerExistsInTeam(
-      managerEmail,
-      teamId
-    );
-
-    if (!managerExists) {
-      throw new Error("Manager does not exist in the team");
+      return managerResponse;
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
-
-    // Generate an invitation token
-    const invitationToken = generateInvitationToken();
-
-
-    // await createManagerTeam(newManagerEmail, teamId);
-
-    // Create the manager and set the invitation token
-    // const newManager: Manager = {
-    //   email: newManagerEmail,
-    //   // invitationToken: invitationToken,
-    //   acceptInvitation: false, // Initially set to false
-    // };
-
-    const createdManagerResponse = await createManagerTeam(newManagerEmail, teamId);
-
-    // Send an invitation email
-    await sendInvitationEmail(newManagerEmail, invitationToken);
-
-    // Add the new manager to the team
-    const managerTeamAdded = await createManagerTeam(newManagerEmail, teamId);
-
-    return managerTeamAdded;
-
-  } catch (error) {
-    console.error(error);
-    throw error;
   }
-  return false;
-}
 
-// delete manager
-export async function deleteManager(
-  managerEmail: string,
-  teamId: string
-): Promise<boolean> {
-  try {
-    // check the manager exits in that team
-    const managerExists = await managerService.checkManagerExistsInTeam(
-      managerEmail,
-      teamId
-    );
-
-    if (!managerExists) {
-      throw new Error("Manager does not exist in the team");
+  async getManager(
+    managerId: string,
+    teamId: string
+  ): Promise<ManagerResponse> {
+    try {
+      const managerResponse = await managerService.getManager(
+        managerId,
+        teamId
+      );
+      return managerResponse;
+    } catch (error) {
+      console.error(error);
+      // Handle the error, either by returning a default value or throwing an error
+      throw error;
     }
-
-    await managerService.deleteManager(managerEmail, teamId);
-
-    return true;
-  } catch (error) {
-    console.error(error);
-    throw error;
   }
-  return false;
-}
 
+  async checkManagerExists(email: string): Promise<boolean> {
+    try {
+      // const email = req.params.email;
+      // Call the function in service
+      const managerExists = await managerService.checkManagerExists(email);
+      // res.status(200).json(managerExists);
+      return managerExists.managerExists;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+  async checkManagerExistsInTeam(
+    email: string,
+    teamId: string
+  ): Promise<boolean> {
+    try {
+      // const email = req.params.email;
+      // Call the function in service
+      const managerExists = await managerService.checkManagerExistsInTeam(
+        email,
+        teamId
+      );
+      // res.status(200).json(managerExists);
+      return managerExists;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async addNewManager(
+    managerEmail: string,
+    newManagerEmail: string,
+    teamId: string
+  ): Promise<boolean> {
+    try {
+      // check the manager exits in that team
+      const managerExists = await managerService.checkManagerExistsInTeam(
+        managerEmail,
+        teamId
+      );
+
+      if (!managerExists) {
+        throw new Error("Manager does not exist in the team");
+      }
+
+      // Generate an invitation token
+      const invitationToken = generateInvitationToken();
+
+      // await addManagerToTeam(newManagerEmail, teamId);
+
+      // Create the manager and set the invitation token
+      // const newManager: Manager = {
+      //   email: newManagerEmail,
+      //   // invitationToken: invitationToken,
+      //   acceptInvitation: false, // Initially set to false
+      // };
+
+      const managerTeamAdded = await managersInTeamService.addManagerToTeam(
+        newManagerEmail,
+        teamId
+      );
+
+      const teamInstance = await TeamModel.findOne({ teamId });
+      const teamName = teamInstance?.teamName; // Add null check using optional chaining operator
+
+      // Send an invitation email
+      await sendInvitationEmail(newManagerEmail, invitationToken, teamName!);
+
+      return managerTeamAdded;
+    } catch (error) {
+      console.error(error);
+
+      const exist = await managersInTeamService.checkManagerExistsInTeamDetails(
+        newManagerEmail,
+        teamId
+      );
+
+      if (exist) {
+        await managersInTeamService.deleteManagerFromTeamDetails(
+          newManagerEmail,
+          teamId
+        );
+      }
+
+      throw error;
+    }
+    return false;
+  }
+
+  // delete manager
+  async deleteManager(managerEmail: string, teamId: string): Promise<boolean> {
+    try {
+      // check the manager exits in that team
+      const managerExists = await managerService.checkManagerExistsInTeam(
+        managerEmail,
+        teamId
+      );
+
+      if (!managerExists) {
+        throw new Error("Manager does not exist in the team");
+      }
+
+      await managerService.deleteManager(managerEmail, teamId);
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+    return false;
+  }
+}
 
 function generateInvitationToken(): string {
   // Generate a UUID (v4) using the uuid library
@@ -134,3 +176,5 @@ function generateInvitationToken(): string {
 
   return uniqueToken;
 }
+
+export default new ManagerController();

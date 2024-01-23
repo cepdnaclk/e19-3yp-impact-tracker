@@ -1,0 +1,85 @@
+@use "../../../variables.scss" as *;
+
+.managersTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1em;
+  table-layout: fixed;
+  //text-overflow: ellipsis;
+  thead th {
+    font-size: 0.9em;
+    color: rgb(232, 232, 232);
+    text-wrap: wrap;
+    text-align: left;
+
+    button {
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      color: inherit;
+      font-weight: 600;
+      &:hover,
+      &:focus {
+        .icon {
+          color: white;
+        }
+      }
+      .icon {
+        font-size: 0.9em;
+        color: rgba(255, 255, 255, 0.5);
+        transition: 200ms color ease-in-out;
+      }
+    }
+  }
+  tbody {
+    tr {
+      //border-bottom: 1px solid #757575;
+      background-color: #2e2e2e;
+    }
+    tr:nth-of-type(even) {
+      border-radius: 1em;
+      background-color: #262626;
+    }
+
+    tr:last-of-type {
+      //border-bottom: 2px solid #565656;
+    }
+
+    tr:first-child {
+      td:first-child {
+        border-top-left-radius: 1em;
+      }
+      td:last-child {
+        border-top-right-radius: 1em;
+      }
+    }
+
+    tr:last-child {
+      td:first-child {
+        border-bottom-left-radius: 1em;
+      }
+      td:last-child {
+        border-bottom-right-radius: 1em;
+      }
+    }
+  }
+
+  thead tr {
+    background-color: transparent;
+    color: #ffffff;
+    text-align: left;
+  }
+
+  th,
+  td {
+    padding: 1em 2em;
+  }
+
+  span.noName {
+    opacity: 0.4;
+  }
+
+  // td:has(button) {
+  //   width: 10em;
+  // }
+}

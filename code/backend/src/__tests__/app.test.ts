@@ -1,5 +1,5 @@
 import app from "../../app";
-import { HttpCode, HttpMsg } from "../exceptions/appErrorsDefine";
+import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import request from "supertest";
 
 describe("APP ROOT", () => {

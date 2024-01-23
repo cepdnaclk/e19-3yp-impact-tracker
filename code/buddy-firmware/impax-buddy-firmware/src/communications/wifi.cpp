@@ -39,42 +39,28 @@ void BuddyWIFI::init()
     Serial.println(WiFi.localIP());
 }
 
-// Add Wi-Fi credentials to the multi-mode Wi-Fi manager
-void BuddyWIFI::addWIFIMulti(const char *ssid, const char *password)
+// Initialize Wi-Fi in single mode
+void BuddyWIFI::init(bool (*communicationDashboard)(), void (*turnOffHandler)())
 {
-    wifiMulti.addAP(ssid, password);
-}
+    WiFi.mode(WIFI_STA); // Set Wi-Fi mode to station (client)
 
-void BuddyWIFI::initWIFIMulti(bool (*communicationDashboard)())
-{
-    WiFi.mode(WIFI_STA);
+    WiFi.begin(ssid, password);
 
     Serial.println("\nConnecting");
-    while (wifiMulti.run() != WL_CONNECTED)
+    while (WiFi.status() != WL_CONNECTED)
     {
         led(LED_BLINK);
-        communicationDashboard();
-        Serial.print(".");
+
+        if (communicationDashboard())
+            WiFi.begin(ssid, password);
+
+        // check if turn off
+        turnOffHandler();
+
         delay(DELAY_WIFI_RECONNECT);
     }
 
     Serial.println("\nConnected to the WiFi network");
     Serial.print("Local ESP32 IP: ");
     Serial.println(WiFi.localIP());
-}
-
-// Reconnect to Wi-Fi in multi-mode
-void BuddyWIFI::reconnectWIFIMulti()
-{
-    if (wifiMulti.run(DELAY_WIFI_RECONNECT_MULTI) == WL_CONNECTED)
-    {
-        Serial.print("WiFi connected: ");
-        Serial.print(WiFi.SSID());
-        Serial.print(" ");
-        Serial.println(WiFi.RSSI());
-    }
-    else
-    {
-        Serial.println("WiFi not connected!");
-    }
 }

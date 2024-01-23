@@ -6,6 +6,7 @@ import {
   setPlayerMap,
   setSessionDetails,
   updatePlayersImpactHistory,
+  checkBuddiesAvailability,
 } from "../states/updateAppStates";
 import { Session } from "../types";
 
@@ -16,7 +17,7 @@ class MqttClient {
   private topics: string[];
 
   private constructor() {
-    this.client = mqtt.connect("ws://192.168.8.151:8080/", {
+    this.client = mqtt.connect("ws://192.168.4.1:8080/", {
       clientId: `impax-dashboard-${Date.now()}`,
       reconnectPeriod: 2000,
       keepalive: 60,
@@ -42,6 +43,8 @@ class MqttClient {
     this.client.on("message", (topic, message) =>
       this.handleMessage(topic, message)
     );
+
+    setInterval(checkBuddiesAvailability);
   }
 
   private handleConnect = () => {

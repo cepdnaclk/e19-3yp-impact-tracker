@@ -1,0 +1,33 @@
+@use "../../../variables.scss" as *;
+.loggedInStatus {
+  @include banner;
+}
+
+.gridLayout {
+  margin: 2em 0;
+  display: grid;
+  grid-template-columns: 1fr;
+
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+}
+
+.managersContainer {
+  .info {
+    padding: 1em 2em;
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    // justify-content: space-between;
+    align-items: center;
+
+    button {
+      padding: 0.6em 1em;
+    }
+  }
+}
+.addManagerForm {
+  @include modalInnerForm;
+}
