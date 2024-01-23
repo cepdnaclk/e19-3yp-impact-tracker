@@ -43,6 +43,18 @@ class TeamResponse {
   }
 }
 
+class TeamResponseWithIsVerified {
+  public teamId: string;
+  public teamName: string;
+  public isVerified: string;
+
+  constructor(teamId: string, teamName: string, isVerified: string) {
+    this.teamId = teamId;
+    this.teamName = teamName;
+    this.isVerified = isVerified;
+  }
+}
+
 class TeamManagerResponse {
   private teamId: string;
   private email: string;
@@ -60,4 +72,5 @@ export {
   Team,
   TeamResponse,
   TeamManagerResponse,
+  TeamResponseWithIsVerified
 };
