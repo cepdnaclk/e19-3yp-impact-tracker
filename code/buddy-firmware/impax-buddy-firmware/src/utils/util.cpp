@@ -42,12 +42,11 @@ int getBatteryStatus()
 
     // Check if the percentage is increasing
     bool isIncreasingPercentage = (percentage > prevPercentage);
+    // Update the previous percentage value
+    prevPercentage = percentage;
 
     if (isIncreasingPercentage)
         return CHARGIN_STATE;
-
-    // Update the previous percentage value
-    prevPercentage = percentage;
 
     return percentage;
 }

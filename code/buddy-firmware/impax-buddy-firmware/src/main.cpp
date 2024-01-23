@@ -118,18 +118,17 @@ void process()
         int batteryStatus = getBatteryStatus();
         buddyMQTT.publish(buddyMQTT.topics.BATTERY.c_str(), batteryStatus);
 
-        if (batteryStatus < BATTERY_LIMIT)
+        if (batteryStatus == CHARGIN_STATE)
+        {
+            ledStatus = LED_CHARGIN;
+        }
+        else if (batteryStatus < BATTERY_LIMIT)
         {
             ledStatus = LED_BATTERY_LOW;
         }
         else
         {
             ledStatus = LED_ON;
-        }
-
-        if (batteryStatus == CHARGIN_STATE)
-        {
-            ledStatus = LED_CHARGIN;
         }
 
         batteryStatusTimer = millis();
