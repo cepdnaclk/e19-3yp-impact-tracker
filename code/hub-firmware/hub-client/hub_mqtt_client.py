@@ -3,6 +3,7 @@ from datetime import datetime
 import time
 import json
 import re
+import os
 
 # MQTT broker settings
 broker_address = "0.0.0.0"
@@ -30,8 +31,41 @@ time_offset = 0
 active_buddies = {}
 # active_buddies = {buddy_id: active time}
 
+# File related variables
+session_file_path = "current_session_data"
+file_handle = None
+
+def create_session_file():
+    global session_file_path, file_handle
+    try:
+        file_handle = open(session_file_path, "w")
+        print("Session file created:", session_file_path)
+    except Exception as e:
+        print(f"Error creating session file: {str(e)}")
+
+def delete_session_file():
+    global session_file_path, file_handle
+    try:
+        if file_handle is not None:
+            file_handle.close()
+            os.remove(session_file_path)
+            print("Session file deleted:", session_file_path)
+    except Exception as e:
+        print(f"Error deleting session file: {str(e)}")
+
+def save_impact_history_to_file():
+    global session_file_path, data_buffer
+    try:
+        with open(session_file_path, "w") as file:
+            for player_id, impact_list in data_buffer.items():
+                impact_history = {"player_id": player_id, "impact_list": impact_list}
+                file.write(json.dumps(impact_history) + "\n")
+        print("Impact history saved to file.")
+    except Exception as e:
+        print(f"Error saving impact history to file: {str(e)}")
 
 def on_connect(client, userdata, flags, rc):
+    global broker_connected
     try:
         if rc == 0:
             broker_connected = True
@@ -43,7 +77,7 @@ def on_connect(client, userdata, flags, rc):
         print(f"Error in on_connect: {str(e)}")
 
 def on_message(client, userdata, msg):
-    global session_started, start_time, data_buffer, player_device_mapping, time_offset
+    global session_started, start_time, data_buffer, player_device_mapping, time_offset, file_handle
 
     try:
         # data from dashboards - JSON objects
@@ -81,12 +115,16 @@ def on_message(client, userdata, msg):
             if data["active"] is False:
                 if session_started:
                     end_session()
+                    save_impact_history_to_file()
+                    delete_session_file()
             else:
                 session_started = True
                 start_time = int(time.time() * 1000)
                 time_offset = data["updatedAt"] - start_time
                 print("time offset:", time_offset)
                 print("Session updated!")
+                create_session_file()
+                
         except Exception as e:
             print(f"Error in handling session_topic: {str(e)}")
 
@@ -119,6 +157,8 @@ def on_message(client, userdata, msg):
                     impact_history = data_buffer[player_id]
                     impact_history_topic = "player/" + str(player_id) + "/impact_history"
                     client.publish(impact_history_topic, json.dumps(impact_history), retain=True)
+                    save_impact_history_to_file()
+
         except Exception as e:
             print(f"Error in handling impact data: {str(e)}")
 
