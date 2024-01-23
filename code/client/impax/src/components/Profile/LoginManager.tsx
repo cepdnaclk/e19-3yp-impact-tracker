@@ -6,7 +6,9 @@ import { useLoginState } from "../../states/profileState";
 
 const LoginManager = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
-  const setIsLoggedIn = useSignupState((state) => state.setIsLoggedIn);
+  const setIsLoggedInManager = useSignupState(
+    (state) => state.setIsLoggedInManager
+  );
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
   const setTokens = useLoginState((state) => state.setTokens);
   const navigate = useNavigate();
@@ -48,7 +50,7 @@ const LoginManager = () => {
     });
     const responseData = await response.json();
     if (response.ok) {
-      setIsLoggedIn(true);
+      setIsLoggedInManager(true);
       localStorage.setItem("refreshToken", responseData.refreshToken);
       localStorage.setItem("accessToken", responseData.accessToken);
       setTokens({
@@ -60,20 +62,20 @@ const LoginManager = () => {
       setLoginInfo({ teamId, teamName: teamName, email });
 
       // FETCH PLAYERS array and store it in local storage
-      try {
-        const playersResponse = await fetch(
-          "'https://api.example.com/players'"
-        );
-        const playersData = await playersResponse.json();
-        const timestamp = new Date().getTime();
-        const playersWithTimestamp = {
-          timestamp,
-          playersData,
-        };
-        localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
-      } catch (error) {
-        console.log(error);
-      }
+      // try {
+      //   const playersResponse = await fetch(
+      //     "'https://api.example.com/players'"
+      //   );
+      //   const playersData = await playersResponse.json();
+      //   const timestamp = new Date().getTime();
+      //   const playersWithTimestamp = {
+      //     timestamp,
+      //     playersData,
+      //   };
+      //   localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
+      // } catch (error) {
+      //   console.log(error);
+      // }
 
       navigate("/login/manager");
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./ManagersTable.module.scss";
+import styles from "./MyTeams.module.scss";
 
 import {
   ColumnDef,
@@ -11,36 +11,24 @@ import {
   getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { FaSort } from "react-icons/fa";
-import { Manager } from "../../../types";
+import { MyTeam } from "../../../types";
 import { Verification } from "../../PlayerManagement/PlayersTable/Verification/Verification";
-import ManagerActions from "./ManagerActions";
-import { managers } from "./managersData";
+import { myTeams } from "./myTeams";
+import TeamActions from "./TeamsActions";
 
-const columns: ColumnDef<Manager>[] = [
+const columns: ColumnDef<MyTeam>[] = [
   {
-    //TODO:Until verified manager will not have a name
-    accessorKey: "name",
-    size: 100,
-    header: ({ column }) => {
-      return (
-        <button
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Name <FaSort className={styles.icon} />
-        </button>
-      );
-    },
-    cell: ({ row }) => {
-      return row.getValue("name") ?? <span className={styles.noName}>---</span>;
-    },
+    accessorKey: "team_id",
+    size: 60,
+    id: "team_id",
+    header: "Team ID",
   },
 
   {
-    accessorKey: "email",
-    header: "Email",
-    id: "email",
-    size: 100,
+    accessorKey: "team_name",
+    header: "Team Name",
+    id: "team_name",
+    size: 80,
   },
 
   {
@@ -54,25 +42,23 @@ const columns: ColumnDef<Manager>[] = [
     accessorKey: "edit",
     header: "",
     id: "edit",
-    size: 3,
+    size: 20,
     cell: ({ row }) => (
-      <ManagerActions
-        name={row.getValue("name")}
-        email={row.getValue("email")}
+      <TeamActions
+        team_id={row.getValue("team_id")}
+        team_name={row.getValue("team_name")}
+        verification={row.getValue("verification")}
       />
     ),
   },
 ];
-const ManagersTable = () => {
-  const [data] = React.useState(() => [...managers]);
+const MyTeamsTable = () => {
+  const [data] = React.useState(() => [...myTeams]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
   const table = useReactTable({
-    defaultColumn: {
-      size: 20,
-    },
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -91,7 +77,12 @@ const ManagersTable = () => {
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <th key={header.id} style={{ width: header.column.getSize() }}>
+              <th
+                key={header.id}
+                style={{
+                  width: header.column.getSize(),
+                }}
+              >
                 {header.isPlaceholder
                   ? null
                   : flexRender(
@@ -123,4 +114,4 @@ const ManagersTable = () => {
   );
 };
 
-export default ManagersTable;
+export default MyTeamsTable;

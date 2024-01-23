@@ -18,6 +18,21 @@ const SignupPlayer = () => {
 
   const onSubmit = async (data: FieldValues) => {
     const { password, email } = data;
+    const request = { email, password };
+    // console.log(data);
+    const response = await fetch("http://13.235.86.11:5000/player", {
+      method: "POST",
+      body: JSON.stringify(request),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const responseData = await response.json();
+    console.log(responseData);
+    if (response.ok) {
+      navigate("/signup/player/success");
+    }
+    reset();
     // setSignupInfo({ teamId, email });
 
     // reset();

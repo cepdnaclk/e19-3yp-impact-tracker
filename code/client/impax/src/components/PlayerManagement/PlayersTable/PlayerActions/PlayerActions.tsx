@@ -6,10 +6,50 @@ import AlertModal from "../../../Modal/AlertModal";
 import DialogModal from "../../../Modal/DialogModal";
 import { FaCheck } from "react-icons/fa6";
 import { useAppState } from "../../../../states/appState";
-
+import { FieldValues, useForm } from "react-hook-form";
+import { players } from "../../../../data/players";
 const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
   const playerDetails = useAppState((state) => state.playerDetails);
+  const setPlayerDetails = useAppState((state) => state.setPlayerDetails);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm();
+
+  const onSubmit = async (data: FieldValues) => {
+    // localStorage.setItem("playerDetails", JSON.stringify(players));
+
+    setOpenEdit(false);
+    setPlayerDetails({
+      ...playerDetails,
+      [jerseyId]: {
+        name: data.name,
+        email: data.email,
+        verification: playerDetails[jerseyId]?.verification,
+      },
+    });
+    // const response = await fetch("http://13.235.86.11:5000/exampleURL", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     // teamId: teamId,
+    //     // password: password,
+    //     // userName: email,
+    //   }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    // const responseData = await response.json();
+    // if (response.ok) {
+    //   // do something
+    // }
+
+    reset();
+  };
+
   return (
     <div className={styles.actions}>
       <DialogModal
@@ -30,10 +70,7 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
       >
         <form
           className={styles.editPlayerForm}
-          onSubmit={(e) => {
-            e.preventDefault();
-            setOpenEdit(false);
-          }}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <label htmlFor="jersey_number">Jersey Number</label>
           <input
@@ -41,25 +78,28 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
             name="jersey_number"
             id="jersey_number"
             placeholder="25"
+            disabled
             value={jerseyId}
           />
           <label htmlFor="name">Player Name</label>
           <input
+            {...register("name")}
             type="text"
             name="name"
             placeholder="Johnathan Doe"
-            value={playerDetails[jerseyId].name}
+            defaultValue={playerDetails[jerseyId]?.name || ""}
           />
           <label htmlFor="email">
             Player's Email (Optional)
             <span className={styles.additionalInfo}>Link Impax Account</span>
           </label>
           <input
+            {...register("email")}
             type="email"
             name="email"
             id="email"
             placeholder="johndoe@gmail.com"
-            value={playerDetails[jerseyId].email}
+            defaultValue={playerDetails[jerseyId]?.email || ""}
           />
           <Btn type="submit" Icon={FaCheck}>
             Confirm Changes

@@ -2,7 +2,6 @@ import { Manager } from "../../../types";
 
 export const managers: Manager[] = [
   {
-    name: "Kaushitha Silva",
     email: "kaushithamsilva@gmail.com",
     verification: "pending",
   },

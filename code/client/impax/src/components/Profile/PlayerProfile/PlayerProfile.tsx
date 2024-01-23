@@ -6,12 +6,15 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { useLoginState } from "../../../states/profileState";
 import { useSignupState } from "../../../states/formState";
 import { useState } from "react";
+import MyTeamsTable from "./MyTeamsTable";
 
 const PlayerProfile = () => {
   // Get team-id
   // Get team-name
   // Get manager email
-  const setIsLoggedIn = useSignupState((state) => state.setIsLoggedIn);
+  const setIsLoggedInPlayer = useSignupState(
+    (state) => state.setIsLoggedInPlayer
+  );
   const loginInfo = useLoginState((state) => state.loginInfo);
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
 
@@ -25,14 +28,14 @@ const PlayerProfile = () => {
           <h2>
             {loginInfo.teamName} <span>({loginInfo.teamId})</span>
           </h2>
-          <span>manager email: {loginInfo.email}</span>
+          <span>player email: {loginInfo.email}</span>
         </div>
         <div className={styles.controls}>
           <Btn
             buttonStyle="primary"
             Icon={IoMdExit}
             onClick={() => {
-              setIsLoggedIn(false);
+              setIsLoggedInPlayer(false);
               setLoginInfo({
                 teamId: "",
                 teamName: "",
@@ -44,7 +47,14 @@ const PlayerProfile = () => {
           </Btn>
         </div>
       </div>
-      <div className={styles.gridLayout}></div>
+      <div className={styles.gridLayout}>
+        <div className={styles.myTeamsContainer}>
+          <h2>My Teams</h2>
+          <div className={styles.tableContainer}>
+            <MyTeamsTable />
+          </div>
+        </div>
+      </div>
     </main>
   );
 };

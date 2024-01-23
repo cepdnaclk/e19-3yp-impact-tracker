@@ -14,7 +14,9 @@ const ManagerProfile = () => {
   // Get team-id
   // Get team-name
   // Get manager email
-  const setIsLoggedIn = useSignupState((state) => state.setIsLoggedIn);
+  const setIsLoggedInManager = useSignupState(
+    (state) => state.setIsLoggedInManager
+  );
   const loginInfo = useLoginState((state) => state.loginInfo);
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
 
@@ -32,10 +34,10 @@ const ManagerProfile = () => {
         </div>
         <div className={styles.controls}>
           <Btn
-            buttonStyle="primary"
+            buttonStyle="secondary"
             Icon={IoMdExit}
             onClick={() => {
-              setIsLoggedIn(false);
+              setIsLoggedInManager(false);
               setLoginInfo({
                 teamId: "",
                 teamName: "",
@@ -69,19 +71,19 @@ const ManagerProfile = () => {
                   setAddManagerOpen(false);
                 }}
               >
-                <label htmlFor="manager_name">Manager Name</label>
+                {/* <label htmlFor="manager_name">Manager Name</label>
                 <input
                   type="text"
                   name="manager_name"
                   id="manager_name"
                   placeholder="Johnathan Doe"
-                />
+                /> */}
 
                 <label htmlFor="email">
                   Manager's Email
-                  <span className={styles.additionalInfo}>
+                  {/* <span className={styles.additionalInfo}>
                     Link Impax Account
-                  </span>
+                  </span> */}
                 </label>
                 <input
                   type="email"

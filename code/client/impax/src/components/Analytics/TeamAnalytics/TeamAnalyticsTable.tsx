@@ -56,7 +56,21 @@ const columns: ColumnDef<TeamAnalyticsColumns>[] = [
       );
     },
     id: "impacts_recorded",
-    size: 100,
+    size: 2,
+  },
+  {
+    accessorKey: "cumulative_impact",
+    header: ({ column }) => {
+      return (
+        <button
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Cumulative Impact <FaSort className={styles.icon} />
+        </button>
+      );
+    },
+    id: "cumulative_impact",
+    size: 2,
   },
   {
     accessorKey: "highest_impact",
@@ -70,6 +84,7 @@ const columns: ColumnDef<TeamAnalyticsColumns>[] = [
       );
     },
     id: "highest_impact",
+    size: 2,
   },
   {
     accessorKey: "average_impact",
@@ -83,11 +98,13 @@ const columns: ColumnDef<TeamAnalyticsColumns>[] = [
       );
     },
     id: "average_impact",
+    size: 2,
   },
   {
     accessorKey: "dominant_direction",
     header: "Dominant Direction",
     id: "dominant_direction",
+    size: 10,
   },
   {
     accessorKey: "concussions",
@@ -101,6 +118,7 @@ const columns: ColumnDef<TeamAnalyticsColumns>[] = [
       );
     },
     id: "concussions",
+    size: 2,
   },
 ];
 const TeamAnalyticsTable: React.FC<{
@@ -112,6 +130,9 @@ const TeamAnalyticsTable: React.FC<{
     []
   );
   const table = useReactTable({
+    defaultColumn: {
+      size: 20,
+    },
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -125,12 +146,17 @@ const TeamAnalyticsTable: React.FC<{
     },
   });
   return (
-    <table className={styles.playersTable}>
+    <table className={styles.analyticsTable}>
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <th key={header.id}>
+              <th
+                key={header.id}
+                style={{
+                  width: header.column.getSize(),
+                }}
+              >
                 {header.isPlaceholder
                   ? null
                   : flexRender(
@@ -146,7 +172,12 @@ const TeamAnalyticsTable: React.FC<{
         {table.getRowModel().rows.map((row) => (
           <tr key={row.id}>
             {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>
+              <td
+                key={cell.id}
+                style={{
+                  width: cell.column.getSize(),
+                }}
+              >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>
             ))}
