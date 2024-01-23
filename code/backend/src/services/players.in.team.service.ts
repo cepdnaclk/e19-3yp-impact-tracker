@@ -7,7 +7,7 @@ class PlayerInTeamService {
   async addPlayerToTeam(
     playerEmail: string,
     teamId: string,
-    jersyId: string,
+    jerseyId: number,
     fullName: string,
     invitationToken: string
 
@@ -26,7 +26,7 @@ class PlayerInTeamService {
       const playerTeamInstance = new PlayerTeamModel({
         playerEmail: playerEmail,
         teamId: teamId,
-        jesryId: jersyId,
+        jerseyId: jerseyId,
         fullName: fullName,
         invitationToken: invitationToken,
         isVerified: "Pending",
@@ -38,7 +38,7 @@ class PlayerInTeamService {
       const playerInTeamResponse = new PlayerInTeamResponse(
         playerEmail,
         teamId,
-        jersyId,
+        jerseyId,
         fullName,
         "Pending",
       );
@@ -51,7 +51,7 @@ class PlayerInTeamService {
   }
 
   // async addPlayer(
-  //   jersyId: string,
+  //   jerseyId: string,
   //   firstName: string,
   //   lastName: string,
   //   playerEmail: string,
@@ -86,13 +86,13 @@ class PlayerInTeamService {
   // }
 
   async checkPlayerExistsInTeam(
-    jersyId: string,
+    jerseyId: number,
     teamId: string
   ): Promise<boolean> {
     try {
       // check entry exists
       const playerTeam = await PlayerTeamModel.findOne({
-        jesryId: jersyId,
+        jerseyId: jerseyId,
         teamId: teamId,
       });
 
@@ -109,12 +109,12 @@ class PlayerInTeamService {
     playerTeamRequest : PlayerTeamRequest
     ): Promise<PlayerInTeamResponse>{
       const existingPlayer = await PlayerTeamModel.findOne({ 
-        jesryId: playerTeamRequest.jesryId});
+        jerseyId: playerTeamRequest.jerseyId});
 
       if (existingPlayer) {
         // Update properties based on your requirements
         // existingPlayer.playerEmail = playerTeamRequest.playerEmail;
-        existingPlayer.jesryId = playerTeamRequest.jesryId;
+        existingPlayer.jerseyId = playerTeamRequest.jerseyId;
         existingPlayer.fullName = playerTeamRequest.fullName; 
         
     
@@ -123,7 +123,7 @@ class PlayerInTeamService {
         const playerInTeamResponse = new PlayerInTeamResponse(
           existingPlayer.playerEmail,
           existingPlayer.teamId,
-          existingPlayer.jesryId,
+          existingPlayer.jerseyId,
           existingPlayer.fullName,
           existingPlayer.isVerified,
         );
@@ -137,14 +137,14 @@ class PlayerInTeamService {
   }
 
   async removePlayerInTeam(
-    jersyId: string,
+    jerseyId: number,
     teamId: string
   ): Promise<boolean>{
     try{
 
       const playerInTeam = await PlayerTeamModel.findOne({
         teamId: teamId,
-        jesryId: jersyId
+        jerseyId: jerseyId
       })
 
       if (playerInTeam != null){

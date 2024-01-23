@@ -12,12 +12,13 @@ import { sendVerificationEmail } from "../email/playerVerifyEmail";
 import { findSourceMap } from "module";
 import { Player, PlayerInTeamResponse, PlayerRequestBody, PlayerResponse, PlayerTeamRequest } from "../models/player.model";
 import PlayerTeamModel from "../db/players.in.team.schema";
+import { AnalyticsSummary } from "../types/types";
 
 class PlayerController {
   
   // add player to the player team collection
   async addNewPlayer(
-    jersyId: string,
+    jerseyId: number,
     fullName: string,
     newPlayerEmail: string,
     teamId: string,
@@ -35,7 +36,7 @@ class PlayerController {
       }
       // check if player already exists in the team
       const playerExistsInTeam = await playersInTeamService.checkPlayerExistsInTeam(
-        jersyId,
+        jerseyId,
         teamId,
       );
 
@@ -53,7 +54,7 @@ class PlayerController {
         const playerInTeamResponse = await playersInTeamService.addPlayerToTeam(
           newPlayerEmail, 
           teamId,
-          jersyId,
+          jerseyId,
           fullName,
           invitationToken
         );
@@ -168,7 +169,7 @@ class PlayerController {
       }
       // check if player exists in the team
       const playerExistsInTeam = await playersInTeamService.checkPlayerExistsInTeam(
-        playerTeamRequest.jesryId,
+        playerTeamRequest.jerseyId,
         teamId,
       );
 
@@ -202,7 +203,7 @@ class PlayerController {
 
   // Remove player in team
   async removePlayer(
-    jersyId: string,
+    jerseyId: number,
     teamId: string,
     managerEmail: string
 
@@ -219,12 +220,12 @@ class PlayerController {
       }
       // check if player already exists in the team
       const playerExistsInTeam = await playersInTeamService.checkPlayerExistsInTeam(
-        jersyId,
+        jerseyId,
         teamId,
       );
       if (playerExistsInTeam){
         const isRemoved = await playersInTeamService.removePlayerInTeam(
-          jersyId,
+          jerseyId,
           teamId
         );
         return isRemoved;
@@ -253,6 +254,30 @@ class PlayerController {
       }
   }
   
+  async getAnalyticsSummary(
+    email: string,
+    duration: string
+  ): Promise<void>{
+    // 'Last Week' , 'Last Month' , 'All Time'
+    let durationNumber: number = 0;
+
+    if (duration == "All Time"){
+      durationNumber = -1;
+    } else if (duration == "Last Month"){
+      durationNumber = 30 * 24 * 60 * 60 * 1000;
+    } else if (duration == "Last Week"){
+      durationNumber = 7 * 24 * 60 * 60 * 1000;
+    }
+
+    try {
+      const analyticsSummary = await playerService.getAnalyticsSummary(email, durationNumber);
+      return analyticsSummary;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error in player service");
+    }
+
+  }
   
 }
 function generateInvitationToken(): string {

@@ -4,6 +4,7 @@ import { PlayerRequestBody, PlayerResponse } from "../models/player.model";
 import { TeamResponseWithIsVerified } from "../models/team.model";
 import PlayerTeamModel from "../db/players.in.team.schema";
 import TeamModel from "../db/team.schema";
+import { AnalyticsSummary } from "../types/types";
 
 class PlayerService {
   // async checkPlayerExistsInTeam(
@@ -153,5 +154,30 @@ class PlayerService {
       throw new Error("Error while fetching teams for player");
     }
   }
+  
+  async getAnalyticsSummary(email: string, duration:number): Promise<void>{
+    try{
+      const playerTeams = await PlayerTeamModel.find({ playerEmail: email }, 'teamId jerseyId');
+
+    // if (playerTeams.length === 0) {
+    //   return [];
+    // }
+
+    const jerseyIdsByTeam: Record<string, number[]> = {};
+
+    playerTeams.forEach(playerTeam => {
+      const { teamId, jerseyId } = playerTeam;
+      jerseyIdsByTeam[teamId] = jerseyIdsByTeam[teamId] || [];
+      jerseyIdsByTeam[teamId].push(jerseyId);
+    });
+
+    // Now jerseyIdsByTeam is an object where each teamId is associated with an array of jerseyIds
+    console.log(jerseyIdsByTeam);
+
+    }catch (error) {
+      console.error(error);
+      throw new Error("Error while fetching teams for player");
+    }
+  }   
 }
 export default new PlayerService();

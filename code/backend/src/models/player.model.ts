@@ -47,14 +47,14 @@ class Player {
   class PlayerInTeamResponse{
     public playerEmail: string;
     public teamId: string;
-    public jesryId: string;
+    public jerseyId: number;
     public fullName: string;
     public isVerified: string;
 
     public constructor(
       playerEmail: string,
       teamId: string,
-      jesryId: string,
+      jerseyId: number,
       fullName: string,
       isVerified: string,
 
@@ -62,7 +62,7 @@ class Player {
     ) {
       this.playerEmail = playerEmail;
       this.teamId = teamId;
-      this.jesryId = jesryId;
+      this.jerseyId = jerseyId;
       this.fullName = fullName;
       this.isVerified = isVerified;
 
@@ -71,18 +71,18 @@ class Player {
 
   class PlayerTeamRequest{
     public playerEmail: string;
-    public jesryId: string;
+    public jerseyId: number;
     public fullName: string;
 
     public constructor(
       playerEmail: string,
-      jesryId: string,
+      jerseyId: number,
       fullName: string,
 
 
     ) {
       this.playerEmail = playerEmail;
-      this.jesryId = jesryId;
+      this.jerseyId = jerseyId;
       this.fullName = fullName;
 
     }

@@ -1019,15 +1019,19 @@
                     "type": "string"
                   },
                   "value": {
-                    "type": "string"
+                    "anyOf": [
+                      { "type": "string" },
+                      { "type": "number" }
+                    ]
                   },
                   "trend": {
-                    "type": "number"
-                  },
-                  "metaUnits": {
-                    "type": "string"
+                    "anyOf": [
+                      { "type": "number" },
+                      { "$ref": "#/components/schemas/ImpactDirection" }
+                    ]
                   }
                 }
+              }
             },
             "histogramData": {
               "type": "object",
@@ -1070,10 +1074,13 @@
                     "type": "string"
                   },
                   "cumulative_impact": {
-                    "type": "string"
+                    "type": "number"
+                  },
+                  "average_impact": {
+                    "type": "number"
                   },
                   "largest_impact": {
-                    "type": "string"
+                    "type": "number"
                   }
                 }
               }
@@ -1112,37 +1119,43 @@
               {
                 "session_name": "Session 1",
                 "session_date": "2024-01-22",
-                "cumulative_impact": "50 g",
-                "largest_impact": "15 g"
+                "cumulative_impact": 50,
+                "average_impact": 20,
+                "largest_impact": 25
               },
               {
                 "session_name": "Session 2",
                 "session_date": "2024-01-23",
-                "cumulative_impact": "70 g",
-                "largest_impact": "20 g"
+                "cumulative_impact": 70,
+                "average_impact": 20,
+                "largest_impact": 20
               },
               {
                 "session_name": "Session 3",
                 "session_date": "2024-01-24",
-                "cumulative_impact": "90 g",
-                "largest_impact": "25 g"
+                "cumulative_impact": 90,
+                "average_impact": 20,
+                "largest_impact": 25
               }
             ]
           }
-        }  
+      }, 
+
+      "ImpactDirection": {
+        "type": "string",
+        "enum": ["left", "right", "front", "back"]
       },
-      
 
       "PlayerRemoveRequest": {
         "type": "object",
         "properties": {
-          "jersyId": {
-            "type": "string"
+          "jerseyId": {
+            "type": "number"
           }
         },
-        "required": ["jersyId"],
+        "required": ["jerseyId"],
         "example": {
-          "jersyId": "exampleJersyId"
+          "jerseyId": 80
         }
       },
   
@@ -1161,8 +1174,8 @@
         "type": "object",
         "properties": {
           
-          "jersyID": {
-            "type": "string"
+          "jerseyId": {
+            "type": "number"
           },
           "fullName": {
             "type": "string"
@@ -1173,7 +1186,7 @@
           }
         },
         "example": {
-          "jersyId": "exampleJersyId",
+          "jerseyId": 70,
           "fullName": "John Doe",
           "playerEmail": "example@example.com"
         }
@@ -1182,8 +1195,8 @@
         "type": "object",
         "properties": {
           
-          "jersyID": {
-            "type": "string"
+          "jerseyId": {
+            "type": "number"
           },
           "fullName": {
             "type": "string"
@@ -1197,7 +1210,7 @@
           }
         },
         "example": {
-          "jersyId": "exampleJersyId",
+          "jerseyId": 90,
           "fullName": "John Doe",
           "playerEmail": "example@example.com",
           "teamId": "exampleTeamId"
@@ -1227,14 +1240,14 @@
           "playerEmail": {
             "type": "string"
           },
-          "jersyId": {
+          "jerseyId": {
             "type": "string"
           }
         },
         "example": {
           "fullName": "John Doe",
           "playerEmail": "example@example.com",
-          "jersyId": "exampleJersyId"
+          "jerseyId": 98
         }
       },
 
