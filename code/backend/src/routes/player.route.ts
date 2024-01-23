@@ -18,7 +18,7 @@ router.post("/add", async (req: Request, res: Response) => {
   const teamId = req.body.teamId;
   const managerEmail = req.body.userName;
 
-  if (!newPlayerEmail || !teamId) {
+  if (!jerseyId || !teamId) {
     console.log(HttpMsg.BAD_REQUEST);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
     return;

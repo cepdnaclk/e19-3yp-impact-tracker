@@ -5,6 +5,8 @@ import { TeamResponseWithIsVerified, TeamResponseWithJerseyId } from "../models/
 import PlayerTeamModel from "../db/players.in.team.schema";
 import TeamModel from "../db/team.schema";
 import { AnalyticsSummary } from "../types/types";
+import { Impact, ImpactPlayer, SessionResponse } from "../models/session.model";
+import SessionModel from "../db/session.schema";
 
 class PlayerService {
   // async checkPlayerExistsInTeam(
@@ -202,6 +204,14 @@ class PlayerService {
         .filter((teamWithJerseyId): teamWithJerseyId is TeamResponseWithJerseyId => teamWithJerseyId !== null);
   
       console.log(teamResponsesWithJerseyId);
+      
+      //get sessions by teamId in teamResponsesWithJerseyId
+      let sessions: Array<SessionResponse> = [];
+      for (const team of teamResponsesWithJerseyId) {
+        sessions = sessions.concat(await getSessionsForTeam(team.teamId));
+      }
+      console.log(sessions);
+
 
     }catch (error) {
       console.error(error);
@@ -209,4 +219,31 @@ class PlayerService {
     }
   }   
 }
+
+async function getSessionsForTeam(teamId: string): Promise<Array<SessionResponse>> {
+  // Fetch sessions from the database
+  const sessions = await SessionModel.find({ teamId: teamId });
+
+  // Map the sessions to SessionResponse objects
+  const sessionResponses = sessions.map(session => new SessionResponse(
+    session.teamId,
+    session.sessionId,
+    session.sessionName,
+    session.createdAt,
+    session.updatedAt,
+    session.impactHistory.map(player => new ImpactPlayer(
+      player.jerseyId,
+      player.impact.map(impact => new Impact(
+        impact.magnitude,
+        impact.direction,
+        impact.timestamp,
+        impact.isConcussion
+      ))
+    )),
+    session.active
+  ));
+  console.log(sessionResponses);
+  return sessionResponses;
+}
+
 export default new PlayerService();

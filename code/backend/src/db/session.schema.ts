@@ -8,6 +8,7 @@ interface SessionDocument extends Document {
   createdAt: number;
   updatedAt: number;
   impactHistory: ImpactPlayer[];
+  active: boolean;
 }
 
 const sessionSchema = new Schema({
@@ -29,6 +30,7 @@ const sessionSchema = new Schema({
       ],
     },
   ],
+  active: Boolean,
 });
 
 const SessionModel = mongoose.model<SessionDocument>("Session", sessionSchema);

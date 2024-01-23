@@ -17,6 +17,7 @@ router.post("/", async (req: Request, res: Response) => {
   const createdAt = req.body.createdAt;
   const updatedAt = req.body.updatedAt;
   const impactHistoryOld = req.body.impactHistory;
+  const active = req.body.active;
 
   if (
     !userName ||
@@ -53,7 +54,8 @@ router.post("/", async (req: Request, res: Response) => {
     sessionName,
     createdAt,
     updatedAt,
-    impactHistory
+    impactHistory,
+    active
   );
 
   // check team exists
