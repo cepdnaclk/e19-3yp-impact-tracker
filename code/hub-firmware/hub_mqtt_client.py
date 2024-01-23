@@ -15,6 +15,7 @@ session_topic = "session"
 session_end_topic = "session_end"
 session_data = "session_data"
 is_concussion_topic = "player/+/concussion"
+buddy_status_topic = "buddy/+/status"
 
 # Player to device mapping (device_id:player_id)
 player_device_mapping = {}
@@ -26,6 +27,8 @@ start_time = None
 data_buffer = {}
 # data_buffer = {playerId: [{Impact}, {Impact}, ...]}
 time_offset = 0
+active_buddies = {}
+# active_buddies = {buddy_id: active time}
 
 
 def on_connect(client, userdata, flags, rc):
@@ -49,8 +52,23 @@ def on_message(client, userdata, msg):
     # data from impact buddies - ESP32 - text strings
     except json.JSONDecodeError:
         data = msg.payload.decode().split(" ")
+    
+    if msg.topic == buddy_status_topic:
+        device_id = msg.topic.split("/")[1] 
+        current_time = time.time()
+        active_buddies[device_id] = current_time
+        
+        # Check for inactive buddies
+        for active_device_id in active_buddies:
+            if current_time - active_buddies[active_device_id] > 60:
+                # Publish zero battery status for inactive buddy
+                print(f"Buddy {active_device_id} is not active.")
+                client.publish(buddy_status_topic,0)
+            else:
+                client.publish(buddy_status_topic, data)
 
-    if msg.topic == mapping_topic:
+
+    elif msg.topic == mapping_topic:
         try:
             # Update player to device mapping
             player_device_mapping = data
