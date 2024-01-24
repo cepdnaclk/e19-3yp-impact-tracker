@@ -19,5 +19,18 @@ export type AnalyticsSummary = {
     }>;
   };
   
-  export type ImpactDirection = 'left' | 'right' | 'front' | 'back';
+export type ImpactDirection = 'left' | 'right' | 'front' | 'back';
+
+
+export type ImpactStats = {
+    impactsCumulative: number;
+    impactsRecorded: number;
+    highestImpact: number;
+    directionCount: {
+      front: number;
+      back: number;
+      left: number;
+      right: number;
+    };
+  };
   
