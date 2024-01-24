@@ -11,6 +11,7 @@ import { Buddies } from "../../types";
 import NoMqttConnection from "../StatusScreens/NoMqttConnection";
 import { syncDevice } from "../../utils/serialCom";
 import DialogModal from "../Modal/DialogModal";
+import { FieldValues, useForm } from "react-hook-form";
 
 const Devices: React.FC = () => {
   const buddies: Buddies = useAppState((state) => state.buddiesStatus);
@@ -42,6 +43,21 @@ const Devices: React.FC = () => {
   //if mqtt is not connected, show no connection page
   let isMqttOnline = useAppState((state) => state.isMqttOnine);
   isMqttOnline = true;
+
+  // form handling
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm();
+
+  const onSubmit = async (data: FieldValues) => {
+    console.log(data);
+    await syncDevice(data.SSID, data.password);
+    reset();
+    setAddBuddyOpen(false);
+  };
   if (!isMqttOnline) {
     return (
       <main className="main">
@@ -74,30 +90,39 @@ const Devices: React.FC = () => {
               />
             }
           >
-            <form className={styles.newBuddyForm}>
+            <form
+              className={styles.newBuddyForm}
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <label htmlFor="SSID">WiFi SSID</label>
+              {errors.SSID && <p>{`${errors.SSID?.message}`}</p>}
               <input
+                {...register("SSID", { required: true })}
                 type="text"
                 name="SSID"
                 placeholder="Impax-Hub"
                 id="SSID"
               />
               <label htmlFor="password">Password</label>
+              {errors.password && <p>{`${errors.password?.message}`}</p>}
               <input
+                {...register("password", { required: true })}
                 type="password"
                 name="password"
                 id="password"
                 placeholder="*******"
               />
               <Btn
+                type="submit"
                 buttonStyle="primary"
                 children="Add New Buddy"
                 Icon={IoAdd}
-                onClick={() => {
-                  syncDevice();
-                  //TODO: if success, close modal, else show error
-                  setAddBuddyOpen(false);
-                }}
+                disabled={isSubmitting}
+                // onClick={() => {
+                //   syncDevice();
+                //   //TODO: if success, close modal, else show error
+                //   setAddBuddyOpen(false);
+                // }}
               />
             </form>
           </DialogModal>
