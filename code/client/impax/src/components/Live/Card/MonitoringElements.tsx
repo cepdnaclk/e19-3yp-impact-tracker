@@ -129,7 +129,7 @@ const MonitoringElements: React.FC<{
           {/* Show  players impact history */}
           <div>
             {playerImpactHistory !== undefined ? (
-              <ImpactHistoryTable impactHistory={playerImpactHistory} />
+              <ImpactHistoryTable playerId={playerId} />
             ) : (
               <p>No impacts recorded</p>
             )}
