@@ -11,16 +11,23 @@ export type AnalyticsSummary = {
       back: number[];
     };
     criticalSessions: Array<{
-      session_name: string;
-      session_date: string;
-      cumulative_impact: number;
-      average_impact: number;
-      largest_impact: number;
+      sessionName: string;
+      sessionDate: string;
+      cumulativeImpact: number;
+      averageImpact: number;
+      largestImpact: number;
     }>;
   };
   
 export type ImpactDirection = 'left' | 'right' | 'front' | 'back';
 
+export type SessionAnalytics = {
+  sessionName: string;
+  sessionDate: string;
+  cumulativeImpact: number;
+  averageImpact: number;
+  largestImpact: number;
+};
 
 export type ImpactStats = {
     impactsCumulative: number;
@@ -32,5 +39,6 @@ export type ImpactStats = {
       left: number;
       right: number;
     };
+    sessionAnalytics: SessionAnalytics[];
   };
   

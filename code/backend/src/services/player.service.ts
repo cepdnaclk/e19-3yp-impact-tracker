@@ -4,7 +4,7 @@ import { PlayerRequestBody, PlayerResponse } from "../models/player.model";
 import { TeamResponseWithIsVerified, TeamResponseWithJerseyId } from "../models/team.model";
 import PlayerTeamModel from "../db/players.in.team.schema";
 import TeamModel from "../db/team.schema";
-import { AnalyticsSummary, ImpactStats, ImpactDirection } from "../types/types";
+import { AnalyticsSummary, ImpactStats, ImpactDirection, SessionAnalytics } from "../types/types";
 import { Impact, ImpactPlayer, SessionResponse } from "../models/session.model";
 import SessionModel from "../db/session.schema";
 
@@ -158,7 +158,7 @@ class PlayerService {
     }
   }
   
-  async getAnalyticsSummary(email: string, duration:number): Promise<void>{
+  async getAnalyticsSummary(email: string, duration:number): Promise<AnalyticsSummary>{
 
     let analyticsSummary: AnalyticsSummary = {
       summaryData: [
@@ -196,6 +196,7 @@ class PlayerService {
       },
       criticalSessions: [],
     };
+
     try{
       
       // Fetch playerTeams
@@ -234,7 +235,8 @@ class PlayerService {
           back: 0,
           left: 0,
           right: 0
-        }
+        },
+        sessionAnalytics: []
       };
 
       let impactStatsCurr: ImpactStats = {
@@ -246,7 +248,8 @@ class PlayerService {
           back: 0,
           left: 0,
           right: 0
-        }
+        },
+        sessionAnalytics: []
       };
 
       //get sessions by teamId in teamResponsesWithJerseyId
@@ -275,27 +278,16 @@ class PlayerService {
         // console.log("Current" + team.teamId );
         // console.log(filteredSessionsCurrent);
 
-        impactStatsPrev = await calculationForSessions(filteredSessionsPrevious, impactStatsPrev, team.jerseyId);
-        impactStatsCurr = await calculationForSessions(filteredSessionsCurrent, impactStatsCurr, team.jerseyId);
-        
-        
-        
-        // for (let session of sessions) {
+        impactStatsPrev = await calculationForSessionsPrev(filteredSessionsPrevious, impactStatsPrev, team.jerseyId);
 
-          
-        //   console.log(session.sessionId);
-        //   for (const impactPlayer of session.impactHistory) {
-
-        //     if (impactPlayer.jerseyId === team.jerseyId) {
-              
-        //       console.log("################################");
-        //       console.log("Filtered sessions:");
-        //       console.log(impactPlayer);
-        //       console.log("################################");
-        //     }
-        //   }
-        // }
-        // console.log("################################");
+        impactStatsCurr = await calculationForSessions(
+          filteredSessionsCurrent, 
+          impactStatsCurr, 
+          team.jerseyId, 
+          analyticsSummary.histogramData,
+          analyticsSummary.criticalSessions);
+        
+        
       }
 
 
@@ -332,8 +324,14 @@ class PlayerService {
       // console.log("maxKey:");
       // console.log(maxKeyPrev, maxValuePrev);
       
-      console.log("analyticsSummary:");
-      console.log(analyticsSummary);
+      // Sort the critical sessions array by cumulative impact in descending order
+      analyticsSummary["criticalSessions"].sort((a, b) => b.cumulativeImpact - a.cumulativeImpact);
+      // console.log( analyticsSummary["criticalSessions"]);
+
+      // console.log("analyticsSummary:");
+      // console.log(analyticsSummary);
+
+      return analyticsSummary;
 }catch (error) {
       console.error(error);
       throw new Error("Error while fetching teams for player");
@@ -382,6 +380,95 @@ class PlayerService {
   async function calculationForSessions(
     sessions: Array<SessionResponse>, 
     stats: ImpactStats, 
+    jerseyId: Number,
+    histogramData: AnalyticsSummary["histogramData"],
+    criticalSessions: AnalyticsSummary["criticalSessions"]
+    ): Promise<ImpactStats> {
+    try{
+
+      // For each session
+      for (const session of sessions) {
+        console.log("Session: " + session.sessionId);
+
+        //For storing session analytics
+        let sessionAnalyticsItem: SessionAnalytics = {
+          sessionName: session.sessionName,
+          sessionDate: new Date(session.createdAt).toLocaleDateString("en-US", {
+            
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          }),
+          cumulativeImpact: 0,
+          averageImpact: 0,
+          largestImpact: 0,
+        };
+
+        let impactCountForSession:number = 0;
+        for (const impactPlayer of session.impactHistory) {
+          if (impactPlayer.jerseyId === jerseyId) {
+
+            // For each impact in the impact Player
+            for (const impact of impactPlayer.impact) {
+
+              //Session Analytics
+              impactCountForSession += 1;
+              sessionAnalyticsItem.cumulativeImpact += impact.magnitude;
+
+              if (sessionAnalyticsItem.largestImpact < impact.magnitude){
+                sessionAnalyticsItem.largestImpact = impact.magnitude;
+              }
+              sessionAnalyticsItem.averageImpact = sessionAnalyticsItem.cumulativeImpact/impactCountForSession;
+
+              // Update the impact stats
+              stats.impactsCumulative += impact.magnitude;
+              stats.impactsRecorded += 1;
+              if (stats.highestImpact < impact.magnitude) {
+                stats.highestImpact = impact.magnitude;
+              }
+              stats.directionCount[impact.direction as keyof typeof stats.directionCount] += 1;
+
+              const index = Math.floor(impact.magnitude / 20);
+              histogramData[impact.direction as keyof typeof histogramData][index] += 1;
+              // console.log("histogramData:");
+              // console.log(impact.magnitude, impact.direction);
+              // console.log(histogramData);
+              
+
+              // console.log(stats)
+            }
+          }
+        }
+        
+        // If length of crirtical sessions<3 => directly push to the critical sessions
+        // Else: sort by cumulative impact => remove the least one and push only if least<current cumulative
+        if (criticalSessions.length < 3) {
+          criticalSessions.push(sessionAnalyticsItem);
+
+        }else {
+          // Sort the critical sessions array by cumulative impact in descending order
+          criticalSessions.sort((a, b) => b.cumulativeImpact - a.cumulativeImpact);
+              console.log(sessionAnalyticsItem);
+
+          if (sessionAnalyticsItem.cumulativeImpact > criticalSessions[criticalSessions.length - 1].cumulativeImpact) {
+            criticalSessions.pop();
+            criticalSessions.push(sessionAnalyticsItem);
+          }
+        }
+
+        console.log(criticalSessions);
+      }
+      return stats;
+    }catch (error) {
+      console.error(error);
+      throw new Error("Error while fetching teams for player");
+    }
+  }
+
+  //Calculate the analytics for each sesseions for previous
+  async function calculationForSessionsPrev(
+    sessions: Array<SessionResponse>, 
+    stats: ImpactStats, 
     jerseyId: Number
     ): Promise<ImpactStats> {
     try{
@@ -414,4 +501,5 @@ class PlayerService {
       throw new Error("Error while fetching teams for player");
     }
   }
+
 export default new PlayerService();

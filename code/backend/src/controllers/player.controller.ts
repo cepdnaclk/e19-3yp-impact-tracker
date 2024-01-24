@@ -257,7 +257,7 @@ class PlayerController {
   async getAnalyticsSummary(
     email: string,
     duration: string
-  ): Promise<void>{
+  ): Promise<AnalyticsSummary>{
     // 'Last Week' , 'Last Month' , 'All Time'
     let durationNumber: number = 0;
 

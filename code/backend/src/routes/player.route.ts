@@ -278,8 +278,8 @@ router.get("/analytics-summary/:duration",async (req:Request, res: Response) => 
 
     // Assuming 'getAnalyticsSummary' is a function in your playerController
     // const analyticsSummary = await playerController.getAnalyticsSummary(playerEmail, req.params.duration);
-    await playerController.getAnalyticsSummary(playerEmail, req.params.duration);
-    // res.send({ analyticsSummary });
+    const analyticsSummary = await playerController.getAnalyticsSummary(playerEmail, req.params.duration);
+    res.send({ analyticsSummary });
     
   } catch (error) {
     console.error(error);
