@@ -203,14 +203,47 @@ class PlayerService {
         })
         .filter((teamWithJerseyId): teamWithJerseyId is TeamResponseWithJerseyId => teamWithJerseyId !== null);
   
-      console.log(teamResponsesWithJerseyId);
+      // console.log(teamResponsesWithJerseyId);
       
       //get sessions by teamId in teamResponsesWithJerseyId
       let sessions: Array<SessionResponse> = [];
       for (const team of teamResponsesWithJerseyId) {
         sessions = sessions.concat(await getSessionsForTeam(team.teamId));
+
+        // for (const session of sessions) {
+        //   console.log(session.impactHistory.map(player => player.jerseyId));
+        //   // const playerImpactHistory = session.impactHistory;//.find(impactPlayer => impactPlayer.jerseyId === team.jerseyId);
+        //   // console.log(playerImpactHistory)
+        //   // if (playerImpactHistory) {
+        //   //   console.log("Player Impact History Found:");
+        //   //   console.log(playerImpactHistory);
+        //   // }
+
+        //   session.impactHistory.map(player => {
+        //     console.log(player);
+        //     return new ImpactPlayer(
+        //       player.jerseyId,
+        //       player.impact.map(impact => new Impact(
+        //         impact.magnitude,
+        //         impact.direction,
+        //         impact.timestamp,
+        //         impact.isConcussion
+        //       ))
+        //     );
+        //   });
+        // }
+
+        for (const session of sessions) {
+          // console.log(session.impactHistory);
+          for (const impactPlayer of session.impactHistory) {
+            console.log(impactPlayer.jerseyId);
+            console.log(impactPlayer.impact);
+            
+          }
+        }
+        
       }
-      console.log(sessions);
+     
 
 
     }catch (error) {
@@ -240,9 +273,8 @@ async function getSessionsForTeam(teamId: string): Promise<Array<SessionResponse
         impact.isConcussion
       ))
     )),
-    session.active
   ));
-  console.log(sessionResponses);
+  // console.log(sessionResponses);
   return sessionResponses;
 }
 

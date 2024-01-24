@@ -17,11 +17,8 @@ router.post("/", async (req: Request, res: Response) => {
   const createdAt = req.body.createdAt;
   const updatedAt = req.body.updatedAt;
   const impactHistoryOld = req.body.impactHistory;
-  const active = req.body.active;
 
   if (
-    !userName ||
-    !teamId ||
     !sessionId ||
     !sessionName ||
     !createdAt ||
@@ -32,9 +29,9 @@ router.post("/", async (req: Request, res: Response) => {
     return;
   }
 
-  const teamExists = await teamController.checkTeamExist(teamId);
+  const teamIdExistResponse = await teamController.checkTeamExist(teamId);
 
-  if (!teamExists) {
+  if (!teamIdExistResponse.teamExists) {
     res.status(HttpCode.NOT_FOUND).send({ message: HttpMsg.NOT_FOUND });
     return;
   }
@@ -42,7 +39,7 @@ router.post("/", async (req: Request, res: Response) => {
   // check session exists
   const sessionExists = await sessionController.checkSessionExists(sessionId);
   if (sessionExists) {
-    res.status(400).send({ message: HttpMsg.TEAM_NOT_FOUND });
+    res.status(400).send({ message: HttpMsg.SESSION_ID_EXISTS });
     return;
   }
 
@@ -54,8 +51,7 @@ router.post("/", async (req: Request, res: Response) => {
     sessionName,
     createdAt,
     updatedAt,
-    impactHistory,
-    active
+    impactHistory
   );
 
   // check team exists

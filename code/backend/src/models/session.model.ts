@@ -4,7 +4,6 @@ class SessionRequest {
   public sessionName: string;
   public createdAt: number;
   public updatedAt: number;
-  public active: boolean;
   public impactHistory: ImpactPlayer[];
 
   constructor(
@@ -14,7 +13,6 @@ class SessionRequest {
     createdAt: number,
     updatedAt: number,
     impactHistory: ImpactPlayer[],
-    active: boolean
   ) {
     this.teamId = teamId;
     this.sessionId = sessionId;
@@ -22,7 +20,6 @@ class SessionRequest {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.impactHistory = impactHistory;
-    this.active = active;
   }
 }
 
@@ -49,8 +46,8 @@ class ImpactPlayer {
   public jerseyId: number;
   public impact: Impact[];
 
-  constructor(playerId: number, impact: Impact[]) {
-    this.jerseyId = playerId;
+  constructor(jerseyId: number, impact: Impact[]) {
+    this.jerseyId = jerseyId;
     this.impact = impact;
   }
 }
@@ -62,7 +59,6 @@ class SessionResponse {
   public createdAt: number;
   public updatedAt: number;
   public impactHistory: ImpactPlayer[];
-  public active: boolean;
 
   constructor(
     teamId: string,
@@ -71,7 +67,6 @@ class SessionResponse {
     createdAt: number,
     updatedAt: number,
     impactHistory: ImpactPlayer[],
-    active: boolean
   ) {
     this.teamId = teamId;
     this.sessionId = sessionId;
@@ -79,7 +74,6 @@ class SessionResponse {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.impactHistory = impactHistory;
-    this.active = active;
   }
 }
 
