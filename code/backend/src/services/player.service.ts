@@ -4,7 +4,7 @@ import { PlayerRequestBody, PlayerResponse } from "../models/player.model";
 import { TeamResponseWithIsVerified, TeamResponseWithJerseyId } from "../models/team.model";
 import PlayerTeamModel from "../db/players.in.team.schema";
 import TeamModel from "../db/team.schema";
-import { AnalyticsSummary } from "../types/types";
+import { AnalyticsSummary, ImpactStats, ImpactDirection } from "../types/types";
 import { Impact, ImpactPlayer, SessionResponse } from "../models/session.model";
 import SessionModel from "../db/session.schema";
 
@@ -159,32 +159,50 @@ class PlayerService {
   }
   
   async getAnalyticsSummary(email: string, duration:number): Promise<void>{
+
+    let analyticsSummary: AnalyticsSummary = {
+      summaryData: [
+        {
+          title: "Cumulative Impacts",
+          value: 0,
+          trend: 0,
+        },
+        {
+          title: "Impacts Recorded",
+          value: 0,
+          trend: 0,
+        },
+        {
+          title: "Average Impact",
+          value: 0,
+          trend: 0,
+        },
+        {
+          title: "Highest Impact",
+          value: 0,
+          trend: 0,
+        },
+        {
+          title: "Dominant Direction",
+          value: 0,
+          trend: 'front',
+        }
+      ],
+      histogramData: {
+        left: new Array(10).fill(0),
+        right: new Array(10).fill(0),
+        front: new Array(10).fill(0),
+        back: new Array(10).fill(0),
+      },
+      criticalSessions: [],
+    };
     try{
-      // // Fetch playerTeams
-      // const playerTeams = await PlayerTeamModel.find({ playerEmail: email });
-      // console.log(playerTeams);
-  
-      // if (playerTeams.length === 0) {
-      //   console.log("No teams found for player");
-      // }
-
-      // const teamIds = playerTeams.map(playerTeam => playerTeam.teamId);
       
-      // // Fetch teams from TeamModel
-      // const teams = await PlayerTeamModel.find({ teamId: { $in: teamIds }, playerEmail: email });
-      // console.log(teams[0].jerseyId);
-
-      // let teamResponsesWithJerseyId: Array<TeamResponseWithJerseyId> = [];
-
-      // for (const team of teams) {
-        
-      //   teamResponsesWithJerseyId.push(new TeamResponseWithJerseyId(team.teamId, team.jerseyId));
-
-      // }
       // Fetch playerTeams
       const playerTeams = await PlayerTeamModel.find({ playerEmail: email }, 'teamId jerseyId');
   
       if (playerTeams.length === 0) {
+        // Should be change after finish this all
         // return [];
         console.log("No teams found for player");
       }
@@ -194,6 +212,7 @@ class PlayerService {
       // Fetch teams from TeamModel
       const teams = await TeamModel.find({ teamId: { $in: teamIds } }, 'teamId jerseyId -_id');
 
+      //Array of player's Team id and jerseyId in the team
       const teamResponsesWithJerseyId: Array<TeamResponseWithJerseyId> = teams
         .map(team => {
           const matchingPlayerTeam = playerTeams.find(playerTeam => playerTeam.teamId === team.teamId);
@@ -205,77 +224,194 @@ class PlayerService {
   
       // console.log(teamResponsesWithJerseyId);
       
+      // To store Impact stats for previous and current duration
+      let impactStatsPrev: ImpactStats = {
+        impactsCumulative: 0,
+        impactsRecorded: 0,
+        highestImpact: 0,
+        directionCount: {
+          front: 0,
+          back: 0,
+          left: 0,
+          right: 0
+        }
+      };
+
+      let impactStatsCurr: ImpactStats = {
+        impactsCumulative: 0,
+        impactsRecorded: 0,
+        highestImpact: 0,
+        directionCount: {
+          front: 0,
+          back: 0,
+          left: 0,
+          right: 0
+        }
+      };
+
       //get sessions by teamId in teamResponsesWithJerseyId
-      let sessions: Array<SessionResponse> = [];
       for (const team of teamResponsesWithJerseyId) {
+        // console.log(team.teamId);
+        //Get all the sessions created in Team by teamId
+        let sessions: Array<SessionResponse> = [];
         sessions = sessions.concat(await getSessionsForTeam(team.teamId));
 
-        // for (const session of sessions) {
-        //   console.log(session.impactHistory.map(player => player.jerseyId));
-        //   // const playerImpactHistory = session.impactHistory;//.find(impactPlayer => impactPlayer.jerseyId === team.jerseyId);
-        //   // console.log(playerImpactHistory)
-        //   // if (playerImpactHistory) {
-        //   //   console.log("Player Impact History Found:");
-        //   //   console.log(playerImpactHistory);
-        //   // }
-
-        //   session.impactHistory.map(player => {
-        //     console.log(player);
-        //     return new ImpactPlayer(
-        //       player.jerseyId,
-        //       player.impact.map(impact => new Impact(
-        //         impact.magnitude,
-        //         impact.direction,
-        //         impact.timestamp,
-        //         impact.isConcussion
-        //       ))
-        //     );
-        //   });
-        // }
-
-        for (const session of sessions) {
-          // console.log(session.impactHistory);
-          for (const impactPlayer of session.impactHistory) {
-            console.log(impactPlayer.jerseyId);
-            console.log(impactPlayer.impact);
-            
-          }
-        }
+        const now = Date.now(); 
+        const previous= now - (2 * duration); // timestamp of 2 * duration ago
+        const current= now - (duration); // timestamp of 2 * duration ago
         
+        const filteredSessionsPrevious = sessions.filter(session => {
+          const createdAt = new Date(session.createdAt).getTime();
+          return createdAt >= previous && createdAt <= current;
+        });
+        // console.log("Previous" + team.teamId );
+        // console.log(filteredSessionsPrevious);
+        
+        
+        const filteredSessionsCurrent = sessions.filter(session => {
+          const createdAt = new Date(session.createdAt).getTime();
+          return createdAt >= current && createdAt <= now;
+        });
+        // console.log("Current" + team.teamId );
+        // console.log(filteredSessionsCurrent);
+
+        impactStatsPrev = await calculationForSessions(filteredSessionsPrevious, impactStatsPrev, team.jerseyId);
+        impactStatsCurr = await calculationForSessions(filteredSessionsCurrent, impactStatsCurr, team.jerseyId);
+        
+        
+        
+        // for (let session of sessions) {
+
+          
+        //   console.log(session.sessionId);
+        //   for (const impactPlayer of session.impactHistory) {
+
+        //     if (impactPlayer.jerseyId === team.jerseyId) {
+              
+        //       console.log("################################");
+        //       console.log("Filtered sessions:");
+        //       console.log(impactPlayer);
+        //       console.log("################################");
+        //     }
+        //   }
+        // }
+        // console.log("################################");
       }
+
+
+      // console.log("impactStatsPrev:");
+      // console.log(impactStatsPrev);
+      // console.log("impactStatsCurr:");
+      // console.log(impactStatsCurr);
      
+      // Fill up the analytics summary from impact stats ==> values
+      analyticsSummary.summaryData[0].value = impactStatsCurr.impactsCumulative;
+      analyticsSummary.summaryData[1].value = impactStatsCurr.impactsRecorded;
+      analyticsSummary.summaryData[2].value = impactStatsCurr.impactsCumulative / impactStatsCurr.impactsRecorded;
+      analyticsSummary.summaryData[3].value = impactStatsCurr.highestImpact;
+
+      const maxValueCurr = Math.max(...Object.values(impactStatsCurr.directionCount));
+      const maxKeyCurr = Object.keys(impactStatsCurr.directionCount).find(key => impactStatsCurr.directionCount[key as keyof typeof impactStatsCurr.directionCount] === maxValueCurr);
+      analyticsSummary.summaryData[4].value = maxKeyCurr as string;
+      // console.log("maxKey:");
+      // console.log(maxKeyCurr, maxValueCurr);
 
 
-    }catch (error) {
+      // Fill up the analytics summary from impact stats ==> trends
+      analyticsSummary.summaryData[0].trend = (impactStatsCurr.impactsCumulative - impactStatsPrev.impactsCumulative)*100/impactStatsPrev.impactsCumulative;
+      analyticsSummary.summaryData[1].trend = (impactStatsCurr.impactsRecorded - impactStatsPrev.impactsRecorded)*100/impactStatsPrev.impactsRecorded;
+
+      const averageImpactPrev = impactStatsPrev.impactsCumulative / impactStatsPrev.impactsRecorded;
+      const averageImpactCurr = impactStatsCurr.impactsCumulative / impactStatsCurr.impactsRecorded;
+      analyticsSummary.summaryData[2].trend = (averageImpactCurr - averageImpactPrev)*100/averageImpactPrev;
+      analyticsSummary.summaryData[3].trend = impactStatsCurr.highestImpact - impactStatsPrev.highestImpact;
+
+      const maxValuePrev = Math.max(...Object.values(impactStatsPrev.directionCount));
+      const maxKeyPrev = Object.keys(impactStatsPrev.directionCount).find(key => impactStatsPrev.directionCount[key as keyof typeof impactStatsPrev.directionCount] === maxValuePrev);
+      analyticsSummary.summaryData[4].trend = maxKeyPrev as ImpactDirection;
+      // console.log("maxKey:");
+      // console.log(maxKeyPrev, maxValuePrev);
+      
+      console.log("analyticsSummary:");
+      console.log(analyticsSummary);
+}catch (error) {
       console.error(error);
       throw new Error("Error while fetching teams for player");
     }
   }   
 }
 
-async function getSessionsForTeam(teamId: string): Promise<Array<SessionResponse>> {
-  // Fetch sessions from the database
-  const sessions = await SessionModel.find({ teamId: teamId });
-
   // Map the sessions to SessionResponse objects
-  const sessionResponses = sessions.map(session => new SessionResponse(
-    session.teamId,
-    session.sessionId,
-    session.sessionName,
-    session.createdAt,
-    session.updatedAt,
-    session.impactHistory.map(player => new ImpactPlayer(
-      player.jerseyId,
-      player.impact.map(impact => new Impact(
-        impact.magnitude,
-        impact.direction,
-        impact.timestamp,
-        impact.isConcussion
-      ))
-    )),
-  ));
-  // console.log(sessionResponses);
-  return sessionResponses;
-}
+  async function getSessionsForTeam(teamId: string): Promise<Array<SessionResponse>> {
+    try {
+      // Fetch sessions from the database
+      const sessions = await SessionModel.find({ teamId });
+  
+      // Map the sessions to SessionResponse objects
+      const sessionResponses = sessions.map(session => {
+        return new SessionResponse(
+          session.teamId,
+          session.sessionId,
+          session.sessionName,
+          session.createdAt,
+          session.updatedAt,
+          session.impactHistory.map(player => {
+            return new ImpactPlayer(
+              player.jerseyId,
+              player.impact.map(impact => {
+                return new Impact(
+                  impact.magnitude,
+                  impact.direction,
+                  impact.timestamp,
+                  impact.isConcussion
+                );
+              })
+            );
+          })
+        );
+      });
+  
+      return sessionResponses;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error while fetching sessions for team");
+    }
+  }
 
+  //Calculate the analytics for each sesseions
+  async function calculationForSessions(
+    sessions: Array<SessionResponse>, 
+    stats: ImpactStats, 
+    jerseyId: Number
+    ): Promise<ImpactStats> {
+    try{
+      
+      for (const session of sessions) {
+        // console.log("Session: " + session.sessionId);
+        for (const impactPlayer of session.impactHistory) {
+          if (impactPlayer.jerseyId === jerseyId) {
+
+            // For each impact in the impact Player
+            for (const impact of impactPlayer.impact) {
+
+              // Update the impact stats
+              stats.impactsCumulative += impact.magnitude;
+              stats.impactsRecorded += 1;
+              if (stats.highestImpact < impact.magnitude) {
+                stats.highestImpact = impact.magnitude;
+              }
+              stats.directionCount[impact.direction as keyof typeof stats.directionCount] += 1;
+              
+
+              // console.log(stats)
+            }
+          }
+        }
+      }
+      return stats;
+    }catch (error) {
+      console.error(error);
+      throw new Error("Error while fetching teams for player");
+    }
+  }
 export default new PlayerService();
