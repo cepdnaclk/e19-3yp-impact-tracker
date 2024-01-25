@@ -153,17 +153,19 @@ const PlayerManagement = () => {
     reset,
   } = useForm();
   const setPlayerDetails = useAppState((state) => state.setPlayerDetails);
+  const addPlayer = useAppState((state) => state.addPlayer);
 
   const onSubmit = async (data: FieldValues) => {
     setAddPlayerOpen(false);
-    setPlayerDetails({
-      ...playerDetails,
-      [data.jersey_number]: {
-        name: data.name,
-        email: data.email,
-        verification: "pending",
-      },
-    });
+    addPlayer(data.jersey_number, data.name, data.email);
+    // setPlayerDetails({
+    //   ...playerDetails,
+    //   [data.jersey_number]: {
+    //     name: data.name,
+    //     email: data.email,
+    //     verification: "pending",
+    //   },
+    // });
 
     // const { teamId, email, password } = data;
     // const response = await fetch("http://13.235.86.11:5000/exampleURL", {
