@@ -10,6 +10,7 @@ import {
   PlayersActiveTime,
   Verification,
   SessionToBeUploaded,
+  PlayersWithTimeStamp,
 } from "../types";
 import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
@@ -109,13 +110,21 @@ export const useAppState = create<AppState>()((set) => ({
     };
     localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
   },
-  removePlayer: (player_id: number) =>
+  removePlayer: (player_id: number) => {
     set((prevState) => {
       const playerDetails = { ...prevState.playerDetails };
       delete playerDetails[player_id];
-      // TODO: Couple with local storage
+
+      const timestamp = new Date().getTime();
+      const playersWithTimestamp: PlayersWithTimeStamp = {
+        timestamp,
+        players,
+      };
+      localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
+
       return { playerDetails };
-    }),
+    });
+  },
   editPlayer: (
     jersey_number: number,
     player_name: string,
@@ -130,6 +139,13 @@ export const useAppState = create<AppState>()((set) => ({
           verification: prevState.playerDetails[jersey_number]?.verification,
         },
       };
+
+      const timestamp = new Date().getTime();
+      const playersWithTimestamp: PlayersWithTimeStamp = {
+        timestamp,
+        players,
+      };
+      localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
       return { playerDetails };
     }),
   addPlayer: (
@@ -146,6 +162,13 @@ export const useAppState = create<AppState>()((set) => ({
           verification: "pending" as Verification,
         },
       };
+
+      const timestamp = new Date().getTime();
+      const playersWithTimestamp: PlayersWithTimeStamp = {
+        timestamp,
+        players,
+      };
+      localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
       return { playerDetails };
     }),
 
