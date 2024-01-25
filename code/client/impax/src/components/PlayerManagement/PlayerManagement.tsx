@@ -3,7 +3,7 @@ import { FaUsers } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import styles from "./PlayerManagement.module.scss";
 import tableStyles from "./PlayersTable/PlayersTable.module.scss";
-import { FieldValues, set, useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 
 import {
   ColumnDef,
@@ -146,13 +146,7 @@ const PlayerManagement = () => {
   const [addPlayerOpen, setAddPlayerOpen] = useState<boolean>(false);
 
   // Form Hook
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm();
-  const setPlayerDetails = useAppState((state) => state.setPlayerDetails);
+  const { register, handleSubmit, reset } = useForm();
   const addPlayer = useAppState((state) => state.addPlayer);
 
   const onSubmit = async (data: FieldValues) => {
