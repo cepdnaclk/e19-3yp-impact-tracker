@@ -19,7 +19,7 @@ const MonitoringElements: React.FC<{
   metrics?: metrics;
   playerId: number;
   latestImpact?: Impact;
-}> = ({ metrics, latestImpact, playerId }) => {
+}> = ({ latestImpact, playerId }) => {
   const timeDiff = latestImpact ? Date.now() - latestImpact.timestamp : 0;
 
   // Convert the time difference to minutes

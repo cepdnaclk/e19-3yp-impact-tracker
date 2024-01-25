@@ -42,10 +42,11 @@ const LoginPlayer = () => {
         accessToken: responseData.accessToken,
         refreshToken: responseData.refreshToken,
       });
-      // TODO: Pass the teamInfo the to the profile page
       setLoginInfo({ teamId: "", teamName: "", email });
 
       navigate("/login/player");
+    } else {
+      alert("Invalid credentials");
     }
 
     reset();

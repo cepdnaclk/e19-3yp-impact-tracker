@@ -18,7 +18,6 @@ const LoginManager = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError,
     reset,
   } = useForm();
   const getTeamInfo = async (teamId: string, token: string) => {
@@ -70,10 +69,11 @@ const LoginManager = () => {
       navigate("/login/manager");
     } else {
       //TODO1: Error message resets
-      setError("invalid", {
-        type: "custom",
-        message: "Invalid Credentials: Please try again",
-      });
+      // setError("invalid", {
+      //   type: "custom",
+      //   message: "Invalid Credentials: Please try again",
+      // });
+      alert("Invalid Credentials: Please try again");
     }
 
     reset();
@@ -82,9 +82,9 @@ const LoginManager = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {errors["invalid"] && (
+        {/* {errors["invalid"] && (
           <p className={styles.invalid}>{`${errors["invalid"].message}`}</p>
-        )}
+        )} */}
         <div className={styles.inputContainer}>
           <label htmlFor="teamId">Team ID</label>
           {errors.teamId && <p>{`${errors.teamId.message}`}</p>}

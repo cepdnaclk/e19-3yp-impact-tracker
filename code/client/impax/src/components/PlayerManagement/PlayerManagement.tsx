@@ -153,6 +153,11 @@ const PlayerManagement = () => {
   const onSubmit = async (data: FieldValues) => {
     setAddPlayerOpen(false);
 
+    //TODO: player with same id exists, show error to user and return
+    if (data.jersey_number in playerDetails) {
+      alert("Player already exists");
+      return;
+    }
     const response = await fetch(`${BASE_URL}/player/add`, {
       method: "POST",
       body: JSON.stringify({
