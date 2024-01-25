@@ -225,7 +225,7 @@ class PlayerService {
   
       // console.log(teamResponsesWithJerseyId);
       
-      // To store Impact stats for previous and current duration
+      // Initialize To store Impact stats for previous and current duration
       let impactStatsPrev: ImpactStats = {
         impactsCumulative: 0,
         impactsRecorded: 0,

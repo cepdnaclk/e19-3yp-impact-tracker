@@ -17,6 +17,7 @@ router.post("/add", async (req: Request, res: Response) => {
   const newPlayerEmail = req.body.playerEmail;
   const teamId = req.body.teamId;
   const managerEmail = req.body.userName;
+  // const isVerified = req.body.isVerified;
 
   if (!jerseyId || !teamId) {
     console.log(HttpMsg.BAD_REQUEST);
@@ -39,6 +40,21 @@ router.post("/add", async (req: Request, res: Response) => {
       teamId,
       managerEmail,
     );
+
+    // This is just for adding playes with verification status
+    // const playerTeamInstance = new PlayerTeamModel({
+    //   playerEmail: newPlayerEmail,
+    //   teamId: teamId,
+    //   jerseyId: jerseyId,
+    //   fullName: fullName,
+    //   invitationToken: "invitationTokenExample",
+    //   isVerified: isVerified,
+    // });
+
+
+    // Save the manager to the database
+    // const savedManager = await playerTeamInstance.save();
+
     res.send(playerInTeamResponse);
 
   } catch (err) {

@@ -1,0 +1,39 @@
+"/player/{playerID}/sessions": {
+      "get": {
+        "tags": [
+          "PlayerEndpoints"
+        ],
+        "summary": "Get session details related to the player",
+        "parameters": [
+          {
+            "name": "playerID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "examplePlayerId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/SessionDetailsResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },

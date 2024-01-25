@@ -390,6 +390,33 @@
         }
       }
     },
+    "/manager/getTeamPlayers": {
+      "get": {
+        "tags": ["ManagerEndpoints"],
+        "summary": "Get all players of a team - Access Token required",
+        
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/TeamPlayersResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
 
 
     
@@ -449,136 +476,6 @@
 
     },
 
-    "/player/{playerID}/sessions": {
-      "get": {
-        "tags": ["PlayerEndpoints"],
-        "summary": "Get session details related to the player",
-        "parameters": [
-          {
-            "name": "playerID",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "examplePlayerId"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "$ref": "#/components/schemas/SessionDetailsResponse"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Bad Request"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-
-    "/player/add": {
-      "post": {
-        "tags": ["PlayerEndpoints"],
-        "summary": "Add a new player to a team for manager - Access Token required",
-        "requestBody": {
-          "$ref": "#/components/requestBodies/PlayerTeamRequest"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "$ref": "#/components/schemas/PlayerTeamRequest"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Bad Request"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-
-    "/player/update": {
-      "put": {
-        "tags": ["PlayerEndpoints"],
-        "summary": "Update player details - Access Token required",
-        "requestBody": {
-          "$ref": "#/components/requestBodies/PlayerUpdateRequest"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "$ref": "#/components/schemas/PlayerResponse"
-                
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Bad Request"
-                }
-              }
-            }
-          }
-        }
-      }
-    },    
-    "/player/remove": {
-      "delete": {
-        "tags": ["PlayerEndpoints"],
-        "summary": "Remove a player from a team by Jersey ID and Team ID - Access Token required",
-        "requestBody": {
-          "$ref": "#/components/requestBodies/PlayerRemoveRequest"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Player removed successfully"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Bad Request"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    
     "/player/myTeams": {
       "get": {
         "tags": ["PlayerEndpoints"],
@@ -644,6 +541,99 @@
         }
       }
     },
+
+    "/player/add": {
+      "post": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Add a new player to a team for manager - Access Token required (Only Manager can access)",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PlayerTeamRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/PlayerTeamRequest"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/player/update": {
+      "put": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Update player details - Access Token required (Only Manager can access)",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PlayerUpdateRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/PlayerResponse"
+                
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },    
+    "/player/remove": {
+      "delete": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Remove a player from a team by Jersey ID and Team ID - Access Token required (Only Manager can access)",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PlayerRemoveRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Player removed successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
 
 
 
@@ -1004,6 +994,50 @@
         "example": {
           "managerEmail": "example@example.com",
           "teamId": "teamId"
+        }
+      },
+
+      "TeamPlayersResponse": {
+        "type": "object",
+        "properties": {
+          "jerseyId": {
+            "type": "integer",
+            "description": "Jersey number of the player"
+          },
+          "player": {
+            "$ref": "#/components/schemas/Player"
+          }
+        },
+        "example": {
+          "69": {
+            "name": "Angelo Mathews",
+            "email": "angelomathews@gmail.com",
+            "verification": "verified"
+          },
+          "55": {
+            "name": "Kusal Perera",
+            "email": "kusal_perera@gmail.com",
+            "verification": "verified"
+          }
+          
+        }
+      },
+
+      "Player": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the player"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of the player"
+          },
+          "verification": {
+            "type": "string",
+            "description": "Verification status of the player"
+          }
         }
       },
 
