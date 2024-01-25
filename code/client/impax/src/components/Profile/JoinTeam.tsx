@@ -3,6 +3,7 @@ import { useSignupState } from "../../states/formState";
 import Hero from "./Hero";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../config/config";
 
 const JoinTeam = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
@@ -29,7 +30,7 @@ const JoinTeam = () => {
     // console.log(data);
     console.log(request);
     // TODO: Change the URL to the backend
-    const response = await fetch("http://16.170.235.219:5000/%%%%%", {
+    const response = await fetch(`${BASE_URL}/%%%%%`, {
       method: "POST",
       body: JSON.stringify(request),
       headers: {
