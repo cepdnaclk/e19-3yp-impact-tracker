@@ -1,32 +1,35 @@
-import { sessionToBeUploaded } from "../types";
+import { SessionToBeUploaded } from "../types";
 
 export const uploadSession = async () => {
-if(localStorage.getItem("sessionDetails") === null) return;
-else{
+  if (localStorage.getItem("sessionDetails") === null) return;
+  else {
     // Retrieve the array of objects from local storage
-const sessionDetails = JSON.parse(localStorage.getItem("sessionDetails") as string);
+    const sessionsToBeUploaded: SessionToBeUploaded[] = JSON.parse(
+      localStorage.getItem("sessionDetails") as string
+    );
 
-// Iterate through each object in the array
-sessionDetails.forEach(function(object:sessionToBeUploaded) {
-    // Send the object to the server
-    sendToServer(object);
+    if (sessionsToBeUploaded.length === 0) return;
 
-    // Remove the object from the array in local storage
-    const index = sessionDetails.indexOf(object);
-    if (index > -1) {
-        sessionDetails.splice(index, 1);
-    }
-});
+    // Iterate through each object in the array
+    sessionsToBeUploaded.forEach(function (object: SessionToBeUploaded) {
+      // Send the object to the server
+      sendToServer(object);
 
-// Update the modified array in local storage
-localStorage.setItem("sessionDetails", JSON.stringify(sessionDetails));
-   
-}
+      // Remove the object from the array in local storage
+      const index = sessionsToBeUploaded.indexOf(object);
+      if (index > -1) {
+        sessionsToBeUploaded.splice(index, 1);
+      }
+    });
 
-
-  
-}
-
-function sendToServer(object:sessionToBeUploaded) {
-    console.log(object);
+    // Update the modified array in local storage
+    localStorage.setItem(
+      "sessionDetails",
+      JSON.stringify(sessionsToBeUploaded)
+    );
   }
+};
+
+function sendToServer(object: SessionToBeUploaded) {
+  console.log(object);
+}

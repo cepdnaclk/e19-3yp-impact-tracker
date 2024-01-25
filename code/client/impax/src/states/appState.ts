@@ -9,6 +9,7 @@ import {
   PlayerImpactHistory,
   PlayersActiveTime,
   Verification,
+  SessionToBeUploaded,
 } from "../types";
 import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
@@ -37,9 +38,17 @@ interface AppState {
 
   playerDetails: Players;
   setPlayerDetails: (players: Players) => void;
-  addPlayer: (jersey_number: number, player_name: string,player_email:string) => void;
+  addPlayer: (
+    jersey_number: number,
+    player_name: string,
+    player_email: string
+  ) => void;
   removePlayer: (player_id: number) => void;
-  editPlayer: (jersey_number: number, player_name: string,player_email:string) => void;
+  editPlayer: (
+    jersey_number: number,
+    player_name: string,
+    player_email: string
+  ) => void;
 
   playersActiveTime: PlayersActiveTime;
 
@@ -92,37 +101,45 @@ export const useAppState = create<AppState>()((set) => ({
   //TODO: Clashing of players with other dashbaords
   playerDetails: players,
   setPlayerDetails: (players: Players) => set({ playerDetails: players }),
-  removePlayer: (player_id: number) => set((prevState) => {
-    const playerDetails = { ...prevState.playerDetails };
-    delete playerDetails[player_id];
-    // TODO: Couple with local storage
-    return { playerDetails };
-  }),
-  editPlayer: (jersey_number: number, player_name: string,player_email:string) => set((prevState) => {
-    const playerDetails = { ...prevState.playerDetails,
-    [jersey_number]: {
-      name: player_name,
-      email: player_email,
-      verification:prevState.playerDetails[jersey_number]?.verification,
-    }
-    };
-    return { playerDetails };
-    
-    
-  }),
-  addPlayer: (jersey_number: number, player_name: string, player_email: string) => set((prevState) => {
-    const playerDetails = { ...prevState.playerDetails,
-    [jersey_number]: {
-      name: player_name,
-      email: player_email,
-      verification:"pending" as Verification,
-    }
-    };
-    return { playerDetails };
-    
-    
-  }),
-
+  removePlayer: (player_id: number) =>
+    set((prevState) => {
+      const playerDetails = { ...prevState.playerDetails };
+      delete playerDetails[player_id];
+      // TODO: Couple with local storage
+      return { playerDetails };
+    }),
+  editPlayer: (
+    jersey_number: number,
+    player_name: string,
+    player_email: string
+  ) =>
+    set((prevState) => {
+      const playerDetails = {
+        ...prevState.playerDetails,
+        [jersey_number]: {
+          name: player_name,
+          email: player_email,
+          verification: prevState.playerDetails[jersey_number]?.verification,
+        },
+      };
+      return { playerDetails };
+    }),
+  addPlayer: (
+    jersey_number: number,
+    player_name: string,
+    player_email: string
+  ) =>
+    set((prevState) => {
+      const playerDetails = {
+        ...prevState.playerDetails,
+        [jersey_number]: {
+          name: player_name,
+          email: player_email,
+          verification: "pending" as Verification,
+        },
+      };
+      return { playerDetails };
+    }),
 
   //For the player map
   playerMap: {} as PlayerMap,
@@ -184,7 +201,7 @@ export const useAppState = create<AppState>()((set) => ({
   },
   endSession: (save: boolean) => {
     set((prevState) => {
-      const sessionDetails = { ...prevState.sessionDetails };
+      const sessionDetails: Session = { ...prevState.sessionDetails };
       sessionDetails.active = false;
       sessionDetails.updatedAt = Date.now();
 
@@ -192,11 +209,18 @@ export const useAppState = create<AppState>()((set) => ({
         //save session to history
         const playerImpactHistory = { ...prevState.playersImpactHistory };
 
-        //TODO: These should be arrays intead of single objects
-        localStorage.setItem("sessionDetails", JSON.stringify(sessionDetails));
+        // localStorage sessionsToBeUploaded -> [{Session, PLayerImpactHistory}, ...]
+        const savedSession: SessionToBeUploaded = {
+          session: sessionDetails,
+          playerImpactHistory,
+        };
+        const sessionsToBeUploaded: SessionToBeUploaded[] =
+          JSON.parse(localStorage.getItem("sessionToBeUploaded") as string) ||
+          [];
+        sessionsToBeUploaded.push(savedSession);
         localStorage.setItem(
-          "playerImpactHistory",
-          JSON.stringify(playerImpactHistory)
+          "sessionToBeUploaded",
+          JSON.stringify(sessionsToBeUploaded)
         );
       }
 

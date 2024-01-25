@@ -65,7 +65,7 @@ export type activePage =
   | "player-analytics"
   | "team-analytics";
 
-export type sessionToBeUploaded = {
+export type SessionToBeUploaded = {
   session: Session;
   playerImpactHistory: PlayerImpactHistory;
 };
