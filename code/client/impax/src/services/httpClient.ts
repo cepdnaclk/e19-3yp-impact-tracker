@@ -47,7 +47,7 @@ export const getPlayers = async () => {
       },
     });
     const playersData: Players = await playersResponse.json();
-
+    console.log(playersData);
     updatePlayersDetails(playersData);
   } catch (error) {
     console.log(error);
