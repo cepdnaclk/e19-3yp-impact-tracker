@@ -41,4 +41,16 @@ export type ImpactStats = {
     };
     sessionAnalytics: SessionAnalytics[];
   };
+
+export type TeamPlayerResponse = {
+  jerseyId: number;
+  player: Player;
+};
+
+// Define a new type for Player
+type Player = {
+  name: string;
+  email: string;
+  isVerified: string;
+};
   

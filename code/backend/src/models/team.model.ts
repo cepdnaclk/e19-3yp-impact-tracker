@@ -65,6 +65,9 @@ class TeamResponseWithJerseyId {
   }
 }
 
+
+
+
 class TeamManagerResponse {
   private teamId: string;
   private email: string;
