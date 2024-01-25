@@ -1,7 +1,6 @@
 import { updatePlayersDetails } from "../states/updateAppStates";
 import { Players, SessionToBeUploaded } from "../types";
 import { BASE_URL} from "../config/config";
-import { FieldValues } from "react-hook-form";
 
 export const uploadSession = async () => {
   if (localStorage.getItem("sessionDetails") === null) return;
