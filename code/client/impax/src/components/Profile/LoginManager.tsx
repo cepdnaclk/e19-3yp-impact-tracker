@@ -3,7 +3,8 @@ import { useSignupState } from "../../states/formState";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useLoginState } from "../../states/profileState";
-import { getAccessTokenFromRefreshToken } from "../../services/authService";
+import { getPlayers } from "../../services/httpClient";
+import { BASE_URL } from "../../config/config";
 
 const LoginManager = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
@@ -21,7 +22,7 @@ const LoginManager = () => {
   } = useForm();
   const getTeamInfo = async (teamId: string, token: string) => {
     try {
-      const response = await fetch(`http://13.235.86.11:5000/team/${teamId}`, {
+      const response = await fetch(`${BASE_URL}/team/${teamId}`, {
         // Use the constructed URL with query params
         method: "GET", // Change the method to GET
         headers: {
@@ -38,7 +39,7 @@ const LoginManager = () => {
 
   const onSubmit = async (data: FieldValues) => {
     const { teamId, email, password } = data;
-    const response = await fetch("http://13.235.86.11:5000/login/manager", {
+    const response = await fetch(`${BASE_URL}/login/manager`, {
       method: "POST",
       body: JSON.stringify({
         teamId: teamId,
@@ -52,8 +53,6 @@ const LoginManager = () => {
     const responseData = await response.json();
     if (response.ok) {
       setIsLoggedInManager(true);
-      localStorage.setItem("refreshToken", responseData.refreshToken);
-      localStorage.setItem("accessToken", responseData.accessToken);
       setTokens({
         accessToken: responseData.accessToken,
         refreshToken: responseData.refreshToken,
@@ -64,20 +63,7 @@ const LoginManager = () => {
 
       // FETCH PLAYERS array and store it in local storage
 
-      try {
-        const playersResponse = await fetch(
-          "'https://api.example.com/players'"
-        );
-        const playersData = await playersResponse.json();
-        const timestamp = new Date().getTime();
-        const playersWithTimestamp = {
-          timestamp,
-          playersData,
-        };
-        localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
-      } catch (error) {
-        console.log(error);
-      }
+      await getPlayers();
 
       navigate("/login/manager");
     }

@@ -32,6 +32,9 @@ void buddyCheckTurnOffHandle()
         buddyState = BUDDY_OFF;
         ledStatus = LED_OFF;
         led(ledStatus);
+        gpio_set_level(GPIO_NUM_0, 0);
+        gpio_pullup_dis(GPIO_NUM_0);
+        delay(1000);
 
         // Go to sleep now
         Serial.println("Going to sleep now");
@@ -118,10 +121,11 @@ void process()
         int batteryStatus = getBatteryStatus();
         buddyMQTT.publish(buddyMQTT.topics.BATTERY.c_str(), batteryStatus);
 
-        float vol = getBatteryVoltage();
-        buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), vol);
-
-        if (batteryStatus < BATTERY_LIMIT)
+        if (batteryStatus == CHARGIN_STATE)
+        {
+            ledStatus = LED_CHARGIN;
+        }
+        else if (batteryStatus < BATTERY_LIMIT)
         {
             ledStatus = LED_BATTERY_LOW;
         }
@@ -129,6 +133,8 @@ void process()
         {
             ledStatus = LED_ON;
         }
+
+        Serial.println(batteryStatus);
 
         batteryStatusTimer = millis();
     }
@@ -143,6 +149,8 @@ void process()
 void buddyInit()
 {
     // leds
+    ledStatus = LED_OFF;
+    led(ledStatus);
     ledStatus = LED_BLINK;
     led(ledStatus);
 
