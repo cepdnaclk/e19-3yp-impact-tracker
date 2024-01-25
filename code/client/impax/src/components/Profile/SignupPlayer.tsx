@@ -2,6 +2,7 @@ import styles from "./SignUp.module.scss";
 import { useSignupState } from "../../states/formState";
 import { useForm, type FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../config/config";
 
 const SignupPlayer = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
@@ -20,7 +21,7 @@ const SignupPlayer = () => {
     const { password, email } = data;
     const request = { email, password };
     // console.log(data);
-    const response = await fetch("http://13.235.86.11:5000/player", {
+    const response = await fetch(`${BASE_URL}/player`, {
       method: "POST",
       body: JSON.stringify(request),
       headers: {
