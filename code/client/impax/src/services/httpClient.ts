@@ -1,7 +1,6 @@
 import { updatePlayersDetails } from "../states/updateAppStates";
 import { Players, SessionToBeUploaded } from "../types";
 import { BASE_URL } from "../config/config";
-import { useAppState } from "../states/appState";
 
 export const uploadSession = async () => {
   if (localStorage.getItem("sessionDetails") === null) return;
@@ -50,7 +49,6 @@ export const getPlayers = async () => {
     const playersData: Players = await playersResponse.json();
 
     updatePlayersDetails(playersData);
-    // useAppState.setState({ playerDetails: playersData });
   } catch (error) {
     console.log(error);
   }
