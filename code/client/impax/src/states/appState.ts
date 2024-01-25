@@ -8,6 +8,7 @@ import {
   PlayersImpact,
   PlayerImpactHistory,
   PlayersActiveTime,
+  Verification,
 } from "../types";
 import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
@@ -36,6 +37,7 @@ interface AppState {
 
   playerDetails: Players;
   setPlayerDetails: (players: Players) => void;
+  addPlayer: (jersey_number: number, player_name: string,player_email:string) => void;
   removePlayer: (player_id: number) => void;
   editPlayer: (jersey_number: number, player_name: string,player_email:string) => void;
 
@@ -108,6 +110,19 @@ export const useAppState = create<AppState>()((set) => ({
     
     
   }),
+  addPlayer: (jersey_number: number, player_name: string, player_email: string) => set((prevState) => {
+    const playerDetails = { ...prevState.playerDetails,
+    [jersey_number]: {
+      name: player_name,
+      email: player_email,
+      verification:"pending" as Verification,
+    }
+    };
+    return { playerDetails };
+    
+    
+  }),
+
 
   //For the player map
   playerMap: {} as PlayerMap,
