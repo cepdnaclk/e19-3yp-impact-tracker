@@ -4,6 +4,7 @@ import time
 import json
 import re
 import os
+import threading
 
 # MQTT broker settings
 broker_address = "127.0.0.1"
@@ -75,6 +76,20 @@ def publish_old_session_data():
     except Exception as e:
         print(f"Error publishing old session data: {str(e)}")
 
+def timer_function():
+    global active_buddies
+    while True:
+        # Check for inactive buddies
+        current_time = time.time()
+
+        for active_device_id in active_buddies:
+            if current_time - active_buddies[active_device_id] > 60:
+                # Publish zero battery status for inactive buddy
+                print(f"Buddy {active_device_id} is not active.")
+                client.publish(buddy_status_topic,0)
+                print("Buddy status sent")
+        time.sleep(60)
+
 def on_connect(client, userdata, flags, rc):
     global broker_connected
     try:
@@ -85,6 +100,7 @@ def on_connect(client, userdata, flags, rc):
             if os.path.exists(session_file_path):
                 file_handle = open(session_file_path, "r")
                 publish_old_session_data()
+                os.remove(session_file_path)
         else:
             raise Exception(f"Connection failed with result code {rc}")
     except Exception as e:
@@ -105,15 +121,6 @@ def on_message(client, userdata, msg):
         device_id = msg.topic.split("/")[1] 
         current_time = time.time()
         active_buddies[device_id] = current_time
-        
-        # Check for inactive buddies
-        for active_device_id in active_buddies:
-            if current_time - active_buddies[active_device_id] > 60:
-                # Publish zero battery status for inactive buddy
-                print(f"Buddy {active_device_id} is not active.")
-                client.publish(buddy_status_topic,0)
-            else:
-                client.publish(buddy_status_topic, data)
 
 
     elif msg.topic == mapping_topic:
@@ -240,10 +247,17 @@ if attempts == max_attempts:
 # Start the MQTT loop
 client.loop_start()
 
+# Create a separate thread for the timer function
+timer_thread = threading.Thread(target=timer_function)
+
+# Start the timer thread
+timer_thread.start()
+
 try:
     while True:
         pass
 except KeyboardInterrupt:
     # Gracefully disconnect on keyboard interrupt
+    timer_thread.join()
     client.disconnect()
     client.loop_stop()
