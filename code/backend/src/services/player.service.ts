@@ -185,7 +185,7 @@ class PlayerService {
         {
           title: "Dominant Direction",
           value: 0,
-          trend: 'front',
+          trend: 0,
         }
       ],
       histogramData: {
@@ -252,6 +252,11 @@ class PlayerService {
         sessionAnalytics: []
       };
 
+      // Get Time period need to be get analytics
+      const now = Date.now(); 
+      const previous= now - (2 * duration); // timestamp of 2 * duration ago
+      const current= now - (duration); // timestamp of 2 * duration ago
+
       //get sessions by teamId in teamResponsesWithJerseyId
       for (const team of teamResponsesWithJerseyId) {
         // console.log(team.teamId);
@@ -259,14 +264,21 @@ class PlayerService {
         let sessions: Array<SessionResponse> = [];
         sessions = sessions.concat(await getSessionsForTeam(team.teamId));
 
-        const now = Date.now(); 
-        const previous= now - (2 * duration); // timestamp of 2 * duration ago
-        const current= now - (duration); // timestamp of 2 * duration ago
         
-        const filteredSessionsPrevious = sessions.filter(session => {
-          const createdAt = new Date(session.createdAt).getTime();
-          return createdAt >= previous && createdAt <= current;
-        });
+        
+        console.log(previous);
+
+        if (previous>=0){
+          const filteredSessionsPrevious = sessions.filter(session => {
+            const createdAt = new Date(session.createdAt).getTime();
+            return createdAt >= previous && createdAt <= current;
+          });
+
+          impactStatsPrev = await calculationForSessionsPrev(filteredSessionsPrevious, impactStatsPrev, team.jerseyId);
+        }else{
+
+        }
+        
         // console.log("Previous" + team.teamId );
         // console.log(filteredSessionsPrevious);
         
@@ -278,7 +290,7 @@ class PlayerService {
         // console.log("Current" + team.teamId );
         // console.log(filteredSessionsCurrent);
 
-        impactStatsPrev = await calculationForSessionsPrev(filteredSessionsPrevious, impactStatsPrev, team.jerseyId);
+        
 
         impactStatsCurr = await calculationForSessions(
           filteredSessionsCurrent, 
@@ -299,7 +311,7 @@ class PlayerService {
       // Fill up the analytics summary from impact stats ==> values
       analyticsSummary.summaryData[0].value = impactStatsCurr.impactsCumulative;
       analyticsSummary.summaryData[1].value = impactStatsCurr.impactsRecorded;
-      analyticsSummary.summaryData[2].value = impactStatsCurr.impactsCumulative / impactStatsCurr.impactsRecorded;
+      analyticsSummary.summaryData[2].value = Math.round(impactStatsCurr.impactsCumulative / impactStatsCurr.impactsRecorded);
       analyticsSummary.summaryData[3].value = impactStatsCurr.highestImpact;
 
       const maxValueCurr = Math.max(...Object.values(impactStatsCurr.directionCount));
@@ -309,27 +321,35 @@ class PlayerService {
       // console.log(maxKeyCurr, maxValueCurr);
 
 
-      // Fill up the analytics summary from impact stats ==> trends
-      analyticsSummary.summaryData[0].trend = (impactStatsCurr.impactsCumulative - impactStatsPrev.impactsCumulative)*100/impactStatsPrev.impactsCumulative;
-      analyticsSummary.summaryData[1].trend = (impactStatsCurr.impactsRecorded - impactStatsPrev.impactsRecorded)*100/impactStatsPrev.impactsRecorded;
+      // All time no need of trend
+      if (previous>=0){
 
-      const averageImpactPrev = impactStatsPrev.impactsCumulative / impactStatsPrev.impactsRecorded;
-      const averageImpactCurr = impactStatsCurr.impactsCumulative / impactStatsCurr.impactsRecorded;
-      analyticsSummary.summaryData[2].trend = (averageImpactCurr - averageImpactPrev)*100/averageImpactPrev;
-      analyticsSummary.summaryData[3].trend = impactStatsCurr.highestImpact - impactStatsPrev.highestImpact;
 
-      const maxValuePrev = Math.max(...Object.values(impactStatsPrev.directionCount));
-      const maxKeyPrev = Object.keys(impactStatsPrev.directionCount).find(key => impactStatsPrev.directionCount[key as keyof typeof impactStatsPrev.directionCount] === maxValuePrev);
-      analyticsSummary.summaryData[4].trend = maxKeyPrev as ImpactDirection;
-      // console.log("maxKey:");
-      // console.log(maxKeyPrev, maxValuePrev);
+        // Fill up the analytics summary from impact stats ==> trends
+        analyticsSummary.summaryData[0].trend = Math.round((impactStatsCurr.impactsCumulative - impactStatsPrev.impactsCumulative)*100/impactStatsPrev.impactsCumulative);
+        analyticsSummary.summaryData[1].trend = Math.round((impactStatsCurr.impactsRecorded - impactStatsPrev.impactsRecorded)*100/impactStatsPrev.impactsRecorded);
+
+        const averageImpactPrev = impactStatsPrev.impactsCumulative / impactStatsPrev.impactsRecorded;
+        const averageImpactCurr = impactStatsCurr.impactsCumulative / impactStatsCurr.impactsRecorded;
+        analyticsSummary.summaryData[2].trend = Math.round((averageImpactCurr - averageImpactPrev)*100/averageImpactPrev);
+        analyticsSummary.summaryData[3].trend = Math.round((impactStatsCurr.highestImpact - impactStatsPrev.highestImpact)*100/impactStatsPrev.highestImpact);
+
+        const maxValuePrev = Math.max(...Object.values(impactStatsPrev.directionCount));
+        const maxKeyPrev = Object.keys(impactStatsPrev.directionCount).find(key => impactStatsPrev.directionCount[key as keyof typeof impactStatsPrev.directionCount] === maxValuePrev);
+        analyticsSummary.summaryData[4].trend = maxKeyPrev as ImpactDirection;
+        // console.log("maxKey:");
+        // console.log(maxKeyPrev, maxValuePrev);
+        
+        // Sort the critical sessions array by cumulative impact in descending order
+        analyticsSummary["criticalSessions"].sort((a, b) => b.cumulativeImpact - a.cumulativeImpact);
+        // console.log( analyticsSummary["criticalSessions"]);
+
+        // console.log("analyticsSummary:");
+        // console.log(analyticsSummary);
       
-      // Sort the critical sessions array by cumulative impact in descending order
-      analyticsSummary["criticalSessions"].sort((a, b) => b.cumulativeImpact - a.cumulativeImpact);
-      // console.log( analyticsSummary["criticalSessions"]);
+      
+      }
 
-      // console.log("analyticsSummary:");
-      // console.log(analyticsSummary);
 
       return analyticsSummary;
 }catch (error) {
@@ -386,9 +406,10 @@ class PlayerService {
     ): Promise<ImpactStats> {
     try{
 
+      // console.log("Curr#####");
       // For each session
       for (const session of sessions) {
-        console.log("Session: " + session.sessionId);
+        // console.log("Session: " + session.sessionId);
 
         //For storing session analytics
         let sessionAnalyticsItem: SessionAnalytics = {
@@ -437,6 +458,9 @@ class PlayerService {
 
               // console.log(stats)
             }
+
+            // Round off the average impact
+            sessionAnalyticsItem.averageImpact = Math.round(sessionAnalyticsItem.averageImpact);
           }
         }
         
@@ -448,7 +472,7 @@ class PlayerService {
         }else {
           // Sort the critical sessions array by cumulative impact in descending order
           criticalSessions.sort((a, b) => b.cumulativeImpact - a.cumulativeImpact);
-              console.log(sessionAnalyticsItem);
+              // console.log(sessionAnalyticsItem);
 
           if (sessionAnalyticsItem.cumulativeImpact > criticalSessions[criticalSessions.length - 1].cumulativeImpact) {
             criticalSessions.pop();
@@ -456,7 +480,7 @@ class PlayerService {
           }
         }
 
-        console.log(criticalSessions);
+        // console.log(criticalSessions);
       }
       return stats;
     }catch (error) {
@@ -472,7 +496,8 @@ class PlayerService {
     jerseyId: Number
     ): Promise<ImpactStats> {
     try{
-      
+      // console.log("Previous##")
+      // console.log(sessions);
       for (const session of sessions) {
         // console.log("Session: " + session.sessionId);
         for (const impactPlayer of session.impactHistory) {
