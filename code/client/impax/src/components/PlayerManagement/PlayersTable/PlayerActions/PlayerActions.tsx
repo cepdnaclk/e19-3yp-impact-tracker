@@ -18,6 +18,7 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
     // localStorage.setItem("playerDetails", JSON.stringify(players));
 
     setOpenEdit(false);
+    //
     editPlayer(jerseyId, data.name, data.email);
     // setPlayerDetails({
     //   ...playerDetails,
