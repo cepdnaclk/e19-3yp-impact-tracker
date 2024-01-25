@@ -6,7 +6,7 @@ import re
 import os
 
 # MQTT broker settings
-broker_address = "0.0.0.0"
+broker_address = "127.0.0.1"
 broker_port = 1883
 
 # MQTT topics
@@ -17,6 +17,7 @@ session_end_topic = "session_end"
 session_data = "session_data"
 is_concussion_topic = "player/+/concussion"
 buddy_status_topic = "buddy/+/status"
+old_session_topic = "hub/old_session"
 
 # Player to device mapping (device_id:player_id)
 player_device_mapping = {}
@@ -64,6 +65,16 @@ def save_impact_history_to_file():
     except Exception as e:
         print(f"Error saving impact history to file: {str(e)}")
 
+def publish_old_session_data():
+    global session_file_path
+    try:
+        with open(session_file_path, "r") as file:
+            old_session_data = file.read()
+            client.publish(old_session_topic, old_session_data, retain=True)
+        print("Old session data published to", old_session_topic)
+    except Exception as e:
+        print(f"Error publishing old session data: {str(e)}")
+
 def on_connect(client, userdata, flags, rc):
     global broker_connected
     try:
@@ -71,6 +82,9 @@ def on_connect(client, userdata, flags, rc):
             broker_connected = True
             print("Connected to MQTT broker")
             client.subscribe("#")
+            if os.path.exists(session_file_path):
+                file_handle = open(session_file_path, "r")
+                publish_old_session_data()
         else:
             raise Exception(f"Connection failed with result code {rc}")
     except Exception as e:
