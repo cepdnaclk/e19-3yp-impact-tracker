@@ -24,7 +24,7 @@ const JoinTeam = () => {
       teamId: signupInfo.teamId,
       email: signupInfo.email,
       firstName: data.yourName.split(" ")[0],
-      lastName: data.yourName.split(" ")[1],
+      lastName: data.yourName.split(" ")[1] || "",
       password: data.password,
     };
     // console.log(data);
