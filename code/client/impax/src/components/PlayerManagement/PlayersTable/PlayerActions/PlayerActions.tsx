@@ -9,16 +9,10 @@ import { useAppState } from "../../../../states/appState";
 import { FieldValues, useForm } from "react-hook-form";
 const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
   const playerDetails = useAppState((state) => state.playerDetails);
-  const setPlayerDetails = useAppState((state) => state.setPlayerDetails);
   const removePlayer = useAppState((state) => state.removePlayer);
   const editPlayer = useAppState((state) => state.editPlayer);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data: FieldValues) => {
     // localStorage.setItem("playerDetails", JSON.stringify(players));
