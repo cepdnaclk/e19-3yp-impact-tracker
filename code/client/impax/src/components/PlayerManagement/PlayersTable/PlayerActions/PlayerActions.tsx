@@ -11,6 +11,7 @@ import { players } from "../../../../data/players";
 const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
   const playerDetails = useAppState((state) => state.playerDetails);
   const setPlayerDetails = useAppState((state) => state.setPlayerDetails);
+  const removePlayer = useAppState((state) => state.removePlayer);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
   const {
     register,
@@ -48,6 +49,10 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
     // }
 
     reset();
+  };
+
+  const deletePlayer = async () => {
+    removePlayer(jerseyId);
   };
 
   return (
@@ -132,6 +137,9 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
         }
         action={
           <Btn
+            onClick={() => {
+              removePlayer(jerseyId);
+            }}
             bgColor="transparent"
             buttonStyle="secondary"
             Icon={FaTrash}
