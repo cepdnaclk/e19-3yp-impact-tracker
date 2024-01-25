@@ -1,4 +1,5 @@
-import { SessionToBeUploaded } from "../types";
+import { updatePlayersDetails } from "../states/updateAppStates";
+import { Players, SessionToBeUploaded } from "../types";
 
 export const uploadSession = async () => {
   if (localStorage.getItem("sessionDetails") === null) return;
@@ -33,3 +34,14 @@ export const uploadSession = async () => {
 function sendToServer(object: SessionToBeUploaded) {
   console.log(object);
 }
+
+export const getPlayers = async () => {
+  try {
+    const playersResponse = await fetch("'https://api.example.com/players'");
+    const playersData: Players = await playersResponse.json();
+
+    updatePlayersDetails(playersData);
+  } catch (error) {
+    console.log(error);
+  }
+};

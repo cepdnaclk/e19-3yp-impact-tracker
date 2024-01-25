@@ -100,7 +100,15 @@ export const useAppState = create<AppState>()((set) => ({
 
   //TODO: Clashing of players with other dashbaords
   playerDetails: players,
-  setPlayerDetails: (players: Players) => set({ playerDetails: players }),
+  setPlayerDetails: (players: Players) => {
+    set({ playerDetails: players });
+    const timestamp = new Date().getTime();
+    const playersWithTimestamp = {
+      timestamp,
+      players,
+    };
+    localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
+  },
   removePlayer: (player_id: number) =>
     set((prevState) => {
       const playerDetails = { ...prevState.playerDetails };

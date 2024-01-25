@@ -1,9 +1,11 @@
+import { players } from "../data/players";
 import MqttClient from "../services/mqttClient";
 import {
   BuddyStatus,
   Impact,
   PlayerImpactHistory,
   PlayerMap,
+  Players,
   PlayersImpact,
   Session,
 } from "../types";
@@ -166,4 +168,15 @@ export const flushStates = () => {
     playersImpactHistory: {} as PlayerImpactHistory,
     sessionDetails: {} as Session,
   });
+};
+
+//update Players in state and local storage
+export const updatePlayersDetails = (players: Players) => {
+  useAppState.setState({ playerDetails: players });
+  const timestamp = new Date().getTime();
+  const playersWithTimestamp = {
+    timestamp,
+    players,
+  };
+  localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
 };
