@@ -9,6 +9,7 @@ import ManagersTable from "./../ManagerProfile/ManagersTable";
 import DialogModal from "../../Modal/DialogModal";
 import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ManagerProfile = () => {
   // Get team-id
@@ -20,6 +21,7 @@ const ManagerProfile = () => {
   const loginInfo = useLoginState((state) => state.loginInfo);
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
 
+  const navigate = useNavigate();
   const [addManagerOpen, setAddManagerOpen] = useState<boolean>(false);
   // TODO: Stay logged in for 90 days and so much more
   return (
@@ -43,6 +45,7 @@ const ManagerProfile = () => {
                 teamName: "",
                 email: "",
               });
+              navigate("/SignUp");
             }}
           >
             Log Out
