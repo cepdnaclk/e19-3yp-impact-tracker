@@ -37,6 +37,7 @@ interface AppState {
   playerDetails: Players;
   setPlayerDetails: (players: Players) => void;
   removePlayer: (player_id: number) => void;
+  editPlayer: (jersey_number: number, player_name: string,player_email:string) => void;
 
   playersActiveTime: PlayersActiveTime;
 
@@ -92,7 +93,20 @@ export const useAppState = create<AppState>()((set) => ({
   removePlayer: (player_id: number) => set((prevState) => {
     const playerDetails = { ...prevState.playerDetails };
     delete playerDetails[player_id];
+    // TODO: Couple with local storage
     return { playerDetails };
+  }),
+  editPlayer: (jersey_number: number, player_name: string,player_email:string) => set((prevState) => {
+    const playerDetails = { ...prevState.playerDetails,
+    [jersey_number]: {
+      name: player_name,
+      email: player_email,
+      verification:prevState.playerDetails[jersey_number]?.verification,
+    }
+    };
+    return { playerDetails };
+    
+    
   }),
 
   //For the player map
