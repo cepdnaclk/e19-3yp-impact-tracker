@@ -3,7 +3,7 @@ import mongoose, { Document, Schema } from "mongoose";
 interface PlayerTeamDocument extends Document {
   playerEmail: string;
   teamId: string;
-  jesryId: string;
+  jerseyId: number;
   fullName: string;
   invitationToken: string;
   isVerified: string;
@@ -12,7 +12,7 @@ interface PlayerTeamDocument extends Document {
 const playerTeamSchema = new Schema({
   playerEmail: String,
   teamId: String,
-  jesryId: String,
+  jerseyId: Number,
   fullName: String,
   invitationToken: String, 
   isVerified: String,

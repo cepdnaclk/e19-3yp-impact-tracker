@@ -9,7 +9,7 @@ class SessionService {
     sessionName: string,
     createdAt: number,
     updatedAt: number,
-    impactHistory: ImpactPlayer[]
+    impactHistory: ImpactPlayer[],
   ): Promise<void> {
     try {
       const session = new SessionModel({
@@ -21,6 +21,9 @@ class SessionService {
         impactHistory: impactHistory,
       });
       await session.save();
+      // console.log("Session created");
+      // console.log(session);
+      // console.log(session.impactHistory);
     } catch (error) {
       console.error(error);
       throw error;

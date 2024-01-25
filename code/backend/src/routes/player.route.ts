@@ -12,13 +12,14 @@ const router = Router();
 
 // add plpayer to the player team collection by Manager
 router.post("/add", async (req: Request, res: Response) => {
-  const jersyId = req.body.jersyId;
+  const jerseyId = req.body.jerseyId;
   const fullName = req.body.fullName;
   const newPlayerEmail = req.body.playerEmail;
   const teamId = req.body.teamId;
   const managerEmail = req.body.userName;
+  // const isVerified = req.body.isVerified;
 
-  if (!newPlayerEmail || !teamId) {
+  if (!jerseyId || !teamId) {
     console.log(HttpMsg.BAD_REQUEST);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
     return;
@@ -33,12 +34,27 @@ router.post("/add", async (req: Request, res: Response) => {
 
   try {
     const playerInTeamResponse = await playerController.addNewPlayer(
-      jersyId,
+      jerseyId,
       fullName,
       newPlayerEmail,
       teamId,
       managerEmail,
     );
+
+    // This is just for adding playes with verification status
+    // const playerTeamInstance = new PlayerTeamModel({
+    //   playerEmail: newPlayerEmail,
+    //   teamId: teamId,
+    //   jerseyId: jerseyId,
+    //   fullName: fullName,
+    //   invitationToken: "invitationTokenExample",
+    //   isVerified: isVerified,
+    // });
+
+
+    // Save the manager to the database
+    // const savedManager = await playerTeamInstance.save();
+
     res.send(playerInTeamResponse);
 
   } catch (err) {
@@ -119,15 +135,15 @@ router.get("/", async (req: Request, res: Response) => {
 // Endpoint to update player details
 router.put("/update", async (req: Request, res: Response) => {
   const newPlayerEmail = req.body.playerEmail;
-  const jersyId = req.body.jersyId;
+  const jerseyId = req.body.jerseyId;
   const fullName = req.body.fullName;
   const managerEmail = req.body.userName; // extract from middleware
   const teamId = req.body.teamId;         // extract from middleware
 
   // Check if any required field is missing
-  if (!jersyId || !fullName || !newPlayerEmail ) {
+  if (!jerseyId || !fullName || !newPlayerEmail ) {
     const missingFields = [];
-  if (!jersyId) missingFields.push("jersyId");
+  if (!jerseyId) missingFields.push("jerseyId");
   if (!fullName) missingFields.push("fullName");
   if (!newPlayerEmail) missingFields.push("newPlayerEmail");
 
@@ -145,12 +161,12 @@ router.put("/update", async (req: Request, res: Response) => {
 
   try {
     const player = await PlayerTeamModel.findOne({ 
-      jesryId: jersyId,
+      jesryId: jerseyId,
       teamId: teamId });
 
     const playerTeamRequest = new PlayerTeamRequest(
       newPlayerEmail,
-      jersyId,
+      jerseyId,
       fullName
     );
 
@@ -170,7 +186,7 @@ router.put("/update", async (req: Request, res: Response) => {
       // } else {
       //   // Player with a new email, create a new player
       //   playerInTeamResponse = await playerController.addNewPlayer(
-      //     jersyId,
+      //     jerseyId,
       //     fullName,
       //     newPlayerEmail,
       //     teamId,
@@ -202,12 +218,12 @@ router.put("/update", async (req: Request, res: Response) => {
 
 // Endpoint to remove player from team
 router.delete("/remove",async (req:Request, res: Response) => {
-    const jersyId = req.body.jersyId;
+    const jerseyId = req.body.jerseyId;
     const teamId = req.body.teamId;
     const managerEmail = req.body.userName;
 
     // Check if any required field is missing
-    if (!jersyId) {
+    if (!jerseyId) {
  
       console.log(HttpMsg.BAD_REQUEST);
       res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
@@ -215,7 +231,7 @@ router.delete("/remove",async (req:Request, res: Response) => {
     }
   
     try{
-      const isRemoved = await playerController.removePlayer(jersyId, teamId, managerEmail);
+      const isRemoved = await playerController.removePlayer(jerseyId, teamId, managerEmail);
 
       if (isRemoved) {
         return res.send({ message: "Player removed from team successfully" });
@@ -259,8 +275,32 @@ router.get("/myTeams", async (req, res) => {
 });
 
 // Endpoint to get analytics summary
-router.get("/analytics-summary/{duration}",async (req:Request, res: Response) => {
-  const playerEmail = req.body.userName;
+router.get("/analytics-summary/:duration",async (req:Request, res: Response) => {
+  if (!req.body.userName) {
+    console.log(HttpMsg.BAD_REQUEST);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    return;
+  }
+  try {
+    
+    const playerEmail = req.body.userName; // player email is retrieved from the request body
+
+    // Check if player exists
+    const playerExists = await playerController.checkPlayerExists(playerEmail);
+
+    if (!playerExists) {
+      throw new Error(HttpMsg.PLAYER_DOES_NOT_EXIST);
+    }
+
+    // Assuming 'getAnalyticsSummary' is a function in your playerController
+    // const analyticsSummary = await playerController.getAnalyticsSummary(playerEmail, req.params.duration);
+    const analyticsSummary = await playerController.getAnalyticsSummary(playerEmail, req.params.duration);
+    res.send({ analyticsSummary });
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 // Endpoint Accept Invitation

@@ -41,7 +41,7 @@ export async function readData(port: SerialPort, decoder: TextDecoder) {
     return message;
   }
 
-  export const syncDevice = async () => {
+  export const syncDevice = async (ssid:string,password:string) => {
     const decoder = new TextDecoder();
     const encoder = new TextEncoder();
     const filters = [
@@ -58,7 +58,9 @@ export async function readData(port: SerialPort, decoder: TextDecoder) {
       await port.open({ baudRate: 9600 });
 
       await new Promise((resolve) => setTimeout(resolve, 3000));
-      const reqMessage = "{impax,impax12345678,impax,impax}";
+      // const reqMessage = "{impax,impax12345678,impax,impax}";
+      const reqMessage = `{${ssid},${password},impax,impax}`;
+
 
       try {
         await sendData("request", port, encoder);
@@ -67,7 +69,7 @@ export async function readData(port: SerialPort, decoder: TextDecoder) {
         console.log("First Reply" + ackMessage);
         if (ackMessage === "ack") {
           await new Promise((resolve) => setTimeout(resolve, 3000));
-          await sendData("wificonfig", port, encoder);
+          await sendData(reqMessage, port, encoder);
           await new Promise((resolve) => setTimeout(resolve, 3000));
 
           const secondreply = await readData(port, decoder);

@@ -36,7 +36,6 @@ interface AppState {
 
   playerDetails: Players;
   setPlayerDetails: (players: Players) => void;
-  
 
   playersActiveTime: PlayersActiveTime;
 
@@ -48,7 +47,7 @@ interface AppState {
   sessionDetails: Session;
   setSessionDetails: (session: Session) => void;
   updateSessionDetails: (sessionName: string) => void;
-  endSession: () => void;
+  endSession: (save: boolean) => void;
 
   monitoringBuddies: Set<number>;
   addToMonitoringBuddies: (buddy_id: number) => void;
@@ -143,25 +142,28 @@ export const useAppState = create<AppState>()((set) => ({
       sessionDetails.session_name = sessionName;
       sessionDetails.updatedAt = Date.now();
 
-
       // publish session to mqtt
       MqttClient.getInstance().publishSession(sessionDetails);
       return { ...prevState, sessionDetails };
     });
   },
-  endSession: () => {
+  endSession: (save: boolean) => {
     set((prevState) => {
       const sessionDetails = { ...prevState.sessionDetails };
       sessionDetails.active = false;
       sessionDetails.updatedAt = Date.now();
-// TODO: store session details and player impact history and upload when internet available
-      const playerImpactHistory = { ...prevState.playersImpactHistory };
-      
-      localStorage.setItem("sessionDetails", JSON.stringify(sessionDetails));
-      localStorage.setItem("playerImpactHistory", JSON.stringify(playerImpactHistory));
 
+      if (save) {
+        //save session to history
+        const playerImpactHistory = { ...prevState.playersImpactHistory };
 
-
+        //TODO: These should be arrays intead of single objects
+        localStorage.setItem("sessionDetails", JSON.stringify(sessionDetails));
+        localStorage.setItem(
+          "playerImpactHistory",
+          JSON.stringify(playerImpactHistory)
+        );
+      }
 
       // publish session to mqtt
       MqttClient.getInstance().publishSession(sessionDetails);

@@ -1,5 +1,5 @@
 import styles from "./ActiveSession.module.scss";
-import { FaCheck, FaEdit, FaTimes } from "react-icons/fa";
+import { FaCheck, FaEdit, FaTimes, FaTrash } from "react-icons/fa";
 import { IoMdExit } from "react-icons/io";
 import Btn from "../Buttons/Btn";
 import MonitoringCard from "./Card/MonitoringCard";
@@ -86,17 +86,25 @@ const ActiveSession = () => {
               />
             </div>
           </DialogModal>
-          <AlertModal
+          <DialogModal
             trigger={<Btn Icon={IoMdExit}>Exit Session</Btn>}
             title="Are you sure to exit session?"
             description="Session data will be downloaded to your computer and uploaded when connected to the internet"
-            action={
-              <Btn Icon={IoMdExit} onClick={() => endSession()}>
-                Confirm Exit
+          >
+            <div className={styles.exitSessionActions}>
+              <Btn
+                Icon={FaTrash}
+                iconSizeEm={0.9}
+                buttonStyle="secondary"
+                onClick={() => endSession(false)}
+              >
+                Discard Session
               </Btn>
-            }
-            cancel={<Btn Icon={FaTimes}>Cancel</Btn>}
-          />
+              <Btn Icon={IoMdExit} onClick={() => endSession(true)}>
+                Save and Exit
+              </Btn>
+            </div>
+          </DialogModal>
         </div>
       </div>
       {monitoringBuddies.size > 0 && (

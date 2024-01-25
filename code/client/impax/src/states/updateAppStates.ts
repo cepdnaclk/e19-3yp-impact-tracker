@@ -1,5 +1,12 @@
 import MqttClient from "../services/mqttClient";
-import { BuddyStatus, Impact } from "../types";
+import {
+  BuddyStatus,
+  Impact,
+  PlayerImpactHistory,
+  PlayerMap,
+  PlayersImpact,
+  Session,
+} from "../types";
 import { useAppState } from "./appState";
 
 export const updateBuddy = (buddy_id: number, battery: number) => {
@@ -146,5 +153,17 @@ export const updatePlayersImpactHistory = (
     const playersImpactHistory = { ...prevState.playersImpactHistory };
     playersImpactHistory[player_id] = impactHistory;
     return { playersImpactHistory };
+  });
+};
+
+//Flush all the states if the hub is disconnected
+export const flushStates = () => {
+  useAppState.setState({
+    buddiesStatus: {} as BuddyStatus,
+    playerMap: {} as PlayerMap,
+    monitoringBuddies: new Set() as Set<number>,
+    playersImpact: {} as PlayersImpact,
+    playersImpactHistory: {} as PlayerImpactHistory,
+    sessionDetails: {} as Session,
   });
 };

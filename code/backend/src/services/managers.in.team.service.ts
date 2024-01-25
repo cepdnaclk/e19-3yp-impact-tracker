@@ -1,4 +1,6 @@
-  import ManagerTeamModel from "../db/managers.in.team.schema";
+import ManagerTeamModel from "../db/managers.in.team.schema";
+import PlayerTeamModel from "../db/players.in.team.schema";
+import { TeamPlayerResponse } from "../types/types";
 
 class ManagersInTeamService {
   // create team manager instance
@@ -86,6 +88,38 @@ class ManagersInTeamService {
     }
     return false;
   }
-}
 
+  // get the players in the team
+  async getPlayersInTeam(teamId: string):Promise<{ [jerseyId: number]: TeamPlayerResponse }>{
+
+    const teamPlayers: { [jerseyId: number]: TeamPlayerResponse } = {};
+
+    try{
+
+      // Get the player teams for the given team ID
+      const playerTeams = await PlayerTeamModel.find({ teamId: teamId}, 'jerseyId -_id');
+
+      // For each player team, get the player details
+      for (const playerTeam of playerTeams) {
+        const player = await PlayerTeamModel.findOne({ jerseyId: playerTeam.jerseyId, teamId: teamId }, 'fullName playerEmail isVerified -_id');
+
+        if (player){
+          // Add the player details to the team players object
+          teamPlayers[playerTeam.jerseyId] = {
+            name: player.fullName,
+            email: player.playerEmail,
+            isVerified: player.isVerified
+          };
+        }
+      }
+
+      return teamPlayers;
+
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+
+  }
+}
 export default new ManagersInTeamService();

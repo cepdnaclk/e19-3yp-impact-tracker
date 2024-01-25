@@ -390,6 +390,33 @@
         }
       }
     },
+    "/manager/getTeamPlayers": {
+      "get": {
+        "tags": ["ManagerEndpoints"],
+        "summary": "Get all players of a team - Access Token required",
+        
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/TeamPlayersResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
 
 
     
@@ -449,136 +476,6 @@
 
     },
 
-    "/player/{playerID}/sessions": {
-      "get": {
-        "tags": ["PlayerEndpoints"],
-        "summary": "Get session details related to the player",
-        "parameters": [
-          {
-            "name": "playerID",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "example": "examplePlayerId"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "$ref": "#/components/schemas/SessionDetailsResponse"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Bad Request"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-
-    "/player/add": {
-      "post": {
-        "tags": ["PlayerEndpoints"],
-        "summary": "Add a new player to a team for manager - Access Token required",
-        "requestBody": {
-          "$ref": "#/components/requestBodies/PlayerTeamRequest"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "$ref": "#/components/schemas/PlayerTeamRequest"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Bad Request"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-
-    "/player/update": {
-      "put": {
-        "tags": ["PlayerEndpoints"],
-        "summary": "Update player details - Access Token required",
-        "requestBody": {
-          "$ref": "#/components/requestBodies/PlayerUpdateRequest"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "$ref": "#/components/schemas/PlayerResponse"
-                
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Bad Request"
-                }
-              }
-            }
-          }
-        }
-      }
-    },    
-    "/player/remove": {
-      "delete": {
-        "tags": ["PlayerEndpoints"],
-        "summary": "Remove a player from a team by Jersey ID and Team ID - Access Token required",
-        "requestBody": {
-          "$ref": "#/components/requestBodies/PlayerRemoveRequest"
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Player removed successfully"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Bad Request"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    
     "/player/myTeams": {
       "get": {
         "tags": ["PlayerEndpoints"],
@@ -615,7 +512,7 @@
           {
             "name": "duration",
             "in": "path",
-            "description": "Duration for analytics summary (e.g., 'LastWeek', 'LastMonth', 'All')",
+            "description": "Duration for analytics summary (e.g., 'Last Week' , 'Last Month' , 'All Time')",
             "required": true,
             "schema": {
               "type": "string"
@@ -644,6 +541,99 @@
         }
       }
     },
+
+    "/player/add": {
+      "post": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Add a new player to a team for manager - Access Token required (Only Manager can access)",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PlayerTeamRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/PlayerTeamRequest"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/player/update": {
+      "put": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Update player details - Access Token required (Only Manager can access)",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PlayerUpdateRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/PlayerResponse"
+                
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },    
+    "/player/remove": {
+      "delete": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Remove a player from a team by Jersey ID and Team ID - Access Token required (Only Manager can access)",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PlayerRemoveRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Player removed successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
 
 
 
@@ -877,6 +867,7 @@
         }
       },
 
+      
       "SessionRequest": {
         "type": "object",
         "properties": {
@@ -908,7 +899,7 @@
           "impactHistory": {
             "12": [
               {
-                "magntitude": 10,
+                "magnitude": 10,
                 "direction": "left",
                 "timestamp": 123456789,
                 "isConcussion": true
@@ -916,7 +907,7 @@
             ],
             "13": [
               {
-                "magntitude": 10,
+                "magnitude": 10,
                 "direction": "left",
                 "timestamp": 123456789,
                 "isConcussion": false
@@ -925,7 +916,7 @@
           }
         }
       },
-
+      
       "HubRequest": {
         "type": "object",
         "properties": {
@@ -1006,58 +997,200 @@
         }
       },
 
+      "TeamPlayersResponse": {
+        "type": "object",
+        "properties": {
+          "jerseyId": {
+            "type": "integer",
+            "description": "Jersey number of the player"
+          },
+          "player": {
+            "$ref": "#/components/schemas/Player"
+          }
+        },
+        "example": {
+          "69": {
+            "name": "Angelo Mathews",
+            "email": "angelomathews@gmail.com",
+            "verification": "verified"
+          },
+          "55": {
+            "name": "Kusal Perera",
+            "email": "kusal_perera@gmail.com",
+            "verification": "verified"
+          }
+          
+        }
+      },
+
+      "Player": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the player"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of the player"
+          },
+          "verification": {
+            "type": "string",
+            "description": "Verification status of the player"
+          }
+        }
+      },
 
 
       "AnalyticsSummary": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string"
+          "type": "object",
+          "properties": {
+            "summaryData": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "anyOf": [
+                      { "type": "string" },
+                      { "type": "number" }
+                    ]
+                  },
+                  "trend": {
+                    "anyOf": [
+                      { "type": "number" },
+                      { "$ref": "#/components/schemas/ImpactDirection" }
+                    ]
+                  }
+                }
+              }
+            },
+            "histogramData": {
+              "type": "object",
+              "properties": {
+                "left": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "right": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "front": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "back": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "criticalSessions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "session_name": {
+                    "type": "string"
+                  },
+                  "session_date": {
+                    "type": "string"
+                  },
+                  "cumulative_impact": {
+                    "type": "number"
+                  },
+                  "average_impact": {
+                    "type": "number"
+                  },
+                  "largest_impact": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
           },
-          "value": {
-            "type": "string"
-          },
-          "trend": {
-            "type": "number"
-          },
-          "metaUnits": {
-            "type": "string"
+          "example": {
+            "summaryData": [
+              {
+                "title": "Cumulative Impacts",
+                "value": "850 g",
+                "trend": -20
+              },
+              {
+                "title": "Impacts Recorded",
+                "value": "50",
+                "trend": 20
+              },
+              {
+                "title": "Average Impact",
+                "value": "43 g",
+                "trend": 40
+              },
+              {
+                "title": "Dominant Direction",
+                "value": "Left",
+                "trend": 10
+              }
+            ],
+            "histogramData": {
+              "left": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0],
+              "right": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0],
+              "front": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0],
+              "back": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0]
+            },
+            "criticalSessions": [
+              {
+                "session_name": "Session 1",
+                "session_date": "2024-01-22",
+                "cumulative_impact": 50,
+                "average_impact": 20,
+                "largest_impact": 25
+              },
+              {
+                "session_name": "Session 2",
+                "session_date": "2024-01-23",
+                "cumulative_impact": 70,
+                "average_impact": 20,
+                "largest_impact": 20
+              },
+              {
+                "session_name": "Session 3",
+                "session_date": "2024-01-24",
+                "cumulative_impact": 90,
+                "average_impact": 20,
+                "largest_impact": 25
+              }
+            ]
           }
-        },
-        "example": [
-          {
-            "title": "Cumulative Impacts",
-            "value": "850 g",
-            "trend": -20
-          },
-          {
-            "title": "Impacts Recorded",
-            "value": "50",
-            "trend": 20
-          },
-          {
-            "title": "Average Impact",
-            "value": "43 g",
-            "trend": 40
-          },
-          {
-            "title": "Dominent Direction",
-            "value": "Left",
-            "trend": 10
-          }
-        ]
+      }, 
+
+      "ImpactDirection": {
+        "type": "string",
+        "enum": ["left", "right", "front", "back"]
       },
 
       "PlayerRemoveRequest": {
         "type": "object",
         "properties": {
-          "jersyId": {
-            "type": "string"
+          "jerseyId": {
+            "type": "number"
           }
         },
-        "required": ["jersyId"],
+        "required": ["jerseyId"],
         "example": {
-          "jersyId": "exampleJersyId"
+          "jerseyId": 80
         }
       },
   
@@ -1076,8 +1209,8 @@
         "type": "object",
         "properties": {
           
-          "jersyID": {
-            "type": "string"
+          "jerseyId": {
+            "type": "number"
           },
           "fullName": {
             "type": "string"
@@ -1088,7 +1221,7 @@
           }
         },
         "example": {
-          "jersyId": "exampleJersyId",
+          "jerseyId": 70,
           "fullName": "John Doe",
           "playerEmail": "example@example.com"
         }
@@ -1097,8 +1230,8 @@
         "type": "object",
         "properties": {
           
-          "jersyID": {
-            "type": "string"
+          "jerseyId": {
+            "type": "number"
           },
           "fullName": {
             "type": "string"
@@ -1112,7 +1245,7 @@
           }
         },
         "example": {
-          "jersyId": "exampleJersyId",
+          "jerseyId": 90,
           "fullName": "John Doe",
           "playerEmail": "example@example.com",
           "teamId": "exampleTeamId"
@@ -1142,14 +1275,14 @@
           "playerEmail": {
             "type": "string"
           },
-          "jersyId": {
+          "jerseyId": {
             "type": "string"
           }
         },
         "example": {
           "fullName": "John Doe",
           "playerEmail": "example@example.com",
-          "jersyId": "exampleJersyId"
+          "jerseyId": 98
         }
       },
 
@@ -1395,8 +1528,8 @@
         }
       }
       
-    },
-
+      },
+    
     "requestBodies": {
       "TeamCreateRequest": {
         "content": {

@@ -7,6 +7,23 @@ const ImpactSummaryCard: React.FC<{ metric: Metric; timeSpan: TimeSpan }> = ({
   metric,
   timeSpan,
 }) => {
+  let trendElement: JSX.Element | null = null;
+  if (metric.trend === undefined) {
+    trendElement = null;
+  } else if (typeof metric.trend === "number") {
+    trendElement = (
+      <>
+        {metric.trend > 0 ? (
+          <FaArrowTrendUp className={cardStyles.iconUp} />
+        ) : (
+          <FaArrowTrendDown className={cardStyles.iconDown} />
+        )}
+        <span>{metric.trend}% vs</span>
+      </>
+    );
+  } else {
+    trendElement = <span>{metric.trend}</span>;
+  }
   return (
     <div className={cardStyles.card}>
       <h3>{metric.title}</h3>
@@ -24,12 +41,7 @@ const ImpactSummaryCard: React.FC<{ metric: Metric; timeSpan: TimeSpan }> = ({
         </p>
         {timeSpan != "All Time" && metric.trend && (
           <p className={cardStyles.trend}>
-            {metric.trend > 0 ? (
-              <FaArrowTrendUp className={cardStyles.iconUp} />
-            ) : (
-              <FaArrowTrendDown className={cardStyles.iconDown} />
-            )}
-            <span>{metric.trend}% vs</span>
+            {trendElement}
             <span className={cardStyles.duration}>{timeSpan}</span>
           </p>
         )}
