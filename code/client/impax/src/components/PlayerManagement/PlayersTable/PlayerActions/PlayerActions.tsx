@@ -8,7 +8,6 @@ import { FaCheck } from "react-icons/fa6";
 import { useAppState } from "../../../../states/appState";
 import { FieldValues, useForm } from "react-hook-form";
 import { BASE_URL } from "../../../../config/config";
-import { deletePlayerHTTP } from "../../../../services/httpClient";
 const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
   const playerDetails = useAppState((state) => state.playerDetails);
   const removePlayer = useAppState((state) => state.removePlayer);
@@ -142,7 +141,6 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
               const responseData = await response.json();
               if (response.ok) {
                 // for debugging
-                // TODO:Test this
                 console.log("response OK", responseData);
                 removePlayer(jerseyId);
               }
