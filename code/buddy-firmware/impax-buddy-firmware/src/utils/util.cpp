@@ -33,10 +33,7 @@ int getBatteryStatus()
 {
     float voltage = getBatteryVoltage();
 
-    if (voltage > VOLTAGE_UPPER_LIMIT)
-        return 100;
-    else if (voltage <= VOLTAGE_LOWER_LIMIT)
-        return 0;
+    Serial.println(voltage);
 
     int percentage = 2808.3808 * pow(voltage, 4) - 43560.9157 * pow(voltage, 3) + 252848.5888 * pow(voltage, 2) - 650767.4615 * voltage + 626532.5703;
 
@@ -47,6 +44,11 @@ int getBatteryStatus()
 
     if (isIncreasingPercentage)
         return CHARGIN_STATE;
+
+    if (voltage > VOLTAGE_UPPER_LIMIT)
+        return 100;
+    else if (voltage <= VOLTAGE_LOWER_LIMIT)
+        return 0;
 
     return percentage;
 }

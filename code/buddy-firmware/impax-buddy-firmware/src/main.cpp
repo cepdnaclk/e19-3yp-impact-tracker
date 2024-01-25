@@ -32,6 +32,9 @@ void buddyCheckTurnOffHandle()
         buddyState = BUDDY_OFF;
         ledStatus = LED_OFF;
         led(ledStatus);
+        gpio_set_level(GPIO_NUM_0, 0);
+        gpio_pullup_dis(GPIO_NUM_0);
+        delay(1000);
 
         // Go to sleep now
         Serial.println("Going to sleep now");
@@ -130,6 +133,8 @@ void process()
         {
             ledStatus = LED_ON;
         }
+
+        Serial.println(batteryStatus);
 
         batteryStatusTimer = millis();
     }
