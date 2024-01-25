@@ -8,6 +8,7 @@ import {
   PlayersImpact,
   PlayerImpactHistory,
   PlayersActiveTime,
+  Verification,
 } from "../types";
 import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
@@ -36,6 +37,9 @@ interface AppState {
 
   playerDetails: Players;
   setPlayerDetails: (players: Players) => void;
+  addPlayer: (jersey_number: number, player_name: string,player_email:string) => void;
+  removePlayer: (player_id: number) => void;
+  editPlayer: (jersey_number: number, player_name: string,player_email:string) => void;
 
   playersActiveTime: PlayersActiveTime;
 
@@ -88,6 +92,37 @@ export const useAppState = create<AppState>()((set) => ({
   //TODO: Clashing of players with other dashbaords
   playerDetails: players,
   setPlayerDetails: (players: Players) => set({ playerDetails: players }),
+  removePlayer: (player_id: number) => set((prevState) => {
+    const playerDetails = { ...prevState.playerDetails };
+    delete playerDetails[player_id];
+    // TODO: Couple with local storage
+    return { playerDetails };
+  }),
+  editPlayer: (jersey_number: number, player_name: string,player_email:string) => set((prevState) => {
+    const playerDetails = { ...prevState.playerDetails,
+    [jersey_number]: {
+      name: player_name,
+      email: player_email,
+      verification:prevState.playerDetails[jersey_number]?.verification,
+    }
+    };
+    return { playerDetails };
+    
+    
+  }),
+  addPlayer: (jersey_number: number, player_name: string, player_email: string) => set((prevState) => {
+    const playerDetails = { ...prevState.playerDetails,
+    [jersey_number]: {
+      name: player_name,
+      email: player_email,
+      verification:"pending" as Verification,
+    }
+    };
+    return { playerDetails };
+    
+    
+  }),
+
 
   //For the player map
   playerMap: {} as PlayerMap,

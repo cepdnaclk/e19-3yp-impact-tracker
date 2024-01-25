@@ -1,0 +1,26 @@
+[1] q
+[1] impactStatsPrev:
+[1] {
+[1]   impactsCumulative: 0,
+[1]   impactsRecorded: 0,
+[1]   directionCount: { front: 0, back: 0, left: 0, right: 0 }
+[1] }
+[1] impactStatsCurr:
+[1] {
+[1]   impactsCumulative: 120,
+[1]   impactsRecorded: 3,
+[1]   directionCount: { front: 0, back: 0, left: 1, right: 2 }
+[1] }
+[1] JDGH
+[1] impactStatsPrev:
+[1] {
+[1]   impactsCumulative: 390,
+[1]   impactsRecorded: 7,
+[1]   directionCount: { front: 0, back: 0, left: 6, right: 1 }
+[1] }
+[1] impactStatsCurr:
+[1] {
+[1]   impactsCumulative: 350,
+[1]   impactsRecorded: 8,
+[1]   directionCount: { front: 0, back: 0, left: 5, right: 3 }
+[1] }

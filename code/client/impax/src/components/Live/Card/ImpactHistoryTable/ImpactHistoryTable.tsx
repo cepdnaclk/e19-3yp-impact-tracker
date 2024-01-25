@@ -14,6 +14,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { FaSort } from "react-icons/fa";
+import { useAppState } from "../../../../states/appState";
 
 const columns: ColumnDef<Impact>[] = [
   {
@@ -43,17 +44,18 @@ const columns: ColumnDef<Impact>[] = [
   },
 ];
 const ImpactHistoryTable: React.FC<{
-  impactHistory: Impact[];
-}> = ({ impactHistory }) => {
-  const defaultData = impactHistory;
+  playerId: number;
+}> = ({ playerId }) => {
+  const impactHistory = useAppState(
+    (state) => state.playersImpactHistory[playerId] as Impact[]
+  );
 
-  const [data] = React.useState(() => [...defaultData]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
   const table = useReactTable({
-    data,
+    data: impactHistory,
     columns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
@@ -65,6 +67,7 @@ const ImpactHistoryTable: React.FC<{
       columnFilters,
     },
   });
+
   return (
     <table className={styles.impactHistoryTable}>
       <thead>

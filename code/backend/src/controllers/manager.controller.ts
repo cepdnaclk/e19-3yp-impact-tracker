@@ -5,6 +5,7 @@ import managersInTeamService from "../services/managers.in.team.service";
 import { sendVerificationEmail } from "../email/managerVerifyEmail";
 import { sendInvitationEmail } from "../email/managerInviteEmail";
 import { v4 as uuidv4 } from "uuid";
+import { TeamPlayerResponse } from "../types/types";
 
 class ManagerController {
   async createManager(
@@ -162,6 +163,20 @@ class ManagerController {
       throw error;
     }
     return false;
+  }
+
+  // get all the teamPlayers with their details
+  async getPlayers(teamId: string): Promise<{ [jerseyId: number]: TeamPlayerResponse }>{
+
+    try{
+      const response = await managersInTeamService.getPlayersInTeam(teamId);
+      // console.log(response);
+      return response;
+    }catch(error) {
+      console.error(error);
+      throw error;
+    }
+
   }
 }
 

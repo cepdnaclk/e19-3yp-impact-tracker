@@ -7,6 +7,7 @@ import {
   setSessionDetails,
   updatePlayersImpactHistory,
   checkBuddiesAvailability,
+  flushStates,
 } from "../states/updateAppStates";
 import { Session } from "../types";
 
@@ -17,12 +18,12 @@ class MqttClient {
   private topics: string[];
 
   private constructor() {
-    this.client = mqtt.connect("ws://192.168.4.1:8080/", {
+    this.client = mqtt.connect("ws://127.0.0.1:8080/", {
       clientId: `impax-dashboard-${Date.now()}`,
       reconnectPeriod: 2000,
       keepalive: 60,
-      username: "impax",
-      password: "impax",
+      // username: "impax",
+      // password: "impax",
     });
 
     this.topics = [
@@ -35,6 +36,7 @@ class MqttClient {
       "player/+/impact_with_timestamp",
       "player/+/concussion",
       "player_map",
+      "hub/old_session",
     ];
 
     this.client.on("connect", this.handleConnect);
@@ -57,6 +59,7 @@ class MqttClient {
   private handleDisconnect = () => {
     console.log("Disconnected");
     useAppState.setState({ isMqttOnine: false });
+    flushStates();
   };
   private handleReconnect = () => {
     console.log("reconnecting");

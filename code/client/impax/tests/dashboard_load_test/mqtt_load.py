@@ -7,10 +7,10 @@ broker_address = "localhost"
 broker_port = 1883
 
 # Number of buddy devices
-num_buddies = 20
+num_buddies = 5
 
 # Impact frequency (chance for a buddy to publish an impact each cycle)
-impact_frequency = 0.25
+impact_frequency = 10
 
 # Maximum battery drain per cycle (percentage points)
 max_drain = 3
@@ -59,8 +59,8 @@ while True:
             magnitude = random.randint(14, 100)
             direction = random.choice(
                 ["left", "right", "front", "back", "top", "bottom"])
-            topic = f"buddy/{client_id_str.split('_')[1]}/impact_with_timestamp"
+            topic = f"buddy/{client_id_str.split('_')[1]}/impact"
             client.publish(
-                topic, f"{magnitude} {direction} {int(time.time() * 1000)}", retain=True)
+                topic, f"{magnitude} {direction}", retain=True)
 
     time.sleep(5)  # Check for new publications every second

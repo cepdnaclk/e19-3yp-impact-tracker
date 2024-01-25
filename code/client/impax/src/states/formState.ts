@@ -1,21 +1,20 @@
 import { create } from "zustand";
-import {Role} from "../types";
+import { Role } from "../types";
 
 interface RoleState {
   role: Role;
   setRole: (role: Role) => void;
 }
 
-interface signupInfo{
+interface signupInfo {
   teamId: string;
   email: string;
 }
 
-
 interface SignupState {
-  isLoggedInPlayer:boolean;
+  isLoggedInPlayer: boolean;
   setIsLoggedInPlayer: (isLoggedIn: boolean) => void;
-  isLoggedInManager:boolean;
+  isLoggedInManager: boolean;
   setIsLoggedInManager: (isLoggedIn: boolean) => void;
   isSignup: boolean;
   setIsSignup: (isSignup: boolean) => void;
@@ -27,26 +26,25 @@ interface SignupState {
   setSignupInfo: (signupInfo: signupInfo) => void;
 }
 
-
-
 export const useRoleState = create<RoleState>()((set) => ({
   role: "manager",
-  setRole: (role) => set({ role: role==="player"?"manager":"player"}),
+  setRole: (role) => set({ role: role === "player" ? "manager" : "player" }),
 }));
 
 export const useSignupState = create<SignupState>()((set) => ({
   isSignup: true,
-  setIsSignup: (isSignup) => set({ isSignup: isSignup}),
+  setIsSignup: (isSignup) => set({ isSignup: isSignup }),
   isManagerExist: true,
-  setIsManagerExist: (isManagerExist) => set({ isManagerExist: isManagerExist}),
+  setIsManagerExist: (isManagerExist) =>
+    set({ isManagerExist: isManagerExist }),
   isTeamExist: true,
-  setIsTeamExist: (isTeamExist) => set({ isTeamExist: isTeamExist}),
-  signupInfo: {teamId: "", email: ""},
-  setSignupInfo: (signupInfo) => set({ signupInfo: signupInfo}),
-  isLoggedInPlayer: false,
-  setIsLoggedInPlayer: (isLoggedInPlayer) => set({ isLoggedInPlayer: isLoggedInPlayer}),
-  isLoggedInManager: false,
-  setIsLoggedInManager: (isLoggedInManager) => set({ isLoggedInManager: isLoggedInManager}),
+  setIsTeamExist: (isTeamExist) => set({ isTeamExist: isTeamExist }),
+  signupInfo: { teamId: "", email: "" },
+  setSignupInfo: (signupInfo) => set({ signupInfo: signupInfo }),
+  isLoggedInPlayer: true,
+  setIsLoggedInPlayer: (isLoggedInPlayer) =>
+    set({ isLoggedInPlayer: isLoggedInPlayer }),
+  isLoggedInManager: true,
+  setIsLoggedInManager: (isLoggedInManager) =>
+    set({ isLoggedInManager: isLoggedInManager }),
 }));
-
-

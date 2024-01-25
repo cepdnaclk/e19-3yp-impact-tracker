@@ -12,8 +12,8 @@ const Sidebar: React.FC = () => {
   const activePage = useAppState((state) => state.activePage);
   const setActivePage = useAppState((state) => state.setActivePage);
   const navigate = useNavigate();
-  let isLoggedInPlayer = useSignupState((state) => state.isLoggedInPlayer);
-  let isLoggedInManager = useSignupState((state) => state.isLoggedInManager);
+  const isLoggedInPlayer = useSignupState((state) => state.isLoggedInPlayer);
+  const isLoggedInManager = useSignupState((state) => state.isLoggedInManager);
   // isLoggedIn = true;
   // isLoggedInManager = true;
 

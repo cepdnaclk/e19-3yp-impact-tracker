@@ -1,3 +1,5 @@
+import { Metric } from "../../../types";
+
 export const data: {
   title: string;
   value: string;
@@ -27,12 +29,7 @@ export const data: {
   },
 ];
 
-export const data2: {
-  title: string;
-  value: string;
-  trend?: number;
-  metaUnits?: string;
-}[] = [
+export const data2: Metric[] = [
   {
     title: "Cumulative Impacts",
     value: "199 g",
@@ -66,6 +63,7 @@ export const data2: {
   {
     title: "Dominant Direction",
     value: "Left",
+    trend: "Right",
   },
 ];
 
