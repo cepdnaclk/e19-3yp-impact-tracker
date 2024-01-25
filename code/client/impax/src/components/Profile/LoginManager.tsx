@@ -67,7 +67,7 @@ const LoginManager = () => {
 
       // FETCH PLAYERS array and store it in local storage
 
-      getPlayers();
+      await getPlayers();
 
       navigate("/login/manager");
     }
