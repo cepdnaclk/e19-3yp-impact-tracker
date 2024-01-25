@@ -45,7 +45,7 @@ export type ImpactStats = {
 export type TeamPlayerResponse = {
   name: string;
   email: string;
-  isVerified: string;
+  verification: string;
 };
 
   
