@@ -41,10 +41,10 @@ export const useSignupState = create<SignupState>()((set) => ({
   setIsTeamExist: (isTeamExist) => set({ isTeamExist: isTeamExist }),
   signupInfo: { teamId: "", email: "" },
   setSignupInfo: (signupInfo) => set({ signupInfo: signupInfo }),
-  isLoggedInPlayer: true,
+  isLoggedInPlayer: false,
   setIsLoggedInPlayer: (isLoggedInPlayer) =>
     set({ isLoggedInPlayer: isLoggedInPlayer }),
-  isLoggedInManager: true,
+  isLoggedInManager: false,
   setIsLoggedInManager: (isLoggedInManager) =>
     set({ isLoggedInManager: isLoggedInManager }),
 }));
