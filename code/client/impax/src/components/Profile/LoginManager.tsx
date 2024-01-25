@@ -3,13 +3,10 @@ import { useSignupState } from "../../states/formState";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useLoginState } from "../../states/profileState";
-import { getAccessTokenFromRefreshToken } from "../../services/authService";
-import { useAppState } from "../../states/appState";
 import { getPlayers } from "../../services/httpClient";
 import { BASE_URL } from "../../config/config";
 
 const LoginManager = () => {
-  const setPlayerDetails = useAppState((state) => state.setPlayerDetails);
   const setIsSignup = useSignupState((state) => state.setIsSignup);
   const setIsLoggedInManager = useSignupState(
     (state) => state.setIsLoggedInManager
