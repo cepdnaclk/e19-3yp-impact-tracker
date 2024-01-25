@@ -262,7 +262,7 @@ class PlayerController {
     let durationNumber: number = 0;
 
     if (duration == "All Time"){
-      durationNumber = -1;
+      durationNumber = Date.now();
     } else if (duration == "Last Month"){
       durationNumber = 30 * 24 * 60 * 60 * 1000;
     } else if (duration == "Last Week"){
