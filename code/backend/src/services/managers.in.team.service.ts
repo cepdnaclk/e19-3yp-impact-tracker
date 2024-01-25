@@ -90,40 +90,36 @@ class ManagersInTeamService {
   }
 
   // get the players in the team
-  async getPlayersInTeam(teamId: string):Promise<Array<TeamPlayerResponse>>{
+  async getPlayersInTeam(teamId: string):Promise<{ [jerseyId: number]: TeamPlayerResponse }>{
+
+    const teamPlayers: { [jerseyId: number]: TeamPlayerResponse } = {};
 
     try{
-      const teamPlayers: Array<TeamPlayerResponse> = [];
+
+      // Get the player teams for the given team ID
       const playerTeams = await PlayerTeamModel.find({ teamId: teamId}, 'jerseyId -_id');
-      console.log(playerTeams);
 
       // For each player team, get the player details
-    for (const playerTeam of playerTeams) {
-      const player = await PlayerTeamModel.findOne({ jerseyId: playerTeam.jerseyId, teamId: teamId }, 'fullName playerEmail isVerified -_id');
-      console.log(player);
+      for (const playerTeam of playerTeams) {
+        const player = await PlayerTeamModel.findOne({ jerseyId: playerTeam.jerseyId, teamId: teamId }, 'fullName playerEmail isVerified -_id');
 
-      if (player){
-        // Add the player details to the team players array
-      teamPlayers.push({
-        jerseyId: playerTeam.jerseyId,
-        player: {
-          name: player.fullName,
-          email: player.playerEmail,
-          isVerified: player.isVerified
+        if (player){
+          // Add the player details to the team players object
+          teamPlayers[playerTeam.jerseyId] = {
+            name: player.fullName,
+            email: player.playerEmail,
+            isVerified: player.isVerified
+          };
         }
-      });
       }
-      
-    }
-      console.log(teamPlayers);
+
       return teamPlayers;
 
-    }catch (error) {
+    } catch (error) {
       console.error(error);
       throw error;
     }
 
   }
 }
-
 export default new ManagersInTeamService();

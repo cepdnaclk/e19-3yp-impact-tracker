@@ -166,10 +166,11 @@ class ManagerController {
   }
 
   // get all the teamPlayers with their details
-  async getPlayers(teamId: string): Promise<Array<TeamPlayerResponse>>{
+  async getPlayers(teamId: string): Promise<{ [jerseyId: number]: TeamPlayerResponse }>{
 
     try{
       const response = await managersInTeamService.getPlayersInTeam(teamId);
+      // console.log(response);
       return response;
     }catch(error) {
       console.error(error);
