@@ -266,7 +266,7 @@ class PlayerService {
 
         
         
-        console.log(previous);
+        // console.log(previous);
 
         if (previous>=0){
           const filteredSessionsPrevious = sessions.filter(session => {
