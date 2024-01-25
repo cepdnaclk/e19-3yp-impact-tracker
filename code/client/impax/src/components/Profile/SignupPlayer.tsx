@@ -6,14 +6,12 @@ import { BASE_URL } from "../../config/config";
 
 const SignupPlayer = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
-  const setSignupInfo = useSignupState((state) => state.setSignupInfo);
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-    setError,
     getValues,
   } = useForm();
 
