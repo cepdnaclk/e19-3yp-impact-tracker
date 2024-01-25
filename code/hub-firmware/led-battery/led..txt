@@ -1,0 +1,11 @@
+sudo systemctl daemon-reload
+
+sudo systemctl enable led
+sudo systemctl start led
+
+sudo systemctl status led
+
+sudo systemctl restart hubService
+
+sudo nano /etc/systemd/system/hubService.service
+
