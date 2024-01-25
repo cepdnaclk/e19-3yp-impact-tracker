@@ -12,6 +12,7 @@ import TeamCreation from "../components/Profile/TeamCreation";
 import JoinTeam from "../components/Profile/JoinTeam";
 import TeamAnalytics from "../components/Analytics/TeamAnalytics/TeamAnalytics";
 import SignupSuccess from "../components/StatusScreens/SignupSuccess";
+import { useSignupState } from "../states/formState";
 interface RouteConfig {
   path: string;
   component: React.ComponentType<any>;
@@ -21,6 +22,14 @@ interface RouteConfig {
 const routes: RouteConfig[] = [
   {
     path: "/",
+    component: useSignupState.getState().isLoggedInManager
+      ? Live
+      : useSignupState.getState().isLoggedInPlayer
+      ? PlayerAnalytics
+      : SignUp,
+  },
+  {
+    path: "/SignUp",
     component: SignUp,
   },
   {
@@ -78,8 +87,7 @@ const routes: RouteConfig[] = [
     component: SignupSuccess,
     props: {
       title: "Signup",
-      description:
-        "Please Verify your email address.",
+      description: "Please Verify your email address.",
     },
   },
   {
@@ -87,8 +95,7 @@ const routes: RouteConfig[] = [
     component: SignupSuccess,
     props: {
       title: "Signup",
-      description:
-        "Please Verify your email address.",
+      description: "Please Verify your email address.",
     },
   },
   {

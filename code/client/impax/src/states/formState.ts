@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { Role } from "../types";
+import { useNavigate } from "react-router-dom";
 
 interface RoleState {
   role: Role;
@@ -41,18 +42,20 @@ export const useSignupState = create<SignupState>()((set) => ({
   setIsTeamExist: (isTeamExist) => set({ isTeamExist: isTeamExist }),
   signupInfo: { teamId: "", email: "" },
   setSignupInfo: (signupInfo) => set({ signupInfo: signupInfo }),
-  isLoggedInPlayer: false,
-  
-  // isLoggedInPlayer: localStorage.getItem("isLoggedInPlayer") === "true",
+
+  isLoggedInPlayer: localStorage.getItem("isLoggedInPlayer") === "true",
   setIsLoggedInPlayer: (isLoggedInPlayer) => {
     set({ isLoggedInPlayer: isLoggedInPlayer });
     localStorage.setItem("isLoggedInPlayer", isLoggedInPlayer.toString());
+    if (!isLoggedInPlayer) localStorage.clear();
+    useNavigate()("/SignUp");
   },
-  isLoggedInManager: false,
 
-  // isLoggedInManager: localStorage.getItem("isLoggedInManager") === "true",
+  isLoggedInManager: localStorage.getItem("isLoggedInManager") === "true",
   setIsLoggedInManager: (isLoggedInManager) => {
     set({ isLoggedInManager: isLoggedInManager }),
       localStorage.setItem("isLoggedInManager", isLoggedInManager.toString());
+    if (!isLoggedInManager) localStorage.clear();
+    useNavigate()("/SignUp");
   },
 }));

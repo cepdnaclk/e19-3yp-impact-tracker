@@ -70,7 +70,12 @@ interface AppState {
 
 export const useAppState = create<AppState>()((set) => ({
   //For the sidebar menu item selected, and render main content
-  activePage: "profile",
+  activePage:
+    localStorage.getItem("isLoggedInManager") === "true"
+      ? "live"
+      : localStorage.getItem("isLoggedInPlayer") === "true"
+      ? "player-analytics"
+      : "profile",
   setActivePage: (page) => set({ activePage: page }),
 
   //For the mqtt connection status
@@ -111,7 +116,6 @@ export const useAppState = create<AppState>()((set) => ({
     localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
   },
   removePlayer: (player_id: number) => {
-    
     set((prevState) => {
       const playerDetails = { ...prevState.playerDetails };
       delete playerDetails[player_id];
@@ -132,7 +136,6 @@ export const useAppState = create<AppState>()((set) => ({
     player_email: string
   ) =>
     set((prevState) => {
-
       const playerDetails = {
         ...prevState.playerDetails,
         [jersey_number]: {
