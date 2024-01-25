@@ -18,7 +18,7 @@ const sessionSchema = new Schema({
   updatedAt: Number,
   impactHistory: [
     {
-      playerId: Number,
+      jerseyId: Number,
       impact: [
         {
           magnitude: Number,

@@ -8,7 +8,7 @@ function validateEmail(email: string): boolean {
 }
 
 function mapToImpactPlayers(data: {
-  [key: number]: {
+  [jerseyId: number]: {
     magnitude: number;
     direction: string;
     timestamp: number;
@@ -37,6 +37,8 @@ function mapToImpactPlayers(data: {
       );
 
       const impactPlayer = new ImpactPlayer(Number(playerIdStr), impacts);
+      
+      // console.log(impactPlayer);
       impactPlayers.push(impactPlayer);
     }
   }

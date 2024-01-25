@@ -1,0 +1,45 @@
+{
+    "sessionId": "session-3",
+    "sessionName": "session-test3",
+    "createdAt": 123456789,
+    "updatedAt": 123456789,
+    "impactHistory": [
+      {
+        "jerseyId": 50,
+        "impacts": [
+          {
+            "magnitude": 10,
+            "direction": "left",
+            "timestamp": 123456789,
+            "isConcussion": true
+          },
+          {
+            "magnitude": 50,
+            "direction": "right",
+            "timestamp": 123457789,
+            "isConcussion": true
+          },
+          {
+            "magnitude": 20,
+            "direction": "left",
+            "timestamp": 123458789,
+            "isConcussion": false
+          }
+  
+        ]
+      },
+      {
+        "jerseyId": 13,
+        "impacts": [
+          {
+            "magnitude": 40,
+            "direction": "right",
+            "timestamp": 123459789,
+            "isConcussion": false
+          }
+        ]
+      }
+    ],
+    "active": true
+  }
+  
