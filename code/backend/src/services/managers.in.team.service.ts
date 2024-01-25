@@ -108,7 +108,7 @@ class ManagersInTeamService {
           teamPlayers[playerTeam.jerseyId] = {
             name: player.fullName,
             email: player.playerEmail,
-            isVerified: player.isVerified
+            verification: player.isVerified
           };
         }
       }

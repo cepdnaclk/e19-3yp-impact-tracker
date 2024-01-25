@@ -7,30 +7,26 @@ import DialogModal from "../../../Modal/DialogModal";
 import { FaCheck } from "react-icons/fa6";
 import { useAppState } from "../../../../states/appState";
 import { FieldValues, useForm } from "react-hook-form";
-import { players } from "../../../../data/players";
 const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
   const playerDetails = useAppState((state) => state.playerDetails);
-  const setPlayerDetails = useAppState((state) => state.setPlayerDetails);
+  const removePlayer = useAppState((state) => state.removePlayer);
+  const editPlayer = useAppState((state) => state.editPlayer);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data: FieldValues) => {
     // localStorage.setItem("playerDetails", JSON.stringify(players));
 
     setOpenEdit(false);
-    setPlayerDetails({
-      ...playerDetails,
-      [jerseyId]: {
-        name: data.name,
-        email: data.email,
-        verification: playerDetails[jerseyId]?.verification,
-      },
-    });
+    editPlayer(jerseyId, data.name, data.email);
+    // setPlayerDetails({
+    //   ...playerDetails,
+    //   [jerseyId]: {
+    //     name: data.name,
+    //     email: data.email,
+    //     verification: playerDetails[jerseyId]?.verification,
+    //   },
+    // });
     // const response = await fetch("http://13.235.86.11:5000/exampleURL", {
     //   method: "POST",
     //   body: JSON.stringify({
@@ -132,6 +128,9 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
         }
         action={
           <Btn
+            onClick={() => {
+              removePlayer(jerseyId);
+            }}
             bgColor="transparent"
             buttonStyle="secondary"
             Icon={FaTrash}

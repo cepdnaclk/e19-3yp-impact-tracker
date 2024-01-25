@@ -3,8 +3,12 @@ import { useSignupState } from "../../states/formState";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useLoginState } from "../../states/profileState";
+import { getAccessTokenFromRefreshToken } from "../../services/authService";
+import { useAppState } from "../../states/appState";
+import { getPlayers } from "../../services/httpClient";
 
 const LoginManager = () => {
+  const setPlayerDetails = useAppState((state) => state.setPlayerDetails);
   const setIsSignup = useSignupState((state) => state.setIsSignup);
   const setIsLoggedInManager = useSignupState(
     (state) => state.setIsLoggedInManager
@@ -62,20 +66,8 @@ const LoginManager = () => {
       setLoginInfo({ teamId, teamName: teamName, email });
 
       // FETCH PLAYERS array and store it in local storage
-      // try {
-      //   const playersResponse = await fetch(
-      //     "'https://api.example.com/players'"
-      //   );
-      //   const playersData = await playersResponse.json();
-      //   const timestamp = new Date().getTime();
-      //   const playersWithTimestamp = {
-      //     timestamp,
-      //     playersData,
-      //   };
-      //   localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
-      // } catch (error) {
-      //   console.log(error);
-      // }
+
+      await getPlayers();
 
       navigate("/login/manager");
     }

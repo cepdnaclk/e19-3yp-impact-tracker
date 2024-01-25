@@ -3,7 +3,7 @@ import { FaUsers } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import styles from "./PlayerManagement.module.scss";
 import tableStyles from "./PlayersTable/PlayersTable.module.scss";
-import { FieldValues, set, useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 
 import {
   ColumnDef,
@@ -146,24 +146,20 @@ const PlayerManagement = () => {
   const [addPlayerOpen, setAddPlayerOpen] = useState<boolean>(false);
 
   // Form Hook
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm();
-  const setPlayerDetails = useAppState((state) => state.setPlayerDetails);
+  const { register, handleSubmit, reset } = useForm();
+  const addPlayer = useAppState((state) => state.addPlayer);
 
   const onSubmit = async (data: FieldValues) => {
     setAddPlayerOpen(false);
-    setPlayerDetails({
-      ...playerDetails,
-      [data.jersey_number]: {
-        name: data.name,
-        email: data.email,
-        verification: "pending",
-      },
-    });
+    addPlayer(data.jersey_number, data.name, data.email);
+    // setPlayerDetails({
+    //   ...playerDetails,
+    //   [data.jersey_number]: {
+    //     name: data.name,
+    //     email: data.email,
+    //     verification: "pending",
+    //   },
+    // });
 
     // const { teamId, email, password } = data;
     // const response = await fetch("http://13.235.86.11:5000/exampleURL", {

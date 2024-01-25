@@ -65,7 +65,7 @@ export type activePage =
   | "player-analytics"
   | "team-analytics";
 
-export type sessionToBeUploaded = {
+export type SessionToBeUploaded = {
   session: Session;
   playerImpactHistory: PlayerImpactHistory;
 };
@@ -126,4 +126,10 @@ export type MyTeam = {
   team_id: string;
   team_name: string;
   verification: Verification;
+};
+
+// For local storage
+export type PlayersWithTimeStamp = {
+  timestamp: number;
+  players: Players;
 };
