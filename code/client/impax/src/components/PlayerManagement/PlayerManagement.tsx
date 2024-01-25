@@ -168,7 +168,12 @@ const PlayerManagement = () => {
     const responseData = await response.json();
     if (response.ok) {
       console.log("response OK", responseData);
-      addPlayer(data.jersey_number, data.name, data.email);
+      addPlayer(
+        data.jersey_number,
+        data.name,
+        data.email,
+        responseData.isVerified
+      );
     }
 
     reset();
