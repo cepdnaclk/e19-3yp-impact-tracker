@@ -36,6 +36,7 @@ interface AppState {
 
   playerDetails: Players;
   setPlayerDetails: (players: Players) => void;
+  removePlayer: (player_id: number) => void;
 
   playersActiveTime: PlayersActiveTime;
 
@@ -88,6 +89,11 @@ export const useAppState = create<AppState>()((set) => ({
   //TODO: Clashing of players with other dashbaords
   playerDetails: players,
   setPlayerDetails: (players: Players) => set({ playerDetails: players }),
+  removePlayer: (player_id: number) => set((prevState) => {
+    const playerDetails = { ...prevState.playerDetails };
+    delete playerDetails[player_id];
+    return { playerDetails };
+  }),
 
   //For the player map
   playerMap: {} as PlayerMap,
