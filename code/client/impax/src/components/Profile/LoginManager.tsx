@@ -53,8 +53,6 @@ const LoginManager = () => {
     const responseData = await response.json();
     if (response.ok) {
       setIsLoggedInManager(true);
-      localStorage.setItem("refreshToken", responseData.refreshToken);
-      localStorage.setItem("accessToken", responseData.accessToken);
       setTokens({
         accessToken: responseData.accessToken,
         refreshToken: responseData.refreshToken,
