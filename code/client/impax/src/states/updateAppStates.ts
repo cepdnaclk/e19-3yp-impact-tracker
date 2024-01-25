@@ -1,4 +1,3 @@
-import { players } from "../data/players";
 import MqttClient from "../services/mqttClient";
 import {
   BuddyStatus,
