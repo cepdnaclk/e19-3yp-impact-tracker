@@ -36,8 +36,15 @@ function sendToServer(object: SessionToBeUploaded) {
 }
 
 export const getPlayers = async () => {
+  const token = localStorage.getItem("accessToken");
   try {
-    const playersResponse = await fetch("'https://api.example.com/players'");
+    const playersResponse = await fetch("http://13.235.86.11:5000/manager/getTeamPlayers",{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const playersData: Players = await playersResponse.json();
 
     updatePlayersDetails(playersData);
