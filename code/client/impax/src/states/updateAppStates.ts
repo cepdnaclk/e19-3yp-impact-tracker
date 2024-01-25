@@ -7,6 +7,7 @@ import {
   PlayerMap,
   Players,
   PlayersImpact,
+  PlayersWithTimeStamp,
   Session,
 } from "../types";
 import { useAppState } from "./appState";
@@ -174,9 +175,27 @@ export const flushStates = () => {
 export const updatePlayersDetails = (players: Players) => {
   useAppState.setState({ playerDetails: players });
   const timestamp = new Date().getTime();
-  const playersWithTimestamp = {
+  const playersWithTimestamp: PlayersWithTimeStamp = {
     timestamp,
     players,
   };
   localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
+};
+
+//validate timestamp and set player details
+export const validateTimestampAndSetPlayerDetails = (message: string) => {
+  const playersWithTimestamp: PlayersWithTimeStamp = JSON.parse(
+    message
+  ) as PlayersWithTimeStamp;
+  const players: Players = playersWithTimestamp.players;
+  const timestamp: number = playersWithTimestamp.timestamp;
+
+  const currentPlayersWithTimestamp = JSON.parse(
+    localStorage.getItem("players") as string
+  ) as PlayersWithTimeStamp;
+  const currentTimestamp = currentPlayersWithTimestamp.timestamp;
+
+  if (timestamp > currentTimestamp) {
+    updatePlayersDetails(players);
+  }
 };

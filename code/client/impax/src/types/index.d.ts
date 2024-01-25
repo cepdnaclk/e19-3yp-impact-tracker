@@ -127,3 +127,9 @@ export type MyTeam = {
   team_name: string;
   verification: Verification;
 };
+
+// For local storage
+export type PlayersWithTimeStamp = {
+  timestamp: number;
+  players: Players;
+};

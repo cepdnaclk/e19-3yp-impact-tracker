@@ -8,6 +8,7 @@ import {
   updatePlayersImpactHistory,
   checkBuddiesAvailability,
   flushStates,
+  validateTimestampAndSetPlayerDetails,
 } from "../states/updateAppStates";
 import { Session } from "../types";
 
@@ -36,6 +37,7 @@ class MqttClient {
       "player/+/impact_with_timestamp",
       "player/+/concussion",
       "player_map",
+      "playerDetails",
       "hub/old_session",
     ];
 
@@ -73,6 +75,9 @@ class MqttClient {
         setPlayerMap(message.toString());
         break;
 
+      case /^playerDetails$/.test(topic):
+        validateTimestampAndSetPlayerDetails(message.toString());
+        break;
       case /^session$/.test(topic):
         setSessionDetails(message.toString());
         break;
