@@ -111,7 +111,9 @@ export const useAppState = create<AppState>()((set) => ({
     localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
   },
   removePlayer: (player_id: number) => {
+    
     set((prevState) => {
+      console.log("REMOVE - ",prevState.playerDetails);
       const playerDetails = { ...prevState.playerDetails };
       delete playerDetails[player_id];
 
@@ -131,6 +133,8 @@ export const useAppState = create<AppState>()((set) => ({
     player_email: string
   ) =>
     set((prevState) => {
+      console.log(prevState.playerDetails);
+
       const playerDetails = {
         ...prevState.playerDetails,
         [jersey_number]: {
