@@ -6,6 +6,7 @@ import { useLoginState } from "../../states/profileState";
 import { getAccessTokenFromRefreshToken } from "../../services/authService";
 import { useAppState } from "../../states/appState";
 import { getPlayers } from "../../services/httpClient";
+import { BASE_URL } from "../../config/config";
 
 const LoginManager = () => {
   const setPlayerDetails = useAppState((state) => state.setPlayerDetails);
@@ -24,7 +25,7 @@ const LoginManager = () => {
   } = useForm();
   const getTeamInfo = async (teamId: string, token: string) => {
     try {
-      const response = await fetch(`http://13.235.86.11:5000/team/${teamId}`, {
+      const response = await fetch(`${BASE_URL}/team/${teamId}`, {
         // Use the constructed URL with query params
         method: "GET", // Change the method to GET
         headers: {
@@ -41,7 +42,7 @@ const LoginManager = () => {
 
   const onSubmit = async (data: FieldValues) => {
     const { teamId, email, password } = data;
-    const response = await fetch("http://13.235.86.11:5000/login/manager", {
+    const response = await fetch(`${BASE_URL}/login/manager`, {
       method: "POST",
       body: JSON.stringify({
         teamId: teamId,
