@@ -15,7 +15,6 @@ import {
 import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
 import MqttClient from "../services/mqttClient";
-import { Verification, Verification } from "../components/PlayerManagement/PlayersTable/Verification/Verification";
 
 interface AppState {
   activePage: activePage;
@@ -44,7 +43,7 @@ interface AppState {
     jersey_number: number,
     player_name: string,
     player_email: string,
-    Verification:Verification
+    Verification: Verification
   ) => void;
   removePlayer: (player_id: number) => void;
   editPlayer: (
@@ -107,7 +106,7 @@ export const useAppState = create<AppState>()((set) => ({
   playersImpactHistory: {} as PlayerImpactHistory,
 
   //TODO: Clashing of players with other dashbaords
-  playerDetails: {} as Players,
+  playerDetails: players,
   setPlayerDetails: (players: Players) => {
     set({ playerDetails: players });
     const timestamp = new Date().getTime();
@@ -159,7 +158,7 @@ export const useAppState = create<AppState>()((set) => ({
     jersey_number: number,
     player_name: string,
     player_email: string,
-    verification:Verification
+    verification: Verification
   ) =>
     set((prevState) => {
       const playerDetails = {
@@ -263,8 +262,11 @@ export const useAppState = create<AppState>()((set) => ({
         );
       }
 
+      //clear other states
+
       // publish session to mqtt
       MqttClient.getInstance().publishSession(sessionDetails);
+      MqttClient.getInstance().clearRetainedMessages();
       return { ...prevState, sessionDetails };
     });
   },
