@@ -4,6 +4,7 @@ import { useLoginState } from "../../states/profileState";
 import { useSignupState } from "../../states/formState";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../config/config";
+import { showPopup } from "../../utils/errorPopup.ts";
 
 const LoginPlayer = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
@@ -46,7 +47,7 @@ const LoginPlayer = () => {
 
       navigate("/login/player");
     } else {
-      alert("Invalid credentials");
+      await showPopup("Invalid Credentials", "Please Try Again");
     }
 
     reset();
