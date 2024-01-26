@@ -37,6 +37,7 @@ class PlayerService {
     }
   }
 
+  // Is this use?
   async addPlayer(
     firstName: string,
     lastName: string,
@@ -68,7 +69,7 @@ class PlayerService {
         const playerInstance = new PlayerModel({
           email: email,
           invitationToken: invitationToken,
-          isVerified: "Pending",
+          isVerified: "pending",
         });
   
         // Save the player to the database

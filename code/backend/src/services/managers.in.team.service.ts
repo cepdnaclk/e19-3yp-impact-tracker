@@ -2,7 +2,7 @@ import ManagerTeamModel from "../db/managers.in.team.schema";
 import PlayerTeamModel from "../db/players.in.team.schema";
 import SessionModel from "../db/session.schema";
 import { Impact, SessionResponse } from "../models/session.model";
-import { AnalyticsSummaryTeam, ImpactStats, TeamPlayerResponse, ImpactDirection } from "../types/types";
+import { AnalyticsSummaryTeam, ImpactStats, TeamPlayerResponse, ImpactDirection} from "../types/types";
 
 class ManagersInTeamService {
   // create team manager instance
@@ -24,7 +24,7 @@ class ManagersInTeamService {
       const managerTeamInstance = new ManagerTeamModel({
         managerEmail: managerEmail,
         teamId: teamId,
-        accepted: false,
+        accepted: "pending",
       });
 
       // Save the manager to the database
@@ -111,7 +111,7 @@ class ManagersInTeamService {
           teamPlayers[playerTeam.jerseyId] = {
             name: player.fullName,
             email: player.playerEmail,
-            verification: player.isVerified
+            verification: player.isVerified 
           };
         }
       }

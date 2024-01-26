@@ -150,7 +150,7 @@ router.post("/", async (req: Request, res: Response) => {
       email,
       password,
       "", // Initially set to empty string
-      false // Initially set to false
+      "pending" // Initially set to pending
     );
 
     // Create the manager and get the response
@@ -301,14 +301,14 @@ router.get("/accept-invitation/token/:token", async (req, res) => {
   const token = req.params.token;
   const manager = await ManagerModel.findOne({ invitationToken: token }); 
   const managerInTeam = await ManagerTeamModel.findOne({ invitationToken: token }); 
-  if (manager && !manager.isVerified) {
+  if (manager && (manager.isVerified == "pending")) {
     // Update manager status
-    manager.isVerified = true;
+    manager.isVerified = "verified";
     await manager.save();
     res.send("Invitation accepted successfully!");
-  } else if (managerInTeam && !managerInTeam.accepted){
+  } else if (managerInTeam && (managerInTeam.accepted == "pending")){
     // Update manager status
-    managerInTeam.accepted = true;
+    managerInTeam.accepted = "verified";
     await managerInTeam.save();
   } else{
     res.status(400).send("Invalid or expired token.");

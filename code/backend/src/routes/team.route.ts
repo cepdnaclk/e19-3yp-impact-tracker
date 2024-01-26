@@ -191,7 +191,7 @@ router.post("/manager", async (req, res) => {
       email,
       password,
       "",
-      false
+      "pending"
     );
 
     // Create the Team and get the response
