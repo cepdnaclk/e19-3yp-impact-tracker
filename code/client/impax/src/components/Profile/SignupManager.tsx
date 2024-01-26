@@ -2,6 +2,7 @@ import styles from "./SignUp.module.scss";
 import { useSignupState } from "../../states/formState";
 import { useForm, type FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../config/config";
 
 const SignupManager = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
@@ -18,7 +19,7 @@ const SignupManager = () => {
     const { teamId, email } = data;
     setSignupInfo({ teamId, email });
 
-    const url = new URL("http://16.170.235.219:5000/team/exists"); // Create a URL object for flexible query param handling
+    const url = new URL(`${BASE_URL}/team/exists`); // Create a URL object for flexible query param handling
     url.searchParams.set("teamId", teamId); // Add teamId as a query parameter
     url.searchParams.set("email", email);
     const response = await fetch(url.toString(), {

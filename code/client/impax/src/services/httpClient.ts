@@ -1,5 +1,6 @@
 import { updatePlayersDetails } from "../states/updateAppStates";
 import { Players, SessionToBeUploaded } from "../types";
+import { BASE_URL} from "../config/config";
 
 export const uploadSession = async () => {
   if (localStorage.getItem("sessionDetails") === null) return;
@@ -38,7 +39,7 @@ function sendToServer(object: SessionToBeUploaded) {
 export const getPlayers = async () => {
   const token = localStorage.getItem("accessToken");
   try {
-    const playersResponse = await fetch("http://13.235.86.11:5000/manager/getTeamPlayers",{
+    const playersResponse = await fetch(`${BASE_URL}/manager/getTeamPlayers`,{
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +47,6 @@ export const getPlayers = async () => {
       },
     });
     const playersData: Players = await playersResponse.json();
-
     updatePlayersDetails(playersData);
   } catch (error) {
     console.log(error);

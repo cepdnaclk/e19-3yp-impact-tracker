@@ -3,6 +3,8 @@ import { useSignupState } from "../../states/formState";
 import Hero from "./Hero";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../config/config";
+import { showPopup } from "../../utils/errorPopup.ts";
 
 const TeamCreation = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
@@ -29,7 +31,7 @@ const TeamCreation = () => {
     };
     // console.log(data);
     console.log(request);
-    const response = await fetch("http://13.235.86.11:5000/team/manager", {
+    const response = await fetch(`${BASE_URL}/team/manager`, {
       method: "POST",
       body: JSON.stringify(request),
       headers: {
@@ -40,6 +42,8 @@ const TeamCreation = () => {
     console.log(responseData);
     if (response.ok) {
       navigate("/signup/manager/success");
+    } else {
+      await showPopup("Invalid Credentials", "Please Try Again");
     }
     reset();
   };

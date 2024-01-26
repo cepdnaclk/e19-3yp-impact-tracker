@@ -29,10 +29,9 @@ export const useLoginState = create<LoginState>()((set) => ({
   loginInfo: {teamId: "", teamName: "", email: ""},
   setLoginInfo: (loginInfo) => set({ loginInfo: loginInfo}),
   tokens: {accessToken: "", refreshToken: ""},
-    setTokens: (tokens) => set((prevState)=>{ prevState.tokens = tokens;
-      localStorage.setItem('accessToken', tokens.accessToken);
-      localStorage.setItem('refreshToken', tokens.refreshToken); 
-      return prevState;})
+    setTokens: (tokens) => {set({tokens: tokens});
+    localStorage.setItem("accessToken", tokens.accessToken);
+    localStorage.setItem("refreshToken", tokens.refreshToken);}
        
        ,
   

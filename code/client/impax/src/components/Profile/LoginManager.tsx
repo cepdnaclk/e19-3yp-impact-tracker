@@ -3,12 +3,11 @@ import { useSignupState } from "../../states/formState";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useLoginState } from "../../states/profileState";
-import { getAccessTokenFromRefreshToken } from "../../services/authService";
-import { useAppState } from "../../states/appState";
 import { getPlayers } from "../../services/httpClient";
+import { BASE_URL } from "../../config/config";
+import { showPopup } from "../../utils/errorPopup.ts";
 
 const LoginManager = () => {
-  const setPlayerDetails = useAppState((state) => state.setPlayerDetails);
   const setIsSignup = useSignupState((state) => state.setIsSignup);
   const setIsLoggedInManager = useSignupState(
     (state) => state.setIsLoggedInManager
@@ -24,7 +23,7 @@ const LoginManager = () => {
   } = useForm();
   const getTeamInfo = async (teamId: string, token: string) => {
     try {
-      const response = await fetch(`http://13.235.86.11:5000/team/${teamId}`, {
+      const response = await fetch(`${BASE_URL}/team/${teamId}`, {
         // Use the constructed URL with query params
         method: "GET", // Change the method to GET
         headers: {
@@ -40,8 +39,9 @@ const LoginManager = () => {
   };
 
   const onSubmit = async (data: FieldValues) => {
+    console.log("I'm hereee!!");
     const { teamId, email, password } = data;
-    const response = await fetch("http://13.235.86.11:5000/login/manager", {
+    const response = await fetch(`${BASE_URL}/login/manager`, {
       method: "POST",
       body: JSON.stringify({
         teamId: teamId,
@@ -55,8 +55,6 @@ const LoginManager = () => {
     const responseData = await response.json();
     if (response.ok) {
       setIsLoggedInManager(true);
-      localStorage.setItem("refreshToken", responseData.refreshToken);
-      localStorage.setItem("accessToken", responseData.accessToken);
       setTokens({
         accessToken: responseData.accessToken,
         refreshToken: responseData.refreshToken,
@@ -70,6 +68,8 @@ const LoginManager = () => {
       await getPlayers();
 
       navigate("/login/manager");
+    } else {
+      await showPopup("Invalid Credentials", "Please Try Again");
     }
 
     reset();

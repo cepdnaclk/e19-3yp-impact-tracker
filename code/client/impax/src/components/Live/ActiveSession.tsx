@@ -1,10 +1,9 @@
 import styles from "./ActiveSession.module.scss";
-import { FaCheck, FaEdit, FaTimes, FaTrash } from "react-icons/fa";
+import { FaCheck, FaEdit, FaTrash } from "react-icons/fa";
 import { IoMdExit } from "react-icons/io";
 import Btn from "../Buttons/Btn";
 import MonitoringCard from "./Card/MonitoringCard";
 import ActiveCard from "./Card/ActiveCard";
-import AlertModal from "../Modal/AlertModal";
 import { useAppState } from "../../states/appState";
 import DialogModal from "../Modal/DialogModal";
 import { useState } from "react";

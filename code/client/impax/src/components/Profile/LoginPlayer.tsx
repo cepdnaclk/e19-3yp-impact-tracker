@@ -3,6 +3,8 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useLoginState } from "../../states/profileState";
 import { useSignupState } from "../../states/formState";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../config/config";
+import { showPopup } from "../../utils/errorPopup.ts";
 
 const LoginPlayer = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
@@ -21,7 +23,7 @@ const LoginPlayer = () => {
 
   const onSubmit = async (data: FieldValues) => {
     const { email, password } = data;
-    const response = await fetch("http://13.235.86.11:5000/login/player", {
+    const response = await fetch(`${BASE_URL}/login/player`, {
       method: "POST",
       body: JSON.stringify({
         userName: email,
@@ -41,10 +43,11 @@ const LoginPlayer = () => {
         accessToken: responseData.accessToken,
         refreshToken: responseData.refreshToken,
       });
-      // TODO: Pass the teamInfo the to the profile page
       setLoginInfo({ teamId: "", teamName: "", email });
 
       navigate("/login/player");
+    } else {
+      await showPopup("Invalid Credentials", "Please Try Again");
     }
 
     reset();
