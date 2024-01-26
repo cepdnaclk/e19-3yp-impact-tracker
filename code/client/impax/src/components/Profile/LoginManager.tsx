@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useLoginState } from "../../states/profileState";
 import { getPlayers } from "../../services/httpClient";
 import { BASE_URL } from "../../config/config";
+import { showPopup } from "../../utils/errorPopup.ts";
 
 const LoginManager = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
@@ -68,12 +69,7 @@ const LoginManager = () => {
 
       navigate("/login/manager");
     } else {
-      //TODO1: Error message resets
-      // setError("invalid", {
-      //   type: "custom",
-      //   message: "Invalid Credentials: Please try again",
-      // });
-      alert("Invalid Credentials: Please try again");
+      await showPopup("Invalid Credentials", "Please Try Again");
     }
 
     reset();
@@ -82,9 +78,6 @@ const LoginManager = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* {errors["invalid"] && (
-          <p className={styles.invalid}>{`${errors["invalid"].message}`}</p>
-        )} */}
         <div className={styles.inputContainer}>
           <label htmlFor="teamId">Team ID</label>
           {errors.teamId && <p>{`${errors.teamId.message}`}</p>}
