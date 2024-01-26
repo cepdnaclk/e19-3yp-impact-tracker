@@ -15,7 +15,7 @@ RTC_DATA_ATTR int buddyState = BUDDY_OFF;
 RTC_DATA_ATTR int bootCount = 0;
 
 #define BAUD_RATE 9600
-#define ID 1
+#define ID 2
 String BUDDY_ID = "buddy/";
 int ledStatus;
 
