@@ -160,9 +160,11 @@ router.put("/update", async (req: Request, res: Response) => {
   }
 
   try {
-    const player = await PlayerTeamModel.findOne({ 
+    const player = await PlayerTeamModel.find({ 
       jesryId: jerseyId,
       teamId: teamId });
+
+      console.log(player );
 
     const playerTeamRequest = new PlayerTeamRequest(
       newPlayerEmail,
@@ -308,9 +310,9 @@ router.get("/accept-invitation/token/:token", async (req, res) => {
   const token = req.params.token;
   // const player = await PlayerModel.findOne({ invitationToken: token }); 
   const playerInTeam = await PlayerTeamModel.findOne({ invitationToken: token }); 
-  if (playerInTeam && playerInTeam.isVerified == "Pending") {
+  if (playerInTeam && playerInTeam.isVerified == "pending") {
     // Update player status
-    playerInTeam.isVerified = "Accepted";
+    playerInTeam.isVerified = "verified";
     await playerInTeam.save();
     res.send("Invitation accepted successfully!");
   }
@@ -324,9 +326,9 @@ router.get("/verify-email/token/:token", async (req, res) => {
   const token = req.params.token;
   const player = await PlayerModel.findOne({ invitationToken: token }); 
   // const playerInTeam = await PlayerTeamModel.findOne({ invitationToken: token }); 
-  if (player && player.isVerified == "Pending") {
+  if (player && player.isVerified == "pending") {
     // Update player status
-    player.isVerified = "Accepted";
+    player.isVerified = "verified";
     await player.save();
     res.send("Invitation accepted successfully!");
   }

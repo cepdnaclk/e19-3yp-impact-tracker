@@ -265,6 +265,44 @@
       }
     },
 
+    "/team/analytics-summary/{duration}": {
+      "get": {
+        "tags": ["TeamEndpoints"],
+        "summary": "Get analytics summary for a specific duration - Access Token required (Only accessible by manager)",
+        "parameters": [
+          {
+            "name": "duration",
+            "in": "path",
+            "description": "Duration for analytics summary (e.g., 'Last Week' , 'Last Month' , 'All Time')",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/AnalyticsSummaryTeam"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
 
 
 
@@ -417,6 +455,43 @@
         }
       }
     },
+    "/manager/analytics-summary/{duration}": {
+      "get": {
+        "tags": ["ManagerEndpoints"],
+        "summary": "Get analytics summary for a specific duration",
+        "parameters": [
+          {
+            "name": "duration",
+            "in": "path",
+            "description": "Duration for analytics summary (e.g., 'Last Week' , 'Last Month' , 'All Time')",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/AnalyticsSummary"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
 
 
     
@@ -504,43 +579,7 @@
       }
     },
     
-    "/player/analytics-summary/{duration}": {
-      "get": {
-        "tags": ["PlayerEndpoints"],
-        "summary": "Get analytics summary for a specific duration",
-        "parameters": [
-          {
-            "name": "duration",
-            "in": "path",
-            "description": "Duration for analytics summary (e.g., 'Last Week' , 'Last Month' , 'All Time')",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "$ref": "#/components/schemas/AnalyticsSummary"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Bad Request"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
+    
 
     "/player/add": {
       "post": {
@@ -866,6 +905,117 @@
           "teamName": "TeamName"
         }
       },
+
+      "AnalyticsSummaryTeam": {
+        "type": "object",
+        "properties": {
+          "summaryData": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "value": {
+                  "anyOf": [
+                    { "type": "string" },
+                    { "type": "number" }
+                  ]
+                },
+                "trend": {
+                  "anyOf": [
+                    { "type": "string" },
+                    { "type": "number" }
+                  ]
+                }
+              }
+            }
+          },
+          "tableData": {
+            "type": "object",
+            "properties": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "impactsRecorded": {
+                    "type": "number"
+                  },
+                  "cumulativeImpact": {
+                    "type": "number"
+                  },
+                  "highestImpact": {
+                    "type": "number"
+                  },
+                  "averageImpact": {
+                    "type": "number"
+                  },
+                  "dominantDirection": {
+                    "type": "number"
+                  },
+                  "concussions": {
+                    "type": "number"
+                  }
+                }
+                
+              
+            }
+          }
+        },
+        "example": {
+          "summaryData": [
+            {
+              "title": "Session Count",
+              "value": 15,
+              "trend": -20
+            },
+            {
+              "title": "Impacts Recorded",
+              "value": 124,
+              "trend": 20
+            },
+            {
+              "title": "Average Impact",
+              "value": "43 g",
+              "trend": 40
+            },
+            {
+              "title": "Contributing Players",
+              "value": 4,
+              "trend": 10
+            },
+            {
+              "title": "Highest Contributor",
+              "value": "Angelo Mathews",
+              "trend": "Kusal Mendis"
+            }
+          ],
+          "tableData": {
+              "69": {
+                "name": "Angelo Mathews",
+                "impactsRecorded": 50,
+                "cumulativeImpact": 850,
+                "highestImpact": 25,
+                "averageImpact": 20,
+                "dominantDirection": "Left",
+                "concussions": 2
+              },
+              "55": {
+                "name": "Kusal Perera",
+                "impactsRecorded": 50,
+                "cumulativeImpact": 850,
+                "highestImpact": 25,
+                "averageImpact": 20,
+                "dominantDirection": "Left",
+                "concussions": 2
+              }
+            
+          }
+          
+        }
+    }, 
 
       
       "SessionRequest": {
@@ -1483,6 +1633,8 @@
           "teamName": "Example Team"
         }
       },
+
+
 
       
 
