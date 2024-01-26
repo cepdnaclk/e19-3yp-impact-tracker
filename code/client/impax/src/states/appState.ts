@@ -266,7 +266,6 @@ export const useAppState = create<AppState>()((set) => ({
 
       // publish session to mqtt
       MqttClient.getInstance().publishSession(sessionDetails);
-      MqttClient.getInstance().clearRetainedMessages();
       return { ...prevState, sessionDetails };
     });
   },
