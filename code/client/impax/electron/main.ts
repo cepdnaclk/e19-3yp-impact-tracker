@@ -29,6 +29,7 @@ function createWindow() {
     backgroundColor: "#121212",
     minHeight: 600,
     minWidth: 800,
+    show: false,
   });
 
   win.maximize();
@@ -41,16 +42,16 @@ function createWindow() {
       // Add listeners to handle ports being added or removed before the callback for `select-serial-port`
       // is called.
       event.preventDefault();
-      
-        win?.webContents.session.on("serial-port-added", (_event, port) => {
-          console.log("serial-port-added FIRED WITH", port);
-          // Optionally update portList to add the new port
-        });
 
-        win?.webContents.session.on("serial-port-removed", (_event, port) => {
-          console.log("serial-port-removed FIRED WITH", port);
-          // Optionally update portList to remove the port
-        });
+      win?.webContents.session.on("serial-port-added", (_event, port) => {
+        console.log("serial-port-added FIRED WITH", port);
+        // Optionally update portList to add the new port
+      });
+
+      win?.webContents.session.on("serial-port-removed", (_event, port) => {
+        console.log("serial-port-removed FIRED WITH", port);
+        // Optionally update portList to remove the port
+      });
       if (portList && portList.length > 0) {
         callback(portList[0].portId);
       } else {
@@ -59,16 +60,12 @@ function createWindow() {
     }
   );
 
-  win.webContents.session.setPermissionCheckHandler(
-    () => {
-        return true;
-
-    }
-  );
+  win.webContents.session.setPermissionCheckHandler(() => {
+    return true;
+  });
 
   win.webContents.session.setDevicePermissionHandler(() => {
-      return true;
-
+    return true;
   });
   // Test active push message to Renderer-process.
   win.webContents.on("did-finish-load", () => {

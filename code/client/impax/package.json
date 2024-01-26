@@ -1,7 +1,12 @@
 {
   "name": "impax",
+  "author": {
+    "name": "Impax-Team",
+    "email": "e19372@eng.pdn.ac.lk"
+  },
+  "description": "Impax is an head impact tracking and monitoring system for athletes",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",

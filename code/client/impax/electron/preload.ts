@@ -1,5 +1,4 @@
 import { contextBridge, ipcRenderer } from "electron";
-
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld("ipcRenderer", withPrototype(ipcRenderer));
 
@@ -97,7 +96,7 @@ function useLoading() {
   oStyle.id = "app-loading-style";
   oStyle.innerHTML = styleContent;
   oDiv.className = "app-loading-wrap";
-  oImg.src = "/assets/logos/Logo-Impax.png"; // Replace with the path to your logo image
+  oImg.src = "./../../src/assets/logos/Logo-Impax.png";
   oImg.className = className;
   oDiv.appendChild(oImg);
 
