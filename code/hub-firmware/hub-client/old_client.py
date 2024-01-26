@@ -138,16 +138,6 @@ def end_session():
     global session_started, start_time, data_buffer, player_device_mapping
     session_started = False
 
-    for player_id in data_buffer:
-        # Generate the topics
-        impact_history_topic = "player/" + str(player_id) + "/impact_history"
-        impact_with_timestamp_topic = "player/" + \
-            str(player_id) + "/impact_with_timestamp"
-
-        # Clear retained messages
-        client.publish(impact_history_topic, "", retain=True)
-        client.publish(impact_with_timestamp_topic, "", retain=True)
-
     # for entry in data_buffer:
     #     client.publish(session_data, json.dumps(entry), retain=True)
 
