@@ -127,6 +127,9 @@ class MqttClient {
       }
     });
   };
+  public clearRetainedMessages() {
+    console.log("Clear Retained Messages... NOT IMPLEMENTED...");
+  }
   public static getInstance(): MqttClient {
     if (!MqttClient.instance) {
       MqttClient.instance = new MqttClient();
