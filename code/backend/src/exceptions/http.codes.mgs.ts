@@ -27,6 +27,7 @@ enum HttpMsg {
   MANAGER_LOGIN_FAILED = "Login failed",
   MANAGER_ADD_SUCCESS = "Manager added successfully",
   MANAGER_ADD_FAILED = "Manager added failed",
+  MANAGER_NOT_FOUND = "Manager not found",
   TEAM_NOT_FOUND = "Team not found",
   MANAGER_DEOS_NOT_EXIST = "Manager does not exist",
   PLAYER_EXIT_ERROR = "Player exited error",

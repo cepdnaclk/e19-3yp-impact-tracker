@@ -31,23 +31,45 @@ void offLedWifi()
 
 int getBatteryStatus()
 {
+    static float prevPercentage[MOVING_PERCENTAGE_SIZE];
+    static int index = 0;
+
     float voltage = getBatteryVoltage();
 
-    Serial.println(voltage);
+    // Serial.println(voltage);
 
     int percentage = 2808.3808 * pow(voltage, 4) - 43560.9157 * pow(voltage, 3) + 252848.5888 * pow(voltage, 2) - 650767.4615 * voltage + 626532.5703;
 
-    // Check if the percentage is increasing
-    bool isIncreasingPercentage = (percentage > prevPercentage);
-    // Update the previous percentage value
-    prevPercentage = percentage;
+    // // Check if the percentage is increasing
+    // bool isIncreasingPercentage = (percentage > prevPercentage);
+    // // Update the previous percentage value
+    // prevPercentage = percentage;
 
-    if (isIncreasingPercentage)
+    // if (isIncreasingPercentage)
+    //     return CHARGIN_STATE;
+
+    // Store the new reading in the array
+    prevPercentage[index] = percentage;
+
+    // Move to the next index
+    index = (index + 1) % MOVING_PERCENTAGE_SIZE;
+
+    // Serial.print(percentage);
+    // Serial.print(" - ");
+
+    // for (int i = 0; i < MOVING_PERCENTAGE_SIZE; i++)
+    // {
+    //     Serial.print(prevPercentage[i]);
+    //     Serial.print(", ");
+    // }
+    // Serial.println("");
+
+    if (isIncreasing(prevPercentage, MOVING_PERCENTAGE_SIZE))
         return CHARGIN_STATE;
 
-    if (voltage > VOLTAGE_UPPER_LIMIT)
+    if (voltage > VOLTAGE_UPPER_LIMIT || percentage > 100)
         return 100;
-    else if (voltage <= VOLTAGE_LOWER_LIMIT)
+    else if (voltage <= VOLTAGE_LOWER_LIMIT || percentage <= 0)
         return 0;
 
     return percentage;
@@ -55,10 +77,16 @@ int getBatteryStatus()
 
 void batteryInit()
 {
+    for (int i = 0; i < MOVING_PERCENTAGE_SIZE; i++)
+    {
+        getBatteryStatus();
+        delay(10);
+    }
+
     for (int i = 0; i < MOVING_AVERAGE_SIZE; i++)
     {
         getBatteryVoltage();
-        delay(1);
+        delay(10);
     }
 }
 
@@ -66,7 +94,7 @@ bool batteryIsCharging(float *readings, int size)
 {
     for (int i = 1; i < size; i++)
     {
-        if (readings[i] > readings[i - 1])
+        if (readings[i] >= readings[i - 1])
         {
             return false; // If any element is less than or equal to the previous one, the array is not strictly increasing
         }
@@ -111,6 +139,18 @@ float getBatteryVoltage(float *readings)
     // Serial.println(movingAverage);
 
     return movingAverage;
+}
+
+bool isIncreasing(float arr[], int size)
+{
+    for (int i = 0; i < size - 1; i++)
+    {
+        if (arr[i] > arr[i + 1] || (arr[i] == 0.0 || arr[i + 1] == 0.0))
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 float getBatteryVoltage()
@@ -170,7 +210,7 @@ void fadeLedOn()
 {
     static unsigned long lastTime = 0;
     static int brightness = 0;
-    static int fadeDirection = 1; // 1 for increasing brightness, -1 for decreasing
+    static int fadeDirection = 5; // 1 for increasing brightness, -1 for decreasing
 
     if (millis() - lastTime > LED_FADE_DELAY)
     {

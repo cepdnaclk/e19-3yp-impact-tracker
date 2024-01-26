@@ -6,6 +6,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { useLoginState } from "../../../states/profileState";
 import { useSignupState } from "../../../states/formState";
 import MyTeamsTable from "./MyTeamsTable";
+import { useNavigate } from "react-router-dom";
 
 const PlayerProfile = () => {
   // Get team-id
@@ -16,7 +17,7 @@ const PlayerProfile = () => {
   );
   const loginInfo = useLoginState((state) => state.loginInfo);
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
-
+  const navigate = useNavigate();
   // TODO: Stay logged in for 90 days and so much more
   return (
     <main>
@@ -37,6 +38,7 @@ const PlayerProfile = () => {
                 teamName: "",
                 email: "",
               });
+              navigate("/SignUp");
             }}
           >
             Log Out

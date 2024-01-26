@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Btn from "../../Buttons/Btn";
 import { FaTimes, FaTrash } from "react-icons/fa";
 import styles from "./TeamsActions.module.scss";
@@ -7,7 +7,7 @@ import { FaCheck } from "react-icons/fa6";
 import { MyTeam } from "../../../types";
 
 const TeamActions: React.FC<MyTeam> = ({
-  team_id,
+  // team_id,
   team_name,
   verification,
 }) => {

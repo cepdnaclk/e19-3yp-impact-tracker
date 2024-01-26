@@ -7,6 +7,7 @@ import DialogModal from "../../../Modal/DialogModal";
 import { FaCheck } from "react-icons/fa6";
 import { useAppState } from "../../../../states/appState";
 import { FieldValues, useForm } from "react-hook-form";
+import { BASE_URL } from "../../../../config/config";
 const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
   const playerDetails = useAppState((state) => state.playerDetails);
   const removePlayer = useAppState((state) => state.removePlayer);
@@ -18,31 +19,26 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
     // localStorage.setItem("playerDetails", JSON.stringify(players));
 
     setOpenEdit(false);
-    //
-    editPlayer(jerseyId, data.name, data.email);
-    // setPlayerDetails({
-    //   ...playerDetails,
-    //   [jerseyId]: {
-    //     name: data.name,
-    //     email: data.email,
-    //     verification: playerDetails[jerseyId]?.verification,
-    //   },
-    // });
-    // const response = await fetch("http://13.235.86.11:5000/exampleURL", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     // teamId: teamId,
-    //     // password: password,
-    //     // userName: email,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-    // const responseData = await response.json();
-    // if (response.ok) {
-    //   // do something
-    // }
+
+    const response = await fetch(`${BASE_URL}/player/update`, {
+      method: "PUT",
+      body: JSON.stringify({
+        fullName: data.name,
+        playerEmail: data.email,
+        jerseyId: jerseyId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+    const responseData = await response.json();
+    if (response.ok) {
+      // for debugging
+      // TODO:Test this
+      console.log("response OK", responseData);
+      editPlayer(jerseyId, data.name, data.email);
+    }
 
     reset();
   };
@@ -69,7 +65,7 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
           className={styles.editPlayerForm}
           onSubmit={handleSubmit(onSubmit)}
         >
-          <label htmlFor="jersey_number">Jersey Number</label>
+          {/* <label htmlFor="jersey_number">Jersey Number</label>
           <input
             type="number"
             name="jersey_number"
@@ -77,7 +73,14 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
             placeholder="25"
             disabled
             value={jerseyId}
-          />
+          /> */}
+          <h3>
+            <span>Jersey No:</span> {jerseyId}
+          </h3>
+          {/* <p>
+            Jersey Number of a player cannot be changed. To change the jersey
+            Id, remove and re-add the player
+          </p> */}
           <label htmlFor="name">Player Name</label>
           <input
             {...register("name")}
@@ -129,8 +132,25 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
         }
         action={
           <Btn
-            onClick={() => {
-              removePlayer(jerseyId);
+            onClick={async () => {
+              const response = await fetch(`${BASE_URL}/player/remove`, {
+                method: "DELETE",
+                body: JSON.stringify({
+                  jerseyId: jerseyId,
+                }),
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${localStorage.getItem(
+                    "accessToken"
+                  )}`,
+                },
+              });
+              const responseData = await response.json();
+              if (response.ok) {
+                // for debugging
+                console.log("response OK", responseData);
+                removePlayer(jerseyId);
+              }
             }}
             bgColor="transparent"
             buttonStyle="secondary"

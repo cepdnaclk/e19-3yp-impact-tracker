@@ -42,7 +42,8 @@ interface AppState {
   addPlayer: (
     jersey_number: number,
     player_name: string,
-    player_email: string
+    player_email: string,
+    Verification: Verification
   ) => void;
   removePlayer: (player_id: number) => void;
   editPlayer: (
@@ -70,7 +71,12 @@ interface AppState {
 
 export const useAppState = create<AppState>()((set) => ({
   //For the sidebar menu item selected, and render main content
-  activePage: "profile",
+  activePage:
+    localStorage.getItem("isLoggedInManager") === "true"
+      ? "live"
+      : localStorage.getItem("isLoggedInPlayer") === "true"
+      ? "player-analytics"
+      : "profile",
   setActivePage: (page) => set({ activePage: page }),
 
   //For the mqtt connection status
@@ -111,7 +117,6 @@ export const useAppState = create<AppState>()((set) => ({
     localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
   },
   removePlayer: (player_id: number) => {
-    
     set((prevState) => {
       const playerDetails = { ...prevState.playerDetails };
       delete playerDetails[player_id];
@@ -132,7 +137,6 @@ export const useAppState = create<AppState>()((set) => ({
     player_email: string
   ) =>
     set((prevState) => {
-
       const playerDetails = {
         ...prevState.playerDetails,
         [jersey_number]: {
@@ -153,7 +157,8 @@ export const useAppState = create<AppState>()((set) => ({
   addPlayer: (
     jersey_number: number,
     player_name: string,
-    player_email: string
+    player_email: string,
+    verification: Verification
   ) =>
     set((prevState) => {
       const playerDetails = {
@@ -161,7 +166,7 @@ export const useAppState = create<AppState>()((set) => ({
         [jersey_number]: {
           name: player_name,
           email: player_email,
-          verification: "pending" as Verification,
+          verification: verification,
         },
       };
 
@@ -256,6 +261,8 @@ export const useAppState = create<AppState>()((set) => ({
           JSON.stringify(sessionsToBeUploaded)
         );
       }
+
+      //clear other states
 
       // publish session to mqtt
       MqttClient.getInstance().publishSession(sessionDetails);

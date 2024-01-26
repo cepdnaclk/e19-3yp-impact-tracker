@@ -3,6 +3,7 @@ import { useSignupState } from "../../states/formState";
 import { useForm, type FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../config/config";
+import { showPopup } from "../../utils/errorPopup.ts";
 
 const SignupPlayer = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
@@ -30,6 +31,8 @@ const SignupPlayer = () => {
     console.log(responseData);
     if (response.ok) {
       navigate("/signup/player/success");
+    } else {
+      await showPopup("Invalid Credentials", "Please Try Again");
     }
     reset();
     // setSignupInfo({ teamId, email });

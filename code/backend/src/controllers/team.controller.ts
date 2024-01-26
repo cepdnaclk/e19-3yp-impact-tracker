@@ -116,6 +116,32 @@ class TeamController {
     }
     return false;
   }
+
+  async getAnalyticsSummary(
+    teamId: string,
+    duration: string
+  ): Promise<void>{
+    // 'Last Week' , 'Last Month' , 'All Time'
+    let durationNumber: number = 0;
+
+    if (duration == "All Time"){
+      durationNumber = Date.now();
+    } else if (duration == "Last Month"){
+      durationNumber = 30 * 24 * 60 * 60 * 1000;
+    } else if (duration == "Last Week"){
+      durationNumber = 7 * 24 * 60 * 60 * 1000;
+    }
+    // console.log(durationNumber);
+
+    try {
+      const analyticsSummary = await teamService.getAnalyticsSummary(teamId, durationNumber);
+      // return analyticsSummary;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error in player service");
+    }
+
+  }
 }
 
 export default new TeamController();
