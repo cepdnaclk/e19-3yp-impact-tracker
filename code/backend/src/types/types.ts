@@ -19,7 +19,7 @@ export type AnalyticsSummary = {
     }>;
   };
   
-export type ImpactDirection = 'left' | 'right' | 'front' | 'back';
+export type ImpactDirection = 'left' | 'right' | 'front' | 'back'| 'none';
 
 export type SessionAnalytics = {
   sessionName: string;
@@ -47,5 +47,25 @@ export type TeamPlayerResponse = {
   email: string;
   verification: string;
 };
+
+export type AnalyticsSummaryTeam = {
+  summaryData: Array<{
+    title: string;
+    value: string | number;
+    trend?: string | number;
+  }>;
+  tableData: {
+    [jerseyId: number]: {
+      playerName: string;
+      impactsRecorded: number;
+      cumulativeImpact: number;
+      averageImpact: number;
+      largestImpact: number;
+      dominantDirection: string;
+      concussions: number;   
+    };     
+  };
+};
+
 
   
