@@ -25,6 +25,7 @@ import NoInternetConnection from "../StatusScreens/NoInternetConnection";
 import { useAppState } from "../../states/appState";
 import DialogModal from "../Modal/DialogModal";
 import { BASE_URL } from "../../config/config";
+import { showPopup } from "../../utils/errorPopup";
 
 export type Player = {
   jerseyId: number;
@@ -155,7 +156,9 @@ const PlayerManagement = () => {
 
     //TODO: player with same id exists, show error to user and return
     if (data.jersey_number in playerDetails) {
-      alert("Player already exists");
+      // alert("Player already exists");
+      showPopup("Player already exists", "Try different data and try again");
+
       return;
     }
     const response = await fetch(`${BASE_URL}/player/add`, {
