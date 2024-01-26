@@ -13,7 +13,7 @@ class Manager {
   public email: string;
   public password: string;
   public invitationToken: string;
-  public isVerified: boolean;
+  public isVerified: string;
 
   public constructor(
     teamId: string,
@@ -22,7 +22,7 @@ class Manager {
     email: string,
     password: string,
     invitationToken: string,
-    isVerified: boolean
+    isVerified: string
   ) {
     this.teamId = teamId;
     this.firstName = firstName;
@@ -39,7 +39,7 @@ class ManagerResponse {
   public firstName: string;
   public lastName: string;
   public email: string;
-  public isVerified: boolean;
+  public isVerified: string;
 
   public constructor(manager: ManagerResponse) {
     this.teamId = manager.teamId;
@@ -57,7 +57,7 @@ class ManagerRequestBody {
   public email: string;
   public password: string;
   public invitationToken: string;
-  public isVerified: boolean;
+  public isVerified: string;
 
   public constructor(
     teamId: string,
@@ -66,7 +66,7 @@ class ManagerRequestBody {
     email: string,
     password: string,
     invitationToken: string,
-    isVerified: boolean
+    isVerified: string
   ) {
     this.teamId = teamId;
     this.firstName = firstName;

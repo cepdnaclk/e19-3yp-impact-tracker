@@ -22,10 +22,9 @@ export async function sendVerificationEmail(
     html: `
     <p>Hello,</p>
     
-    <p>Thank you for registering with Impax!</p>
-    <p>You've been created  the account successfully! </p>
+    <p>Your account has been created successfully! To log in to account verify your email address</p>
     
-    <a href="http://localhost:5000/player/verify-email/token/${invitationToken}" 
+    <a href="http://16.170.235.219:5000/player/verify-email/token/${invitationToken}" 
     style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: #ffffff; 
     text-decoration: none; border-radius: 5px;">Verify Email Here</a><br><br>
     

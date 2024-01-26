@@ -7,7 +7,7 @@
 
 // Define LED pins and blink interval
 #define LED_BLINK_DELAY 100
-#define LED_FADE_DELAY 2
+#define LED_FADE_DELAY 1
 #define LED_BATTERY_LOW 5
 #define LED_ON 2
 #define LED_ON_PIN 2
@@ -15,8 +15,9 @@
 #define LED_CHARGIN 7
 #define LED_BLINK 1
 #define LED_OFF 0
-#define MOVING_AVERAGE_SIZE 6
-#define VOLTAGE_UPPER_LIMIT 4.05
+#define MOVING_AVERAGE_SIZE 12
+#define MOVING_PERCENTAGE_SIZE 6
+#define VOLTAGE_UPPER_LIMIT 4.04
 #define VOLTAGE_LOWER_LIMIT 3.4
 
 // Define battery-related constants
@@ -42,7 +43,7 @@ void batteryInit();
 void led(int);
 bool batteryIsCharging(float *readings, int size); // Is the battery charging
 void fadeLedOn();
-
+bool isIncreasing(float arr[], int size);
 int wakeup_reason();
 
 #endif

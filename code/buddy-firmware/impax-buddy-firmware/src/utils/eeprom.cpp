@@ -6,6 +6,7 @@ void initEEPROM(String &ssid, String &password, String &mqtt_username, String &m
 
     // setBuddyIdEEPROM(ID);
     BUDDY_ID += EEPROM.read(EEPROM_ID_ADDRESS);
+    Serial.println(BUDDY_ID);
 
     setSSIDAndPasswordEEPROM(ssid, password);
     getSSIDAndPasswordEEPROM(ssid, password);

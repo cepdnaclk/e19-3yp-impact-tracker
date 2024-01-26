@@ -9,13 +9,18 @@ interface PlayerTeamDocument extends Document {
   isVerified: string;
 }
 
+const verificationStatusValidator = function(value: string) {
+  if (!['pending', 'verified', 'rejected'].includes(value)) {
+    throw new Error('Invalid verification status');
+  }
+};
 const playerTeamSchema = new Schema({
   playerEmail: String,
   teamId: String,
   jerseyId: Number,
   fullName: String,
   invitationToken: String, 
-  isVerified: String,
+  isVerified: { type: String, validate: verificationStatusValidator },
 
 });
 
