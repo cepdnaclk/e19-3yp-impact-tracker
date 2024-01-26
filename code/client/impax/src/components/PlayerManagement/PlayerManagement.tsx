@@ -157,7 +157,7 @@ const PlayerManagement = () => {
     //TODO: player with same id exists, show error to user and return
     if (data.jersey_number in playerDetails) {
       // alert("Player already exists");
-      showPopup("Player already exists", "Try different data and try again");
+      showPopup("Player already exists", "Try with different jersey number");
 
       return;
     }
