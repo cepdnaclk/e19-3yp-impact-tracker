@@ -5,7 +5,7 @@ import managersInTeamService from "../services/managers.in.team.service";
 import { sendVerificationEmail } from "../email/managerVerifyEmail";
 import { sendInvitationEmail } from "../email/managerInviteEmail";
 import { v4 as uuidv4 } from "uuid";
-import { TeamPlayerResponse } from "../types/types";
+import { AnalyticsSummaryTeam, TeamPlayerResponse } from "../types/types";
 
 class ManagerController {
   async createManager(
@@ -177,6 +177,28 @@ class ManagerController {
       throw error;
     }
 
+  }
+
+  //get Team Analytics
+  async getTeamAnalytics(teamId: string, duration:string): Promise<AnalyticsSummaryTeam> {
+
+    // 'Last Week' , 'Last Month' , 'All Time'
+    let durationNumber: number = 0;
+
+    if (duration == "All Time"){
+      durationNumber = Date.now();
+    } else if (duration == "Last Month"){
+      durationNumber = 30 * 24 * 60 * 60 * 1000;
+    } else if (duration == "Last Week"){
+      durationNumber = 7 * 24 * 60 * 60 * 1000;
+    }
+    try {
+      const response = await managersInTeamService.getTeamAnalytics(teamId, durationNumber);
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 }
 
