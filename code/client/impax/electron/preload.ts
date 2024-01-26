@@ -97,7 +97,7 @@ function useLoading() {
   oStyle.id = "app-loading-style";
   oStyle.innerHTML = styleContent;
   oDiv.className = "app-loading-wrap";
-  oImg.src = "src/assets/logos/Logo-Impax.png"; // Replace with the path to your logo image
+  oImg.src = "/assets/logos/Logo-Impax.png"; // Replace with the path to your logo image
   oImg.className = className;
   oDiv.appendChild(oImg);
 

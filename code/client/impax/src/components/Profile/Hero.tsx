@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <div className={styles.hero}>
       <div className={styles.content}>
-        <img src="../../src/assets/logos/Logo-Impax.svg" alt="" />
+        <img src="/assets/logos/Logo-Impax.svg" alt="" />
         <p>
           "The study examined 694 brains, and found that <strong>20.2% </strong>
           of former athletes had Lewy Body Disease."
@@ -13,7 +13,7 @@ const Hero = () => {
       </div>
       <img
         className={styles.coverImg}
-        src="../../src/assets/images/cover-min.jpg"
+        src="/assets/images/cover-min.jpg"
         alt=""
       />
     </div>
