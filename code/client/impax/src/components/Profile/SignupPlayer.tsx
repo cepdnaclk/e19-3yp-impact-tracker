@@ -2,17 +2,17 @@ import styles from "./SignUp.module.scss";
 import { useSignupState } from "../../states/formState";
 import { useForm, type FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../config/config";
+import { showPopup } from "../../utils/errorPopup.ts";
 
 const SignupPlayer = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
-  const setSignupInfo = useSignupState((state) => state.setSignupInfo);
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-    setError,
     getValues,
   } = useForm();
 
@@ -20,7 +20,7 @@ const SignupPlayer = () => {
     const { password, email } = data;
     const request = { email, password };
     // console.log(data);
-    const response = await fetch("http://13.235.86.11:5000/player", {
+    const response = await fetch(`${BASE_URL}/player`, {
       method: "POST",
       body: JSON.stringify(request),
       headers: {
@@ -31,6 +31,8 @@ const SignupPlayer = () => {
     console.log(responseData);
     if (response.ok) {
       navigate("/signup/player/success");
+    } else {
+      await showPopup("Invalid Credentials", "Please Try Again");
     }
     reset();
     // setSignupInfo({ teamId, email });

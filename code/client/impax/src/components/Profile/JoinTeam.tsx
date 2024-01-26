@@ -3,6 +3,8 @@ import { useSignupState } from "../../states/formState";
 import Hero from "./Hero";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../config/config";
+import { showPopup } from "../../utils/errorPopup.ts";
 
 const JoinTeam = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
@@ -23,13 +25,13 @@ const JoinTeam = () => {
       teamId: signupInfo.teamId,
       email: signupInfo.email,
       firstName: data.yourName.split(" ")[0],
-      lastName: data.yourName.split(" ")[1],
+      lastName: data.yourName.split(" ")[1] || "",
       password: data.password,
     };
     // console.log(data);
     console.log(request);
     // TODO: Change the URL to the backend
-    const response = await fetch("http://16.170.235.219:5000/%%%%%", {
+    const response = await fetch(`${BASE_URL}/%%%%%`, {
       method: "POST",
       body: JSON.stringify(request),
       headers: {
@@ -40,6 +42,8 @@ const JoinTeam = () => {
     console.log(responseData);
     if (response.ok) {
       navigate("/signup/manager/success");
+    } else {
+      await showPopup("Invalid Credentials", "Please Try Again");
     }
     reset();
   };

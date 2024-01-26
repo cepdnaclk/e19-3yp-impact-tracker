@@ -150,7 +150,7 @@ router.post("/", async (req: Request, res: Response) => {
       email,
       password,
       "", // Initially set to empty string
-      false // Initially set to false
+      "pending" // Initially set to pending
     );
 
     // Create the manager and get the response
@@ -255,19 +255,60 @@ router.get("/getTeamPlayers",async (req:Request, res: Response) => {
   }
 });
 
+// Endpoint to get Team Analytics
+router.get("/analytics-summary/:duration", async (req: Request, res: Response) => {
+  const managerEmail = req.body.userName;
+  const teamId = req.body.teamId;
+  // check the request comes from the manager
+  if (req.body.role != ROLES.MANAGER) {
+    console.log(HttpMsg.UNAUTHORIZED);
+    res.status(HttpCode.UNAUTHORIZED).send({ message: HttpMsg.BAD_REQUEST });
+    return;
+  }
+
+  if (!managerEmail) {
+    console.log(HttpMsg.BAD_REQUEST);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    return;
+  }
+
+  try {
+    const managerExists = await managerController.checkManagerExistsInTeam(
+      managerEmail,
+      teamId
+    );
+
+    if (managerExists) {
+      const teamAnalyticsResponse =
+        await managerController.getTeamAnalytics(teamId, req.params.duration);
+      res.send(teamAnalyticsResponse);
+    } else {
+      throw new Error(HttpMsg.MANAGER_DEOS_NOT_EXIST);
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
+  }
+});
+
 // Endpoint Accept Invitation
 router.get("/accept-invitation/token/:token", async (req, res) => {
   const token = req.params.token;
   const manager = await ManagerModel.findOne({ invitationToken: token }); 
   const managerInTeam = await ManagerTeamModel.findOne({ invitationToken: token }); 
-  if (manager && !manager.isVerified) {
+  if (manager && (manager.isVerified == "pending")) {
     // Update manager status
-    manager.isVerified = true;
+    manager.isVerified = "verified";
     await manager.save();
     res.send("Invitation accepted successfully!");
-  } else if (managerInTeam && !managerInTeam.accepted){
+  } else if (managerInTeam && (managerInTeam.accepted == "pending")){
     // Update manager status
-    managerInTeam.accepted = true;
+    managerInTeam.accepted = "verified";
     await managerInTeam.save();
   } else{
     res.status(400).send("Invalid or expired token.");

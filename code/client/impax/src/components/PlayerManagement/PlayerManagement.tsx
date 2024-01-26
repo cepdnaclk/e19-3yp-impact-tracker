@@ -24,6 +24,8 @@ import PlayersTable from "./PlayersTable/PlayersTable";
 import NoInternetConnection from "../StatusScreens/NoInternetConnection";
 import { useAppState } from "../../states/appState";
 import DialogModal from "../Modal/DialogModal";
+import { BASE_URL } from "../../config/config";
+import { showPopup } from "../../utils/errorPopup";
 
 export type Player = {
   jerseyId: number;
@@ -151,32 +153,36 @@ const PlayerManagement = () => {
 
   const onSubmit = async (data: FieldValues) => {
     setAddPlayerOpen(false);
-    addPlayer(data.jersey_number, data.name, data.email);
-    // setPlayerDetails({
-    //   ...playerDetails,
-    //   [data.jersey_number]: {
-    //     name: data.name,
-    //     email: data.email,
-    //     verification: "pending",
-    //   },
-    // });
 
-    // const { teamId, email, password } = data;
-    // const response = await fetch("http://13.235.86.11:5000/exampleURL", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     teamId: teamId,
-    //     password: password,
-    //     userName: email,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-    // const responseData = await response.json();
-    // if (response.ok) {
-    //   // do something
-    // }
+    //TODO: player with same id exists, show error to user and return
+    if (data.jersey_number in playerDetails) {
+      // alert("Player already exists");
+      showPopup("Player already exists", "Try with different jersey number");
+
+      return;
+    }
+    const response = await fetch(`${BASE_URL}/player/add`, {
+      method: "POST",
+      body: JSON.stringify({
+        jerseyId: data.jersey_number,
+        fullName: data.name,
+        playerEmail: data.email,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+    const responseData = await response.json();
+    if (response.ok) {
+      console.log("response OK", responseData);
+      addPlayer(
+        data.jersey_number,
+        data.name,
+        data.email,
+        responseData.isVerified
+      );
+    }
 
     reset();
   };

@@ -15,7 +15,7 @@ RTC_DATA_ATTR int buddyState = BUDDY_OFF;
 RTC_DATA_ATTR int bootCount = 0;
 
 #define BAUD_RATE 9600
-#define ID 1
+#define ID 2
 String BUDDY_ID = "buddy/";
 int ledStatus;
 
@@ -48,8 +48,6 @@ const int mqtt_port = 1883;
 
 unsigned long batteryStatusTimer = 0;
 unsigned long measuringTimer = 0;
-
-#define BATTERY_LIMIT 30
 
 String CA_cert =
     "-----BEGIN CERTIFICATE-----\n"

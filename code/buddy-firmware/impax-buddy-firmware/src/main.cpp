@@ -33,6 +33,10 @@ void buddyCheckTurnOffHandle()
         ledStatus = LED_OFF;
         led(ledStatus);
 
+        delay(1000);
+        gpio_hold_en(GPIO_NUM_0);
+        gpio_hold_en(GPIO_NUM_2);
+
         // Go to sleep now
         Serial.println("Going to sleep now");
         esp_deep_sleep_start();
@@ -118,10 +122,11 @@ void process()
         int batteryStatus = getBatteryStatus();
         buddyMQTT.publish(buddyMQTT.topics.BATTERY.c_str(), batteryStatus);
 
-        float vol = getBatteryVoltage();
-        buddyMQTT.publish(buddyMQTT.topics.TEST.c_str(), vol);
-
-        if (batteryStatus < BATTERY_LIMIT)
+        if (batteryStatus == CHARGIN_STATE)
+        {
+            ledStatus = LED_CHARGIN;
+        }
+        else if (batteryStatus < BATTERY_LIMIT)
         {
             ledStatus = LED_BATTERY_LOW;
         }
@@ -129,6 +134,8 @@ void process()
         {
             ledStatus = LED_ON;
         }
+
+        // Serial.println(batteryStatus);
 
         batteryStatusTimer = millis();
     }
@@ -142,12 +149,16 @@ void process()
 
 void buddyInit()
 {
+    gpio_hold_dis(GPIO_NUM_0);
+    gpio_hold_dis(GPIO_NUM_2);
+
+    initLED();
+
     // leds
+    ledStatus = LED_OFF;
+    led(ledStatus);
     ledStatus = LED_BLINK;
     led(ledStatus);
-
-    // battery status init
-    batteryInit();
 
     // EEPROM
     initEEPROM(ssid, password, mqtt_username, mqtt_password, BUDDY_ID, ID);
@@ -176,6 +187,8 @@ void buddyInit()
     Serial.println("Setup done");
     Serial.println(WiFi.SSID());
 
+    batteryInit();
+
     ledStatus = LED_ON;
 }
 
@@ -184,9 +197,6 @@ void setup()
     // serial monitor
     Serial.begin(BAUD_RATE);
 
-    initLED();
-    ledStatus = LED_OFF;
-    led(ledStatus);
     // define off button
     pinMode(GPIO_NUM_32, INPUT);
 

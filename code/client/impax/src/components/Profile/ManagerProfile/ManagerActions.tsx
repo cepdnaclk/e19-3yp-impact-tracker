@@ -1,16 +1,15 @@
-import React, { useState } from "react";
-import { FaEdit, FaTimes, FaTrash } from "react-icons/fa";
+import React from "react";
+import { FaTimes, FaTrash } from "react-icons/fa";
 import styles from "./ManagerActions.module.scss";
-import { FaCheck } from "react-icons/fa6";
-import DialogModal from "../../Modal/DialogModal";
+
 import Btn from "../../Buttons/Btn";
 import AlertModal from "../../Modal/AlertModal";
 
 const ManagerActions: React.FC<{ name: string; email: string }> = ({
-  name,
+  // name,
   email,
 }) => {
-  const [openEdit, setOpenEdit] = useState<boolean>(false);
+  // const [openEdit, setOpenEdit] = useState<boolean>(false);
   return (
     <div className={styles.actions}>
       {/* <DialogModal

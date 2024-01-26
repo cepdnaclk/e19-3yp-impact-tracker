@@ -15,6 +15,7 @@ import {
 import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
 import MqttClient from "../services/mqttClient";
+import { Verification, Verification } from "../components/PlayerManagement/PlayersTable/Verification/Verification";
 
 interface AppState {
   activePage: activePage;
@@ -42,7 +43,8 @@ interface AppState {
   addPlayer: (
     jersey_number: number,
     player_name: string,
-    player_email: string
+    player_email: string,
+    Verification:Verification
   ) => void;
   removePlayer: (player_id: number) => void;
   editPlayer: (
@@ -70,7 +72,12 @@ interface AppState {
 
 export const useAppState = create<AppState>()((set) => ({
   //For the sidebar menu item selected, and render main content
-  activePage: "profile",
+  activePage:
+    localStorage.getItem("isLoggedInManager") === "true"
+      ? "live"
+      : localStorage.getItem("isLoggedInPlayer") === "true"
+      ? "player-analytics"
+      : "profile",
   setActivePage: (page) => set({ activePage: page }),
 
   //For the mqtt connection status
@@ -100,7 +107,7 @@ export const useAppState = create<AppState>()((set) => ({
   playersImpactHistory: {} as PlayerImpactHistory,
 
   //TODO: Clashing of players with other dashbaords
-  playerDetails: players,
+  playerDetails: {} as Players,
   setPlayerDetails: (players: Players) => {
     set({ playerDetails: players });
     const timestamp = new Date().getTime();
@@ -151,7 +158,8 @@ export const useAppState = create<AppState>()((set) => ({
   addPlayer: (
     jersey_number: number,
     player_name: string,
-    player_email: string
+    player_email: string,
+    verification:Verification
   ) =>
     set((prevState) => {
       const playerDetails = {
@@ -159,7 +167,7 @@ export const useAppState = create<AppState>()((set) => ({
         [jersey_number]: {
           name: player_name,
           email: player_email,
-          verification: "pending" as Verification,
+          verification: verification,
         },
       };
 
