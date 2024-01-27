@@ -120,7 +120,7 @@ export type PlayerAnalyticsSummary = {
   criticalSessions: CriticalSessionType[];
 };
 
-}
+
 
 //Profile Managers
 export type Manager =
