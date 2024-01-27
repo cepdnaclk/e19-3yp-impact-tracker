@@ -78,9 +78,11 @@ class ManagerService {
         firstName: managerInstance.firstName,
         lastName: managerInstance.lastName,
         email: managerInstance.email,
+        password: "#########",
+        invitationToken: managerInstance.invitationToken,
         isVerified: managerInstance.isVerified,
       });
-
+      
       return managerResponse;
     } catch (error) {
       console.error(error);

@@ -35,18 +35,14 @@ class Manager {
 }
 
 class ManagerResponse {
-  public teamId: string;
-  public firstName: string;
-  public lastName: string;
+  public name: string;
   public email: string;
-  public isVerified: string;
+  public verification: string;
 
-  public constructor(manager: ManagerResponse) {
-    this.teamId = manager.teamId;
-    this.firstName = manager.firstName;
-    this.lastName = manager.lastName;
+  public constructor(manager: Manager) {
+    this.name = manager.firstName + " " + manager.lastName;
     this.email = manager.email;
-    this.isVerified = manager.isVerified;
+    this.verification = manager.isVerified;
   }
 }
 

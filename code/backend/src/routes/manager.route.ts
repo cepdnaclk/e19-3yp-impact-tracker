@@ -101,8 +101,10 @@ router.get("/exists/email/:email", async (req: Request, res: Response) => {
 router.post("/", async (req: Request, res: Response) => {
   // Extract manager details from the request body
   const teamId = req.body.teamId;
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
+  const fullName = req.body.fullName;
+  const names = fullName.split(' ');
+  const firstName = names[0];
+  const lastName = names[1];
   const email = req.body.email;
   const password = req.body.password;
 
