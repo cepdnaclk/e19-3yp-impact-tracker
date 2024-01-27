@@ -20,6 +20,11 @@ import {
   renewAccessToken,
 } from "../../../services/authService";
 import TeamAnalyticsTable from "./TeamAnalyticsTable";
+import NoInternetConnection from "../../StatusScreens/NoInternetConnection";
+import { useAppState } from "../../../states/appState";
+import { useLoginState } from "../../../states/profileState";
+import ImpactSummarySkeleton from "../ImpactSummarySkeleton";
+import Spinner from "../../StatusScreens/Spinner";
 
 const TeamAnalytics = () => {
   const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
@@ -28,7 +33,7 @@ const TeamAnalytics = () => {
     queryFn: () => fetchAnalyticsSummaryManager(),
     queryKey: ["analyticsSummaryManagerData", { timeSpan }],
   });
-
+  const loginInfo = useLoginState((state) => state.loginInfo);
   async function fetchAnalyticsSummaryManager(): Promise<TeamAnalyticsSummary> {
     // Renew access Token
     await renewAccessToken();
@@ -46,19 +51,29 @@ const TeamAnalytics = () => {
     const responseData = await response.json();
     return responseData;
   }
-  if (isLoading) {
-    return <div>Loading...</div>;
+
+  const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
+  if (!isInternetAvailable) {
+    //show no internet connection component
+    if (!isInternetAvailable) {
+      return (
+        <main>
+          <Title title={"Team Analytics"} Icon={MdBarChart} />
+          <NoInternetConnection />
+        </main>
+      );
+    }
   }
 
   return (
     <main>
       <Title Icon={MdBarChart} title="Team Analytics" />
+
       <div className={styles.summary}>
         <div className={styles.info}>
-          <h2>{timeSpan} </h2> {/* TODO: Add a proper header */}
+          <h2>Analyze your team's impact and performances</h2>
           <span>
-            {AnalyticsSummaryManager?.tableData &&
-              AnalyticsSummaryManager.tableData[0].name}
+            {loginInfo.teamName} <span>({loginInfo.teamId})</span>
           </span>
         </div>
         <div className={styles.controls}>
@@ -90,25 +105,36 @@ const TeamAnalytics = () => {
           </DropdownMenu.Root>
         </div>
       </div>
-      <div className={styles.impactSummaryContainer}>
-        {AnalyticsSummaryManager?.summaryData?.map((metric) => (
-          <ImpactSummaryCard
-            metric={metric}
-            timeSpan={timeSpan}
-            key={metric.title}
-          />
-        ))}
-      </div>
-      <div className={styles.tableContainer}>
-        {AnalyticsSummaryManager?.tableData ? (
-          <TeamAnalyticsTable
-            teamAnalyticsTableData={AnalyticsSummaryManager?.tableData}
-            key={Date.now()}
-          />
-        ) : (
-          <p>No Data</p>
-        )}
-      </div>
+      {isLoading ? (
+        <div>
+          <ImpactSummarySkeleton />
+          <div className={styles.spinnerContainer}>
+            <Spinner />
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className={styles.impactSummaryContainer}>
+            {AnalyticsSummaryManager?.summaryData?.map((metric) => (
+              <ImpactSummaryCard
+                metric={metric}
+                timeSpan={timeSpan}
+                key={metric.title}
+              />
+            ))}
+          </div>
+          <div className={styles.tableContainer}>
+            {AnalyticsSummaryManager?.tableData ? (
+              <TeamAnalyticsTable
+                teamAnalyticsTableData={AnalyticsSummaryManager?.tableData}
+                key={Date.now()}
+              />
+            ) : (
+              <p>No Data</p>
+            )}
+          </div>
+        </>
+      )}
     </main>
   );
 };

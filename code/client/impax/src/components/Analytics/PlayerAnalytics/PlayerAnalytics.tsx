@@ -11,6 +11,10 @@ import ImpactSummaryCard from "../ImpactSummaryCard";
 import { useQuery } from "@tanstack/react-query";
 import { renewAccessToken } from "../../../services/authService";
 import { BASE_URL } from "../../../config/config";
+import { useAppState } from "../../../states/appState";
+import NoInternetConnection from "../../StatusScreens/NoInternetConnection";
+import ImpactSummarySkeleton from "../ImpactSummarySkeleton";
+import Spinner from "../../StatusScreens/Spinner";
 const PlayerAnalytics = () => {
   const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
 
@@ -36,8 +40,17 @@ const PlayerAnalytics = () => {
     return responseData.analyticsSummary;
   }
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+  const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
+  if (!isInternetAvailable) {
+    //show no internet connection component
+    if (!isInternetAvailable) {
+      return (
+        <main>
+          <Title title={"Player Analytics"} Icon={MdBarChart} />
+          <NoInternetConnection />
+        </main>
+      );
+    }
   }
 
   return (
@@ -78,43 +91,57 @@ const PlayerAnalytics = () => {
         </div>
       </div>
 
-      <div className={styles.impactSummaryContainer}>
-        {AnalyticsSummaryPlayer?.summaryData?.map((metric) => (
-          <ImpactSummaryCard
-            metric={metric}
-            timeSpan={timeSpan}
-            key={metric.title}
-          />
-        ))}
-      </div>
-
-      <div className={styles.chartAndRecentSessionsContainer}>
-        <div className={styles.chartContainer}>
-          <h2>Impact Histogram</h2>
-          {AnalyticsSummaryPlayer?.histogramData ? (
-            <StackedBarChart {...AnalyticsSummaryPlayer.histogramData} />
-          ) : (
-            <div>No data Available</div>
-          )}
+      {isLoading ? (
+        <div>
+          <ImpactSummarySkeleton />
+          <div className={styles.spinnerContainer}>
+            <Spinner />
+          </div>
         </div>
-        <div className={styles.criticalSessions}>
-          <h2>Critical Sessions</h2>
-          {AnalyticsSummaryPlayer?.criticalSessions?.length == 0 && (
-            <p>No sessions recorded</p>
-          )}
-          {AnalyticsSummaryPlayer?.criticalSessions?.map((session) => (
-            <div className={styles.criticalSessionContainer} key={session.name}>
-              <CriticalSession
-                name={session.name}
-                date={session.date}
-                cumulative={session.cumulative}
-                average={session.average}
-                highest={session.highest}
+      ) : (
+        <>
+          <div className={styles.impactSummaryContainer}>
+            {AnalyticsSummaryPlayer?.summaryData?.map((metric) => (
+              <ImpactSummaryCard
+                metric={metric}
+                timeSpan={timeSpan}
+                key={metric.title}
               />
+            ))}
+          </div>
+
+          <div className={styles.chartAndRecentSessionsContainer}>
+            <div className={styles.chartContainer}>
+              <h2>Impact Histogram</h2>
+              {AnalyticsSummaryPlayer?.histogramData ? (
+                <StackedBarChart {...AnalyticsSummaryPlayer.histogramData} />
+              ) : (
+                <div>No data Available</div>
+              )}
             </div>
-          ))}
-        </div>
-      </div>
+            <div className={styles.criticalSessions}>
+              <h2>Critical Sessions</h2>
+              {AnalyticsSummaryPlayer?.criticalSessions?.length == 0 && (
+                <p>No sessions recorded</p>
+              )}
+              {AnalyticsSummaryPlayer?.criticalSessions?.map((session) => (
+                <div
+                  className={styles.criticalSessionContainer}
+                  key={session.name}
+                >
+                  <CriticalSession
+                    name={session.name}
+                    date={session.date}
+                    cumulative={session.cumulative}
+                    average={session.average}
+                    highest={session.highest}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </main>
   );
 };
