@@ -15,7 +15,6 @@ export async function renewAccessToken(){
       if (response.ok) {
         const data = await response.json();
         const accessToken: string = data.accessToken;
-        console.log("Renewed access token: ", accessToken); 
         localStorage.setItem('accessToken', accessToken);
 
       } else {
