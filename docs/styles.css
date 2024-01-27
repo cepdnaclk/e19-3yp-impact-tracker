@@ -44,6 +44,7 @@ body {
 
 .cs-title {
   font-size: var(--headerFontSize);
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-weight: 900;
   line-height: 1.2em;
   text-align: inherit;
@@ -62,6 +63,22 @@ body {
   max-width: 40.625rem;
   margin: 0;
   color: var(--bodyTextColor);
+}
+@keyframes slideUp {
+  from {
+      transform: translateY(80%);
+  }
+  to {
+      transform: translateY(0);
+  }
+}
+@keyframes slideDown {
+  from {
+      transform: translateY(20%);
+  }
+  to {
+      transform: translateY(100%);
+  }
 }
                           
 @media only screen and (min-width: 0rem) {
@@ -1237,6 +1254,8 @@ body {
       #Problem {
           padding: var(--sectionPadding);
           overflow: hidden;
+          position: relative;
+          z-index: 1;
       }
       @keyframes floatAnimation {
           0% {
@@ -1272,6 +1291,22 @@ body {
           /* 48px - 56px */
           gap: clamp(3rem, 3vw, 3.5rem);
       }
+      #Problem:before {
+        /* static tiled pattern */
+        content: "";
+        height: 100%;
+        width: 100%;
+        opacity: 0.08;
+        background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
+        background-size: auto;
+        background-position: center;
+        background-repeat: repeat;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
       #Problem .cs-content {
           /* set text align to left if content needs to be left aligned */
           text-align: justify;
@@ -1487,6 +1522,8 @@ body {
       #Solution{
           padding: var(--sectionPadding);
           overflow: hidden;
+          position: relative;
+          z-index: 1;
       }
       @keyframes floatAnimation {
           0% {
@@ -1532,6 +1569,22 @@ body {
           /* centers content horizontally, set to flex-start to left align */
           align-items: flex-start;
       }
+      #Solution:before {
+        /* static tiled pattern */
+        content: "";
+        height: 100%;
+        width: 100%;
+        opacity: 0.08;
+        background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
+        background-size: auto;
+        background-position: center;
+        background-repeat: repeat;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
 
       #Solution .cs-text {
           margin-bottom: 1rem;
@@ -1908,7 +1961,7 @@ body {
           z-index: 1;
       }
       #Hardware:before {
-          /* static tiled pattern */
+          /* static tiled pattern  */
           content: "";
           height: 100%;
           width: 100%;
@@ -1922,7 +1975,7 @@ body {
           top: 0;
           left: 0;
           z-index: -1;
-      }
+      } 
       #Hardware .cs-container {
           width: 100%;
           max-width: 80em;
@@ -2079,7 +2132,7 @@ body {
           position: relative;
           gap: 0.75rem;
       }
-      #Hardware .cs-h3:after {
+      /* #Hardware .cs-h3:after {
           content: "";
           width: 50%;
           height: 1px;
@@ -2088,7 +2141,7 @@ body {
           position: relative;
           display: block;
           order: 1;
-      }
+      } */
       #Hardware .cs-name {
           max-width: 13.75rem;
           flex: none;
@@ -2286,6 +2339,64 @@ body {
       }
   }
 
+  /*-- -------------------------- -->
+  <---   Solution Architecture    -->
+  <--- -------------------------- -*/
+  @media only screen and (min-width: 0rem) {
+    #SolutionArchitecture {
+      padding: var(--sectionPadding);
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+    #SolutionArchitecture:before {
+        /* static tiled pattern  */
+        content: "";
+        height: 100%;
+        width: 100%;
+        opacity: 0.08;
+        background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
+        background-size: auto;
+        background-position: center;
+        background-repeat: repeat;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    } 
+    #SolutionArchitecture .cs-container {
+        width: 100%;
+        max-width: 80em;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* 48px - 64px */
+        gap: clamp(3rem, 7vw, 4rem);
+    }
+
+
+    /* Style for cs-picture in Solution Architecture section */
+    #SolutionArchitecture .cs-picture {
+      width: 100%;
+      max-width:80%;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+    }
+    #SolutionArchitecture .cs-picture img {
+      /* position: absolute; */
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      /* makes it act like a background image */
+      object-fit:scale-down;
+      animation: slideUp 800ms ease-out;
+    }
+  }
                               
                               
 

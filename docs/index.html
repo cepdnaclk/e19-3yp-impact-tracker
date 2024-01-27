@@ -46,14 +46,14 @@
                         <li class="cs-li cs-dropdown" tabindex="0">
                             <span class="cs-li-link">
                                 Solution
-                                <img class="cs-drop-icon" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons/down-gold.svg" alt="dropdown icon" width="15" height="15" decoding="async" aria-hidden="true">
+                                <img class="cs-drop-icon" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons/down-red.svg" alt="dropdown icon" width="15" height="15" decoding="async" aria-hidden="true">
                             </span>
                             <ul class="cs-drop-ul">
                                 <li class="cs-drop-li">
                                     <a href="#Solution" class="cs-li-link cs-drop-link">Our Solution</a>
                                 </li>
                                 <li class="cs-drop-li">
-                                    <a href="" class="cs-li-link cs-drop-link">Solution Architecture</a>
+                                    <a href="#SolutionArchitecture" class="cs-li-link cs-drop-link">Solution Architecture</a>
                                 </li>
                             </ul>
                         </li>
@@ -231,146 +231,160 @@
             </div>
         </div>
     </section>
+    <!--============================================ -->
+    <!--                Solution Architecture         -->
+    <!-- ============================================ -->
+
+    <section id="SolutionArchitecture">
+        <div class="cs-container">
+            <h2 class="cs-title">High Level Solution Architecture</h2>
+            <picture class="cs-picture">
+                <source media="(max-width: 767px)" srcset="assets/img/solution architecture.png">
+                <source media="(min-width: 768px)" srcset="assets/img/solution architecture.png">
+                <img aria-hidden="true" loading="lazy" decoding="async" src="assets/img/solution architecture.png" alt="Solution Architecture">
+            </picture> 
+        </div>
+    </section>
 
     <!-- ============================================ -->
-<!--                    Hardware                     -->
-<!-- ============================================ -->
+    <!--                    Hardware                     -->
+    <!-- ============================================ -->
 
-<section id="Hardware">
-    <div class="cs-container">
-        <div class="cs-content">
-            <!-- <picture class="cs-wrapper" aria-hidden="true">
-                <img class="cs-decal" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/decal1.svg" decoding="async" alt="decal" width="181" height="36">
-            </picture> -->
-            <h2 class="cs-title">Hardware Components</h2>
-        </div>
-        <ul class="cs-card-group">
-            <li class="cs-item">
-                <picture class="cs-picture"  aria-hidden="true">
-                    <source media="(max-width: 650px)" srcset="assets/img/zero2-hero.webp">
-                    <source media="(min-width: 700px)" srcset="assets/img/zero2-hero.webp">
-                    <img loading="lazy" decoding="async" src="assets/img/zero2-hero.webp" alt="pizero" width="200" height="160">
-                    </picture>
-                    <div class="cs-info">
-                    <h3 class="cs-h3">
-                        <span class="cs-name">Raspberry pi Zero w</span>
+    <section id="Hardware">
+        <div class="cs-container">
+            <div class="cs-content">
+                <!-- <picture class="cs-wrapper" aria-hidden="true">
+                    <img class="cs-decal" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/decal1.svg" decoding="async" alt="decal" width="181" height="36">
+                </picture> -->
+                <h2 class="cs-title">Hardware Components</h2>
+            </div>
+            <ul class="cs-card-group">
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(max-width: 650px)" srcset="assets/img/zero2-hero.webp">
+                        <source media="(min-width: 700px)" srcset="assets/img/zero2-hero.webp">
+                        <img loading="lazy" decoding="async" src="assets/img/zero2-hero.webp" alt="pizero" width="200" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">Raspberry pi Zero w</span>
+                            
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(max-width: 600px)" srcset="assets/img/Esp32.jpg">
+                        <source media="(min-width: 601px)" srcset="assets/img/Esp32.jpg">
+                        <img loading="lazy" decoding="async" src="assets/img/Esp32.jpg" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">Esp32 Lite V1.0.0 </span>
                         
-                    </h3>
-                    <p class="cs-item-p">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-                    </p>
-                </div>
-            </li>
-            <li class="cs-item">
-                <picture class="cs-picture"  aria-hidden="true">
-                    <source media="(max-width: 600px)" srcset="assets/img/Esp32.jpg">
-                    <source media="(min-width: 601px)" srcset="assets/img/Esp32.jpg">
-                    <img loading="lazy" decoding="async" src="assets/img/Esp32.jpg" alt="food" width="160" height="160">
-                    </picture>
-                    <div class="cs-info">
-                    <h3 class="cs-h3">
-                        <span class="cs-name">Esp32 Lite V1.0.0 </span>
-                      
-                    </h3>
-                    <p class="cs-item-p">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-                    </p>
-                </div>
-            </li>
-            <li class="cs-item">
-                <picture class="cs-picture"  aria-hidden="true">
-                    <source media="(max-width: 600px)" srcset="assets/img/lipo-battery-buddy.webp">
-                    <source media="(min-width: 601px)" srcset="assets/img/lipo-battery-buddy.webp">
-                    <img loading="lazy" decoding="async" src="assets/img/lipo-battery-buddy.webp" alt="food" width="160" height="160">
-                    </picture>
-                    <div class="cs-info">
-                    <h3 class="cs-h3">
-                        <span class="cs-name">3.7V 1000mah 30C Lipo Battery</span>
-                    </h3>
-                    <p class="cs-item-p">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-                    </p>
-                </div>
-            </li>
-            <li class="cs-item">
-                <picture class="cs-picture"  aria-hidden="true">
-                    <source media="(max-width: 600px)" srcset="assets/img/MPU6050Module.jpg">
-                    <source media="(min-width: 601px)" srcset="assets/img/MPU6050Module.jpg">
-                    <img loading="lazy" decoding="async" src="assets/img/MPU6050Module.jpg" alt="food" width="160" height="160">
-                    </picture>
-                    <div class="cs-info">
-                    <h3 class="cs-h3">
-                        <span class="cs-name">Accelerometer MPU6050 Module</span>
-                    </h3>
-                    <p class="cs-item-p">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-                    </p>
-                </div>
-            </li>
-            <li class="cs-item">
-                <picture class="cs-picture"  aria-hidden="true">
-                    <source media="(min-width: 601px)" srcset="assets/img/accelerometer.jpg">
-                    <source media="(max-width: 600px)" srcset="assets/img/accelerometer.jpg">
-                    <img loading="lazy" decoding="async" src="assets/img/accelerometer.jpg" alt="food" width="160" height="160">
-                    </picture>
-                    <div class="cs-info">
-                    <h3 class="cs-h3">
-                        <span class="cs-name">Triple Axis Accelerometer</span>
-                    </h3>
-                    <p class="cs-item-p">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-                    </p>
-                </div>
-            </li>
-            <li class="cs-item">
-                <picture class="cs-picture"  aria-hidden="true">
-                    <source media="(max-width: 600px)" srcset="assets/img/18650.webp">
-                    <source media="(min-width: 601px)" srcset="assets/img/18650.webp">
-                    <img loading="lazy" decoding="async" src="assets/img/18650.webp" alt="food" width="160" height="160">
-                    </picture>
-                    <div class="cs-info">
-                    <h3 class="cs-h3">
-                        <span class="cs-name">3.7V 18650 Rechargable Battery</span>
-                    </h3>
-                    <p class="cs-item-p">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-                    </p>
-                </div>
-            </li>
-            <li class="cs-item">
-                <picture class="cs-picture"  aria-hidden="true">
-                    <source media="(min-width: 601px)" srcset="assets/img/accelerometer.jpg">
-                    <source media="(max-width: 600px)" srcset="assets/img/accelerometer.jpg">
-                    <img loading="lazy" decoding="async" src="assets/img/accelerometer.jpg" alt="food" width="160" height="160">
-                    </picture>
-                    <div class="cs-info">
-                    <h3 class="cs-h3">
-                        <span class="cs-name">Triple Axis Accelerometer</span>
-                    </h3>
-                    <p class="cs-item-p">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-                    </p>
-                </div>
-            </li>
-            <li class="cs-item">
-                <picture class="cs-picture"  aria-hidden="true">
-                    <source media="(max-width: 600px)" srcset="assets/img/Charger Module.jpg">
-                    <source media="(min-width: 601px)" srcset="assets/img/Charger Module.jpg">
-                    <img loading="lazy" decoding="async" src="assets/img/Charger Module.jpg" alt="food" width="160" height="160">
-                    </picture>
-                    <div class="cs-info">
-                    <h3 class="cs-h3">
-                        <span class="cs-name">TP 4056 Lithium Battery Charger Module</span>
-                    </h3>
-                    <p class="cs-item-p">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-                    </p>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <!--Static background is in CSS as a tiled pattern-->
-</section>
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(max-width: 600px)" srcset="assets/img/lipo-battery-buddy.webp">
+                        <source media="(min-width: 601px)" srcset="assets/img/lipo-battery-buddy.webp">
+                        <img loading="lazy" decoding="async" src="assets/img/lipo-battery-buddy.webp" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">3.7V 1000mah 30C Lipo Battery</span>
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(max-width: 600px)" srcset="assets/img/MPU6050Module.jpg">
+                        <source media="(min-width: 601px)" srcset="assets/img/MPU6050Module.jpg">
+                        <img loading="lazy" decoding="async" src="assets/img/MPU6050Module.jpg" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">Accelerometer MPU6050 Module</span>
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(min-width: 601px)" srcset="assets/img/accelerometer.jpg">
+                        <source media="(max-width: 600px)" srcset="assets/img/accelerometer.jpg">
+                        <img loading="lazy" decoding="async" src="assets/img/accelerometer.jpg" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">Triple Axis Accelerometer</span>
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(max-width: 600px)" srcset="assets/img/18650.webp">
+                        <source media="(min-width: 601px)" srcset="assets/img/18650.webp">
+                        <img loading="lazy" decoding="async" src="assets/img/18650.webp" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">3.7V 18650 Rechargable Battery</span>
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(min-width: 601px)" srcset="assets/img/accelerometer.jpg">
+                        <source media="(max-width: 600px)" srcset="assets/img/accelerometer.jpg">
+                        <img loading="lazy" decoding="async" src="assets/img/accelerometer.jpg" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">Triple Axis Accelerometer</span>
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(max-width: 600px)" srcset="assets/img/Charger Module.jpg">
+                        <source media="(min-width: 601px)" srcset="assets/img/Charger Module.jpg">
+                        <img loading="lazy" decoding="async" src="assets/img/Charger Module.jpg" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">TP 4056 Lithium Battery Charger Module</span>
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--Static background is in CSS as a tiled pattern-->
+    </section>
                                 
 
 
