@@ -25,7 +25,7 @@ import NoInternetConnection from "../StatusScreens/NoInternetConnection";
 import { useAppState } from "../../states/appState";
 import DialogModal from "../Modal/DialogModal";
 import { BASE_URL } from "../../config/config";
-import { showPopup } from "../../utils/errorPopup";
+import { showPopup } from "../../utils/popup";
 
 export type Player = {
   jerseyId: number;
@@ -166,7 +166,11 @@ const PlayerManagement = () => {
     //TODO: player with same id exists, show error to user and return
     if (data.jersey_number in playerDetails) {
       // alert("Player already exists");
-      showPopup("Player already exists", "Try with different jersey number");
+      showPopup(
+        "error",
+        "Player already exists",
+        "Try with different jersey number"
+      );
 
       return;
     }
