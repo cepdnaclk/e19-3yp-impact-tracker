@@ -114,6 +114,13 @@ export type TeamAnalyticsSummary ={
   tableData: TeamAnalyticsColumns[];
 }
 
+export type PlayerAnalyticsSummary = {
+  summaryData: Metric[];
+  histogramData: HistogramData;
+  criticalSessions: CriticalSessionType[];
+};
+
+}
 
 //Profile Managers
 export type Manager =
