@@ -11,7 +11,6 @@ const excludedRoutes = [
   { method: "GET", path: "/player/accept-invitation/token" },
   { method: "GET", path: "/player/verify-email/token" },
   { method: "POST", path: "/player" },
-  
   // Add more entries as needed
 ];
 
