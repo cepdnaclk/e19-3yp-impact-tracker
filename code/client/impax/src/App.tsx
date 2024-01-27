@@ -5,7 +5,7 @@ import { Detector } from "react-detect-offline";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import routes from "./routes/routeConfig";
 import { useAppState } from "./states/appState";
-import { uploadSession } from "./services/httpClient";
+import { getPlayers, uploadSession } from "./services/httpClient";
 
 function App() {
   MqttClient.getInstance();
@@ -18,6 +18,8 @@ function App() {
         render={({ online }) => {
           if (online) {
             uploadSession();
+            getPlayers();
+            console.log("Back Online...");
           }
           setIsInternetAvailable(online);
           return (
