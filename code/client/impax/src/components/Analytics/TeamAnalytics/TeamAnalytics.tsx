@@ -24,6 +24,7 @@ import {
   // getAccessTokenFromRefreshToken,
   renewAccessToken,
 } from "../../../services/authService";
+import TeamAnalyticsTable from "./TeamAnalyticsTable";
 
 const TeamAnalytics = () => {
   const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
@@ -32,14 +33,6 @@ const TeamAnalytics = () => {
     queryFn: () => fetchAnalyticsSummaryManager(),
     queryKey: ["analyticsSummaryManagerData", { timeSpan }],
   });
-
-  // const {
-  //   data: tableData,
-  //   // isError: isMetricDataError,
-  // } = useQuery({
-  //   queryFn: () => fetchTableData(),
-  //   queryKey: ["tableData", { timeSpan }],
-  // });
 
   async function fetchAnalyticsSummaryManager(): Promise<TeamAnalyticsSummary> {
     // Renew access Token
@@ -58,27 +51,18 @@ const TeamAnalytics = () => {
     const responseData = await response.json();
     console.log(responseData);
     return responseData;
-    // if (timeSpan == "Last Week") return teamAnalyticsSummary;
-    // if (timeSpan == "Last Month") return teamAnalyticsSummary2;
-    // else return teamAnalyticsSummary;
   }
-  // async function fetchTableData(): Promise<TeamAnalyticsColumns[]> {
-  //   // const response = await fetch("<PLAYER_DATA_API_ENDPOINT_URL>"); // Replace <PLAYER_DATA_API_ENDPOINT_URL> with the actual URL to fetch player data from
-  //   // if (!response.ok) {
-  //   //   throw new Error("Failed to fetch player data");
-  //   // }
-  //   // return response.json();
-  //   if (timeSpan == "Last Week") return teamAnalyticsTableData;
-  //   if (timeSpan == "Last Month") return teamAnalyticsTableData2;
-  //   else return teamAnalyticsTableData;
-  // }
 
   return (
     <main>
       <Title Icon={MdBarChart} title="Team Analytics" />
       <div className={styles.summary}>
         <div className={styles.info}>
-          <h2>{timeSpan} </h2> <span>{/*tableData && tableData[0].name*/}</span>
+          <h2>{timeSpan} </h2> {/* TODO: Add a proper header */}
+          <span>
+            {AnalyticsSummaryManager?.tableData &&
+              AnalyticsSummaryManager.tableData[0].name}
+          </span>
         </div>
         <div className={styles.controls}>
           <DropdownMenu.Root>
@@ -119,12 +103,14 @@ const TeamAnalytics = () => {
         ))}
       </div>
       <div className={styles.tableContainer}>
-        {/* {tableData && (
+        {AnalyticsSummaryManager?.tableData ? (
           <TeamAnalyticsTable
-            teamAnalyticsTableData={tableData}
+            teamAnalyticsTableData={AnalyticsSummaryManager?.tableData}
             key={Date.now()}
           />
-        )} */}
+        ) : (
+          <p>No Data</p>
+        )}
       </div>
     </main>
   );
