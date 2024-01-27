@@ -4,83 +4,42 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import styles from "./PlayerAnalytics.module.scss";
 import { MdBarChart } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa6";
-import { data, criticalSessions, data2, criticalSessions2 } from "./playerData";
 import { StackedBarChart } from "./StackedBarChart";
 import CriticalSession from "./CriticalSession";
-import { HistogramData, TimeSpan } from "../../../types";
+import { PlayerAnalyticsSummary, TimeSpan } from "../../../types";
 import ImpactSummaryCard from "../ImpactSummaryCard";
 import { useQuery } from "@tanstack/react-query";
-import { CriticalSessionType, Metric } from "../../../types";
+import { renewAccessToken } from "../../../services/authService";
+import { BASE_URL } from "../../../config/config";
 const PlayerAnalytics = () => {
   const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
 
-  const sampleObject: HistogramData = {
-    left: [10, 30, 50, 70, 90, 110, 130, 150, 170, 190],
-    right: [20, 40, 60, 80, 100, 120, 140, 160, 180, 200],
-    front: [15, 35, 55, 75, 95, 115, 135, 155, 175, 195],
-    back: [25, 45, 65, 85, 105, 125, 145, 165, 185, 205],
-  };
-
-  const sampleObject2: HistogramData = {
-    left: [5, 12, 8, 20, 15, 25, 18, 30, 22, 10],
-    right: [14, 28, 7, 19, 32, 11, 24, 16, 9, 26],
-    front: [21, 13, 27, 6, 17, 23, 29, 31, 4, 3],
-    back: [2, 1, 34, 36, 33, 37, 38, 39, 40, 42],
-  };
-  const { data: impactSummaryPlayer } = useQuery({
-    queryFn: () => fetchImpactSummaryPlayer(),
-    queryKey: ["impactSummaryPlayerData", { timeSpan }],
-  });
-  const {
-    data: metricData,
-    // isLoading: isMetricDataLoading,
-    // isError: isMetricDataError,
-  } = useQuery({
-    queryFn: () => fetchMetricData(),
-    queryKey: ["metricData", { timeSpan }],
+  const { data: AnalyticsSummaryPlayer, isLoading } = useQuery({
+    queryFn: () => fetchAnalyticsSummaryPlayer(),
+    queryKey: ["AnalyticsSummaryPlayerData", { timeSpan }],
   });
 
-  const {
-    data: criticalSessionsData,
-    // isLoading: isSessionDataLoading,
-    // isError: isSessionDataError,
-  } = useQuery({
-    queryFn: () => fetchCriticalSessionsData(),
-    queryKey: ["sessionData", { timeSpan }],
-  });
-
-  async function fetchImpactSummaryPlayer(): Promise<Metric[]> {
-    // const response = await fetch("<PLAYER_DATA_API_ENDPOINT_URL>"); // Replace <PLAYER_DATA_API_ENDPOINT_URL> with the actual URL to fetch player data from
-    // if (!response.ok) {
-    //   throw new Error("Failed to fetch player data");
-    // }
-    // return response.json();
-    if (timeSpan == "Last Week") return data;
-    if (timeSpan == "Last Month") return data2;
-    else return data;
+  async function fetchAnalyticsSummaryPlayer(): Promise<PlayerAnalyticsSummary> {
+    await renewAccessToken();
+    const response = await fetch(
+      `${BASE_URL}/player/analytics-summary/${timeSpan}`,
+      {
+        // Use the constructed URL with query params
+        method: "GET", // Change the method to GET
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          "Content-Type": "application/json", // Keep the Content-Type header for consistency
+        },
+      }
+    );
+    const responseData = await response.json();
+    console.log(responseData.analyticsSummary);
+    console.log(responseData.analyticsSummary.criticalSessions);
+    return responseData.analyticsSummary;
   }
 
-  async function fetchMetricData(): Promise<HistogramData> {
-    // const response = await fetch("<METRIC_DATA_API_ENDPOINT_URL>"); // Replace <METRIC_DATA_API_ENDPOINT_URL> with the actual URL to fetch metric data from
-    // if (!response.ok) {
-    //   throw new Error("Failed to fetch metric data");
-    // }
-    // return response.json();
-    // return sampleObject;
-    if (timeSpan == "Last Week") return sampleObject;
-    if (timeSpan == "Last Month") return sampleObject2;
-    else return sampleObject;
-  }
-
-  async function fetchCriticalSessionsData(): Promise<CriticalSessionType[]> {
-    // const response = await fetch("<SESSION_DATA_API_ENDPOINT_URL>"); // Replace <SESSION_DATA_API_ENDPOINT_URL> with the actual URL to fetch session data from
-    // if (!response.ok) {
-    //   throw new Error("Failed to fetch session data");
-    // }
-    // return response.json();
-    if (timeSpan == "Last Week") return criticalSessions;
-    if (timeSpan == "Last Month") return criticalSessions2;
-    else return criticalSessions;
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -122,7 +81,7 @@ const PlayerAnalytics = () => {
       </div>
 
       <div className={styles.impactSummaryContainer}>
-        {impactSummaryPlayer?.map((metric) => (
+        {AnalyticsSummaryPlayer?.summaryData?.map((metric) => (
           <ImpactSummaryCard
             metric={metric}
             timeSpan={timeSpan}
@@ -134,16 +93,18 @@ const PlayerAnalytics = () => {
       <div className={styles.chartAndRecentSessionsContainer}>
         <div className={styles.chartContainer}>
           <h2>Impact Histogram</h2>
-          {metricData ? (
-            <StackedBarChart {...metricData} />
+          {AnalyticsSummaryPlayer?.histogramData ? (
+            <StackedBarChart {...AnalyticsSummaryPlayer.histogramData} />
           ) : (
             <div>No data Available</div>
           )}
         </div>
         <div className={styles.criticalSessions}>
           <h2>Critical Sessions</h2>
-          {criticalSessionsData?.length == 0 && <p>No sessions recorded</p>}
-          {criticalSessionsData?.map((session) => (
+          {AnalyticsSummaryPlayer?.criticalSessions?.length == 0 && (
+            <p>No sessions recorded</p>
+          )}
+          {AnalyticsSummaryPlayer?.criticalSessions?.map((session) => (
             <div className={styles.criticalSessionContainer} key={session.name}>
               <CriticalSession
                 name={session.name}
