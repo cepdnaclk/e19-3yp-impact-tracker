@@ -1,3 +1,4 @@
+import threading
 import paho.mqtt.client as mqtt
 from datetime import datetime
 import time
@@ -12,12 +13,17 @@ broker_port = 1883
 impact_topic = "buddy/+/impact"
 mapping_topic = "player_map"
 session_topic = "session"
+buddy_status_topic = "buddy/+/status"
 # session_end_topic = "session_end"
 # session_data = "session_data"
 is_concussion_topic = "player/+/concussion"
 
 # Player to device mapping (device_id:player_id)
 player_device_mapping = {}
+
+# Buddy Time (device_id: timestamp)
+buddy_active_time_map: dict[int, float] = {}
+
 
 # Session variables
 broker_connected = False
@@ -125,6 +131,20 @@ def on_message(client, userdata, msg):
         except Exception as e:
             print(f"Error in handling concussion data: {str(e)}")
 
+    elif bool(re.search(r"buddy/\d+/status$", msg.topic)):
+        global buddy_active_time_map
+        try:
+            device_id = int(msg.topic.split("/")[1])
+            status = int(data)
+
+            if (status == 0):
+                return
+            else:
+                buddy_active_time_map[device_id] = time.time()
+                print("Buddy status updated:", buddy_active_time_map)
+        except Exception as e:
+            print(f"Error in handling buddy status: {e}")
+
 
 def on_disconnect(client, userdata, rc):
     try:
@@ -145,6 +165,23 @@ def end_session():
     start_time = None
     # player_device_mapping = {}
     print("Session ended!")
+
+
+def check_for_inactive_buddies():
+    global buddy_active_time_map
+    while True:
+        current_time = time.time()
+        for device_id in list(buddy_active_time_map.keys()):
+            if current_time - buddy_active_time_map[device_id] > 60:
+                # Publish zero battery status for inactive buddy
+                print(f"Buddy {device_id} is not active.")
+                buddy_status_topic = f"buddy/{device_id}/status"
+                client.publish(buddy_status_topic, 0, retain=True)
+
+                # remove inactive buddy from the map
+                del buddy_active_time_map[device_id]
+                print("Buddy status sent")
+        time.sleep(30)
 
 
 # Create MQTT client
@@ -170,6 +207,7 @@ while attempts < max_attempts:
         attempts += 1
         time.sleep(5)  # Wait for a few seconds before the next attempt
 
+
 # Check if the maximum number of attempts is reached
 if attempts == max_attempts:
     print(f"Failed to connect after {max_attempts} attempts. Exiting.")
@@ -177,6 +215,11 @@ if attempts == max_attempts:
 
 # Start the MQTT loop
 client.loop_start()
+
+# Start a separate thread to run the check_for_inactive_buddies function
+check_buddies_thread = threading.Thread(
+    target=check_for_inactive_buddies, daemon=True)
+check_buddies_thread.start()
 
 try:
     while True:
