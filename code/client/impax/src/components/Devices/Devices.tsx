@@ -43,7 +43,6 @@ const Devices: React.FC = () => {
   const [addBuddyOpen, setAddBuddyOpen] = React.useState<boolean>(false);
   //if mqtt is not connected, show no connection page
   const isMqttOnline = useAppState((state) => state.isMqttOnine);
-  // isMqttOnline = true; //TODO: remove this line
 
   // form handling
   const {
@@ -60,11 +59,8 @@ const Devices: React.FC = () => {
     setAddBuddyOpen(false);
     if (deviceStatus) {
       await showSuccessPopup("Success", "Configuration Successful!");
-      console.log("Configuration sent successfully");
     } else {
       await showErrorPopup("Error", "Please Try Again!");
-
-      console.log("Configuration Not Sent!!");
     }
   };
   if (!isMqttOnline) {
@@ -127,11 +123,6 @@ const Devices: React.FC = () => {
                 children="Add New Buddy"
                 Icon={IoAdd}
                 disabled={isSubmitting}
-                // onClick={() => {
-                //   syncDevice();
-                //   //TODO: if success, close modal, else show error
-                //   setAddBuddyOpen(false);
-                // }}
               />
             </form>
           </DialogModal>
