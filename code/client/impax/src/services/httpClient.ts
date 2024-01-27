@@ -1,6 +1,8 @@
 import { updatePlayersDetails } from "../states/updateAppStates";
 import { Players, SessionToBeUploaded } from "../types";
 import { BASE_URL} from "../config/config";
+import { renewAccessToken } from "./authService";
+import { useLoginState } from "../states/profileState";
 
 export const uploadSession = async () => {
   if (localStorage.getItem("sessionDetails") === null) return;
@@ -32,8 +34,35 @@ export const uploadSession = async () => {
   }
 };
 
-function sendToServer(object: SessionToBeUploaded) {
-  console.log(object);
+const sendToServer =  async(object: SessionToBeUploaded) =>{
+  // renew access Token
+  renewAccessToken();
+
+  const token = localStorage.getItem("accessToken");
+  const request = {
+    sessionId: object.session.session_id,
+    sessionName: object.session.session_name,
+    createdAt: object.session.createdAt,
+    updatedAt: object.session.updatedAt,
+    teamId:   useLoginState.getState().loginInfo.teamId,
+    impactHistory: object.playerImpactHistory,
+  }
+
+    const response = await fetch(`${BASE_URL}/player`, {
+      method: "POST",
+      body: JSON.stringify(request),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    const responseData = await response.json();
+    console.log(responseData);
+    if (response.ok) {
+      // TODO: remove the session from local storage
+      console.log("OK")
+    } 
+
 }
 
 export const getPlayers = async () => {
