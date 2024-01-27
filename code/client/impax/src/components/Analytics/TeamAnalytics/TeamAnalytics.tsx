@@ -24,7 +24,7 @@ import TeamAnalyticsTable from "./TeamAnalyticsTable";
 const TeamAnalytics = () => {
   const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
 
-  const { data: AnalyticsSummaryManager } = useQuery({
+  const { data: AnalyticsSummaryManager, isLoading } = useQuery({
     queryFn: () => fetchAnalyticsSummaryManager(),
     queryKey: ["analyticsSummaryManagerData", { timeSpan }],
   });
@@ -45,6 +45,9 @@ const TeamAnalytics = () => {
     );
     const responseData = await response.json();
     return responseData;
+  }
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
   return (
