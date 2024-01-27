@@ -42,8 +42,8 @@ export const useSignupState = create<SignupState>()((set) => ({
   signupInfo: { teamId: "", email: "" },
   setSignupInfo: (signupInfo) => set({ signupInfo: signupInfo }),
 
-  // isLoggedInPlayer: localStorage.getItem("isLoggedInPlayer") === "true",
-  isLoggedInPlayer: false,
+  isLoggedInPlayer: localStorage.getItem("isLoggedInPlayer") === "true",
+  // isLoggedInPlayer: false,
 
   setIsLoggedInPlayer: (isLoggedInPlayer) => {
     set({ isLoggedInPlayer: isLoggedInPlayer });
@@ -51,8 +51,8 @@ export const useSignupState = create<SignupState>()((set) => ({
     if (!isLoggedInPlayer) localStorage.clear();
   },
 
-  // isLoggedInManager: localStorage.getItem("isLoggedInManager") === "true",
-  isLoggedInManager: false,
+  isLoggedInManager: localStorage.getItem("isLoggedInManager") === "true",
+  // isLoggedInManager: false,
 
   setIsLoggedInManager: (isLoggedInManager) => {
     set({ isLoggedInManager: isLoggedInManager }),

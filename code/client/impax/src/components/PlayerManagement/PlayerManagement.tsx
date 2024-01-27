@@ -71,13 +71,22 @@ const columns: ColumnDef<Player>[] = [
     header: "Email Address",
     id: "email",
     size: 100,
+    cell: ({ row }) => {
+      const email: string = row.getValue("email");
+      if (email === undefined) return "---";
+      return email;
+    },
   },
   {
     accessorKey: "verification",
     header: "Verification",
     id: "verification",
     size: 40,
-    cell: ({ row }) => <Verification status={row.getValue("verification")} />,
+    cell: ({ row }) => {
+      const verification: string = row.getValue("verification");
+      if (verification === undefined) return "---";
+      else return <Verification status={row.getValue("verification")} />;
+    },
   },
   {
     accessorKey: "edit",
@@ -247,7 +256,7 @@ const PlayerManagement = () => {
                   </span>
                 </label>
                 <input
-                  {...register("email", { required: true })}
+                  {...register("email", { required: false })}
                   type="email"
                   name="email"
                   id="email"

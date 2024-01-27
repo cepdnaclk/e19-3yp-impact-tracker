@@ -1,0 +1,25 @@
+{
+  "14": {
+    "name": "M jayawardhane",
+    "email": "mj@example.com",
+    "verification": "Pending"
+  },
+  "44": {
+    "name": "Hirushi Gunasekara",
+    "email": "hirushig1@gmail.com",
+    "verification": "verified"
+  },
+  "50": {
+    "name": "Kumar Sanga",
+    "email": "ksanga@example.com",
+    "verification": "Pending"
+  },
+  "60": {
+    "name": "John Doe",
+    "email": "jhondoe@example.com",
+    "verification": "Pending"
+  }
+}
+
+
+

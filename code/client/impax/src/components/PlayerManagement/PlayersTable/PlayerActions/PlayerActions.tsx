@@ -65,7 +65,7 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
           className={styles.editPlayerForm}
           onSubmit={handleSubmit(onSubmit)}
         >
-          <label htmlFor="jersey_number">Jersey Number</label>
+          {/* <label htmlFor="jersey_number">Jersey Number</label>
           <input
             type="number"
             name="jersey_number"
@@ -73,7 +73,14 @@ const PlayerActions: React.FC<{ jerseyId: number }> = ({ jerseyId }) => {
             placeholder="25"
             disabled
             value={jerseyId}
-          />
+          /> */}
+          <h3>
+            <span>Jersey No:</span> {jerseyId}
+          </h3>
+          {/* <p>
+            Jersey Number of a player cannot be changed. To change the jersey
+            Id, remove and re-add the player
+          </p> */}
           <label htmlFor="name">Player Name</label>
           <input
             {...register("name")}

@@ -82,7 +82,12 @@ export const setPlayerMap = (playerMapString: string) => {
 
 export const setSessionDetails = (sessionString: string) => {
   //Parse sessionString and set sessionDetails
-  const session = JSON.parse(sessionString);
+  const session: Session = JSON.parse(sessionString);
+  if (session.active === false) {
+    useAppState.setState({ playersImpact: {} as PlayersImpact });
+    useAppState.setState({ playersImpactHistory: {} as PlayerImpactHistory });
+    useAppState.setState({ monitoringBuddies: new Set() as Set<number> });
+  }
   useAppState.setState({ sessionDetails: session });
 };
 

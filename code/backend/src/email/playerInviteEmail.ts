@@ -24,9 +24,9 @@ export async function sendInvitationEmail(
     html: `
     <p>Hello ${fullName},</p>
     
-    <p>You've been invited to join the team ${teamName}! </p>
+    <p>You've been invited to join the team ${teamName}! Click the following link to accept the invitation:</p>
     
-    <a href="http://localhost:5000/player/accept-invitation/token/${invitationToken}" 
+    <a href="http://16.170.235.219:5000/player/accept-invitation/token/${invitationToken}" 
     style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: #ffffff; 
     text-decoration: none; border-radius: 5px;">Accept Invitation</a><br><br>
     

@@ -29,7 +29,7 @@ class PlayerInTeamService {
         jerseyId: jerseyId,
         fullName: fullName,
         invitationToken: invitationToken,
-        isVerified: "Pending",
+        isVerified: "pending",
       });
 
 
@@ -40,7 +40,7 @@ class PlayerInTeamService {
         teamId,
         jerseyId,
         fullName,
-        "Pending",
+        "pending",
       );
 
       return playerInTeamResponse;

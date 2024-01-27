@@ -23,9 +23,9 @@ export async function sendVerificationEmail(
     html: `
     <p>Hello,</p>
     
-    <p>You've been created  the team ${teamName}! Click the following link to verify your email:</p>
+    <p>To confirm creation of the team ${teamName}, click the button and verify your email address</p>
     
-    <a href="http://localhost:5000/manager/accept-invitation/token/${invitationToken}" 
+    <a href="http://16.170.235.219:5000/manager/accept-invitation/token/${invitationToken}" 
     style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: #ffffff; 
     text-decoration: none; border-radius: 5px;">Verify Email Here</a><br><br>
     

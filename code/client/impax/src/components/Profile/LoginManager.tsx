@@ -39,7 +39,6 @@ const LoginManager = () => {
   };
 
   const onSubmit = async (data: FieldValues) => {
-    console.log("I'm hereee!!");
     const { teamId, email, password } = data;
     const response = await fetch(`${BASE_URL}/login/manager`, {
       method: "POST",

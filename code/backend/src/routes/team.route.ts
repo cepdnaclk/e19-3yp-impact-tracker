@@ -191,7 +191,7 @@ router.post("/manager", async (req, res) => {
       email,
       password,
       "",
-      false
+      "pending"
     );
 
     // Create the Team and get the response
@@ -276,6 +276,7 @@ router.get("/:id", async (req: Request, res: Response) => {
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
   }
 });
+
 
 // Export the router for use in other files
 export default router;
