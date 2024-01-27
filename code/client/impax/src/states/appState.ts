@@ -12,7 +12,6 @@ import {
   SessionToBeUploaded,
   PlayersWithTimeStamp,
 } from "../types";
-import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
 import MqttClient from "../services/mqttClient";
 
@@ -106,7 +105,7 @@ export const useAppState = create<AppState>()((set) => ({
   playersImpactHistory: {} as PlayerImpactHistory,
 
   //TODO: Clashing of players with other dashbaords
-  playerDetails: players,
+  playerDetails: localStorage.getItem("players") || {} ,
   setPlayerDetails: (players: Players) => {
     set({ playerDetails: players });
     const timestamp = new Date().getTime();
@@ -124,7 +123,7 @@ export const useAppState = create<AppState>()((set) => ({
       const timestamp = new Date().getTime();
       const playersWithTimestamp: PlayersWithTimeStamp = {
         timestamp,
-        players,
+        players: playerDetails,
       };
       localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
 
@@ -149,7 +148,7 @@ export const useAppState = create<AppState>()((set) => ({
       const timestamp = new Date().getTime();
       const playersWithTimestamp: PlayersWithTimeStamp = {
         timestamp,
-        players,
+        players:playerDetails,
       };
       localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
       return { playerDetails };
@@ -173,7 +172,7 @@ export const useAppState = create<AppState>()((set) => ({
       const timestamp = new Date().getTime();
       const playersWithTimestamp: PlayersWithTimeStamp = {
         timestamp,
-        players,
+        players:playerDetails,
       };
       localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
       return { playerDetails };
