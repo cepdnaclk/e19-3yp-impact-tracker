@@ -109,6 +109,12 @@ export type TeamAnalyticsColumns = {
   concussions: number;
 };
 
+export type TeamAnalyticsSummary ={
+  summaryData: Metric[];
+  tableData: TeamAnalyticsColumns[];
+}
+
+
 //Profile Managers
 export type Manager =
   | {
