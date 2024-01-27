@@ -1560,10 +1560,7 @@
           "teamId": {
             "type": "string"
           },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
+          "name": {
             "type": "string"
           },
           "email": {
@@ -1588,10 +1585,7 @@
           "teamId": {
             "type": "string"
           },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
+          "name": {
             "type": "string"
           },
           "email": {
