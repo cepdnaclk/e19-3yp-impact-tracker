@@ -672,6 +672,56 @@
         }
       }
     },
+
+    "/player/accept-invite/{teamId}/{isAccepted}": {
+      "get": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Accept or deny an invitation to join a team - Access Token required",
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "description": "TeamId of the player",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isAccepted",
+            "in": "path",
+            "description": "If the invitation is Accept of deny",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "enum": [0, 1]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Invitation accepted successfully!"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     
 
 
