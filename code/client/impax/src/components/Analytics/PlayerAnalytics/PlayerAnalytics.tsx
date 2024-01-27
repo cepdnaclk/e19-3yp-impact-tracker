@@ -33,8 +33,6 @@ const PlayerAnalytics = () => {
       }
     );
     const responseData = await response.json();
-    console.log(responseData.analyticsSummary);
-    console.log(responseData.analyticsSummary.criticalSessions);
     return responseData.analyticsSummary;
   }
 
