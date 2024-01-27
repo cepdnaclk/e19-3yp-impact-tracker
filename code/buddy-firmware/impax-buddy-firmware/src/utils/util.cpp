@@ -64,8 +64,8 @@ int getBatteryStatus()
     // }
     // Serial.println("");
 
-    if (isIncreasing(prevPercentage, MOVING_PERCENTAGE_SIZE))
-        return CHARGIN_STATE;
+    // if (isIncreasing(prevPercentage, MOVING_PERCENTAGE_SIZE))
+    //     return CHARGIN_STATE;
 
     if (voltage > VOLTAGE_UPPER_LIMIT || percentage > 100)
         return 100;
