@@ -5,12 +5,7 @@ import styles from "./TeamAnalytics.module.scss";
 import { MdBarChart } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa6";
 import ImpactSummaryCard from "../ImpactSummaryCard";
-// import {
-//   teamAnalyticsSummary,
-//   teamAnalyticsSummary2,
-//   teamAnalyticsTableData,
-//   teamAnalyticsTableData2,
-// } from "./teamData";
+
 import {
   // Metric,
   // TeamAnalyticsColumns,
@@ -49,7 +44,6 @@ const TeamAnalytics = () => {
       }
     );
     const responseData = await response.json();
-    console.log(responseData);
     return responseData;
   }
 
