@@ -52,21 +52,23 @@ export const syncDevice = async (ssid: string, password: string) => {
   const filtersESP = [{ usbVendorId: 0x1a86, usbProductId: 0x7523 }];
   if ("serial" in navigator) {
     // console.log("Yahooo Serial is supported");
-    const port = await (navigator.serial as Serial).requestPort({
+    let port;
+    try {
+    port = await (navigator.serial as Serial).requestPort({
       filters: filtersESP,
     });
-    console.log(port);
+    // console.log(port);
     await port.open({ baudRate: 9600 });
 
     await new Promise((resolve) => setTimeout(resolve, 3000));
     // const reqMessage = "{impax,impax12345678,impax,impax}";
     const reqMessage = `{${ssid},${password},impax,impax}`;
 
-    try {
+    
       await sendData("request", port, encoder);
       await new Promise((resolve) => setTimeout(resolve, 3000));
       const ackMessage = await readData(port, decoder);
-      console.log("First Reply" + ackMessage);
+      console.log("First Reply " + ackMessage);
       if (ackMessage === "ack") {
         await new Promise((resolve) => setTimeout(resolve, 3000));
         await sendData(reqMessage, port, encoder);
@@ -82,17 +84,19 @@ export const syncDevice = async (ssid: string, password: string) => {
           
         }
       } else {
-        throw new Error("Handshake failed: ACK not received");
-        // console.error("Handshake failed: ACK not received");
+        console.error("Handshake failed: ACK not received");
+        return false;
       }
     } catch (error) {
       console.error("Error:", error);
+      return false;
     } finally {
-      await port.close();
+      await port?.close();
       console.log("Port closed");
     }
   } else {
-    throw new Error("Serial not supported");
+    console.error("Serial not supported");
+    return false;
     // console.log("its not");
   }
 };
