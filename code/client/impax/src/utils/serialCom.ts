@@ -1,4 +1,5 @@
 /* eslint-disable no-constant-condition */
+
 export async function sendData(
   message: string,
   port: SerialPort,
@@ -50,7 +51,7 @@ export const syncDevice = async (ssid: string, password: string) => {
   // ];
   const filtersESP = [{ usbVendorId: 0x1a86, usbProductId: 0x7523 }];
   if ("serial" in navigator) {
-    console.log("Yahooo Serial is supported");
+    // console.log("Yahooo Serial is supported");
     const port = await (navigator.serial as Serial).requestPort({
       filters: filtersESP,
     });
@@ -74,12 +75,15 @@ export const syncDevice = async (ssid: string, password: string) => {
         const secondreply = await readData(port, decoder);
         console.log("Second reply " + secondreply);
         if (secondreply === "ack") {
-          console.log("Configuration sent successfully");
+          return true;
+          
         } else {
-          console.log("Configuration Not Sent!!");
+          return false;
+          
         }
       } else {
-        console.error("Handshake failed: ACK not received");
+        throw new Error("Handshake failed: ACK not received");
+        // console.error("Handshake failed: ACK not received");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -88,6 +92,7 @@ export const syncDevice = async (ssid: string, password: string) => {
       console.log("Port closed");
     }
   } else {
-    console.log("its not");
+    throw new Error("Serial not supported");
+    // console.log("its not");
   }
 };
