@@ -1,11 +1,6 @@
 import { Metric } from "../../../types";
 
-export const data: {
-  title: string;
-  value: string;
-  trend?: number;
-  metaUnits?: string;
-}[] = [
+export const data: Metric[] = [
   {
     title: "Cumulative Impacts",
     value: "850 g",
@@ -17,15 +12,19 @@ export const data: {
     trend: 20,
   },
   {
-    title: "Impact Frequency",
-    value: "400",
-    metaUnits: "/hr",
+    title: "Highest Impact",
+    value: "70g",
     trend: 10,
   },
   {
     title: "Average Impact",
     value: "43 g",
     trend: 40,
+  },
+  {
+    title: "Dominant Direction",
+    value: "Right",
+    trend: "Left",
   },
 ];
 
