@@ -11,11 +11,11 @@ export type AnalyticsSummary = {
       back: number[];
     };
     criticalSessions: Array<{
-      sessionName: string;
-      sessionDate: string;
-      cumulativeImpact: number;
-      averageImpact: number;
-      largestImpact: number;
+      name: string;
+      date: string;
+      cumulative: number;
+      average: number;
+      largest: number;
     }>;
   };
   
@@ -54,17 +54,16 @@ export type AnalyticsSummaryTeam = {
     value: string | number;
     trend?: string | number;
   }>;
-  tableData: {
-    [jerseyId: number]: {
-      playerName: string;
-      impactsRecorded: number;
-      cumulativeImpact: number;
-      averageImpact: number;
-      largestImpact: number;
-      dominantDirection: string;
+  tableData: Array<{
+      jersey_number: number;
+      name: string;
+      impacts_recorded: number;
+      average_impact: number;
+      highest_impact: number;
+      dominant_direction: ImpactDirection;
+      cumulative_impact: number;
       concussions: number;   
-    };     
-  };
+    }>; 
 };
 
 
