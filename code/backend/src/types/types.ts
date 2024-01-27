@@ -2,7 +2,7 @@ export type AnalyticsSummary = {
     summaryData: Array<{
       title: string;
       value: string | number;
-      trend: number | ImpactDirection;
+      trend: number | ImpactDirection | '--';
     }>;
     histogramData: {
       left: number[];
@@ -15,18 +15,18 @@ export type AnalyticsSummary = {
       date: string;
       cumulative: number;
       average: number;
-      largest: number;
+      highest: number;
     }>;
   };
   
 export type ImpactDirection = 'left' | 'right' | 'front' | 'back'| 'none';
 
 export type SessionAnalytics = {
-  sessionName: string;
-  sessionDate: string;
-  cumulativeImpact: number;
-  averageImpact: number;
-  largestImpact: number;
+  name: string;
+  date: string;
+  cumulative: number;
+  average: number;
+  highest: number;
 };
 
 export type ImpactStats = {
@@ -52,7 +52,7 @@ export type AnalyticsSummaryTeam = {
   summaryData: Array<{
     title: string;
     value: string | number;
-    trend?: string | number;
+    trend?: string | number | '--';
   }>;
   tableData: Array<{
       jersey_number: number;
