@@ -12,7 +12,7 @@ import NoMqttConnection from "../StatusScreens/NoMqttConnection";
 import { syncDevice } from "../../utils/serialCom";
 import DialogModal from "../Modal/DialogModal";
 import { FieldValues, useForm } from "react-hook-form";
-import { showPopup } from "../../utils/popup";
+import { showErrorPopup, showSuccessPopup } from "../../utils/popup";
 
 const Devices: React.FC = () => {
   const buddies: Buddies = useAppState((state) => state.buddiesStatus);
@@ -42,7 +42,8 @@ const Devices: React.FC = () => {
 
   const [addBuddyOpen, setAddBuddyOpen] = React.useState<boolean>(false);
   //if mqtt is not connected, show no connection page
-  const isMqttOnline = useAppState((state) => state.isMqttOnine);
+  let isMqttOnline = useAppState((state) => state.isMqttOnine);
+  isMqttOnline = true; //TODO: remove this line
 
   // form handling
   const {
@@ -58,10 +59,10 @@ const Devices: React.FC = () => {
     reset();
     setAddBuddyOpen(false);
     if (deviceStatus) {
-      await showPopup("success", "Success", "Configuration Successful!");
+      await showSuccessPopup("Success", "Configuration Successful!");
       console.log("Configuration sent successfully");
     } else {
-      await showPopup("error", "Error", "Please Try Again!");
+      await showErrorPopup("Error", "Please Try Again!");
 
       console.log("Configuration Not Sent!!");
     }
