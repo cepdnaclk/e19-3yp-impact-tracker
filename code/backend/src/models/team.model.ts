@@ -34,24 +34,24 @@ class Team {
 }
 
 class TeamResponse {
-  public teamId: string;
-  public teamName: string;
+  public team_id: string;
+  public team_name: string;
 
   public constructor(team: Team) {
-    this.teamId = team.teamId;
-    this.teamName = team.teamName;
+    this.team_id = team.teamId;
+    this.team_name = team.teamName;
   }
 }
 
 class TeamResponseWithIsVerified {
-  public teamId: string;
-  public teamName: string;
-  public isVerified: string;
+  public team_id: string;
+  public team_name: string;
+  public verification: string;
 
   constructor(teamId: string, teamName: string, isVerified: string) {
-    this.teamId = teamId;
-    this.teamName = teamName;
-    this.isVerified = isVerified;
+    this.team_id = teamId;
+    this.team_name = teamName;
+    this.verification = isVerified;
   }
 }
 

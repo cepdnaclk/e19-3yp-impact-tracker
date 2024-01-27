@@ -115,7 +115,7 @@ class PlayerService {
         throw new Error("Player not found");
       }
 
-      // Create a ManagerResponse object
+      // Create a PlayerResponse object
       const playerResponse = new PlayerResponse(
         playerInstance.email,
         playerInstance.isVerified,
