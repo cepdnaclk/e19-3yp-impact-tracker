@@ -71,6 +71,7 @@ export const getPlayers = async () => {
       },
     });
     const playersData: Players = await playersResponse.json();
+    console.log("players data fetched: ", playersData);
     updatePlayersDetails(playersData);
   } catch (error) {
     console.log(error);
