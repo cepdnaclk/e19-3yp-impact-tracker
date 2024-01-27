@@ -44,15 +44,15 @@ export async function readData(port: SerialPort, decoder: TextDecoder) {
 export const syncDevice = async (ssid: string, password: string) => {
   const decoder = new TextDecoder();
   const encoder = new TextEncoder();
-  const filters = [
-    { usbVendorId: 0x2341, usbProductId: 0x0043 },
-    { usbVendorId: 0x2341, usbProductId: 0x0001 },
-  ];
-  // const filtersESP = [{ usbVendorId: 0x1a86, usbProductId: 0x7523 }];
+  // const filters = [
+  //   { usbVendorId: 0x2341, usbProductId: 0x0043 },
+  //   { usbVendorId: 0x2341, usbProductId: 0x0001 },
+  // ];
+  const filtersESP = [{ usbVendorId: 0x1a86, usbProductId: 0x7523 }];
   if ("serial" in navigator) {
     console.log("Yahooo Serial is supported");
     const port = await (navigator.serial as Serial).requestPort({
-      filters: filters,
+      filters: filtersESP,
     });
     console.log(port);
     await port.open({ baudRate: 9600 });

@@ -20,12 +20,12 @@ void HighGCalibrated::begin()
     // Chip initialization
     while (!acce.begin())
     {
-        Serial.println("Initialization failed, please check the connection and I2C address settings");
+        // Serial.println("Initialization failed, please check the connection and I2C address settings");
         delay(1000);
     };
     // Get chip id
-    Serial.print("chip id : ");
-    Serial.println(acce.getID(), HEX);
+    // Serial.print("chip id : ");
+    // Serial.println(acce.getID(), HEX);
 
     /**
       set range:Range(g)
