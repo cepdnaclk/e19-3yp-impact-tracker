@@ -5,11 +5,11 @@ import { renewAccessToken } from "./authService";
 import { useLoginState } from "../states/profileState";
 
 export const uploadSession = async () => {
-  if (localStorage.getItem("sessionDetails") === null) return;
+  if (localStorage.getItem("sessionsToBeUploaded") === null) return;
   else {
     // Retrieve the array of objects from local storage
     const sessionsToBeUploaded: SessionToBeUploaded[] = JSON.parse(
-      localStorage.getItem("sessionDetails") as string
+      localStorage.getItem("sessionsToBeUploaded") as string
     );
 
     if (sessionsToBeUploaded.length === 0) return;
@@ -27,7 +27,7 @@ export const uploadSession = async () => {
 
     // Update the modified array in local storage
     localStorage.setItem(
-      "sessionDetails",
+      "sessionsToBeUploaded",
       JSON.stringify(sessionsToBeUploaded)
     );
   }
@@ -56,7 +56,7 @@ const sendToServer = async (object: SessionToBeUploaded) => {
     },
   });
   const responseData = await response.json();
-  console.log(responseData);
+  console.log("Uploading Session... ", responseData);
   return response;
 };
 
