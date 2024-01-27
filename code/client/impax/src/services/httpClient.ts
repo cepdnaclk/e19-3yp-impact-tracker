@@ -48,7 +48,7 @@ const sendToServer =  async(object: SessionToBeUploaded) =>{
     impactHistory: object.playerImpactHistory,
   }
 
-    const response = await fetch(`${BASE_URL}/player`, {
+    const response = await fetch(`${BASE_URL}/session`, {
       method: "POST",
       body: JSON.stringify(request),
       headers: {
