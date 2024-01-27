@@ -42,8 +42,7 @@ const Devices: React.FC = () => {
 
   const [addBuddyOpen, setAddBuddyOpen] = React.useState<boolean>(false);
   //if mqtt is not connected, show no connection page
-  let isMqttOnline = useAppState((state) => state.isMqttOnine);
-  isMqttOnline = true; //TODO: remove this line
+  const isMqttOnline = useAppState((state) => state.isMqttOnine);
 
   // form handling
   const {
