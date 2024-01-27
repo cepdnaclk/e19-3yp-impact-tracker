@@ -4,7 +4,7 @@ import Hero from "./Hero";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../config/config";
-import { showPopup } from "../../utils/popup.ts";
+import { showErrorPopup } from "../../utils/popup.ts";
 
 const TeamCreation = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
@@ -43,7 +43,7 @@ const TeamCreation = () => {
     if (response.ok) {
       navigate("/signup/manager/success");
     } else {
-      await showPopup("error", "Invalid Credentials", "Please Try Again");
+      await showErrorPopup("Invalid Credentials", "Please Try Again");
     }
     reset();
   };
