@@ -46,13 +46,13 @@ void BuddyMQTT::reconnect(bool (*communicationDashboard)(), void (*turnOffHandle
         // Attempt to connect to the MQTT broker
         if (client.connect(client_id.c_str(), mqtt_username, mqtt_password))
         {
-            Serial.println("MQTT broker connected");
+            // Serial.println("MQTT broker connected");
         }
         else
         {
             // Print error message and wait before retrying
-            // Serial.print("failed with state ");
-            // Serial.print(client.state());
+            // // Serial.print("failed with state ");
+            // // Serial.print(client.state());
             delay(TIME_DELAY_RECONNECT);
         }
     }
@@ -121,15 +121,15 @@ void BuddyMQTT::setCertificates(const char *root_ca, const char *client_ca, cons
 // Callback function executed when a new MQTT message is received
 void callback(char *topic, byte *payload, unsigned int length)
 {
-    Serial.print("Message arrived in topic: ");
-    Serial.println(topic);
-    Serial.print("Message:");
+    // Serial.print("Message arrived in topic: ");
+    // Serial.println(topic);
+    // Serial.print("Message:");
     for (int i = 0; i < length; i++)
     {
-        Serial.print((char)payload[i]);
+        // Serial.print((char)payload[i]);
     }
-    Serial.println();
-    Serial.println("-----------------------");
+    // Serial.println();
+    // Serial.println("-----------------------");
 }
 
 // Set MQTT username

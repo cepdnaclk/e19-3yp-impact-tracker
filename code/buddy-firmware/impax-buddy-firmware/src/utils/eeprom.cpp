@@ -6,15 +6,15 @@ void initEEPROM(String &ssid, String &password, String &mqtt_username, String &m
 
     // setBuddyIdEEPROM(ID);
     BUDDY_ID += EEPROM.read(EEPROM_ID_ADDRESS);
-    Serial.println(BUDDY_ID);
+    // Serial.println(BUDDY_ID);
 
-    setSSIDAndPasswordEEPROM(ssid, password);
+    // setSSIDAndPasswordEEPROM(ssid, password);
     getSSIDAndPasswordEEPROM(ssid, password);
 
-    writeMQTTUserNameEEPROM(mqtt_username);
+    // writeMQTTUserNameEEPROM(mqtt_username);
     readMQTTUserNameEEPROM(mqtt_username);
 
-    writeMQTTPasswordEEPROM(mqtt_password);
+    // writeMQTTPasswordEEPROM(mqtt_password);
     readMQTTPasswordEEPROM(mqtt_password);
 }
 
