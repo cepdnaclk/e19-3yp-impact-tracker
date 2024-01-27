@@ -1,0 +1,59 @@
+@use "../../variables.scss" as *;
+.skeleton {
+  width: 100%;
+  .skeletonGrid {
+    margin-top: 1.4em;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1em;
+
+    .skeletonCard {
+      @include card;
+      border-radius: 0.4em;
+      padding: 1em 1em;
+
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 1em;
+      * {
+        animation: skeleton-loading 600ms ease-in-out infinite alternate;
+        border-radius: 0.4em;
+      }
+
+      h3 {
+        width: 100%;
+        height: 1.2em;
+        font-size: 0.9em;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.7);
+        text-transform: uppercase;
+      }
+
+      .value {
+        width: 50%;
+        height: 4em;
+        border-radius: 1em;
+      }
+
+      .trend {
+        height: 1.2em;
+        margin-top: 0.4em;
+        font-weight: 600;
+        font-size: 1.2em;
+        width: 40%;
+      }
+    }
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: #2e2e2e;
+  }
+  100% {
+    background-color: lighten($color: #1f1f1f, $amount: 10);
+  }
+}
