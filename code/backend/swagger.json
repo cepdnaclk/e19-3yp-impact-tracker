@@ -265,43 +265,7 @@
       }
     },
 
-    "/team/analytics-summary/{duration}": {
-      "get": {
-        "tags": ["TeamEndpoints"],
-        "summary": "Get analytics summary for a specific duration - Access Token required (Only accessible by manager)",
-        "parameters": [
-          {
-            "name": "duration",
-            "in": "path",
-            "description": "Duration for analytics summary (e.g., 'Last Week' , 'Last Month' , 'All Time')",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "$ref": "#/components/schemas/AnalyticsSummaryTeam"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "example": {
-                  "message": "Bad Request"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
+    
 
 
 
@@ -579,7 +543,43 @@
       }
     },
     
-    
+    "/player/analytics-summary/{duration}": {
+      "get": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Get analytics summary for a specific duration - Access Token required",
+        "parameters": [
+          {
+            "name": "duration",
+            "in": "path",
+            "description": "Duration for analytics summary (e.g., 'Last Week' , 'Last Month' , 'All Time')",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/AnalyticsSummary"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
 
     "/player/add": {
       "post": {
