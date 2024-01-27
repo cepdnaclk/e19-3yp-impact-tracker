@@ -11,7 +11,12 @@ import {
   teamAnalyticsTableData,
   teamAnalyticsTableData2,
 } from "./teamData";
-import { Metric, TeamAnalyticsColumns, TimeSpan } from "../../../types";
+import {
+  Metric,
+  TeamAnalyticsColumns,
+  TimeSpan,
+  TeamAnalyticsSummary,
+} from "../../../types";
 import TeamAnalyticsTable from "./TeamAnalyticsTable";
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../../../config/config";
@@ -36,7 +41,7 @@ const TeamAnalytics = () => {
   //   queryKey: ["tableData", { timeSpan }],
   // });
 
-  async function fetchAnalyticsSummaryManager() {
+  async function fetchAnalyticsSummaryManager(): Promise<TeamAnalyticsSummary> {
     // Renew access Token
     await renewAccessToken();
     const response = await fetch(
