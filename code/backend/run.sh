@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd
-
 # Check if backendserver is running
 if pm2 describe backendserver &> /dev/null; then
     # If running, restart it
