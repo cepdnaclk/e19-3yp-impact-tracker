@@ -15,8 +15,10 @@ import { useAppState } from "../../../states/appState";
 import NoInternetConnection from "../../StatusScreens/NoInternetConnection";
 import ImpactSummarySkeleton from "../ImpactSummarySkeleton";
 import Spinner from "../../StatusScreens/Spinner";
+import { useLoginState } from "../../../states/profileState";
 const PlayerAnalytics = () => {
   const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
+  const loginInfo = useLoginState((state) => state.loginInfo);
 
   const { data: AnalyticsSummaryPlayer, isLoading } = useQuery({
     queryFn: () => fetchAnalyticsSummaryPlayer(),
@@ -58,8 +60,8 @@ const PlayerAnalytics = () => {
       <Title Icon={MdBarChart} title="Player Analytics" />
       <div className={styles.summary}>
         <div className={styles.info}>
-          <h2>John Doe's Individual Analytics</h2>{" "}
-          <span>0 marked concussion</span>
+          <h2>Analyze your Individual Impacts</h2>{" "}
+          <span>{loginInfo.email}</span>
         </div>
         <div className={styles.controls}>
           <DropdownMenu.Root>
