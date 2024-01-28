@@ -34,7 +34,8 @@ const ImpactSummaryCard: React.FC<{ metric: Metric; timeSpan: TimeSpan }> = ({
             (String(metric.value).length > 10 && cardStyles.longText)
           }`}
         >
-          {metric.value}
+          {metric.value === "" ? "--" : metric.value}
+          {/* This was a backend bug, fixed in the front end */}
           {metric.metaUnits && (
             <span className={cardStyles.metaUnits}>{metric.metaUnits}</span>
           )}

@@ -105,7 +105,7 @@ export const useAppState = create<AppState>()((set) => ({
   playersImpactHistory: {} as PlayerImpactHistory,
 
   //TODO: Clashing of players with other dashbaords
-  playerDetails: JSON.parse(localStorage.getItem("players") || "players: {}")
+  playerDetails: JSON.parse(localStorage.getItem("players") || '{"player": {}}')
     .players as Players,
   setPlayerDetails: (players: Players) => {
     set({ playerDetails: players });

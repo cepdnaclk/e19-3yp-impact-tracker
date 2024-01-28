@@ -57,10 +57,19 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="cs-li">
-                            <a href="#Hardware" class="cs-li-link">
+                        <li class="cs-li cs-dropdown" tabindex="0">
+                            <span class="cs-li-link">
                                 Hardware
-                            </a>
+                                <img class="cs-drop-icon" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons/down-red.svg" alt="dropdown icon" width="15" height="15" decoding="async" aria-hidden="true">
+                            </span>
+                            <ul class="cs-drop-ul">
+                                <li class="cs-drop-li">
+                                    <a href="#Solution" class="cs-li-link cs-drop-link">Infrastructure</a>
+                                </li>
+                                <li class="cs-drop-li">
+                                    <a href="#SolutionArchitecture" class="cs-li-link cs-drop-link">3D Designs</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="cs-li">
                             <a href="" class="cs-li-link">
@@ -74,7 +83,7 @@
                     </ul>
                 </div>
             </nav>
-            <a href="" class="cs-button-solid cs-nav-button">Download Now</a>
+            <a href="download.html" class="cs-button-solid cs-nav-button">Download Now</a>
             <!--Dark Mode toggle, uncomment button code if you want to enable a dark mode toggle-->
             <!--Dark Mode toggle-->
             <!-- Place at the bottom of your container that wraps around your <nav> navigation list -->
@@ -247,7 +256,7 @@
     </section>
 
     <!-- ============================================ -->
-    <!--                    Hardware                     -->
+    <!--                    Hardware                  -->
     <!-- ============================================ -->
 
     <section id="Hardware">
@@ -256,7 +265,7 @@
                 <!-- <picture class="cs-wrapper" aria-hidden="true">
                     <img class="cs-decal" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/decal1.svg" decoding="async" alt="decal" width="181" height="36">
                 </picture> -->
-                <h2 class="cs-title">Hardware Components</h2>
+                <h2 class="cs-title">Hardware Infrastructure</h2>
             </div>
             <ul class="cs-card-group">
                 <li class="cs-item">
@@ -385,7 +394,68 @@
         </div>
         <!--Static background is in CSS as a tiled pattern-->
     </section>
-                                
+
+    <!-- ============================================ -->
+    <!--                 Video Gallery                -->
+    <!-- ============================================ -->
+    <section id="video-gallery">
+        <div class="content">
+    
+            <div class="section-header">
+            <h2 class="cs-title">3D Designs</h1>  
+            </div>
+            
+            <div class="video-gallery">
+            
+            <div class="gallery-item ">
+            <img src="assets/img/3D-hub-img.jpg" alt="3d model-hub"/>
+                <div class="gallery-item-caption">
+                <!--<div>-->
+                    <h2>Impax-Hub</h2>
+                    <!-- <p>14410 feet of adventure</p> -->
+                <!--</div>-->
+                <a class="vimeo-popup" href="assets/img/3d-hub.mp4"></a>
+                </div>
+            </div>
+        
+            <div class="gallery-item">
+                <img src="assets\img\3D-buddy-img.jpg" alt="3d model-buddy"/>
+                <div class="gallery-item-caption">
+                <!--<div>-->
+                    <h2>Impax-Buddy</h2>
+                    <!-- <p>Mountains, rain forests, wild coastlines</p> -->
+                <!--</div>-->
+                <a class="vimeo-popup" href="assets/img/3d-buddy.mp4"></a>
+                </div>
+            </div>
+            
+            <!-- <div class="gallery-item">
+            <img src="https://assets.codepen.io/156905/northcascadespark.jpg" class="north-cascades-img" alt="North Cascades National Park"/>
+                <div class="gallery-item-caption"> -->
+                <!--<div>-->
+                    <!-- <h2>North Cascades</h2>
+                    <p>The mountains are calling</p> -->
+                <!--</div>-->
+                <!-- <a class="vimeo-popup" href="https://vimeo.com/3653567"></a>
+                </div>
+            </div>
+         -->
+            <!-- <div class="gallery-item">
+                <img src="https://assets.codepen.io/156905/mountsthelens.jpg" alt="Mount St Helens"/>
+                <div class="gallery-item-caption"> -->
+                <!--<div>-->
+                    <!-- <h2>Mount St. Helens</h2>
+                    <p>The one and only</p> -->
+                <!--</div>-->
+                <!-- <a class="vimeo-popup" href="https://vimeo.com/171540296"></a>
+                </div>
+            </div>
+             -->
+        
+        
+            </div>
+        </div>   
+    </section>                        
 
 
 
@@ -400,11 +470,12 @@
 
             <ul class="cs-card-group">
                 <li class="cs-item">
+                    <a href="#Problem">
                     <picture class="cs-picture">
                         <source media="(max-width: 767px)" srcset="assets/img/team/e19094.jpg">
                         <source media="(min-width: 768px)" srcset="assets/img/team/e19094.jpg">
                         <img aria-hidden="true" loading="lazy" decoding="async" src="assets/img/team/e19094.jpg" alt="Mansitha" width="305" height="335">
-                    </picture>
+                    </picture></a>
                     <div class="cs-info">
                         <span class="cs-name">Mansitha Eashwara</span>
                         <span class="cs-job">E/19/094</span>
