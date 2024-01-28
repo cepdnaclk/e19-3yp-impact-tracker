@@ -63,8 +63,10 @@ const columns: ColumnDef<Manager>[] = [
     ),
   },
 ];
-const ManagersTable = () => {
-  const [data] = React.useState(() => [...managers]);
+const ManagersTable: React.FC<{ managerProfileData: Manager[] }> = ({
+  managerProfileData,
+}) => {
+  const [data] = React.useState(() => [...managerProfileData]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
