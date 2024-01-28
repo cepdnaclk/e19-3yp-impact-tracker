@@ -26,14 +26,18 @@ export const updateBuddy = (buddy_id: number, battery: number) => {
   //updateSet
   useAppState.setState((prevState) => {
     const buddiesStatus = { ...prevState.buddiesStatus };
+    const playerMap = { ...prevState.playerMap };
 
     if (battery === 0) {
       delete buddiesStatus[buddy_id];
+      console.log("Deleted buddy", buddy_id);
+      delete playerMap[buddy_id];
+      MqttClient.getInstance().publishPlayerMap(playerMap);
     } else {
       buddiesStatus[buddy_id] = buddyStatus;
     }
 
-    return { buddiesStatus };
+    return { buddiesStatus, playerMap };
   });
 };
 

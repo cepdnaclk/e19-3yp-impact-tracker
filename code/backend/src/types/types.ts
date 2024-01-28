@@ -52,7 +52,7 @@ export type AnalyticsSummaryTeam = {
   summaryData: Array<{
     title: string;
     value: string | number;
-    trend?: string | number | '--';
+    trend?: string | number | "--";
   }>;
   tableData: Array<{
       jersey_number: number;

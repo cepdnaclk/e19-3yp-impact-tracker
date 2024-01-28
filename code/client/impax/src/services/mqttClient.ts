@@ -19,7 +19,7 @@ class MqttClient {
   private topics: string[];
 
   private constructor() {
-    this.client = mqtt.connect("ws://127.0.0.1:8080/", {
+    this.client = mqtt.connect("ws://192.168.4.1:8080/", {
       clientId: `impax-dashboard-${Date.now()}`,
       reconnectPeriod: 2000,
       keepalive: 60,

@@ -74,7 +74,7 @@ export type SessionToBeUploaded = {
 export type Metric = {
   title: string;
   value: string | number;
-  trend?: number | Impact.direction;
+  trend?: number | Impact.direction | "--";
   metaUnits?: string;
 };
 
@@ -109,18 +109,16 @@ export type TeamAnalyticsColumns = {
   concussions: number;
 };
 
-export type TeamAnalyticsSummary ={
+export type TeamAnalyticsSummary = {
   summaryData: Metric[];
   tableData: TeamAnalyticsColumns[];
-}
+};
 
 export type PlayerAnalyticsSummary = {
   summaryData: Metric[];
   histogramData: HistogramData;
   criticalSessions: CriticalSessionType[];
 };
-
-
 
 //Profile Managers
 export type Manager =
@@ -151,5 +149,4 @@ export type LoginInfo = {
   teamId?: string;
   teamName?: string;
   email: string;
-
-}
+};
