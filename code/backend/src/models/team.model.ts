@@ -21,6 +21,18 @@ class TeamIdEmailExistsResponse {
   }
 }
 
+class TeamIdEmailExistsResponseWithIsVerified {
+  public teamExists: boolean = false;
+  public managerExists: boolean = false;
+  public isVerified: string;
+
+  public constructor(teamExists: boolean, managerExists: boolean, isVerified: string) {
+    this.teamExists = teamExists;
+    this.managerExists = managerExists;
+    this.isVerified = isVerified;
+  }
+}
+
 class Team {
   public teamId: string;
   public teamName: string;
@@ -82,6 +94,7 @@ export {
   TeamIdExistsResponse,
   TeamManagerInterface,
   TeamIdEmailExistsResponse,
+  TeamIdEmailExistsResponseWithIsVerified,
   Team,
   TeamResponse,
   TeamManagerResponse,

@@ -3,6 +3,7 @@ import {
   TeamIdEmailExistsResponse,
   TeamResponse,
   Team,
+  TeamIdEmailExistsResponseWithIsVerified,
 } from "../models/team.model";
 Team;
 import TeamModel from "../db/team.schema";
@@ -10,6 +11,7 @@ import ManagerTeamModel from "../db/managers.in.team.schema";
 import managersInTeamService from "./managers.in.team.service";
 import { AnalyticsSummaryTeam, ImpactStats, ImpactDirection } from "../types/types";
 import SessionModel from "../db/session.schema";
+import ManagerModel from "../db/manager.schema";
 
 class TeamService {
   // delete team
@@ -87,7 +89,7 @@ class TeamService {
   async checkTeamEmailExist(
     teamId: string,
     email: string
-  ): Promise<TeamIdEmailExistsResponse> {
+  ): Promise<TeamIdEmailExistsResponseWithIsVerified> {
     // check team ID and email of the manager matchers
 
     // Team ID does not exist => Create new team
@@ -100,9 +102,10 @@ class TeamService {
     // }
 
     // Initialize response with both flags set to false
-    const teamIdEmailExistsResponse = new TeamIdEmailExistsResponse(
+    const teamIdEmailExistsResponseWithIsVerified = new TeamIdEmailExistsResponseWithIsVerified(
       false,
-      false
+      false,
+      "pending"
     );
 
     try {
@@ -121,15 +124,16 @@ class TeamService {
         console.log('Team not found');
       }
       if (team) {
-        teamIdEmailExistsResponse.teamExists = true;
+        teamIdEmailExistsResponseWithIsVerified.teamExists = true;
 
         // Check if manager with provided email exists and is authorized for the team
-        const manager = await ManagerTeamModel.findOne({
-          managerEmail: email,
+        const manager = await ManagerModel.findOne({
+          email: email,
           teamId: teamId,
         });
         if (manager) {
-          teamIdEmailExistsResponse.managerExists = true;
+          teamIdEmailExistsResponseWithIsVerified.managerExists = true;
+          teamIdEmailExistsResponseWithIsVerified.isVerified = manager.isVerified;
         }
       }
     } catch (error) {
@@ -137,7 +141,7 @@ class TeamService {
       throw new Error("Error checking team and manager existence");
     }
 
-    return teamIdEmailExistsResponse;
+    return teamIdEmailExistsResponseWithIsVerified;
   }
 
   async checkTeamExist(teamId: string): Promise<TeamIdExistsResponse> {
