@@ -26,7 +26,7 @@ router.post("/add", async (req: Request, res: Response) => {
   }
 
   // Validate email format
-  if (!validateEmail(newPlayerEmail)) {
+  if (newPlayerEmail !== "" && !validateEmail(newPlayerEmail)) {
     console.log(HttpMsg.INVALID_EMAIL);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.INVALID_EMAIL });
     return;
@@ -286,6 +286,7 @@ router.get("/analytics-summary/:duration",async (req:Request, res: Response) => 
   try {
     
     const playerEmail = req.body.userName; // player email is retrieved from the request body
+    console.log(playerEmail);
 
     // Check if player exists
     const playerExists = await playerController.checkPlayerExists(playerEmail);

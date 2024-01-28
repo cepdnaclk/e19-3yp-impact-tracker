@@ -43,8 +43,8 @@ class LoginController {
     }
 
     const email = loginReq.userName;
-    const player = await PlayerModel.findOne({ email });
-    if (player?.isVerified == "pending" || player?.isVerified == "rejected") {
+    const manager = await ManagerModel.findOne({ email });
+    if (manager?.isVerified == "pending" || manager?.isVerified == "rejected") {
       throw new Error(HttpMsg.MANAGER_NOT_VERIFIED);
     }
 

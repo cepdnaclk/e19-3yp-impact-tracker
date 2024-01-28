@@ -55,11 +55,11 @@ class ManagersInTeamService {
   ): Promise<boolean> {
     try {
       // check entry exists
-      const managerTeam = await ManagerModel.findOne({
+      const managerTeam = await ManagerModel.find({
         email: managerEmail,
         teamId: teamId,
       });
-
+      console.log(managerTeam)
       if (managerTeam) {
         return true;
       }else{
@@ -158,7 +158,7 @@ class ManagersInTeamService {
         },
         {
           title: "Highest Contributor",
-          value: 0
+          value: '--'
         }
       ],
       tableData: []
@@ -192,6 +192,9 @@ class ManagersInTeamService {
         };
       });
 
+      console.log("analyticsSummary.tableData:");
+      console.log(analyticsSummary.tableData);
+
       tableDataPrev = jerseyIds.map((jerseyId) => {
         return {
           jersey_number: jerseyId,
@@ -221,7 +224,8 @@ class ManagersInTeamService {
           const createdAt = new Date(session.createdAt).getTime();
           return createdAt >= previous && createdAt <= current;
         });
-        // console.log(filteredSessionsPrevious);
+        console.log("filteredSessionsPrevious:");
+        console.log(filteredSessionsPrevious);
         await this.calculationForSessions(filteredSessionsPrevious, tableDataPrev);
 
         // Get the number of sessions
@@ -234,11 +238,19 @@ class ManagersInTeamService {
         const createdAt = new Date(session.createdAt).getTime();
         return createdAt >= current && createdAt <= now;
       });
+      console.log("filteredSessionsCurrent:");
+      console.log(filteredSessionsCurrent)
 
       // Get the number of sessions
       const numberOfSessions = filteredSessionsCurrent.length
       analyticsSummary.summaryData[0].value = numberOfSessions;
-      analyticsSummary.summaryData[0].trend = Math.round(((numberOfSessions - prevSessions)*100/prevSessions));
+
+      if (prevSessions > 0) {
+        analyticsSummary.summaryData[0].trend = Math.round(((numberOfSessions - prevSessions)*100/prevSessions));
+      }else{
+        analyticsSummary.summaryData[0].trend = '--';
+      }
+     
 
 
       // Fill up table data
@@ -312,6 +324,7 @@ class ManagersInTeamService {
                 }
 
                 playerData.average_impact = playerData.cumulative_impact / playerData.impacts_recorded;
+                
                 directionCount[impact.direction as keyof typeof directionCount] += 1;
 
                 // console.log(playerData)
