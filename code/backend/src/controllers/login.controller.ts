@@ -13,6 +13,9 @@ import {
 } from "../utils/jwt.token";
 import { HttpMsg } from "../exceptions/http.codes.mgs";
 import ROLES from "../config/roles";
+import { Manager } from "../models/manager.model";
+import ManagerModel from "../db/manager.schema";
+import PlayerModel from "../db/player.schema";
 
 class LoginController {
   async loginManager(loginReq: LoginResquestManager): Promise<LoginResponse> {
@@ -38,6 +41,15 @@ class LoginController {
     if (!isMatch) {
       throw new Error(HttpMsg.PASSWORD_INCORRECT);
     }
+
+    const email = loginReq.userName;
+    const player = await PlayerModel.findOne({ email });
+    if (player?.isVerified == "pending" || player?.isVerified == "rejected") {
+      throw new Error(HttpMsg.MANAGER_NOT_VERIFIED);
+    }
+
+    
+  
 
     try {
       // create refresh token
@@ -72,9 +84,19 @@ class LoginController {
       loginReq.password
     );
 
+    
+    
+
     if (!isMatch) {
       throw new Error(HttpMsg.PASSWORD_INCORRECT);
     }
+
+    const email = loginReq.userName;
+    const player = await PlayerModel.findOne({ email });
+    if (player?.isVerified == "pending" || player?.isVerified == "rejected") {
+      throw new Error(HttpMsg.PLAYER_NOT_VERIFIED);
+    }
+
 
     try {
       // create refresh token

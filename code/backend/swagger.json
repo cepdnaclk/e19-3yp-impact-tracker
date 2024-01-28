@@ -265,13 +265,7 @@
       }
     },
 
-    
-
-
-
-
-
-    "/manager/exists/email/{email}": {
+    "/manager/exists/{email}/{teamId}": {
       "get": {
         "tags": ["ManagerEndpoints"],
         "summary": "Check if a manager email exists - Open",
@@ -284,6 +278,15 @@
               "type": "string"
             },
             "example": "example@example.com"
+          },
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "exampleTeamId"
           }
         ],
         "responses": {
@@ -291,7 +294,9 @@
             "description": "Success",
             "content": {
               "application/json": {
-                "$ref": "#/components/schemas/ManagerExistsResponse"
+                "schema": {
+                  "type": "boolean"
+                }
               }
             }
           },
@@ -440,6 +445,35 @@
             "content": {
               "application/json": {
                 "$ref": "#/components/schemas/AnalyticsSummary"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/manager/join-team": {
+      "put": {
+        "tags": ["ManagerEndpoints"],
+        "summary": "New Manager Signup - Open",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ManagerCreateRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/ManagerResponse"
               }
             }
           },
@@ -655,6 +689,56 @@
               "application/json": {
                 "example": {
                   "message": "Player removed successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/player/accept-invite/{teamId}/{isAccepted}": {
+      "get": {
+        "tags": ["PlayerEndpoints"],
+        "summary": "Accept or deny an invitation to join a team - Access Token required",
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "description": "TeamId of the player",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isAccepted",
+            "in": "path",
+            "description": "If the invitation is Accept of deny",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "enum": [0, 1]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Invitation accepted successfully!"
                 }
               }
             }
@@ -1136,14 +1220,10 @@
         "properties": {
           "managerEmail": {
             "type": "string"
-          },
-          "teamId": {
-            "type": "string"
           }
         },
         "example": {
-          "managerEmail": "example@example.com",
-          "teamId": "teamId"
+          "managerEmail": "example@example.com"
         }
       },
 
@@ -1538,10 +1618,7 @@
           "teamId": {
             "type": "string"
           },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
+          "name": {
             "type": "string"
           },
           "email": {

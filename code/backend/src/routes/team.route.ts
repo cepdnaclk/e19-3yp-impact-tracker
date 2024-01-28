@@ -8,6 +8,7 @@ import {
   Team,
   TeamResponse,
   TeamManagerResponse,
+  TeamIdEmailExistsResponseWithIsVerified,
 } from "../models/team.model";
 import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import { validateEmail } from "../utils/utils";
@@ -47,8 +48,7 @@ router.get("/exists/teamId/:id", async (req: Request, res: Response) => {
 });
 
 // Endpoint to validate both Team ID and email existence
-router.get(
-  "/exists",
+router.get("/exists",
   async (req: Request<{}, {}, {}, TeamManagerInterface>, res: Response) => {
     // Extract Team ID and email from query parameters
     const teamId = req.query.teamId;
@@ -70,10 +70,10 @@ router.get(
 
     try {
       // Check if Team ID and email combination exists
-      const teamIdEmailExistResponse: TeamIdEmailExistsResponse =
+      const teamIdEmailExistsResponseWithIsVerified: TeamIdEmailExistsResponseWithIsVerified =
         await teamController.checkTeamEmailExist(teamId, email);
 
-      res.send(teamIdEmailExistResponse);
+      res.send(teamIdEmailExistsResponseWithIsVerified);
     } catch (err) {
       if (err instanceof Error) {
         // If 'err' is an instance of Error, send the error message
@@ -193,6 +193,8 @@ router.post("/manager", async (req, res) => {
       "",
       "pending"
     );
+
+    
 
     // Create the Team and get the response
     const teamResponse: TeamResponse | undefined =

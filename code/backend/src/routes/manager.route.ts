@@ -10,8 +10,9 @@ import { HttpCode, HttpMsg } from "../exceptions/http.codes.mgs";
 import { validateEmail } from "../utils/utils";
 import teamController from "../controllers/team.controller";
 import ManagerModel from "../db/manager.schema";
-import ManagerTeamModel  from '../db/managers.in.team.schema'; // Import the missing ManagerTeamModel
+// import ManagerTeamModel  from '../db/managers.in.team.schema'; // Import the missing ManagerTeamModel
 import ROLES from "../config/roles";
+import authService from "../services/auth.service";
 
 
 // Create an instance of the Express Router
@@ -41,10 +42,10 @@ router.post("/add", async (req: Request, res: Response) => {
       managerEmail,
       newManagerEmail,
       teamId
-    );
+    ); 
 
-    if (state == true) {
-      res.send({ message: HttpMsg.MANAGER_ADD_SUCCESS });
+    if (state) {
+      res.send(HttpMsg.MANAGER_ADD_SUCCESS);
     } else {
       res.send({ message: HttpMsg.MANAGER_ADD_FAILED });
     }
@@ -60,12 +61,13 @@ router.post("/add", async (req: Request, res: Response) => {
 });
 
 // Endpoint to check if a manager with a specific email exists
-router.get("/exists/email/:email", async (req: Request, res: Response) => {
+router.get("/exists/:email/:teamId", async (req: Request, res: Response) => {
   // Extract email parameter from the request
   const email = req.params.email;
+  const teamId = req.params.teamId;
 
   // Check if email parameter is missing
-  if (!email) {
+  if (!email || !teamId) {
     console.log(HttpMsg.BAD_REQUEST);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
     return;
@@ -79,13 +81,22 @@ router.get("/exists/email/:email", async (req: Request, res: Response) => {
   }
 
   try {
-    // Check if a manager with the given email exists
-    const exists: boolean = await managerController.checkManagerExists(email);
-    const existsResponse: ManagerExistsResponse = new ManagerExistsResponse(
-      exists
-    );
+    // Check if a manager with the given email exists in team
+    const exists: boolean = await managerController.checkManagerExistsInTeam(email, teamId);
+    // const existsResponse: ManagerExistsResponse = new ManagerExistsResponse(
+    //   exists
+    // );
+    if (exists) {
+      res.send(exists);
+    }else{
+      const teamExistsRes = await teamController.checkTeamExist(teamId);
 
-    res.send(existsResponse);
+      if (teamExistsRes.teamExists){
+        throw new Error(HttpMsg.MANAGER_DEOS_NOT_EXIST);
+      }else{
+        throw new Error(HttpMsg.TEAM_NOT_FOUND);
+      }
+    }
   } catch (err) {
     if (err instanceof Error) {
       // If 'err' is an instance of Error, send the error message
@@ -101,8 +112,10 @@ router.get("/exists/email/:email", async (req: Request, res: Response) => {
 router.post("/", async (req: Request, res: Response) => {
   // Extract manager details from the request body
   const teamId = req.body.teamId;
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
+  const fullName = req.body.fullName;
+  const names = fullName.split(' ');
+  const firstName = names[0];
+  const lastName = names[1];
   const email = req.body.email;
   const password = req.body.password;
 
@@ -255,6 +268,100 @@ router.get("/getTeamPlayers",async (req:Request, res: Response) => {
   }
 });
 
+// New Manager signup
+router.put("/join-team", async (req: Request, res: Response) => {
+  // Extract Team ID and Team Name from the request body
+  const teamId = req.body.teamId;
+  const email = req.body.email;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const password = req.body.password;
+
+
+
+  // Check if either Team ID or Team Name is missing
+  if (!teamId || !email || !firstName || !lastName || !password) {
+    console.log(HttpMsg.BAD_REQUEST);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    return;
+  }
+
+  // Validate email format
+  if (!validateEmail(email)) {
+    console.log(HttpMsg.INVALID_EMAIL);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.INVALID_EMAIL });
+    return;
+  }
+
+
+
+  try {
+    
+      // Check if a manager with the given email exists
+      const exists: boolean = await teamController.checkManagerExistsInTeam(
+        email,
+        teamId
+      );
+
+      if (!exists) {
+        console.log(HttpMsg.MANAGER_DEOS_NOT_EXIST);
+        res.send({ message: HttpMsg.MANAGER_DEOS_NOT_EXIST });
+        return;
+      } else {
+        const manager = await ManagerModel.findOne({
+          email: email,
+          teamId: teamId
+        });
+
+        if (manager) {
+
+          if (manager.isVerified == "pending"){
+
+            throw new Error(HttpMsg.MANAGER_NOT_VERIFIED);
+          }else{
+            manager.firstName = firstName;
+            manager.lastName = lastName;
+            
+            await manager.save();
+
+            await authService.createAuthManager(
+              email,
+              password,
+              teamId
+            );
+
+            const managerResponse = new ManagerResponse(
+              {
+                teamId: teamId,
+                firstName: manager.firstName,
+                lastName: manager.lastName,
+                email: manager.email,
+                password: "##",
+                invitationToken: "  ",
+                isVerified: manager.isVerified
+
+              });
+              res.send(managerResponse);
+          }
+          
+        }else{
+          res.send(HttpMsg.MANAGER_DEOS_NOT_EXIST)
+        }
+      }
+
+  } catch (err) {
+    if (err instanceof Error) {
+      // If 'err' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: err.message });
+    } else {
+      // If 'err' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
+  }
+});
+
+
+
 // Endpoint to get Team Analytics
 router.get("/analytics-summary/:duration", async (req: Request, res: Response) => {
   const managerEmail = req.body.userName;
@@ -300,15 +407,15 @@ router.get("/analytics-summary/:duration", async (req: Request, res: Response) =
 router.get("/accept-invitation/token/:token", async (req, res) => {
   const token = req.params.token;
   const manager = await ManagerModel.findOne({ invitationToken: token }); 
-  const managerInTeam = await ManagerTeamModel.findOne({ invitationToken: token }); 
+  const managerInTeam = await ManagerModel.findOne({ invitationToken: token }); 
   if (manager && (manager.isVerified == "pending")) {
     // Update manager status
     manager.isVerified = "verified";
     await manager.save();
     res.send("Invitation accepted successfully!");
-  } else if (managerInTeam && (managerInTeam.accepted == "pending")){
+  } else if (managerInTeam && (managerInTeam.isVerified == "pending")){
     // Update manager status
-    managerInTeam.accepted = "verified";
+    managerInTeam.isVerified = "verified";
     await managerInTeam.save();
   } else{
     res.status(400).send("Invalid or expired token.");

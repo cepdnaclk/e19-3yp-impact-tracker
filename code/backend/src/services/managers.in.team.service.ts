@@ -1,6 +1,8 @@
-import ManagerTeamModel from "../db/managers.in.team.schema";
+import ManagerModel from "../db/manager.schema";
+// import ManagerTeamModel from "../db/managers.in.team.schema";
 import PlayerTeamModel from "../db/players.in.team.schema";
 import SessionModel from "../db/session.schema";
+import { ManagerTeamResponse } from "../models/manager.model";
 import { Impact, SessionResponse } from "../models/session.model";
 import { AnalyticsSummaryTeam, ImpactStats, TeamPlayerResponse, ImpactDirection} from "../types/types";
 
@@ -8,12 +10,14 @@ class ManagersInTeamService {
   // create team manager instance
   async addManagerToTeam(
     managerEmail: string,
-    teamId: string
-  ): Promise<boolean> {
+    teamId: string,
+    invitationToken: string
+  ): Promise<ManagerTeamResponse> {
     try {
       // check entry exists
-      const managerTeam = await ManagerTeamModel.findOne({
-        managerEmail: managerEmail,
+      // don't need really
+      const managerTeam = await ManagerModel.findOne({
+        email: managerEmail,
         teamId: teamId,
       });
 
@@ -21,21 +25,27 @@ class ManagersInTeamService {
         throw new Error("Manager already exists in the team");
       }
 
-      const managerTeamInstance = new ManagerTeamModel({
-        managerEmail: managerEmail,
+      const managerInstance = new ManagerModel({
+        email: managerEmail,
         teamId: teamId,
-        accepted: "pending",
+        isVerified: "pending",
+        invitationToken: invitationToken,
       });
 
+      
       // Save the manager to the database
-      const savedManager = await managerTeamInstance.save();
+      const savedManager = await managerInstance.save();
 
-      return true;
+      const managerResponse = new ManagerTeamResponse(
+        savedManager.email,
+        savedManager.teamId,
+        savedManager.isVerified
+      );
+      return managerResponse;
     } catch (error) {
       console.error(error);
       throw error;
     }
-    return false;
   }
 
   // check the manager exits in that team
@@ -45,16 +55,16 @@ class ManagersInTeamService {
   ): Promise<boolean> {
     try {
       // check entry exists
-      const managerTeam = await ManagerTeamModel.findOne({
-        managerEmail: managerEmail,
+      const managerTeam = await ManagerModel.findOne({
+        email: managerEmail,
         teamId: teamId,
       });
 
-      if (!managerTeam) {
+      if (managerTeam) {
+        return true;
+      }else{
         return false;
       }
-
-      return true;
     } catch (error) {
       console.error(error);
       throw error;
@@ -69,8 +79,8 @@ class ManagersInTeamService {
   ): Promise<boolean> {
     try {
       // check entry exists
-      const managerTeam = await ManagerTeamModel.findOne({
-        managerEmail: managerEmail,
+      const managerTeam = await ManagerModel.findOne({
+        email: managerEmail,
         teamId: teamId,
       });
 
@@ -78,8 +88,8 @@ class ManagersInTeamService {
         throw new Error("Manager does not exist in the team");
       }
 
-      await ManagerTeamModel.deleteOne({
-        managerEmail: managerEmail,
+      await ManagerModel.deleteOne({
+        email: managerEmail,
         teamId: teamId,
       });
 

@@ -3,6 +3,7 @@ import {
   TeamIdEmailExistsResponse,
   TeamResponse,
   Team,
+  TeamIdEmailExistsResponseWithIsVerified,
 } from "../models/team.model";
 import teamService from "../services/team.service";
 import managersInTeamService from "../services/managers.in.team.service";
@@ -25,7 +26,7 @@ class TeamController {
   async checkTeamEmailExist(
     teamId: string,
     email: string
-  ): Promise<TeamIdEmailExistsResponse> {
+  ): Promise<TeamIdEmailExistsResponseWithIsVerified> {
     // check team ID and email of the manager matchers
 
     // Team ID does not exist => Create new team
@@ -39,9 +40,9 @@ class TeamController {
 
     try {
       // Check if Team ID and email combination exists
-      const teamIdEmailExistResponse: TeamIdEmailExistsResponse =
+      const teamIdEmailExistsResponseWithIsVerified: TeamIdEmailExistsResponseWithIsVerified =
         await teamService.checkTeamEmailExist(teamId, email);
-      return teamIdEmailExistResponse;
+      return teamIdEmailExistsResponseWithIsVerified;
     } catch (err) {
       console.error(err);
       throw err;

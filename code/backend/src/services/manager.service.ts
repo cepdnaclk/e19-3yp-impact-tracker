@@ -5,6 +5,7 @@ import {
 } from "../models/manager.model";
 import ManagerModel from "../db/manager.schema";
 import authService from "./auth.service";
+// import ManagerTeamModel from "../db/managers.in.team.schema";
 
 class ManagerService {
   // delete manager
@@ -13,7 +14,7 @@ class ManagerService {
       // Find and delete the manager based on email and teamId
       const deletedManager = await ManagerModel.findOneAndDelete({
         email,
-        teamId,
+        teamId, 
       });
 
       // If manager was found and deleted successfully
@@ -78,9 +79,11 @@ class ManagerService {
         firstName: managerInstance.firstName,
         lastName: managerInstance.lastName,
         email: managerInstance.email,
+        password: "#########",
+        invitationToken: managerInstance.invitationToken,
         isVerified: managerInstance.isVerified,
       });
-
+      
       return managerResponse;
     } catch (error) {
       console.error(error);
