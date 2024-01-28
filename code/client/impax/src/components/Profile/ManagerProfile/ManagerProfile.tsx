@@ -64,8 +64,8 @@ const ManagerProfile = () => {
 
   const onSubmit = async (data: FieldValues) => {
     renewAccessToken();
-    const response = await fetch(`${BASE_URL}/manager/remove`, {
-      method: "DELETE",
+    const response = await fetch(`${BASE_URL}/manager/add`, {
+      method: "POST",
       body: JSON.stringify({
         email: data.email,
       }),
