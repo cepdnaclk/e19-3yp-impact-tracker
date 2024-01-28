@@ -7,7 +7,6 @@ import routes from "./routes/routeConfig";
 import { useAppState } from "./states/appState";
 import { getPlayers, uploadSession } from "./services/httpClient";
 import { useSignupState } from "./states/formState";
-import { stat } from "original-fs";
 
 function App() {
   MqttClient.getInstance();
