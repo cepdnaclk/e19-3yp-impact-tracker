@@ -26,17 +26,17 @@ void BuddyWIFI::init()
 
     WiFi.begin(ssid, password);
 
-    Serial.println("\nConnecting");
+    // Serial.println("\nConnecting");
     while (WiFi.status() != WL_CONNECTED)
     {
         led(LED_BLINK);
-        Serial.print(".");
+        // Serial.print(".");
         delay(DELAY_WIFI_RECONNECT);
     }
 
-    Serial.println("\nConnected to the WiFi network");
-    Serial.print("Local ESP32 IP: ");
-    Serial.println(WiFi.localIP());
+    // Serial.println("\nConnected to the WiFi network");
+    // Serial.print("Local ESP32 IP: ");
+    // Serial.println(WiFi.localIP());
 }
 
 // Initialize Wi-Fi in single mode
@@ -46,7 +46,7 @@ void BuddyWIFI::init(bool (*communicationDashboard)(), void (*turnOffHandler)())
 
     WiFi.begin(ssid, password);
 
-    Serial.println("\nConnecting");
+    // Serial.println("\nConnecting");
     while (WiFi.status() != WL_CONNECTED)
     {
         led(LED_BLINK);
@@ -60,7 +60,7 @@ void BuddyWIFI::init(bool (*communicationDashboard)(), void (*turnOffHandler)())
         delay(DELAY_WIFI_RECONNECT);
     }
 
-    Serial.println("\nConnected to the WiFi network");
-    Serial.print("Local ESP32 IP: ");
-    Serial.println(WiFi.localIP());
+    // Serial.println("\nConnected to the WiFi network");
+    // Serial.print("Local ESP32 IP: ");
+    // Serial.println(WiFi.localIP());
 }

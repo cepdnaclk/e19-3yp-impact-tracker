@@ -1,588 +1,515 @@
+<!-- ============================================ -->
+<!--                    Hero                      -->
+<!-- ============================================ -->
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<html>
+<head>
+  <link rel="stylesheet" href="styles.css">
+  <script src="./func.js">
+  </script>
+</head>
+<body>
+   <!-- ============================================ -->
+    <!--                 Navigation                   -->
+    <!-- ============================================ -->
 
-    <title>Impax</title>
-    <meta content="" name="description" />
-    <meta content="" name="keywords" />
-
-    <!-- Favicons -->
-    <link href="assets/img/impax.ico" rel="icon" />
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
-
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-      rel="stylesheet"
-    />
-
-    <!-- Vendor CSS Files -->
-    <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
-    <link
-      href="assets/vendor/bootstrap/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-    <link
-      href="assets/vendor/glightbox/css/glightbox.min.css"
-      rel="stylesheet"
-    />
-    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
-
-    <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet" />
-  </head>
-
-  <body>
-    <!-- ======= Top Bar ======= -->
-
-    <!-- ======= Header ======= -->
-    <header id="header" class="d-flex align-items-center">
-      <div class="container d-flex align-items-center justify-content-between">
-        <!-- <h1 class="logo"><a href="index.html">Impax</a></h1> -->
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <a href="index.html" class="logo"
-          ><img
-            src="assets/img/Logo-Impax.webp"
-            width="100"
-            alt=""
-            class="img-fluid"
-        /></a>
-
-        <nav id="navbar" class="navbar">
-          <ul>
-            <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-            <li><a class="nav-link scrollto" href="#about">About</a></li>
-            <li>
-              <a class="nav-link scrollto" href="#Problem">Problem</a>
-            </li>
-            <li>
-              <a class="nav-link scrollto" href="#solution">Our Solution</a>
-            </li>
-            <li>
-              <a class="nav-link scrollto" href="#solution architecture">Solution Architecture</a>
-            </li>
-            <li>
-              <a class="nav-link scrollto" href="#Hardware Infrastructure-Hub">Hardware Infrastructure</a>
-            </li>
-            <li><a class="nav-link scrollto" href="#team">Team</a></li>
-          </ul>
-          <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav>
-        <!-- .navbar -->
-      </div>
+    <header id="cs-navigation">
+        <div class="cs-container">
+            <!--Nav Logo-->
+            <a href="" class="cs-logo" aria-label="back to home">
+                <img src="assets/img/Logo-Impax.webp" alt="logo" width="210" height="29" aria-hidden="true" decoding="async">
+            </a>
+            <!--Navigation List-->
+            <nav class="cs-nav" role="navigation">
+                <!--Mobile Nav Toggle-->
+                <button class="cs-toggle" aria-label="mobile menu toggle">
+                    <div class="cs-box" aria-hidden="true">
+                        <span class="cs-line cs-line1" aria-hidden="true"></span>
+                        <span class="cs-line cs-line2" aria-hidden="true"></span>
+                        <span class="cs-line cs-line3" aria-hidden="true"></span>
+                    </div>
+                </button>
+                <!-- We need a wrapper div so we can set a fixed height on the cs-ul in case the nav list gets too long from too many dropdowns being opened and needs to have an overflow scroll. This wrapper acts as the background so it can go the full height of the screen and not cut off any overflowing nav items while the cs-ul stops short of the bottom of the screen, which keeps all nav items in view no matter how mnay there are-->
+                <div class="cs-ul-wrapper">
+                    <ul id="cs-expanded" class="cs-ul" aria-expanded="false">
+                        <li class="cs-li">
+                            <a href="" class="cs-li-link cs-active">
+                                Home
+                            </a>
+                        </li>
+                        <li class="cs-li">
+                            <a href="#Problem" class="cs-li-link">
+                                Problem
+                            </a>
+                        </li>
+                        <!--Copy and paste this cs-dropdown list item and replace any .cs-li with this cs-dropdown group to make a new dropdown and it will work-->
+                        <li class="cs-li cs-dropdown" tabindex="0">
+                            <span class="cs-li-link">
+                                Solution
+                                <img class="cs-drop-icon" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons/down-red.svg" alt="dropdown icon" width="15" height="15" decoding="async" aria-hidden="true">
+                            </span>
+                            <ul class="cs-drop-ul">
+                                <li class="cs-drop-li">
+                                    <a href="#Solution" class="cs-li-link cs-drop-link">Our Solution</a>
+                                </li>
+                                <li class="cs-drop-li">
+                                    <a href="#SolutionArchitecture" class="cs-li-link cs-drop-link">Solution Architecture</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="cs-li">
+                            <a href="#Hardware" class="cs-li-link">
+                                Hardware
+                            </a>
+                        </li>
+                        <li class="cs-li">
+                            <a href="" class="cs-li-link">
+                                Documentation
+                            </a>
+                        <li class="cs-li">
+                            <a href="#meet-us-1021" class="cs-li-link">
+                                About Us
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <a href="" class="cs-button-solid cs-nav-button">Download Now</a>
+            <!--Dark Mode toggle, uncomment button code if you want to enable a dark mode toggle-->
+            <!--Dark Mode toggle-->
+            <!-- Place at the bottom of your container that wraps around your <nav> navigation list -->
+            <!-- If there is no container wrapping your <nav>, add one.  This should NOT be placed inside the navigation list -->
+            <!-- <button id="dark-mode-toggle">
+                Moon is an inline SVG so you can edit the color if needed
+                <svg class="cs-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" style="enable-background:new 0 0 480 480" xml:space="preserve"><path d="M459.782 347.328c-4.288-5.28-11.488-7.232-17.824-4.96-17.76 6.368-37.024 9.632-57.312 9.632-97.056 0-176-78.976-176-176 0-58.4 28.832-112.768 77.12-145.472 5.472-3.712 8.096-10.4 6.624-16.832S285.638 2.4 279.078 1.44C271.59.352 264.134 0 256.646 0c-132.352 0-240 107.648-240 240s107.648 240 240 240c84 0 160.416-42.688 204.352-114.176 3.552-5.792 3.04-13.184-1.216-18.496z"/></svg>
+                <img class="cs-sun" aria-hidden="true" src="https://csimg.nyc3.digitaloceanspaces.com/Contact-Page/sun.svg" decoding="async" alt="sun" width="15" height="15">
+            </button> -->
+                                
+        </div>
     </header>
-    <!-- End Header -->
+                                
+                                
+    <section id="hero-229">
+        <div class="cs-container">
+            <div class="cs-flex-group">
+                <!-- <span class="cs-topper">mountain hiking society</span> -->
+                <h1 class="cs-title">Welcome to ImpaX!</h1>
+                <p class="cs-text">
+                    Step into a safer era of sports with ImpaX – where real-time impact monitoring meets athlete well-being, revolutionizing the game with every heartbeat.
+                </p>
+                <a href="" class="cs-button-solid">Explore More</a>
+                <a href="assets/img/Product Demo -Impax.mp4" class="cs-button-transparent">
+                    <img class="cs-img" loading="lazy" decoding="async" src="https://csimg.nyc3.digitaloceanspaces.com/Hero/play.svg" alt="play icon" width="17" height="17">
+                    Learn More
+                </a>
+            </div>
+        </div>
 
-    <!-- ======= Hero Section ======= -->
-    <section id="hero" class="d-flex align-items-center">
-      <div
-        class="container position-relative"
-        data-aos="fade-up"
-        data-aos-delay="500"
-      >
-        <img
-          src="assets/img/Logo-Impax.webp"
-          width="300"
-          class="img-fluid"
-          alt=""
-        />
-        <h2>Impact tracking and monitoring system for Athletes.</h2>
-        <a href="#about" class="btn-get-started scrollto">Get Started</a>
-      </div>
+        <!-- Background Image -->
+        <picture class="cs-picture">
+            <source media="(max-width: 600px)" srcset="assets/img/background.jpg">
+            <source media="(min-width: 601px)" srcset="assets/img/background.jpg">
+            <img loading="lazy" decoding="async" src="assets/img/background.jpg" alt="mountains" width="2250" height="1500" aria-hidden="true">
+        </picture>
     </section>
-    <!-- End Hero -->
 
-    <main id="main">
-      <!-- ======= About Section ======= -->
-      <section id="about" class="about">
-        <div class="container">
-          <div class="row">
-            <div class="section-title">
-              <span>Introduction</span>
-              <h2>Introduction</h2>
-            </div>
-            <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left">
-              <!-- <img src="assets/img/about.jpg" class="img-fluid" alt="" /> -->
-              <video width="640" height="360" controls>
-                <source src="assets/img/Product Demo -Impax.mp4" type="video/mp4">
-                <source src="assets/img/Product Demo -Impax.mp4" type="video/ogg">
-              Your browser does not support the video tag.
-              </video>
-            </div>
-            <div
-              class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content"
-              data-aos="fade-right"
-            >
-             
-              <br class="fst-italic">
-                Our project tackles the critical issue of head injuries in
-                sports by developing a groundbreaking impact tracking system.</br>
-                Our soultion:
-              </p>
-              <ul>
-                <li>
-                  <i class="bi bi-check-circle"></i> Real-time impact tracking
-                  via a wearable device attached to the head guard.
-                </li>
+    <!-- ============================================ -->
+    <!--             Side By Side Reverse             -->
+    <!-- ============================================ -->
 
-                <li>
-                  <i class="bi bi-check-circle"></i> User-friendly desktop dashboard for data visualization
-                </li>
-                <li>
-                  <i class="bi bi-check-circle"></i> Cumulative Analysis of Head Impacts
-                </li>
-                <li>
-                  <i class="bi bi-check-circle"></i> Other Performance Metrics tracking
-                </li>
-              </ul>
-              <p>
-                Impax represents a significant step forward in protecting the health and well-being of athletes across contact sports. By providing accurate and accessible information, we strive to empower a new era of safer sports environments where athletes can perform at their best without jeopardizing their long-term health.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- End About Section -->
-
-      <!-- End Why Us Section -->
-
-      <!-- ======= Problem Section ======= -->
-      <section id="Problem" class="services">
-        <div class="container">
-          <div class="section-title">
-            <span>Problem</span>
-            <h2>Problem</h2>
-          </div> 
-          <div class="row">         
-          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left">
-            <p style="text-align:center">
-              <i><em><b>"The study examined 694 brains, and found that 20.2% of former athletes had Lewy Body Disease." - The Tennessean</i></em></b></br>
-              <i><em><b>“An extra year of rugby increases the risk of CTE by 14%”- BBC</i></em></b></br></p>
-              <p style="text-align:justify">            
-                Growing awareness of the long-term consequences of repeated head impacts in sports has revealed a high prevalence of brain
-                 disorders among former athletes, emphasizing the need for proactive monitoring. Subconcussive impacts, even without 
-                 immediate symptoms, contribute to long-term brain damage. The absence of a reliable and affordable impact-monitoring 
-                 system poses challenges in identifying at-risk athletes and developing effective preventative measures.
-              </p>
-              <ul style= "list-style-type: none">
-                <li>
-                  <i class="bi bi-check-circle"></i> 
-                  <b> Prevalence of Brain Disorders:</b></br>
-                  &nbsp&nbsp&nbsp&nbspFormer athletes show a concerning prevalence of brain disorders like LBD and &nbsp&nbsp&nbsp&nbspCTE due to repeated head impacts
-                </li>
-
-                <li>
-                  <i class="bi bi-check-circle"></i> 
-                  <b>Subconcussive Impacts and Long-Term Damage:</b></br>
-                  &nbsp&nbsp&nbsp&nbspRegular subconcussive impacts, especially in contact sports, contribute to &nbsp&nbsp&nbsp&nbsplong-term brain damage.
-                </li>
-                <li>
-                  <i class="bi bi-check-circle"></i> <b>Challenges in Monitoring:</b></br>
-                  &nbsp&nbsp&nbsp&nbspLack of a reliable method makes it difficult to identify at-risk athletes and &nbsp&nbsp&nbsp&nbspimplement preventive measures.
-                </li>
-                <li>
-                  <i class="bi bi-check-circle"></i> <b>Limitations of Current Systems:</b></br>
-                  &nbsp&nbsp&nbsp&nbspCurrent impact-monitoring systems are either expensive or lack the needed &nbsp&nbsp&nbsp&nbspdepth for comprehensive analysis.
-                </li>
-                <li>
-                  <i class="bi bi-check-circle"></i><b> Call for a Reliable and Affordable Solution:</b></br>
-                  &nbsp&nbsp&nbsp&nbspThere is a critical need for an affordable and reliable impact-monitoring &nbsp&nbsp&nbsp&nbspsystem applicable to both contact and non-contact sports.
-                </li>
-              </ul> 
-          </div>
-
-          <div
-            class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content"
-            data-aos="fade-right">
-  
-            <img src="./assets/img/head_impact.jpg" alt="World Rugby to adopt 'gamechanging' G-force tech to flag major head impacts" width="90%">
-          </div>
-        </div>
-        </div>
-      </section>
-      <!-- End Problem Section -->
-
-      <!-- ======= Solution Section ======= -->
-      <section id="solution" class="services">
-        <div class="container">
-          <div class="section-title">
-            <span>Our Solution</span>
-            <h2>Our Solution</h2>
-          </div> 
-          <div class="row">         
-          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left">
-            <p style="text-align:justify">
-              In response to the escalating concern surrounding long-term brain disorders resulting from repeated head impacts in 
-              sports, ImpaX emerges as a groundbreaking impact tracking system. This innovative solution addresses the challenges 
-              posed by subconcussive impacts, providing reliable monitoring and preventive measures.
-   
-              <ul style= "list-style-type: none">
-                <li>
-                  <i class="bi bi-check-circle"></i> 
-                  <b> Real-time Impact Tracking:</b></br>
-                  Wearable device for continuous, real-time monitoring during athletic activities.                </li>
-
-                <li>
-                  <i class="bi bi-check-circle"></i> 
-                  <b>User-Friendly Dashboard:</b></br>
-                  Intuitive desktop dashboard offering quick insights into athletes' performance metrics.                </li>
-                <li>
-                  <i class="bi bi-check-circle"></i> <b>Cumulative Analysis:</b></br>
-                  Conducts cumulative analysis of head impacts, providing a historical perspective for tailored safety strategies.                </li>
-                <li>
-                  <i class="bi bi-check-circle"></i> <b>Cost-Effective Solution:</b></br>
-                  Affordable impact-monitoring system applicable to both contact and non-contact sports.
-                </li>
-                <li>
-                  <i class="bi bi-check-circle"></i><b> Ongoing Improvement:</b></br>
-                  Continuously refines data communication and security measures to meet the highest standards.                </li>
-              </ul> 
+    <section id="Problem">
+        <div class="cs-container">
+            <div class="cs-content">
+                <!-- <span class="cs-topper">Why Choose Us</span> -->
+                <h2 class="cs-title" style="text-align: center;">Problem Domain</h2>
+                <p class="cs-text" style="text-align: center; font-style: italic;">
+                    "The study examined 694 brains, and found that 20.2% of former athletes had Lewy Body Disease." - The Tennessean
+                </p>
                 
-            </p>
-          </div>
+                <p class="cs-text" style="text-align: center; font-style: italic;">
+                    “An extra year of rugby increases the risk of CTE by 14%” - BBC
+                </p>
+                
+                <p class="cs-text">
+                    Growing awareness of the long-term consequences of repeated head impacts in sports has revealed a high prevalence 
+                    of brain disorders among former athletes, emphasizing the need for proactive monitoring. Subconcussive impacts, 
+                    even without immediate symptoms, contribute to long-term brain damage. The absence of a reliable and affordable 
+                    impact-monitoring system poses challenges in identifying at-risk athletes and developing effective preventative 
+                    measures.
+                </p>
+                <!-- <a href="" class="cs-button-solid">Contact Us</a> -->
+            </div>
+            <!--Left Image Group-->
+            <div class="cs-image-group">
+                <!--Faded Paint Splash-->
+                <!-- <img class="cs-splash" src="https://csimg.nyc3.digitaloceanspaces.com/SideBySide/blue-splash.svg" aria-hidden="true" loading="lazy" decoding="async" alt="splash icon" width="570" height="586"> -->
 
-          <div
-            class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content"
-            data-aos="fade-right">
-  
-            <img src="./assets/img/headband.jpg" alt="headband" width="40%">
-            <img src="./assets/img/dashboard.jpg" alt="dashboard" width="40%">
-            <img src="./assets/img/impaxbuddy.png" alt="impaxbuddy" width="40%">
-          </div>
+                <!--Blue Blob-->
+                <img class="cs-blob" src="assets/img/blob.png" aria-hidden="true" loading="lazy" decoding="async" alt="blob icon" width="392" height="497">
+
+                <!--Lightning Bolt-->
+                <!-- <img class="cs-lightning" src="https://csimg.nyc3.digitaloceanspaces.com/SideBySide/lightning.svg" aria-hidden="true" loading="lazy" decoding="async" alt="lightning icon" width="392" height="497"> -->
+                
+                <!--Left Circle Image-->
+                <picture class="cs-left-image">
+                    <source media="(max-width: 600px)" srcset="assets/img/181212-sports-concussion.jpg">
+                    <source media="(min-width: 601px)" srcset="assets/img/181212-sports-concussion.jpg">
+                    <img loading="lazy" decoding="async" src="assets/img/181212-sports-concussion.jpg" alt="cleaning" width="211" height="211" aria-hidden="true">
+                </picture>
+                <!--Bottom Circle Image-->
+                <picture class="cs-bottom-image">
+                    <source media="(max-width: 600px)" srcset="assets/img/head_impact2.jpg">
+                    <source media="(min-width: 601px)" srcset="assets/img/head_impact2.jpg">
+                    <img loading="lazy" decoding="async" src="assets/img/head_impact2.jpg" alt="cleaning" width="180" height="180" aria-hidden="true">
+                </picture>
+                <!--Main Person Image-->
+                <!--To make your own crops of people, use https://www.remove.bg/ to remove the background of any image-->
+                <!-- <picture class="cs-person">
+                    <source media="(max-width: 600px)" srcset="https://csimg.nyc3.digitaloceanspaces.com/SideBySide/cleaner3.png">
+                    <source media="(min-width: 601px)" srcset="https://csimg.nyc3.digitaloceanspaces.com/SideBySide/cleaner3.png">
+                    <img loading="lazy" decoding="async" src="https://csimg.nyc3.digitaloceanspaces.com/SideBySide/cleaner3.png" alt="cleaning" width="386" height="521" aria-hidden="true">
+                </picture> -->
+                <!--Masking SVG to cover the bottom of the person image-->
+                <!-- <svg class="cs-mask" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383 173"><path d="M0 131.021c0-29.542.317-41.863 1.067-41.4.587.363.983.052.881-.69-.502-3.66.132-4.85 2.583-4.85 2.264 0 2.507.363 2.3 3.447-.183 2.714.343 3.902 2.474 5.577 1.488 1.17 3.346 2.77 4.129 3.552.783.783 1.85 1.423 2.372 1.423.522 0 1.51.675 2.194 1.5.685.825 2.262 1.5 3.506 1.5 1.447 0 2.456.747 2.803 2.074.298 1.141 1.476 2.319 2.617 2.617 1.14.298 2.074.868 2.074 1.265 0 1.176 4.868 3.044 7.93 3.044 2.055 0 3.042.62 3.58 2.25l.744 2.25.442-2.25c.314-1.595 1.15-2.25 2.874-2.25 2.095 0 2.43.467 2.43 3.384 0 3.984 1.935 4.861 8.687 3.936 3.861-.53 4.313-.38 4.313 1.437 0 2.581 2.158 3.402 6.935 2.638 3.15-.504 3.859-.292 4.269 1.277.405 1.55 2.677 2.273 12.894 4.103 18.887 3.384 38.907 4.572 54.402 3.23 7.15-.62 15.475-1.296 18.5-1.503 13.731-.938 35.155-5.125 36.708-7.175.867-1.145 2.091-1.417 4.343-.967 2.97.594 20.732-3.208 24.769-5.301.924-.48 3.572-1.376 5.885-1.992 2.313-.616 4.869-1.783 5.679-2.594.81-.81 3.08-1.473 5.045-1.473 2.36 0 3.571-.465 3.571-1.372 0-.828 1.587-1.626 4-2.012 2.588-.414 4-1.165 4-2.128 0-1.034 1.068-1.488 3.5-1.488 1.925 0 3.5-.45 3.5-1s.879-1 1.953-1c2.39 0 7.047-2.038 7.047-3.083 0-.419 1.688-1.27 3.75-1.89 7.21-2.17 13.218-5.473 13.234-7.277.012-1.33.855-1.75 3.516-1.75 1.925 0 3.5-.45 3.5-1s.469-1 1.042-1c.573 0 1.586-.454 2.25-1.01.664-.555 4.583-3.598 8.708-6.76 10.945-8.394 18.178-16.216 25.328-27.393 3.004-4.696 3.488-6.198 2.988-9.277-.506-3.116-.29-3.754 1.422-4.202 2.287-.598 4.262-4.26 4.262-7.905 0-1.349.4-2.453.888-2.453.999 0 5.23-20.999 4.478-22.217-.266-.43.244-.783 1.134-.783.89 0 1.34-.45 1-1-.404-.653 6.156-1 18.941-1H383v173H0Zm18-35.44c0-2 .5-2.5 2.5-2.5s2.5.5 2.5 2.5-.5 2.5-2.5 2.5-2.5-.5-2.5-2.5z" fill="#fff"/></svg> -->
+            </div>
         </div>
+    </section>
+
+    <section id="Solution">
+        <div class="cs-container">
+            
+            <!--Left Image Group-->
+            <div class="cs-image-group">
+                <!--Faded Paint Splash-->
+                <!-- <img class="cs-splash" src="https://csimg.nyc3.digitaloceanspaces.com/SideBySide/blue-splash.svg" aria-hidden="true" loading="lazy" decoding="async" alt="splash icon" width="570" height="586"> -->
+
+                <!--Blue Blob-->
+                <img class="cs-blob" src="assets/img/impaxbuddy.png" aria-hidden="true" loading="lazy" decoding="async" alt="blob icon" width="392" height="497">
+
+                <!--Lightning Bolt-->
+                <!-- <img class="cs-lightning" src="https://csimg.nyc3.digitaloceanspaces.com/SideBySide/lightning.svg" aria-hidden="true" loading="lazy" decoding="async" alt="lightning icon" width="392" height="497"> -->
+                
+                <!--Left Circle Image-->
+                <picture class="cs-left-image">
+                    <source media="(max-width: 600px)" srcset="assets/img/dashboard.jpg">
+                    <source media="(min-width: 601px)" srcset="assets/img/dashboard.jpg">
+                    <img loading="lazy" decoding="async" src="assets/img/dashboard.jpg" alt="cleaning" width="211" height="211" aria-hidden="true">
+                </picture>
+                <!--Bottom Circle Image-->
+                <picture class="cs-bottom-image">
+                    <source media="(max-width: 600px)" srcset="assets/img/Hardware-hub.png">
+                    <source media="(min-width: 601px)" srcset="assets/img/Hardware-hub.png">
+                    <img loading="lazy" decoding="async" src="assets/img/Hardware-hub.png" alt="cleaning" width="180" height="180" aria-hidden="true">
+                </picture>
+                <!--Main Person Image-->
+                <!--To make your own crops of people, use https://www.remove.bg/ to remove the background of any image-->
+                <!-- <picture class="cs-person">
+                    <source media="(max-width: 600px)" srcset="https://csimg.nyc3.digitaloceanspaces.com/SideBySide/cleaner3.png">
+                    <source media="(min-width: 601px)" srcset="https://csimg.nyc3.digitaloceanspaces.com/SideBySide/cleaner3.png">
+                    <img loading="lazy" decoding="async" src="https://csimg.nyc3.digitaloceanspaces.com/SideBySide/cleaner3.png" alt="cleaning" width="386" height="521" aria-hidden="true">
+                </picture> -->
+                <!--Masking SVG to cover the bottom of the person image-->
+                <!-- <svg class="cs-mask" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383 173"><path d="M0 131.021c0-29.542.317-41.863 1.067-41.4.587.363.983.052.881-.69-.502-3.66.132-4.85 2.583-4.85 2.264 0 2.507.363 2.3 3.447-.183 2.714.343 3.902 2.474 5.577 1.488 1.17 3.346 2.77 4.129 3.552.783.783 1.85 1.423 2.372 1.423.522 0 1.51.675 2.194 1.5.685.825 2.262 1.5 3.506 1.5 1.447 0 2.456.747 2.803 2.074.298 1.141 1.476 2.319 2.617 2.617 1.14.298 2.074.868 2.074 1.265 0 1.176 4.868 3.044 7.93 3.044 2.055 0 3.042.62 3.58 2.25l.744 2.25.442-2.25c.314-1.595 1.15-2.25 2.874-2.25 2.095 0 2.43.467 2.43 3.384 0 3.984 1.935 4.861 8.687 3.936 3.861-.53 4.313-.38 4.313 1.437 0 2.581 2.158 3.402 6.935 2.638 3.15-.504 3.859-.292 4.269 1.277.405 1.55 2.677 2.273 12.894 4.103 18.887 3.384 38.907 4.572 54.402 3.23 7.15-.62 15.475-1.296 18.5-1.503 13.731-.938 35.155-5.125 36.708-7.175.867-1.145 2.091-1.417 4.343-.967 2.97.594 20.732-3.208 24.769-5.301.924-.48 3.572-1.376 5.885-1.992 2.313-.616 4.869-1.783 5.679-2.594.81-.81 3.08-1.473 5.045-1.473 2.36 0 3.571-.465 3.571-1.372 0-.828 1.587-1.626 4-2.012 2.588-.414 4-1.165 4-2.128 0-1.034 1.068-1.488 3.5-1.488 1.925 0 3.5-.45 3.5-1s.879-1 1.953-1c2.39 0 7.047-2.038 7.047-3.083 0-.419 1.688-1.27 3.75-1.89 7.21-2.17 13.218-5.473 13.234-7.277.012-1.33.855-1.75 3.516-1.75 1.925 0 3.5-.45 3.5-1s.469-1 1.042-1c.573 0 1.586-.454 2.25-1.01.664-.555 4.583-3.598 8.708-6.76 10.945-8.394 18.178-16.216 25.328-27.393 3.004-4.696 3.488-6.198 2.988-9.277-.506-3.116-.29-3.754 1.422-4.202 2.287-.598 4.262-4.26 4.262-7.905 0-1.349.4-2.453.888-2.453.999 0 5.23-20.999 4.478-22.217-.266-.43.244-.783 1.134-.783.89 0 1.34-.45 1-1-.404-.653 6.156-1 18.941-1H383v173H0Zm18-35.44c0-2 .5-2.5 2.5-2.5s2.5.5 2.5 2.5-.5 2.5-2.5 2.5-2.5-.5-2.5-2.5z" fill="#fff"/></svg> -->
+            </div>
+
+            <div class="cs-content">
+                <!-- <span class="cs-topper">Why Choose Us</span> -->
+                <h2 class="cs-title" style="text-align: center;">Our Solution</h2>
+                <p class="cs-text">
+                    In response to the escalating concern surrounding long-term brain disorders resulting from repeated head impacts
+                     in sports, ImpaX emerges as a groundbreaking impact tracking system. This innovative solution addresses the 
+                     challenges posed by subconcussive impacts, providing reliable monitoring and preventive measures.
+                </p>
+                <ul>
+                    <li>Real-time Impact Tracking</li>
+                    <li>User-Friendly Dashboard</li>
+                    <li>Cumulative Analysis</li>
+                    <li>Cost-Effective Solution</li>
+                </ul>
+
+                <!-- <a href="" class="cs-button-solid">Contact Us</a> -->
+            </div>
         </div>
-      </section>
-      <!-- End Problem Section -->
-      <!--Solution Architecture-->
-      <section id="solution architecture" class="solution architecture">
-        <div class="container">
-          <div class="section-title">
-            <span>High Level Solution Architecture</span>
-            <h2><b>High Level Solution Architecture</b></h2>
-          </div>
+    </section>
+    <!--============================================ -->
+    <!--                Solution Architecture         -->
+    <!-- ============================================ -->
 
-          <div style= "text-align: center;" data-aos="fade-up">
-            <img src="./assets/img/solution architecture.png" alt="solution architecture" width="70%" >
-          </div>
-
-      </section>
-      <!-- End of Solution Architecture-->
-
-      <!--data flow-->
-      <section id="data flow" class="solution architecture">
-        <div class="container">
-          <div class="section-title">
-            <span>Data Flow</span>
-            <h2><b>Data Flow</b></h2>
-          </div>
-
-          <div style= "text-align: center;" data-aos="fade-up">
-            <img src="./assets/img/dataflow.png" alt="data flow" width="70%" >
-          </div>
-
-      </section>
-      <!-- End of Data Flow-->
-      <!--Data Transmission-->
-      <section id="data Transmission" class="solution architecture">
-        <div class="container">
-          <div class="section-title">
-            <span>Data Transmission</span>
-            <h2><b>Data Transmission</b></h2>
-          </div>
-
-          <div style= "text-align: center;" data-aos="fade-up">
-            <img src="./assets/img/data transmission.png" alt="data transmission" width="70%" >
-          </div>
-
-      </section>
-      <!-- End of Data Transmission-->
-
-      <!--Data Transmission-->
-      <section id="Hardware Infrastructure-Hub" class="solution architecture">
-        <div class="container">
-          <div class="section-title">
-            <span>Hardware Infrastructure-Hub</span>
-            <h2><b>Hardware Infrastructure-Hub</b></h2>
-          </div>
-
-          <div style= "text-align: center;" data-aos="fade-up">
-            <img src="./assets/img/Hardware-hub.png" alt="data transmission" width="70%" >
-          </div>
-
-      </section>
-      <!-- End of Data Transmission-->
-
-      <!--Data Transmission-->
-      <section id="Hardware Infrastructure-Buddy" class="solution architecture">
-        <div class="container">
-          <div class="section-title">
-            <span>Hardware Infrastructure-Buddy</span>
-            <h2><b>Hardware Infrastructure-Buddy</b></h2>
-          </div>
-
-          <div style= "text-align: center;" data-aos="fade-up">
-            <img src="./assets/img/Hardware-buddy.png" alt="data transmission" width="70%" >
-          </div>
-
-      </section>
-      <!-- End of Data Transmission-->
-      <!-- <section id = "Solution" class="services">
-        <div class="section-title">
-          <span>Hardware Infrastructure</span>
-          <h2><b>Hardware Infrastructure</b></h2>
+    <section id="SolutionArchitecture">
+        <div class="cs-container">
+            <h2 class="cs-title">High Level Solution Architecture</h2>
+            <picture class="cs-picture">
+                <source media="(max-width: 767px)" srcset="assets/img/solution architecture.png">
+                <source media="(min-width: 768px)" srcset="assets/img/solution architecture.png">
+                <img aria-hidden="true" loading="lazy" decoding="async" src="assets/img/solution architecture.png" alt="Solution Architecture">
+            </picture> 
         </div>
+    </section>
 
-          <div class="row">
-            <div
-              class="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="fade-up"
-            >
-              <div class="icon-box">
-                <div class="icon"><i class="bx bxl-dribbble"></i></div>
-                <h4><a href="">Lorem Ipsum</a></h4>
-                <p>
-                  Voluptatum deleniti atque corrupti quos dolores et quas
-                  molestias excepturi
-                </p>
-              </div>
+    <!-- ============================================ -->
+    <!--                    Hardware                     -->
+    <!-- ============================================ -->
+
+    <section id="Hardware">
+        <div class="cs-container">
+            <div class="cs-content">
+                <!-- <picture class="cs-wrapper" aria-hidden="true">
+                    <img class="cs-decal" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/decal1.svg" decoding="async" alt="decal" width="181" height="36">
+                </picture> -->
+                <h2 class="cs-title">Hardware Components</h2>
             </div>
-
-            <div
-              class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0"
-              data-aos="fade-up"
-              data-aos-delay="150"
-            >
-              <div class="icon-box">
-                <div class="icon"><i class="bx bx-file"></i></div>
-                <h4><a href="">Sed ut perspiciatis</a></h4>
-                <p>
-                  Duis aute irure dolor in reprehenderit in voluptate velit esse
-                  cillum dolore
-                </p>
-              </div>
-            </div>
-
-            <div
-              class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0"
-              data-aos="fade-up"
-              data-aos-delay="300"
-            >
-              <div class="icon-box">
-                <div class="icon"><i class="bx bx-tachometer"></i></div>
-                <h4><a href="">Magni Dolores</a></h4>
-                <p>
-                  Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                  qui officia
-                </p>
-              </div>
-            </div>
-
-            <div
-              class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4"
-              data-aos="fade-up"
-              data-aos-delay="450"
-            >
-              <div class="icon-box">
-                <div class="icon"><i class="bx bx-world"></i></div>
-                <h4><a href="">Nemo Enim</a></h4>
-                <p>
-                  At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                  blanditiis
-                </p>
-              </div>
-            </div>
-
-            <div
-              class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4"
-              data-aos="fade-up"
-              data-aos-delay="600"
-            >
-              <div class="icon-box">
-                <div class="icon"><i class="bx bx-slideshow"></i></div>
-                <h4><a href="">Dele cardo</a></h4>
-                <p>
-                  Quis consequatur saepe eligendi voluptatem consequatur dolor
-                  consequuntur
-                </p>
-              </div>
-            </div>
-
-            <div
-              class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4"
-              data-aos="fade-up"
-              data-aos-delay="750"
-            >
-              <div class="icon-box">
-                <div class="icon"><i class="bx bx-arch"></i></div>
-                <h4><a href="">Divera don</a></h4>
-                <p>
-                  Modi nostrum vel laborum. Porro fugit error sit minus sapiente
-                  sit aspernatur
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> -->
-      <!-- End Services Section -->
-
-      <!-- ======= Team Section ======= -->
-      <section id="team" class="team">
-        <div class="container">
-          <div class="section-title">
-            <span>Team</span>
-            <h2>Team</h2>
-          </div>
-
-          <div class="row">
-            <div
-              class="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="zoom-in"
-            >
-              <div class="member">
-                <img src="assets/img/team/e19094.jpg" alt="" />
-                <h4>Mansitha Eashwara</h4>
-                <span>E/19/094</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-github"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="zoom-in"
-            >
-              <div class="member">
-                <img src="assets/img/team/e19124.jpg" alt="" />
-                <h4>Hirushi Gunasekara</h4>
-                <span>E/19/124</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-github"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-            <div
-              class="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="zoom-in"
-            >
-              <div class="member">
-                <img src="assets/img/team/e19129.jpg" alt="" />
-                <h4>Kanishka Gunawardana</h4>
-                <span>E/19/129</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-github"></i></a>
-                  <a href="www.linkedin.com/in/kanishka-gunawardana-285aa4201"
-                    ><i class="bi bi-linkedin"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-            <div
-              class="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="zoom-in"
-            >
-              <div class="member">
-                <img src="assets/img/team/e19372.jpg" alt="" />
-                <h4>Kaushitha Silva</h4>
-                <span>E/19/372</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-github"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="zoom-in"
-            >
-              <div class="member">
-                <img src="assets/img/team/e19408.jpg" alt="" />
-                <h4>Sanduni Ubayasiri</h4>
-                <span>E/19/408</span>
-                <div class="social">
-                  <a href="https://github.com/SanduniU"
-                    ><i class="bi bi-github"></i
-                  ></a>
-                  <a href="www.linkedin.com/in/sanduni-ubayasiri-291ab9253"
-                    ><i class="bi bi-linkedin"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- End Team Section -->
-    </main>
-    <!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer">
-      <div class="footer-top">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-4 col-md-6"></div>
-
-            <div class="col-lg-2 col-md-6 footer-links">
-              <h4>Useful Links</h4>
-              <ul>
-                <li>
-                  <i class="bx bx-chevron-right"></i>
-                  <a href="http://www.ce.pdn.ac.lk/"
-                    >Department of Computer Engineering</a
-                  >
+            <ul class="cs-card-group">
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(max-width: 650px)" srcset="assets/img/zero2-hero.webp">
+                        <source media="(min-width: 700px)" srcset="assets/img/zero2-hero.webp">
+                        <img loading="lazy" decoding="async" src="assets/img/zero2-hero.webp" alt="pizero" width="200" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">Raspberry pi Zero w</span>
+                            
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
                 </li>
-                <li>
-                  <i class="bx bx-chevron-right"></i>
-                  <a href="https://eng.pdn.ac.lk/">
-                    Faculty of Engineering, University of Peradeniya</a
-                  >
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(max-width: 600px)" srcset="assets/img/Esp32.jpg">
+                        <source media="(min-width: 601px)" srcset="assets/img/Esp32.jpg">
+                        <img loading="lazy" decoding="async" src="assets/img/Esp32.jpg" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">Esp32 Lite V1.0.0 </span>
+                        
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
                 </li>
-                <li>
-                  <i class="bx bx-chevron-right"></i>
-                  <a href="https://github.com/cepdnaclk/e19-3yp-impact-tracker"
-                    >Project Repository</a
-                  >
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(max-width: 600px)" srcset="assets/img/lipo-battery-buddy.webp">
+                        <source media="(min-width: 601px)" srcset="assets/img/lipo-battery-buddy.webp">
+                        <img loading="lazy" decoding="async" src="assets/img/lipo-battery-buddy.webp" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">3.7V 1000mah 30C Lipo Battery</span>
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
                 </li>
-              </ul>
-            </div>
-          </div>
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(max-width: 600px)" srcset="assets/img/MPU6050Module.jpg">
+                        <source media="(min-width: 601px)" srcset="assets/img/MPU6050Module.jpg">
+                        <img loading="lazy" decoding="async" src="assets/img/MPU6050Module.jpg" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">Accelerometer MPU6050 Module</span>
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(min-width: 601px)" srcset="assets/img/accelerometer.jpg">
+                        <source media="(max-width: 600px)" srcset="assets/img/accelerometer.jpg">
+                        <img loading="lazy" decoding="async" src="assets/img/accelerometer.jpg" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">Triple Axis Accelerometer</span>
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(max-width: 600px)" srcset="assets/img/18650.webp">
+                        <source media="(min-width: 601px)" srcset="assets/img/18650.webp">
+                        <img loading="lazy" decoding="async" src="assets/img/18650.webp" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">3.7V 18650 Rechargable Battery</span>
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(min-width: 601px)" srcset="assets/img/accelerometer.jpg">
+                        <source media="(max-width: 600px)" srcset="assets/img/accelerometer.jpg">
+                        <img loading="lazy" decoding="async" src="assets/img/accelerometer.jpg" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">Triple Axis Accelerometer</span>
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture"  aria-hidden="true">
+                        <source media="(max-width: 600px)" srcset="assets/img/Charger Module.jpg">
+                        <source media="(min-width: 601px)" srcset="assets/img/Charger Module.jpg">
+                        <img loading="lazy" decoding="async" src="assets/img/Charger Module.jpg" alt="food" width="160" height="160">
+                        </picture>
+                        <div class="cs-info">
+                        <h3 class="cs-h3">
+                            <span class="cs-name">TP 4056 Lithium Battery Charger Module</span>
+                        </h3>
+                        <p class="cs-item-p">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                        </p>
+                    </div>
+                </li>
+            </ul>
         </div>
-      </div>
+        <!--Static background is in CSS as a tiled pattern-->
+    </section>
+                                
 
-      <div class="container">
-        <div class="credits">Impax</div>
-      </div>
-    </footer>
-    <!-- End Footer -->
 
-    <a
-      href="#"
-      class="back-to-top d-flex align-items-center justify-content-center"
-      ><i class="bi bi-arrow-up-short"></i
-    ></a>
-    <div id="preloader"></div>
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/aos/aos.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <!-- ============================================ -->
+    <!--                Meet The Team                 -->
+    <!-- ============================================ -->
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-  </body>
+    <section id="meet-us-1021">
+        <div class="cs-container">
+            <!-- <img class="cs-graphic" aria-hidden="true" loading="lazy" decoding="async" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons/Ornament.svg" alt="chef" width="456" height="31"> -->
+            <h2 class="cs-title">Meet Our Team</h2>
+
+            <ul class="cs-card-group">
+                <li class="cs-item">
+                    <picture class="cs-picture">
+                        <source media="(max-width: 767px)" srcset="assets/img/team/e19094.jpg">
+                        <source media="(min-width: 768px)" srcset="assets/img/team/e19094.jpg">
+                        <img aria-hidden="true" loading="lazy" decoding="async" src="assets/img/team/e19094.jpg" alt="Mansitha" width="305" height="335">
+                    </picture>
+                    <div class="cs-info">
+                        <span class="cs-name">Mansitha Eashwara</span>
+                        <span class="cs-job">E/19/094</span>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture">
+                        <source media="(max-width: 767px)" srcset="assets/img/team/e19124.jpg">
+                        <source media="(min-width: 768px)" srcset="assets/img/team/e19124.jpg">
+                        <img aria-hidden="true" loading="lazy" decoding="async" src="assets/img/team/e19124.jpg" alt="Hirushi" width="305" height="335">
+                    </picture>
+                    <div class="cs-info">
+                        <span class="cs-name">Hirushi Gunasekara</span>
+                        <span class="cs-job">E/19/124</span>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture">
+                        <source media="(max-width: 767px)" srcset="assets/img/team/e19129.jpg">
+                        <source media="(min-width: 768px)" srcset="assets/img/team/e19129.jpg">
+                        <img aria-hidden="true" loading="lazy" decoding="async" src="assets/img/team/e19129.jpg" alt="Kanishka" width="305" height="335">
+                    </picture>
+                    <div class="cs-info">
+                        <span class="cs-name">Kanishka Gunawardana</span>
+                        <span class="cs-job">E/19/129</span>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture">
+                        <source media="(max-width: 767px)" srcset="assets/img/team/e19372.jpg">
+                        <source media="(min-width: 768px)" srcset="assets/img/team/e19372.jpg">
+                        <img aria-hidden="true" loading="lazy" decoding="async" src="assets/img/team/e19372.jpg" alt="Kaushitha" width="305" height="335">
+                    </picture>
+                    <div class="cs-info">
+                        <span class="cs-name">Kaushitha Silva</span>
+                        <span class="cs-job">E/19/372</span>
+                    </div>
+                </li>
+                <li class="cs-item">
+                    <picture class="cs-picture">
+                        <source media="(max-width: 767px)" srcset="assets/img/team/e19408.jpg">
+                        <source media="(min-width: 768px)" srcset="assets/img/team/e19408.jpg">
+                        <img aria-hidden="true" loading="lazy" decoding="async" src="assets/img/team/e19408.jpg" alt="Sanduni" width="305" height="335">
+                    </picture>
+                    <div class="cs-info">
+                        <span class="cs-name">Sanduni Ubayasiri</span>
+                        <span class="cs-job">E/19/408</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+<!--                   Footer                     -->
+<!-- ============================================ -->
+
+<footer id="cs-footer-274">
+    <div class="cs-container">
+        <!-- Logo Group -->
+        <div class="cs-logo-group">
+            <a aria-label="go back to home" class="cs-logo" href="">
+                <!-- Remove the light class if you don't need the dark logo -->
+                <img class="cs-logo-img" aria-hidden="true" loading="lazy" decoding="async" src="assets/img/Logo-Impax.webp" alt="logo" width="240" height="32">
+            </a>
+            <div class="cs-social">
+                <a class="cs-social-link" aria-label="visit google profile" href="https://projects.ce.pdn.ac.lk/3yp/e19/impact-tracker/">
+                    <img class="cs-social-img" aria-hidden="true" loading="lazy" decoding="async" src="assets/img/uop-crest.jpg" alt="google" width="11" height="11">
+                </a>
+                <a class="cs-social-link" aria-label="visit github profile" href="https://github.com/cepdnaclk/e19-3yp-impact-tracker">
+                    <img class="cs-social-img" aria-hidden="true" loading="lazy" decoding="async" src="assets/img/github.png" alt="facebook" width="6" height="11">
+                </a>
+            </div>
+        </div>
+        <!-- Links -->
+        <ul class="cs-nav">
+            <li class="cs-nav-li">
+                <span class="cs-header">Useful Links</span>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="https://eng.pdn.ac.lk/">Faculty of Engineering</a>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="https://www.ce.pdn.ac.lk/">Department of Computer Engineering</a>
+            </li>
+        </ul>
+
+        <!-- Contact Info -->
+        <!-- <ul class="cs-nav">
+            <li class="cs-nav-li">
+                <span class="cs-header">Opening Hours</span>
+            </li>
+            <li class="cs-nav-li">
+                Tuesday, Thursday, Friday: 9am-6pm
+            </li>
+            <li class="cs-nav-li">
+                ​(closed for lunch 12pm-2pm)
+            </li> -->
+        <!-- </ul> -->
+    </div>
+</footer>
+                                
+                                
+                                
+</body>
 </html>
+```
+                                

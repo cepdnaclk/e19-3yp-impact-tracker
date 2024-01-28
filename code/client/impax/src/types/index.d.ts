@@ -109,6 +109,19 @@ export type TeamAnalyticsColumns = {
   concussions: number;
 };
 
+export type TeamAnalyticsSummary ={
+  summaryData: Metric[];
+  tableData: TeamAnalyticsColumns[];
+}
+
+export type PlayerAnalyticsSummary = {
+  summaryData: Metric[];
+  histogramData: HistogramData;
+  criticalSessions: CriticalSessionType[];
+};
+
+
+
 //Profile Managers
 export type Manager =
   | {
@@ -133,3 +146,10 @@ export type PlayersWithTimeStamp = {
   timestamp: number;
   players: Players;
 };
+
+export type LoginInfo = {
+  teamId?: string;
+  teamName?: string;
+  email: string;
+
+}

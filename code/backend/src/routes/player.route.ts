@@ -322,7 +322,7 @@ router.get("/accept-invitation/token/:token", async (req, res) => {
 });
 
 // Endpoint verify email
-router.get("/verify-email/token/:token", async (req, res) => {
+router.get("/verify-email/token/:token", async (req: Request, res: Response) => {
   const token = req.params.token;
   const player = await PlayerModel.findOne({ invitationToken: token }); 
   // const playerInTeam = await PlayerTeamModel.findOne({ invitationToken: token }); 
@@ -334,6 +334,40 @@ router.get("/verify-email/token/:token", async (req, res) => {
   }
   else{
     res.status(400).send("Invalid or expired token.");
+  }
+});
+
+// Endpoint accept or denied invitation from user profile
+router.get("/accept-invite/:teamId/:isAccepted", async (req, res) => {
+  const playerEmail = req.body.userName;
+  const teamId = req.params.teamId;
+  const isAccepted = req.params.isAccepted;
+
+  console.log(playerEmail, teamId, isAccepted, typeof isAccepted);
+
+  try {
+    const playerInTeam = await PlayerTeamModel.findOne({ playerEmail: playerEmail, teamId: teamId });
+    if (playerInTeam) {
+      if (isAccepted == "1" && playerInTeam.isVerified == "pending") {
+        // Update player status
+        playerInTeam.isVerified = "verified";
+        await playerInTeam.save();
+        console.log("Invitation accepted successfully!");
+        res.send("Invitation accepted successfully!");
+      } else if (isAccepted == "0" && playerInTeam.isVerified == "pending") {
+        // Update player status
+        playerInTeam.isVerified = "rejected";
+        await playerInTeam.save();
+        res.send("Invitation denied successfully!");
+      }else{
+        res.send("Invitation already accepted or denied!");
+      }
+    } else {
+      throw new Error(HttpMsg.PLAYER_NOT_EXISTS_IN_TEAM);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 export default router;

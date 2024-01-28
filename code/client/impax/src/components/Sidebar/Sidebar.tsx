@@ -83,7 +83,11 @@ const Sidebar: React.FC = () => {
         active={activePage === "profile"}
         onClick={() => {
           setActivePage("profile");
-          navigate("/player-profile");
+          isLoggedInManager
+            ? navigate("/manager-profile")
+            : isLoggedInPlayer
+            ? navigate("/player-profile")
+            : navigate("/SignUp");
         }}
       />
     </aside>

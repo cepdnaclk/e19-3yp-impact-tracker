@@ -12,10 +12,8 @@ import {
   SessionToBeUploaded,
   PlayersWithTimeStamp,
 } from "../types";
-import { players } from "../data/players";
 import { deleteByValue } from "../utils/utils";
 import MqttClient from "../services/mqttClient";
-import { Verification, Verification } from "../components/PlayerManagement/PlayersTable/Verification/Verification";
 
 interface AppState {
   activePage: activePage;
@@ -44,7 +42,7 @@ interface AppState {
     jersey_number: number,
     player_name: string,
     player_email: string,
-    Verification:Verification
+    Verification: Verification
   ) => void;
   removePlayer: (player_id: number) => void;
   editPlayer: (
@@ -107,7 +105,7 @@ export const useAppState = create<AppState>()((set) => ({
   playersImpactHistory: {} as PlayerImpactHistory,
 
   //TODO: Clashing of players with other dashbaords
-  playerDetails: {} as Players,
+  playerDetails: localStorage.getItem("players") as Players | {} as Players,
   setPlayerDetails: (players: Players) => {
     set({ playerDetails: players });
     const timestamp = new Date().getTime();
@@ -125,7 +123,7 @@ export const useAppState = create<AppState>()((set) => ({
       const timestamp = new Date().getTime();
       const playersWithTimestamp: PlayersWithTimeStamp = {
         timestamp,
-        players,
+        players: playerDetails,
       };
       localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
 
@@ -150,7 +148,7 @@ export const useAppState = create<AppState>()((set) => ({
       const timestamp = new Date().getTime();
       const playersWithTimestamp: PlayersWithTimeStamp = {
         timestamp,
-        players,
+        players: playerDetails,
       };
       localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
       return { playerDetails };
@@ -159,7 +157,7 @@ export const useAppState = create<AppState>()((set) => ({
     jersey_number: number,
     player_name: string,
     player_email: string,
-    verification:Verification
+    verification: Verification
   ) =>
     set((prevState) => {
       const playerDetails = {
@@ -174,7 +172,7 @@ export const useAppState = create<AppState>()((set) => ({
       const timestamp = new Date().getTime();
       const playersWithTimestamp: PlayersWithTimeStamp = {
         timestamp,
-        players,
+        players: playerDetails,
       };
       localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
       return { playerDetails };
@@ -254,14 +252,16 @@ export const useAppState = create<AppState>()((set) => ({
           playerImpactHistory,
         };
         const sessionsToBeUploaded: SessionToBeUploaded[] =
-          JSON.parse(localStorage.getItem("sessionToBeUploaded") as string) ||
+          JSON.parse(localStorage.getItem("sessionsToBeUploaded") as string) ||
           [];
         sessionsToBeUploaded.push(savedSession);
         localStorage.setItem(
-          "sessionToBeUploaded",
+          "sessionsToBeUploaded",
           JSON.stringify(sessionsToBeUploaded)
         );
       }
+
+      //clear other states
 
       // publish session to mqtt
       MqttClient.getInstance().publishSession(sessionDetails);

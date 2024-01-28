@@ -184,3 +184,11 @@ $button-bg: rgb(14, 61, 127);
 .tableContainer {
   margin-top: 2em;
 }
+
+.spinnerContainer {
+  height: 10em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

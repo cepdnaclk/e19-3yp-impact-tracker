@@ -159,3 +159,11 @@ $button-bg: rgb(14, 61, 127);
     gap: 4em;
   }
 }
+
+.spinnerContainer {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  height: 10em;
+  width: 100%;
+}

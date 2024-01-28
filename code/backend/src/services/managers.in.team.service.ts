@@ -1,6 +1,8 @@
-import ManagerTeamModel from "../db/managers.in.team.schema";
+import ManagerModel from "../db/manager.schema";
+// import ManagerTeamModel from "../db/managers.in.team.schema";
 import PlayerTeamModel from "../db/players.in.team.schema";
 import SessionModel from "../db/session.schema";
+import { ManagerTeamResponse } from "../models/manager.model";
 import { Impact, SessionResponse } from "../models/session.model";
 import { AnalyticsSummaryTeam, ImpactStats, TeamPlayerResponse, ImpactDirection} from "../types/types";
 
@@ -8,12 +10,14 @@ class ManagersInTeamService {
   // create team manager instance
   async addManagerToTeam(
     managerEmail: string,
-    teamId: string
-  ): Promise<boolean> {
+    teamId: string,
+    invitationToken: string
+  ): Promise<ManagerTeamResponse> {
     try {
       // check entry exists
-      const managerTeam = await ManagerTeamModel.findOne({
-        managerEmail: managerEmail,
+      // don't need really
+      const managerTeam = await ManagerModel.findOne({
+        email: managerEmail,
         teamId: teamId,
       });
 
@@ -21,21 +25,27 @@ class ManagersInTeamService {
         throw new Error("Manager already exists in the team");
       }
 
-      const managerTeamInstance = new ManagerTeamModel({
-        managerEmail: managerEmail,
+      const managerInstance = new ManagerModel({
+        email: managerEmail,
         teamId: teamId,
-        accepted: "pending",
+        isVerified: "pending",
+        invitationToken: invitationToken,
       });
 
+      
       // Save the manager to the database
-      const savedManager = await managerTeamInstance.save();
+      const savedManager = await managerInstance.save();
 
-      return true;
+      const managerResponse = new ManagerTeamResponse(
+        savedManager.email,
+        savedManager.teamId,
+        savedManager.isVerified
+      );
+      return managerResponse;
     } catch (error) {
       console.error(error);
       throw error;
     }
-    return false;
   }
 
   // check the manager exits in that team
@@ -45,16 +55,16 @@ class ManagersInTeamService {
   ): Promise<boolean> {
     try {
       // check entry exists
-      const managerTeam = await ManagerTeamModel.findOne({
-        managerEmail: managerEmail,
+      const managerTeam = await ManagerModel.findOne({
+        email: managerEmail,
         teamId: teamId,
       });
 
-      if (!managerTeam) {
+      if (managerTeam) {
+        return true;
+      }else{
         return false;
       }
-
-      return true;
     } catch (error) {
       console.error(error);
       throw error;
@@ -69,8 +79,8 @@ class ManagersInTeamService {
   ): Promise<boolean> {
     try {
       // check entry exists
-      const managerTeam = await ManagerTeamModel.findOne({
-        managerEmail: managerEmail,
+      const managerTeam = await ManagerModel.findOne({
+        email: managerEmail,
         teamId: teamId,
       });
 
@@ -78,8 +88,8 @@ class ManagersInTeamService {
         throw new Error("Manager does not exist in the team");
       }
 
-      await ManagerTeamModel.deleteOne({
-        managerEmail: managerEmail,
+      await ManagerModel.deleteOne({
+        email: managerEmail,
         teamId: teamId,
       });
 
@@ -151,7 +161,7 @@ class ManagersInTeamService {
           value: 0
         }
       ],
-      tableData: {}
+      tableData: []
     };
     
     try {
@@ -165,30 +175,32 @@ class ManagersInTeamService {
       const jerseyIds: number[] = Object.keys(teamPlayers).map(Number);
 
       // For calculations of trends (previous)
-      let tableDataPrev = {} as AnalyticsSummaryTeam["tableData"];
+      let tableDataPrev = [] as AnalyticsSummaryTeam["tableData"];
 
 
       // Table data with player name
-      jerseyIds.forEach((jerseyId) => {
-        analyticsSummary.tableData[jerseyId] = {
-          playerName: teamPlayers[jerseyId].name,
-          impactsRecorded: 0,
-          cumulativeImpact: 0,
-          averageImpact: 0,
-          largestImpact: 0,
-          dominantDirection: "",
+      analyticsSummary.tableData = jerseyIds.map((jerseyId) => {
+        return {
+          jersey_number: jerseyId,
+          name: teamPlayers[jerseyId].name,
+          impacts_recorded: 0,
+          average_impact: 0,
+          highest_impact: 0,
+          dominant_direction: 'none',
+          cumulative_impact: 0,
           concussions: 0
         };
       });
 
-      jerseyIds.forEach((jerseyId) => {
-        tableDataPrev[jerseyId] = {
-          playerName: teamPlayers[jerseyId].name,
-          impactsRecorded: 0,
-          cumulativeImpact: 0,
-          averageImpact: 0,
-          largestImpact: 0,
-          dominantDirection: "",
+      tableDataPrev = jerseyIds.map((jerseyId) => {
+        return {
+          jersey_number: jerseyId,
+          name: teamPlayers[jerseyId].name,
+          impacts_recorded: 0,
+          average_impact: 0,
+          highest_impact: 0,
+          dominant_direction: 'none',
+          cumulative_impact: 0,
           concussions: 0
         };
       });
@@ -259,9 +271,9 @@ class ManagersInTeamService {
     ): Promise<void> {
     try{
 
-      for (const jerseyId in tableData) {
+      for (const playerData of tableData) {
         // console.log(Number(jerseyId));
-        let playerData = tableData[jerseyId];
+        // let playerData = tableData[jerseyId];
         // if (jerseyId in tableData) {
         //   // The jerseyId exists in the tableData object, so you can use it
         //   playerData = tableData[jerseyId];
@@ -289,17 +301,17 @@ class ManagersInTeamService {
           // console.log(session.impactHistory);
           for (const impactPlayer of session.impactHistory) {
             // console.log(impactPlayer.jerseyId, Number(jerseyId));
-            if (impactPlayer.jerseyId === Number(jerseyId) ){
+            if (impactPlayer.jerseyId === playerData.jersey_number ){
 
               // For each impact in the impact Player
               for (const impact of impactPlayer.impact) {
-                playerData.impactsRecorded += 1;
-                playerData.cumulativeImpact += impact.magnitude;
-                if (playerData.largestImpact < impact.magnitude) {
-                  playerData.largestImpact = impact.magnitude;
+                playerData.impacts_recorded += 1;
+                playerData.cumulative_impact += impact.magnitude;
+                if (playerData.highest_impact < impact.magnitude) {
+                  playerData.highest_impact = impact.magnitude;
                 }
 
-                playerData.averageImpact = playerData.cumulativeImpact / playerData.impactsRecorded;
+                playerData.average_impact = playerData.cumulative_impact / playerData.impacts_recorded;
                 directionCount[impact.direction as keyof typeof directionCount] += 1;
 
                 // console.log(playerData)
@@ -314,13 +326,13 @@ class ManagersInTeamService {
         }
 
         // Round off the average impact
-        playerData.averageImpact = Math.round(playerData.averageImpact);
+        playerData.average_impact = Math.round(playerData.average_impact);
 
-        if (playerData.impactsRecorded > 0) {
+        if (playerData.impacts_recorded > 0) {
             // Find the dominant direction
           const maxValueCurr = Math.max(...Object.values(directionCount));
           const maxKeyCurr = Object.keys(directionCount).find(key => directionCount[key as keyof typeof directionCount] === maxValueCurr);
-          playerData.dominantDirection = maxKeyCurr as string;
+          playerData.dominant_direction = maxKeyCurr as ImpactDirection;
         }
         
 
@@ -367,30 +379,33 @@ class ManagersInTeamService {
       // Fill up values for summary data;
       for (const jerseyId of jerseyIds) {
 
-      const playerData = tableData[jerseyId];
-      const playerDataPrev = tableDataPrev[jerseyId];
+        const playerData = tableData.find((entry) => entry.jersey_number === jerseyId);
+        const playerDataPrev = tableDataPrev.find((entry) => entry.jersey_number === jerseyId);
 
-      // Fill up summary data value ==> Sessions (already filled earlier)
-      // Fill up summary data value ==> Impacts Recorded
-      summaryData[1].value = Number(summaryData[1].value) + playerData.impactsRecorded;
-      summaryDataPrev[1].value = Number(summaryDataPrev[1].value) + playerDataPrev.impactsRecorded;
+        // Fill up summary data value ==> Sessions (already filled earlier)
+        // Fill up summary data value ==> Impacts Recorded
+        if (playerData) {
+          summaryData[1].value = Number(summaryData[1].value) + playerData.impacts_recorded;
+        }
+        if (playerDataPrev) {
+          summaryDataPrev[1].value = Number(summaryDataPrev[1].value) + playerDataPrev.impacts_recorded;
+        }
 
+        // Fill up summary data value ==> Contributors
+        if (playerData && playerData.impacts_recorded > 0) {
+          summaryData[2].value = Number(summaryData[2].value) + 1;
+        }
 
-      // Fill up summary data value ==> Contributors
-      if ((playerData.impactsRecorded) > 0) {
-        summaryData[2].value = Number(summaryData[2].value) + 1;
-      }
+        if (playerDataPrev && playerDataPrev.impacts_recorded > 0) {
+          summaryDataPrev[2].value = Number(summaryDataPrev[2].value) + 1;
+        }
 
-      if ((playerDataPrev.impactsRecorded) > 0) {
-        summaryDataPrev[2].value = Number(summaryDataPrev[2].value) + 1;
-      }
-
-      // Fill up summary data value ==> Highest Contributor
-      if (playerData.impactsRecorded > highestImpactsRecorded) {
-        highestImpactsRecorded = playerData.impactsRecorded;
-        playerNameWithHighestImpactsRecorded = playerData.playerName;
-      }
-      summaryData[3].value = playerNameWithHighestImpactsRecorded;
+        // Fill up summary data value ==> Highest Contributor
+        if (playerData && playerData.impacts_recorded > highestImpactsRecorded) {
+          highestImpactsRecorded = playerData.impacts_recorded;
+          playerNameWithHighestImpactsRecorded = playerData.name;
+        }
+        summaryData[3].value = playerNameWithHighestImpactsRecorded;
 
       }
 

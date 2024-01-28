@@ -3,6 +3,7 @@ import {
   TeamIdEmailExistsResponse,
   TeamResponse,
   Team,
+  TeamIdEmailExistsResponseWithIsVerified,
 } from "../models/team.model";
 import teamService from "../services/team.service";
 import managersInTeamService from "../services/managers.in.team.service";
@@ -25,7 +26,7 @@ class TeamController {
   async checkTeamEmailExist(
     teamId: string,
     email: string
-  ): Promise<TeamIdEmailExistsResponse> {
+  ): Promise<TeamIdEmailExistsResponseWithIsVerified> {
     // check team ID and email of the manager matchers
 
     // Team ID does not exist => Create new team
@@ -39,9 +40,9 @@ class TeamController {
 
     try {
       // Check if Team ID and email combination exists
-      const teamIdEmailExistResponse: TeamIdEmailExistsResponse =
+      const teamIdEmailExistsResponseWithIsVerified: TeamIdEmailExistsResponseWithIsVerified =
         await teamService.checkTeamEmailExist(teamId, email);
-      return teamIdEmailExistResponse;
+      return teamIdEmailExistsResponseWithIsVerified;
     } catch (err) {
       console.error(err);
       throw err;
@@ -117,31 +118,31 @@ class TeamController {
     return false;
   }
 
-  async getAnalyticsSummary(
-    teamId: string,
-    duration: string
-  ): Promise<void>{
-    // 'Last Week' , 'Last Month' , 'All Time'
-    let durationNumber: number = 0;
+  // async getAnalyticsSummary(
+  //   teamId: string,
+  //   duration: string
+  // ): Promise<void>{
+  //   // 'Last Week' , 'Last Month' , 'All Time'
+  //   let durationNumber: number = 0;
 
-    if (duration == "All Time"){
-      durationNumber = Date.now();
-    } else if (duration == "Last Month"){
-      durationNumber = 30 * 24 * 60 * 60 * 1000;
-    } else if (duration == "Last Week"){
-      durationNumber = 7 * 24 * 60 * 60 * 1000;
-    }
-    // console.log(durationNumber);
+  //   if (duration == "All Time"){
+  //     durationNumber = Date.now();
+  //   } else if (duration == "Last Month"){
+  //     durationNumber = 30 * 24 * 60 * 60 * 1000;
+  //   } else if (duration == "Last Week"){
+  //     durationNumber = 7 * 24 * 60 * 60 * 1000;
+  //   }
+  //   // console.log(durationNumber);
 
-    try {
-      const analyticsSummary = await teamService.getAnalyticsSummary(teamId, durationNumber);
-      // return analyticsSummary;
-    } catch (error) {
-      console.error(error);
-      throw new Error("Error in player service");
-    }
+  //   try {
+  //     const analyticsSummary = await teamService.getAnalyticsSummary(teamId, durationNumber);
+  //     // return analyticsSummary;
+  //   } catch (error) {
+  //     console.error(error);
+  //     throw new Error("Error in player service");
+  //   }
 
-  }
+  // }
 }
 
 export default new TeamController();

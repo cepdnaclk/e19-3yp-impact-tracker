@@ -33,12 +33,14 @@ void buddyCheckTurnOffHandle()
         ledStatus = LED_OFF;
         led(ledStatus);
 
+        buddyMQTT.publish(buddyMQTT.topics.BATTERY.c_str(), 0);
+
         delay(1000);
         gpio_hold_en(GPIO_NUM_0);
         gpio_hold_en(GPIO_NUM_2);
 
         // Go to sleep now
-        Serial.println("Going to sleep now");
+        // Serial.println("Going to sleep now");
         esp_deep_sleep_start();
     }
 }
@@ -135,7 +137,7 @@ void process()
             ledStatus = LED_ON;
         }
 
-        // Serial.println(batteryStatus);
+        // // Serial.println(batteryStatus);
 
         batteryStatusTimer = millis();
     }
@@ -169,7 +171,7 @@ void buddyInit()
     buddyWIFI.setSsidPassword(ssid.c_str(), password.c_str());
     buddyWIFI.init(communicationDashboardWFIFI, buddyCheckTurnOffHandle);
 
-    Serial.println("Wifi Done");
+    // Serial.println("Wifi Done");
 
     // MQTT
     buddyMQTT.setUserName(mqtt_username.c_str());
@@ -177,15 +179,15 @@ void buddyInit()
     buddyMQTT.client.setCallback(callback);
     buddyMQTT.init(BUDDY_ID, communicationDashboard, buddyCheckTurnOffHandle);
 
-    Serial.println("MQTT Done");
+    // Serial.println("MQTT Done");
 
     // Timers
     batteryStatusTimer = millis();
     measuringTimer = millis();
 
     // buddyMQTT.subscribe(buddyMQTT.topics.TEST.c_str());
-    Serial.println("Setup done");
-    Serial.println(WiFi.SSID());
+    // Serial.println("Setup done");
+    // Serial.println(WiFi.SSID());
 
     batteryInit();
 
@@ -204,10 +206,8 @@ void setup()
 
     // Increment boot number and print it every reboot
     ++bootCount;
-    Serial.print("Boot number: ");
-    Serial.println(bootCount);
-
-    // esp_sleep_enable_ext0_wakeup(GPIO_NUM_32, 1); // 1 = High, 0 = Low
+    // Serial.print("Boot number: ");
+    // // Serial.println(bootCount);
 
     int wakeUpReason = wakeup_reason();
 
@@ -238,5 +238,5 @@ void loop()
     led(ledStatus);
 
     delay(CLK_SPEED);
-    // Serial.println("loop");
+    // // Serial.println("loop");
 }

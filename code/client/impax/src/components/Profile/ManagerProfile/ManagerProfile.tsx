@@ -10,6 +10,8 @@ import DialogModal from "../../Modal/DialogModal";
 import { FaPlus } from "react-icons/fa6";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import NoInternetConnection from "../../StatusScreens/NoInternetConnection";
+import { useAppState } from "../../../states/appState";
 
 const ManagerProfile = () => {
   // Get team-id
@@ -23,6 +25,19 @@ const ManagerProfile = () => {
 
   const navigate = useNavigate();
   const [addManagerOpen, setAddManagerOpen] = useState<boolean>(false);
+
+  const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
+  if (!isInternetAvailable) {
+    //show no internet connection component
+    if (!isInternetAvailable) {
+      return (
+        <main>
+          <Title title={"Manager Profile"} Icon={FaRegUserCircle} />
+          <NoInternetConnection />
+        </main>
+      );
+    }
+  }
   // TODO: Stay logged in for 90 days and so much more
   return (
     <main>

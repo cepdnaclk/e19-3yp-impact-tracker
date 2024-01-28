@@ -54,23 +54,23 @@ int getBatteryStatus()
     // Move to the next index
     index = (index + 1) % MOVING_PERCENTAGE_SIZE;
 
-    // Serial.print(percentage);
-    // Serial.print(" - ");
+    // // Serial.print(percentage);
+    // // Serial.print(" - ");
 
     // for (int i = 0; i < MOVING_PERCENTAGE_SIZE; i++)
     // {
-    //     Serial.print(prevPercentage[i]);
-    //     Serial.print(", ");
+    //     // Serial.print(prevPercentage[i]);
+    //     // Serial.print(", ");
     // }
-    // Serial.println("");
+    // // Serial.println("");
 
-    if (isIncreasing(prevPercentage, MOVING_PERCENTAGE_SIZE))
-        return CHARGIN_STATE;
+    // if (isIncreasing(prevPercentage, MOVING_PERCENTAGE_SIZE))
+    //     return CHARGIN_STATE;
 
     if (voltage > VOLTAGE_UPPER_LIMIT || percentage > 100)
         return 100;
-    else if (voltage <= VOLTAGE_LOWER_LIMIT || percentage <= 0)
-        return 0;
+    else if (voltage <= VOLTAGE_LOWER_LIMIT || percentage <= 1)
+        return 1;
 
     return percentage;
 }
@@ -128,15 +128,15 @@ float getBatteryVoltage(float *readings)
     // Calculate the moving average
     float movingAverage = sum / MOVING_AVERAGE_SIZE;
 
-    // Serial.print(voltage);
-    // Serial.print(" - ");
+    // // Serial.print(voltage);
+    // // Serial.print(" - ");
 
     // for (int i = 0; i < MOVING_AVERAGE_SIZE; i++)
     // {
-    //     Serial.print(readings[i]);
-    //     Serial.print(", ");
+    //     // Serial.print(readings[i]);
+    //     // Serial.print(", ");
     // }
-    // Serial.println(movingAverage);
+    // // Serial.println(movingAverage);
 
     return movingAverage;
 }
@@ -180,15 +180,15 @@ float getBatteryVoltage()
     // Calculate the moving average
     float movingAverage = sum / MOVING_AVERAGE_SIZE;
 
-    // Serial.print(voltage);
-    // Serial.print(" - ");
+    // // Serial.print(voltage);
+    // // Serial.print(" - ");
 
     // for (int i = 0; i < MOVING_AVERAGE_SIZE; i++)
     // {
-    //     Serial.print(readings[i]);
-    //     Serial.print(", ");
+    //     // Serial.print(readings[i]);
+    //     // Serial.print(", ");
     // }
-    // Serial.println(movingAverage);
+    // // Serial.println(movingAverage);
 
     return movingAverage;
 }
@@ -279,7 +279,7 @@ int wakeup_reason()
     switch (wakeup_reason)
     {
     case ESP_SLEEP_WAKEUP_EXT0:
-        Serial.println("Wakeup caused by external signal using RTC_IO");
+        // Serial.println("Wakeup caused by external signal using RTC_IO");
         return 1;
         break;
     default:

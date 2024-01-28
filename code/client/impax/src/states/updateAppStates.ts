@@ -82,7 +82,12 @@ export const setPlayerMap = (playerMapString: string) => {
 
 export const setSessionDetails = (sessionString: string) => {
   //Parse sessionString and set sessionDetails
-  const session = JSON.parse(sessionString);
+  const session: Session = JSON.parse(sessionString);
+  if (session.active === false) {
+    useAppState.setState({ playersImpact: {} as PlayersImpact });
+    useAppState.setState({ playersImpactHistory: {} as PlayerImpactHistory });
+    useAppState.setState({ monitoringBuddies: new Set() as Set<number> });
+  }
   useAppState.setState({ sessionDetails: session });
 };
 
@@ -172,6 +177,7 @@ export const flushStates = () => {
 
 //update Players in state and local storage
 export const updatePlayersDetails = (players: Players) => {
+  console.log("Updating players details", players);
   useAppState.setState({ playerDetails: players });
   const timestamp = new Date().getTime();
   const playersWithTimestamp: PlayersWithTimeStamp = {
@@ -186,6 +192,8 @@ export const validateTimestampAndSetPlayerDetails = (message: string) => {
   const playersWithTimestamp: PlayersWithTimeStamp = JSON.parse(
     message
   ) as PlayersWithTimeStamp;
+
+  console.log("playersWithTimestamp: ", playersWithTimestamp);
   const players: Players = playersWithTimestamp.players;
   const timestamp: number = playersWithTimestamp.timestamp;
 

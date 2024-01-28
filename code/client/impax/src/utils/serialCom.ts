@@ -1,4 +1,5 @@
 /* eslint-disable no-constant-condition */
+
 export async function sendData(
   message: string,
   port: SerialPort,
@@ -44,28 +45,30 @@ export async function readData(port: SerialPort, decoder: TextDecoder) {
 export const syncDevice = async (ssid: string, password: string) => {
   const decoder = new TextDecoder();
   const encoder = new TextEncoder();
-  const filters = [
-    { usbVendorId: 0x2341, usbProductId: 0x0043 },
-    { usbVendorId: 0x2341, usbProductId: 0x0001 },
-  ];
-  // const filtersESP = [{ usbVendorId: 0x1a86, usbProductId: 0x7523 }];
+  // const filters = [
+  //   { usbVendorId: 0x2341, usbProductId: 0x0043 },
+  //   { usbVendorId: 0x2341, usbProductId: 0x0001 },
+  // ];
+  const filtersESP = [{ usbVendorId: 0x1a86, usbProductId: 0x7523 }];
   if ("serial" in navigator) {
-    console.log("Yahooo Serial is supported");
-    const port = await (navigator.serial as Serial).requestPort({
-      filters: filters,
+    // console.log("Yahooo Serial is supported");
+    let port;
+    try {
+    port = await (navigator.serial as Serial).requestPort({
+      filters: filtersESP,
     });
-    console.log(port);
+    // console.log(port);
     await port.open({ baudRate: 9600 });
 
     await new Promise((resolve) => setTimeout(resolve, 3000));
     // const reqMessage = "{impax,impax12345678,impax,impax}";
     const reqMessage = `{${ssid},${password},impax,impax}`;
 
-    try {
+    
       await sendData("request", port, encoder);
       await new Promise((resolve) => setTimeout(resolve, 3000));
       const ackMessage = await readData(port, decoder);
-      console.log("First Reply" + ackMessage);
+      console.log("First Reply " + ackMessage);
       if (ackMessage === "ack") {
         await new Promise((resolve) => setTimeout(resolve, 3000));
         await sendData(reqMessage, port, encoder);
@@ -74,20 +77,26 @@ export const syncDevice = async (ssid: string, password: string) => {
         const secondreply = await readData(port, decoder);
         console.log("Second reply " + secondreply);
         if (secondreply === "ack") {
-          console.log("Configuration sent successfully");
+          return true;
+          
         } else {
-          console.log("Configuration Not Sent!!");
+          return false;
+          
         }
       } else {
         console.error("Handshake failed: ACK not received");
+        return false;
       }
     } catch (error) {
       console.error("Error:", error);
+      return false;
     } finally {
-      await port.close();
+      await port?.close();
       console.log("Port closed");
     }
   } else {
-    console.log("its not");
+    console.error("Serial not supported");
+    return false;
+    // console.log("its not");
   }
 };

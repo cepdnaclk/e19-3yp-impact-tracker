@@ -20,7 +20,6 @@ String BUDDY_ID = "buddy/";
 int ledStatus;
 
 // WIFI
-
 // String ssid = "";
 // String password = "";
 // String ssid = "Dialog 4G 629";

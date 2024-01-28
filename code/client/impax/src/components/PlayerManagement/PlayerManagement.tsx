@@ -25,7 +25,7 @@ import NoInternetConnection from "../StatusScreens/NoInternetConnection";
 import { useAppState } from "../../states/appState";
 import DialogModal from "../Modal/DialogModal";
 import { BASE_URL } from "../../config/config";
-import { showPopup } from "../../utils/errorPopup";
+import { showErrorPopup } from "../../utils/popup";
 
 export type Player = {
   jerseyId: number;
@@ -71,13 +71,22 @@ const columns: ColumnDef<Player>[] = [
     header: "Email Address",
     id: "email",
     size: 100,
+    cell: ({ row }) => {
+      const email: string = row.getValue("email");
+      if (email === undefined) return "---";
+      return email;
+    },
   },
   {
     accessorKey: "verification",
     header: "Verification",
     id: "verification",
     size: 40,
-    cell: ({ row }) => <Verification status={row.getValue("verification")} />,
+    cell: ({ row }) => {
+      const verification: string = row.getValue("verification");
+      if (verification === undefined) return "---";
+      else return <Verification status={row.getValue("verification")} />;
+    },
   },
   {
     accessorKey: "edit",
@@ -157,7 +166,10 @@ const PlayerManagement = () => {
     //TODO: player with same id exists, show error to user and return
     if (data.jersey_number in playerDetails) {
       // alert("Player already exists");
-      showPopup("Player already exists", "Try with different jersey number");
+      showErrorPopup(
+        "Player already exists",
+        "Try with different jersey number"
+      );
 
       return;
     }
@@ -247,7 +259,7 @@ const PlayerManagement = () => {
                   </span>
                 </label>
                 <input
-                  {...register("email", { required: true })}
+                  {...register("email", { required: false })}
                   type="email"
                   name="email"
                   id="email"

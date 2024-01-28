@@ -5,59 +5,76 @@ import styles from "./TeamAnalytics.module.scss";
 import { MdBarChart } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa6";
 import ImpactSummaryCard from "../ImpactSummaryCard";
+
 import {
-  teamAnalyticsSummary,
-  teamAnalyticsSummary2,
-  teamAnalyticsTableData,
-  teamAnalyticsTableData2,
-} from "./teamData";
-import { Metric, TeamAnalyticsColumns, TimeSpan } from "../../../types";
-import TeamAnalyticsTable from "./TeamAnalyticsTable";
+  // Metric,
+  // TeamAnalyticsColumns,
+  TimeSpan,
+  TeamAnalyticsSummary,
+} from "../../../types";
+// import TeamAnalyticsTable from "./TeamAnalyticsTable";
 import { useQuery } from "@tanstack/react-query";
+import { BASE_URL } from "../../../config/config";
+import {
+  // getAccessTokenFromRefreshToken,
+  renewAccessToken,
+} from "../../../services/authService";
+import TeamAnalyticsTable from "./TeamAnalyticsTable";
+import NoInternetConnection from "../../StatusScreens/NoInternetConnection";
+import { useAppState } from "../../../states/appState";
+import { useLoginState } from "../../../states/profileState";
+import ImpactSummarySkeleton from "../ImpactSummarySkeleton";
+import Spinner from "../../StatusScreens/Spinner";
 
 const TeamAnalytics = () => {
-  const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Month");
+  const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
 
-  const { data: impactSummaryTeam } = useQuery({
-    queryFn: () => fetchImpactSummaryTeam(),
-    queryKey: ["impactSummaryTeamData", { timeSpan }],
+  const { data: AnalyticsSummaryManager, isLoading } = useQuery({
+    queryFn: () => fetchAnalyticsSummaryManager(),
+    queryKey: ["analyticsSummaryManagerData", { timeSpan }],
   });
-
-  const {
-    data: tableData,
-    // isError: isMetricDataError,
-  } = useQuery({
-    queryFn: () => fetchTableData(),
-    queryKey: ["tableData", { timeSpan }],
-  });
-
-  async function fetchImpactSummaryTeam(): Promise<Metric[]> {
-    // const response = await fetch("<PLAYER_DATA_API_ENDPOINT_URL>"); // Replace <PLAYER_DATA_API_ENDPOINT_URL> with the actual URL to fetch player data from
-    // if (!response.ok) {
-    //   throw new Error("Failed to fetch player data");
-    // }
-    // return response.json();
-    if (timeSpan == "Last Week") return teamAnalyticsSummary;
-    if (timeSpan == "Last Month") return teamAnalyticsSummary2;
-    else return teamAnalyticsSummary;
+  const loginInfo = useLoginState((state) => state.loginInfo);
+  async function fetchAnalyticsSummaryManager(): Promise<TeamAnalyticsSummary> {
+    // Renew access Token
+    await renewAccessToken();
+    const response = await fetch(
+      `${BASE_URL}/manager/analytics-summary/${timeSpan}`,
+      {
+        // Use the constructed URL with query params
+        method: "GET", // Change the method to GET
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          "Content-Type": "application/json", // Keep the Content-Type header for consistency
+        },
+      }
+    );
+    const responseData = await response.json();
+    return responseData;
   }
-  async function fetchTableData(): Promise<TeamAnalyticsColumns[]> {
-    // const response = await fetch("<PLAYER_DATA_API_ENDPOINT_URL>"); // Replace <PLAYER_DATA_API_ENDPOINT_URL> with the actual URL to fetch player data from
-    // if (!response.ok) {
-    //   throw new Error("Failed to fetch player data");
-    // }
-    // return response.json();
-    if (timeSpan == "Last Week") return teamAnalyticsTableData;
-    if (timeSpan == "Last Month") return teamAnalyticsTableData2;
-    else return teamAnalyticsTableData;
+
+  const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
+  if (!isInternetAvailable) {
+    //show no internet connection component
+    if (!isInternetAvailable) {
+      return (
+        <main>
+          <Title title={"Team Analytics"} Icon={MdBarChart} />
+          <NoInternetConnection />
+        </main>
+      );
+    }
   }
 
   return (
     <main>
       <Title Icon={MdBarChart} title="Team Analytics" />
+
       <div className={styles.summary}>
         <div className={styles.info}>
-          <h2>{timeSpan} </h2> <span>{tableData && tableData[0].name}</span>
+          <h2>Analyze your team's impact and performances</h2>
+          <span>
+            {loginInfo.teamName} <span>({loginInfo.teamId})</span>
+          </span>
         </div>
         <div className={styles.controls}>
           <DropdownMenu.Root>
@@ -88,23 +105,36 @@ const TeamAnalytics = () => {
           </DropdownMenu.Root>
         </div>
       </div>
-      <div className={styles.impactSummaryContainer}>
-        {impactSummaryTeam?.map((metric) => (
-          <ImpactSummaryCard
-            metric={metric}
-            timeSpan={timeSpan}
-            key={metric.title}
-          />
-        ))}
-      </div>
-      <div className={styles.tableContainer}>
-        {tableData && (
-          <TeamAnalyticsTable
-            teamAnalyticsTableData={tableData}
-            key={Date.now()}
-          />
-        )}
-      </div>
+      {isLoading ? (
+        <div>
+          <ImpactSummarySkeleton />
+          <div className={styles.spinnerContainer}>
+            <Spinner />
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className={styles.impactSummaryContainer}>
+            {AnalyticsSummaryManager?.summaryData?.map((metric) => (
+              <ImpactSummaryCard
+                metric={metric}
+                timeSpan={timeSpan}
+                key={metric.title}
+              />
+            ))}
+          </div>
+          <div className={styles.tableContainer}>
+            {AnalyticsSummaryManager?.tableData ? (
+              <TeamAnalyticsTable
+                teamAnalyticsTableData={AnalyticsSummaryManager?.tableData}
+                key={Date.now()}
+              />
+            ) : (
+              <p>No Data</p>
+            )}
+          </div>
+        </>
+      )}
     </main>
   );
 };
