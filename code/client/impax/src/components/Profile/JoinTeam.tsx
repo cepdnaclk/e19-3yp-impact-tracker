@@ -58,7 +58,7 @@ const JoinTeam = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.inputContainer}>
               <label htmlFor="yourName">Your Name</label>
-              {errors.firstName && <p>{`${errors.firstName.message}`}</p>}
+              {errors.yourName && <p>{`${errors.yourName.message}`}</p>}
               <input
                 {...register("yourName", {
                   required: "Your name is required",
