@@ -7,7 +7,7 @@ import {
 } from "../models/team.model";
 Team;
 import TeamModel from "../db/team.schema";
-import ManagerTeamModel from "../db/managers.in.team.schema";
+// import ManagerTeamModel from "../db/managers.in.team.schema";
 import managersInTeamService from "./managers.in.team.service";
 import { AnalyticsSummaryTeam, ImpactStats, ImpactDirection } from "../types/types";
 import SessionModel from "../db/session.schema";
@@ -45,7 +45,8 @@ class TeamService {
 
       await managersInTeamService.addManagerToTeam(
         team.teamManager,
-        team.teamId
+        team.teamId,
+        "accessToken"
       );
 
       // Create a TeamResponse object
@@ -114,9 +115,10 @@ class TeamService {
       // console.log(team, email, teamId);
 
       
-      const teams = await ManagerTeamModel.find({ managerEmail: email });
+      // const teams = await ManagerModel.find({ email: email });
 
-      const team = teams.find(team => team.teamId === teamId);
+      // const team = teams.find(team => team.teamId === teamId);
+      const team = await TeamModel.findOne({ teamId: teamId });
 
       if (team) {
         console.log(team);
@@ -164,197 +166,6 @@ class TeamService {
     return teamIdExistsResponse;
   }
 
-//   async getAnalyticsSummary(teamId: string, duration:number): Promise<void>{
 
-//     let analyticsSummary: AnalyticsSummaryTeam = {
-//       summaryData: [
-//         {
-//           title: "Session Count",
-//           value: 0,
-//           trend: 0,
-//         },
-//         {
-//           title: "Impacts Recorded",
-//           value: 0,
-//           trend: 0,
-//         },
-//         {
-//           title: "Average Impact",
-//           value: 0,
-//           trend: 0,
-//         },
-//         {
-//           title: "Contributing Players",
-//           value: 0,
-//           trend: 0,
-//         },
-//         {
-//           title: "Highest Contributor",
-//           value: " "
-//         }
-//       ],
-//       tableData: []
-//     };
-
-//     try{
-      
-//       // Fetch sessions of the team
-//       const sessions = await SessionModel.find({ teamId: teamId });
-//       console.log(sessions);
-//       // if (playerTeams.length === 0) {
-//       //   // Should be change after finish this all
-//       //   // return [];
-//       //   console.log("No teams found for player");
-//       // }
-
-//       // const teamIds = playerTeams.map(playerTeam => playerTeam.teamId);
-      
-//       // // Fetch teams from TeamModel
-//       // const teams = await TeamModel.find({ teamId: { $in: teamIds } }, 'teamId jerseyId -_id');
-
-//       // //Array of player's Team id and jerseyId in the team
-//       // const teamResponsesWithJerseyId: Array<TeamResponseWithJerseyId> = teams
-//       //   .map(team => {
-//       //     const matchingPlayerTeam = playerTeams.find(playerTeam => playerTeam.teamId === team.teamId);
-//       //     return matchingPlayerTeam
-//       //       ? new TeamResponseWithJerseyId(team.teamId, matchingPlayerTeam.jerseyId)
-//       //       : null;
-//       //   })
-//       //   .filter((teamWithJerseyId): teamWithJerseyId is TeamResponseWithJerseyId => teamWithJerseyId !== null);
-  
-//       // // console.log(teamResponsesWithJerseyId);
-      
-//       // // Initialize To store Impact stats for previous and current duration
-//       // let impactStatsPrev: ImpactStats = {
-//       //   impactsCumulative: 0,
-//       //   impactsRecorded: 0,
-//       //   highestImpact: 0,
-//       //   directionCount: {
-//       //     front: 0,
-//       //     back: 0,
-//       //     left: 0,
-//       //     right: 0
-//       //   },
-//       //   sessionAnalytics: []
-//       // };
-
-//       // let impactStatsCurr: ImpactStats = {
-//       //   impactsCumulative: 0,
-//       //   impactsRecorded: 0,
-//       //   highestImpact: 0,
-//       //   directionCount: {
-//       //     front: 0,
-//       //     back: 0,
-//       //     left: 0,
-//       //     right: 0
-//       //   },
-//       //   sessionAnalytics: []
-//       // };
-
-//       // // Get Time period need to be get analytics
-//       // const now = Date.now(); 
-//       // const previous= now - (2 * duration); // timestamp of 2 * duration ago
-//       // const current= now - (duration); // timestamp of 2 * duration ago
-
-//       // //get sessions by teamId in teamResponsesWithJerseyId
-//       // for (const team of teamResponsesWithJerseyId) {
-//       //   // console.log(team.teamId);
-//       //   //Get all the sessions created in Team by teamId
-//       //   let sessions: Array<SessionResponse> = [];
-//       //   sessions = sessions.concat(await getSessionsForTeam(team.teamId));
-
-        
-        
-//       //   // console.log(previous);
-
-//       //   if (previous>=0){
-//       //     const filteredSessionsPrevious = sessions.filter(session => {
-//       //       const createdAt = new Date(session.createdAt).getTime();
-//       //       return createdAt >= previous && createdAt <= current;
-//       //     });
-
-//       //     impactStatsPrev = await calculationForSessionsPrev(filteredSessionsPrevious, impactStatsPrev, team.jerseyId);
-//       //   }else{
-
-//       //   }
-        
-//       //   // console.log("Previous" + team.teamId );
-//       //   // console.log(filteredSessionsPrevious);
-        
-        
-//       //   const filteredSessionsCurrent = sessions.filter(session => {
-//       //     const createdAt = new Date(session.createdAt).getTime();
-//       //     return createdAt >= current && createdAt <= now;
-//       //   });
-//       //   // console.log("Current" + team.teamId );
-//       //   // console.log(filteredSessionsCurrent);
-
-        
-
-//       //   impactStatsCurr = await calculationForSessions(
-//       //     filteredSessionsCurrent, 
-//       //     impactStatsCurr, 
-//       //     team.jerseyId, 
-//       //     analyticsSummary.histogramData,
-//       //     analyticsSummary.criticalSessions);
-        
-        
-//       // }
-
-
-//       // // console.log("impactStatsPrev:");
-//       // // console.log(impactStatsPrev);
-//       // // console.log("impactStatsCurr:");
-//       // // console.log(impactStatsCurr);
-     
-//       // // Fill up the analytics summary from impact stats ==> values
-//       // analyticsSummary.summaryData[0].value = impactStatsCurr.impactsCumulative;
-//       // analyticsSummary.summaryData[1].value = impactStatsCurr.impactsRecorded;
-//       // analyticsSummary.summaryData[2].value = Math.round(impactStatsCurr.impactsCumulative / impactStatsCurr.impactsRecorded);
-//       // analyticsSummary.summaryData[3].value = impactStatsCurr.highestImpact;
-
-//       // const maxValueCurr = Math.max(...Object.values(impactStatsCurr.directionCount));
-//       // const maxKeyCurr = Object.keys(impactStatsCurr.directionCount).find(key => impactStatsCurr.directionCount[key as keyof typeof impactStatsCurr.directionCount] === maxValueCurr);
-//       // analyticsSummary.summaryData[4].value = maxKeyCurr as string;
-//       // // console.log("maxKey:");
-//       // // console.log(maxKeyCurr, maxValueCurr);
-
-
-//       // // All time no need of trend
-//       // if (previous>=0){
-
-
-//       //   // Fill up the analytics summary from impact stats ==> trends
-//       //   analyticsSummary.summaryData[0].trend = Math.round((impactStatsCurr.impactsCumulative - impactStatsPrev.impactsCumulative)*100/impactStatsPrev.impactsCumulative);
-//       //   analyticsSummary.summaryData[1].trend = Math.round((impactStatsCurr.impactsRecorded - impactStatsPrev.impactsRecorded)*100/impactStatsPrev.impactsRecorded);
-
-//       //   const averageImpactPrev = impactStatsPrev.impactsCumulative / impactStatsPrev.impactsRecorded;
-//       //   const averageImpactCurr = impactStatsCurr.impactsCumulative / impactStatsCurr.impactsRecorded;
-//       //   analyticsSummary.summaryData[2].trend = Math.round((averageImpactCurr - averageImpactPrev)*100/averageImpactPrev);
-//       //   analyticsSummary.summaryData[3].trend = Math.round((impactStatsCurr.highestImpact - impactStatsPrev.highestImpact)*100/impactStatsPrev.highestImpact);
-
-//       //   const maxValuePrev = Math.max(...Object.values(impactStatsPrev.directionCount));
-//       //   const maxKeyPrev = Object.keys(impactStatsPrev.directionCount).find(key => impactStatsPrev.directionCount[key as keyof typeof impactStatsPrev.directionCount] === maxValuePrev);
-//       //   analyticsSummary.summaryData[4].trend = maxKeyPrev as ImpactDirection;
-//       //   // console.log("maxKey:");
-//       //   // console.log(maxKeyPrev, maxValuePrev);
-        
-//       //   // Sort the critical sessions array by cumulative impact in descending order
-//       //   analyticsSummary["criticalSessions"].sort((a, b) => b.cumulativeImpact - a.cumulativeImpact);
-//       //   // console.log( analyticsSummary["criticalSessions"]);
-
-//       //   // console.log("analyticsSummary:");
-//       //   // console.log(analyticsSummary);
-      
-      
-//       // }
-
-
-//       // return analyticsSummary;
-// }catch (error) {
-//       console.error(error);
-//       throw new Error("Error while fetching teams for player");
-//     }
-//   } 
 }
 export default new TeamService();

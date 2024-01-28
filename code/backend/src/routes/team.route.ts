@@ -194,6 +194,8 @@ router.post("/manager", async (req, res) => {
       "pending"
     );
 
+    
+
     // Create the Team and get the response
     const teamResponse: TeamResponse | undefined =
       await teamController.createTeam(team);
