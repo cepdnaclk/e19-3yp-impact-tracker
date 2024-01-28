@@ -1,0 +1,306 @@
+:root {
+    /* Add these styles to your global stylesheet, which is used across all site pages. You only need to do this once. All elements in the library derive their variables and base styles from this central sheet, simplifying site-wide edits. For instance, if you want to modify how your h2's appear across the site, you just update it once in the global styles, and the changes apply everywhere. */
+    --primary: #980c0c;
+    --primaryLight: #ffba43;
+    --secondary: #ffba43;
+    --secondaryLight: #ffba43;
+    --headerColor: #1a1a1a;
+    --bodyTextColor: #4e4b66;
+    --bodyTextColorWhite: #fafbfc;
+    /* 13px - 16px */
+    --topperFontSize: clamp(0.8125rem, 1.6vw, 1rem);
+    /* 31px - 49px */
+    --headerFontSize: clamp(1.9375rem, 3.9vw, 3.0625rem);
+    --bodyFontSize: 1rem;
+    /* 60px - 100px top and bottom */
+    --sectionPadding: clamp(3.75rem, 7.82vw, 6.25rem) 1rem;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  *, *:before, *:after {
+    /* prevents padding from affecting height and width */
+    box-sizing: border-box;
+  }
+  .cs-topper {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: var(--topperFontSize);
+    line-height: 1.2em;
+    text-transform: uppercase;
+    text-align: inherit;
+    letter-spacing: .1em;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+    display: block;
+  }
+  
+  .cs-title {
+    font-size: var(--headerFontSize);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 900;
+    line-height: 1.2em;
+    text-align: center;
+    justify-content: center;
+    max-width: fit-content;
+    margin: 0 0 1rem 0;
+    color: var(--headerColor);
+    position: relative;
+  }
+  
+  .cs-text {
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: var(--bodyFontSize);
+    line-height: 1.5em;
+    text-align: inherit;
+    width: 100%;
+    max-width: 40.625rem;
+    margin: 0;
+    color: var(--bodyTextColor);
+  }
+
+html {
+    min-height: 100%;
+}
+#Download {
+    padding: var(--sectionPadding);
+    position: relative;
+    z-index: 0;
+    text-align: center;
+}
+#Download:before {
+    /* static tiled pattern  */
+    content: "";
+    height: 100%;
+    width: 100%;
+    opacity: 0.08;
+    background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
+    background-size: auto;
+    background-position: center;
+    background-repeat: repeat;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+} 
+
+header {
+    background-color: #636363;
+    background-image: -webkit-linear-gradient(hsla(0, 0%, 21%, 0.1), transparent);
+    box-shadow: inset 0 -10px 30px -10px hsla(0,0%,0%,.5),
+                0 1px 0 hsla(0,0%,100%,.1);
+    height: 3em;
+    margin-bottom: 0;
+}
+header div {
+    margin: 0 auto;
+    width: 18em;
+}
+header a {
+    background: transparent;
+    box-shadow: none;
+    color: #ffffff;
+    display: inline-block;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size:20px;
+    line-height: 0.5em;
+    position: relative;
+    top: 0;
+    text-shadow: 0 2px 2px #000000;
+    margin: 0 auto;
+}
+header a:hover,
+header a:focus {
+    color: #ddd;
+}
+header a:active {
+    box-shadow: none;
+    top: 1px;
+    -webkit-transition: 0;
+    transition: 0;
+}
+  
+#Download h2.cs-title {
+margin-top: 0;
+text-align: center;
+justify-content: center;
+max-width: 100%;
+}
+
+.content {
+    display: table;
+    height: 100%;
+    margin: 0 auto;
+    width: 80%;
+}
+ul {
+    display: table-cell;
+    list-style: none;
+    text-align: center;
+    vertical-align: middle;
+}
+li {
+    background-color: #f6f6f6;
+    background-image: -webkit-radial-gradient(circle, transparent, hsla(0,0%,0%,.25));
+    background-position: 50% 0%;
+    background-size: 200% 200%;
+    border-radius: .5em .5em 0 0;
+    box-shadow: inset 0 1px 0 #fff,
+                0 1px 0 1px hsla(0,0%,0%,.25),
+                0 3px 7px hsla(0,0%,0%,.5);
+    color: #333;
+    display: inline-block;
+    font: bold 1em/1.5 sans-serif;
+    margin: 1.5em 1.5em 5em;
+    padding-top: 1.5em;
+    position: relative;
+    vertical-align: bottom;
+    width: 18em;
+    -webkit-filter: drop-shadow(0 2px 3px hsla(0,0%,0%,.25));
+    filter: drop-shadow(0 2px 3px hsla(0,0%,0%,.25));
+}
+li:after,
+li:before {
+    background-color: #bbb;
+    background-image: -webkit-radial-gradient(circle, transparent, hsla(0,0%,0%,.25));
+    background-position: 50% 75%;
+    background-size: 150% 150%;
+    box-shadow: inset 0 1px 1px 1px hsla(0,0%,100%,.25),
+                inset 0 -1px 1px 1px hsla(0,0%,0%,.25),
+                0 2px 2px 1px hsla(0,0%,0%,.4),
+                0 0 0 1px hsla(0,0%,0%,.5),
+                2px 2px 3px hsla(0,0%,0%,.25),
+                -2px 2px 3px hsla(0,0%,0%,.25);
+    content: '';
+    height: 2em;
+    margin-top: .5em;
+    position: absolute;
+    top: 50%;
+    width: .5em;
+}
+li:after {
+    border-radius: .25em 100% 100% .25em;
+    left: -.2em;
+}
+li:before {
+    border-radius: 100% .25em .25em 100%;
+    right: -.2em;
+}
+p {
+    margin-bottom: 1.5em;
+    padding: 0 1.5em;
+    text-shadow: 0 1px 1px #fff;
+}
+a {
+    background-color: #f6f6f6;
+    background-image: -webkit-radial-gradient(circle, transparent, hsla(0,0%,0%,.15)),
+                      -webkit-linear-gradient(hsla(0,0%,0%,.15), hsla(0,0%,0%,.025) 45%, transparent 50%);
+    background-position: 50% 100%, 0 100%;
+    background-size: 100% 200%, 100% 200%;
+    border-radius: 0 0 .25em .25em;
+    box-shadow: inset 0 1px 0 hsla(0,0%,100%,1),
+                0 0 0 1px hsla(0,0%,0%,.25),
+                0 6px 10px hsla(0,0%,0%,.5);
+    color: #888;
+    display: block;
+    left: 0;
+    line-height: 1.5;
+    padding: 1em 0;
+    position: absolute;
+    right: 0;
+    text-decoration: none;
+    text-shadow: 0 1px 1px hsla(0,0%,100%,.4);
+    top: 100%;
+    -webkit-transform: perspective(500) rotateX(0deg);
+    -webkit-transform-origin: 50% 0;
+    -webkit-transition: .1s;
+}
+li:hover a {
+    color: #666;
+}
+a:active {
+    background-position:50% 100%, 0 0;
+    box-shadow: inset 0 1px 0 hsla(0,0%,100%,.5),
+                0 0 0 1px hsla(0,0%,0%,.25),
+                0 2px 3px hsla(0,0%,0%,.75);
+    color: #555;
+    -webkit-transform: perspective(500) rotateX(-10deg);
+}
+.icon {
+    background-image: -webkit-linear-gradient(transparent 50%, #6cf 50%);
+    background-position: 50% 0;
+    background-size: 200% 200%;
+    display: block;
+    height: 1.5em;
+    font-style: normal;
+    margin: 0 1.5em 1.5em;
+    position: relative;
+    -webkit-transition: .25s;
+}
+li:hover .icon {
+    background-position: 50% 100%;
+}
+.icon:after {
+    background-color: hsla(0,0%,0%,.15);
+    box-shadow: 0 1px 1px hsla(0,0%,100%,.6),
+                0 -1px 1px hsla(0,0%,0%,.1),
+                inset 0 0 0 1px hsla(0,0%,0%,.15);
+    color: #eee;
+    font-size: .8em;
+    left: 0;
+    line-height: 1.875;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-shadow: 0 1px 1px hsla(0,0%,0%,.25);
+    text-transform: uppercase;
+}
+.icon:before {
+    background-image: -webkit-linear-gradient(hsla(0,0%,100%,.05), hsla(0,0%,100%,.15) 50%, transparent 50%);
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.css:after { 
+    content: 'CSS';
+}
+.html:after {
+    content: 'HTML';
+}
+.image:after {
+    content: 'Image';
+}
+.jquery:after {
+    content: 'jQuery';
+}
+.psd:after {
+    content: 'PSD';
+}
+.video:after {
+    content: 'Video';
+}
+
+@media (min-width: 52.85em) {
+    header div {
+        width: 39em;
+    }
+}
+@media (min-width: 79.38em) {
+    header div {
+        width: 60em;
+    }
+}
+@media (min-width: 105.95em) {
+    header div {
+        width: 81em;
+    }
+}
+​
