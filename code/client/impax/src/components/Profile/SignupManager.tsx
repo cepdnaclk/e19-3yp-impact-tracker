@@ -45,10 +45,10 @@ const SignupManager = () => {
     } else if (
       responseData.teamExists &&
       !responseData.managerExists &&
-      !responseData.managerVerified
+      responseData.isVerified === "rejected"
     ) {
       await showErrorPopup(
-        "Not Aproved",
+        "This team is Already Exists!",
         "You are not approved to join this team!"
       );
 
@@ -60,7 +60,22 @@ const SignupManager = () => {
     } else if (
       responseData.teamExists &&
       !responseData.managerExists &&
-      responseData.managerVerified
+      responseData.isVerified === "pending"
+    ) {
+      await showErrorPopup(
+        "You have been approved to this team!",
+        "Please Check your emails for a verification link!"
+      );
+
+      // setError("teamId", {
+      //   type: "manual",
+      //   message: "You are not approved to join this team!",
+      // });
+      console.log(errors.teamId);
+    } else if (
+      responseData.teamExists &&
+      !responseData.managerExists &&
+      responseData.isVerified === "verified"
     ) {
       navigate("/signup/manager/jointeam");
       reset();
