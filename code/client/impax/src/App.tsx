@@ -6,17 +6,20 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import routes from "./routes/routeConfig";
 import { useAppState } from "./states/appState";
 import { getPlayers, uploadSession } from "./services/httpClient";
+import { useSignupState } from "./states/formState";
+import { stat } from "original-fs";
 
 function App() {
   MqttClient.getInstance();
   const setIsInternetAvailable = useAppState(
     (state) => state.setIsInternetAvailable
   );
+  const isLoggedInManager = useSignupState((state) => state.isLoggedInManager);
   return (
     <HashRouter>
       <Detector
         render={({ online }) => {
-          if (online) {
+          if (online && isLoggedInManager) {
             uploadSession();
             getPlayers();
             console.log("Back Online...");
