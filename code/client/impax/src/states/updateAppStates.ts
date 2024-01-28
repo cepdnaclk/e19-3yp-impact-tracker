@@ -88,6 +88,7 @@ export const setSessionDetails = (sessionString: string) => {
   //Parse sessionString and set sessionDetails
   const session: Session = JSON.parse(sessionString);
   if (session.active === false) {
+    console.log("Flushing States...");
     useAppState.setState({ playersImpact: {} as PlayersImpact });
     useAppState.setState({ playersImpactHistory: {} as PlayerImpactHistory });
     useAppState.setState({ monitoringBuddies: new Set() as Set<number> });
