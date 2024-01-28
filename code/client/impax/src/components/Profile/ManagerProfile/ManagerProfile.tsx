@@ -12,6 +12,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NoInternetConnection from "../../StatusScreens/NoInternetConnection";
 import { useAppState } from "../../../states/appState";
+import { useQuery } from "@tanstack/react-query";
+import { renewAccessToken } from "../../../services/authService";
+import { BASE_URL } from "../../../config/config";
+import Spinner from "../../StatusScreens/Spinner";
 
 const ManagerProfile = () => {
   // Get team-id
@@ -27,6 +31,26 @@ const ManagerProfile = () => {
   const [addManagerOpen, setAddManagerOpen] = useState<boolean>(false);
 
   const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
+
+  const { data: managerProfileData, isLoading } = useQuery({
+    queryFn: () => fetchManagersTableData(),
+    queryKey: ["data"],
+  });
+  async function fetchManagersTableData(): Promise<MyTeam[]> {
+    // Renew access Token
+    await renewAccessToken();
+    const response = await fetch(`${BASE_URL}/player/myTeams`, {
+      // Use the constructed URL with query params
+      method: "GET", // Change the method to GET
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        "Content-Type": "application/json", // Keep the Content-Type header for consistency
+      },
+    });
+    const responseData = await response.json();
+    return responseData.teams;
+  }
+
   if (!isInternetAvailable) {
     //show no internet connection component
     if (!isInternetAvailable) {
@@ -116,7 +140,13 @@ const ManagerProfile = () => {
             </DialogModal>
           </div>
           <div className={styles.managersTableContainer}>
-            <ManagersTable />
+            {isLoading || managerProfileData === undefined ? (
+              <div className={styles.spinnerContainer}>
+                <Spinner />
+              </div>
+            ) : (
+              <ManagersTable managerProfileTable={managerProfileData} />
+            )}
           </div>
         </div>
       </div>
