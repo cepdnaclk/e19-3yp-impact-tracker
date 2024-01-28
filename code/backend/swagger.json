@@ -461,6 +461,35 @@
         }
       }
     },
+    "/manager/join-team": {
+      "put": {
+        "tags": ["ManagerEndpoints"],
+        "summary": "New Manager Signup - Open",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ManagerCreateRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/ManagerResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
 
 
     
@@ -1561,7 +1590,10 @@
           "teamId": {
             "type": "string"
           },
-          "name": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
             "type": "string"
           },
           "email": {
