@@ -24,7 +24,7 @@ class TeamController {
   }
 
   async checkTeamEmailExist(
-    teamId: string,
+    teamId: string, 
     email: string
   ): Promise<TeamIdEmailExistsResponseWithIsVerified> {
     // check team ID and email of the manager matchers
