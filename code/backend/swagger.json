@@ -397,6 +397,38 @@
         }
       }
     },
+
+    "/manager/remove": {
+      "delete": {
+        "tags": ["ManagerEndpoints"],
+        "summary": "Remove a manager from a team by email and Team ID - Access Token required (Only Manager can access)",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ManagerRemoveRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Manager removed from team successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/manager/getTeamPlayers": {
       "get": {
         "tags": ["ManagerEndpoints"],
@@ -1669,6 +1701,18 @@
           "verification": "verified"
         }
       },
+      "ManagerRemoveRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": ["email"],
+        "example": {
+          "email": "example@example.com"
+        }
+      },
 
       "TeamIdExistsResponse": {
         "type": "object",
@@ -1833,6 +1877,15 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PlayerRemoveRequest"
+            }
+          }
+        }
+      },
+      "ManagerRemoveRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ManagerRemoveRequest"
             }
           }
         }

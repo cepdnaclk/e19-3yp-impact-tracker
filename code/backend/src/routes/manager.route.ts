@@ -227,6 +227,55 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+// Endpoint to remove a manager from a team
+router.delete("/remove", async (req: Request, res: Response) => {
+  // Extract the 'teamId' and 'email' from the request body
+  const teamId = req.body.teamId;
+  const email = req.body.userName;
+  const managerEmail = req.body.email;
+
+  console.log(teamId, email, managerEmail);
+  // Validate the 'teamId' and 'email'
+  if (!teamId || !email || !managerEmail) {
+    console.log(HttpMsg.BAD_REQUEST);
+    res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    return;
+  }
+
+  try {
+    //Check if the respond sending manager different from the manager to be removed
+    if (email == managerEmail) {
+      throw new Error(HttpMsg.MANAGER_REMOVE_FAILED);
+    }
+    // Check if the manager exists in the team
+    const manager = await ManagerModel.findOne({
+      teamId: teamId,
+      email: managerEmail,
+    });
+    console.log(manager);
+    if (!manager) {
+      console.log(HttpMsg.MANAGER_NOT_FOUND);
+      res
+        .status(HttpCode.BAD_REQUEST)
+        .send({ message: HttpMsg.MANAGER_NOT_FOUND });
+      return;
+    }
+
+    // Remove the manager from the team
+    await manager.deleteOne();
+
+    // Send a success response to the client
+    res.send({ message: "Manager removed from team successfully" });
+  } catch (error) {
+    if (error instanceof Error) {
+      // If 'error' is an instance of Error, send the error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: error.message });
+    } else {
+      // If 'error' is of unknown type, send a generic error message
+      res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
+    }
+  }
+});
 // Endpoint to get player details of the team
 router.get("/getTeamPlayers", async (req: Request, res: Response) => {
   const managerEmail = req.body.userName;

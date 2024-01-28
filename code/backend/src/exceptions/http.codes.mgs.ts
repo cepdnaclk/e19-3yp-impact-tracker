@@ -30,6 +30,7 @@ enum HttpMsg {
   MANAGER_NOT_FOUND = "Manager not found",
   TEAM_NOT_FOUND = "Team not found",
   MANAGER_NOT_VERIFIED = "Manager not verified",
+  MANAGER_REMOVE_FAILED = "Manager remove failed",
   MANAGER_DEOS_NOT_EXIST = "Manager does not exist",
   PLAYER_EXIT_ERROR = "Player exited error",
   PLAYER_ALREADY_HAS_ACCOUNT = "Player already has an account",
