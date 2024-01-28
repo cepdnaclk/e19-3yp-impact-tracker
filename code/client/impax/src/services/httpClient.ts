@@ -70,9 +70,12 @@ export const getPlayers = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const playersData: Players = await playersResponse.json();
-    console.log("players data fetched: ", playersData);
-    updatePlayersDetails(playersData);
+    if (!playersResponse.ok) return;
+    else {
+      const playersData: Players = await playersResponse.json();
+      console.log("players data fetched: ", playersData);
+      updatePlayersDetails(playersData);
+    }
   } catch (error) {
     console.log(error);
   }

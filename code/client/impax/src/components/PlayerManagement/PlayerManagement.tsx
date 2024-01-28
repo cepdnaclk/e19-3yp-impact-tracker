@@ -173,6 +173,7 @@ const PlayerManagement = () => {
 
       return;
     }
+    console.log(data);
     const response = await fetch(`${BASE_URL}/player/add`, {
       method: "POST",
       body: JSON.stringify({
@@ -253,13 +254,13 @@ const PlayerManagement = () => {
                   placeholder="Johnathan Doe"
                 />
                 <label htmlFor="email">
-                  Player's Email (Optional)
+                  Player's Email
                   <span className={styles.additionalInfo}>
                     Link Impax Account
                   </span>
                 </label>
                 <input
-                  {...register("email", { required: false })}
+                  {...register("email", { required: true })}
                   type="email"
                   name="email"
                   id="email"

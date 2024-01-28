@@ -105,7 +105,8 @@ export const useAppState = create<AppState>()((set) => ({
   playersImpactHistory: {} as PlayerImpactHistory,
 
   //TODO: Clashing of players with other dashbaords
-  playerDetails: localStorage.getItem("players") as Players | {} as Players,
+  playerDetails: JSON.parse(localStorage.getItem("players") || "players: {}")
+    .players as Players,
   setPlayerDetails: (players: Players) => {
     set({ playerDetails: players });
     const timestamp = new Date().getTime();

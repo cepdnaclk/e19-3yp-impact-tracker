@@ -11,6 +11,7 @@ import {
   // TeamAnalyticsColumns,
   TimeSpan,
   TeamAnalyticsSummary,
+  Metric,
 } from "../../../types";
 // import TeamAnalyticsTable from "./TeamAnalyticsTable";
 import { useQuery } from "@tanstack/react-query";
@@ -51,7 +52,7 @@ const TeamAnalytics = () => {
     const responseData = await response.json();
     return responseData;
   }
-
+  console.log(AnalyticsSummaryManager);
   const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
   if (!isInternetAvailable) {
     //show no internet connection component
@@ -115,7 +116,7 @@ const TeamAnalytics = () => {
       ) : (
         <>
           <div className={styles.impactSummaryContainer}>
-            {AnalyticsSummaryManager?.summaryData?.map((metric) => (
+            {AnalyticsSummaryManager?.summaryData?.map((metric: Metric) => (
               <ImpactSummaryCard
                 metric={metric}
                 timeSpan={timeSpan}
@@ -124,13 +125,14 @@ const TeamAnalytics = () => {
             ))}
           </div>
           <div className={styles.tableContainer}>
-            {AnalyticsSummaryManager?.tableData ? (
+            {AnalyticsSummaryManager?.tableData &&
+            AnalyticsSummaryManager?.tableData.length > 0 ? (
               <TeamAnalyticsTable
                 teamAnalyticsTableData={AnalyticsSummaryManager?.tableData}
                 key={Date.now()}
               />
             ) : (
-              <p>No Data</p>
+              <p>No Player Data Available</p>
             )}
           </div>
         </>
