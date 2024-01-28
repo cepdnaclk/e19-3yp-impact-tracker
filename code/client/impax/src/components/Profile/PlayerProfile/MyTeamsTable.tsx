@@ -55,27 +55,9 @@ const columns: ColumnDef<MyTeam>[] = [
     ),
   },
 ];
-const MyTeamsTable = () => {
-  const { data: playerProfileTable, isLoading } = useQuery({
-    queryFn: () => fetchplayerProfileTableData(),
-    queryKey: ["playerProfileData"],
-  });
-  async function fetchplayerProfileTableData() {
-    // Renew access Token
-    await renewAccessToken();
-    const response = await fetch(`${BASE_URL}/player/myTeams`, {
-      // Use the constructed URL with query params
-      method: "GET", // Change the method to GET
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        "Content-Type": "application/json", // Keep the Content-Type header for consistency
-      },
-    });
-    const responseData = await response.json();
-    console.log(responseData.teams);
-    return responseData.teams;
-  }
-
+const MyTeamsTable: React.FC<{ playerProfileTable: MyTeam[] }> = ({
+  playerProfileTable,
+}) => {
   const [data] = React.useState(() => [...playerProfileTable]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(

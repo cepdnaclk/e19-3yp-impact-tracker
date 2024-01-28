@@ -9,6 +9,9 @@ import MyTeamsTable from "./MyTeamsTable";
 import { useNavigate } from "react-router-dom";
 import { useAppState } from "../../../states/appState";
 import NoInternetConnection from "../../StatusScreens/NoInternetConnection";
+import { useQuery } from "@tanstack/react-query";
+import { renewAccessToken } from "../../../services/authService";
+import { BASE_URL } from "../../../config/config";
 
 const PlayerProfile = () => {
   // Get team-id
@@ -21,6 +24,25 @@ const PlayerProfile = () => {
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
   const navigate = useNavigate();
 
+  const { data: playerProfileTable, isLoading } = useQuery({
+    queryFn: () => fetchplayerProfileTableData(),
+    queryKey: ["playerProfileData"],
+  });
+  async function fetchplayerProfileTableData() {
+    // Renew access Token
+    await renewAccessToken();
+    const response = await fetch(`${BASE_URL}/player/myTeams`, {
+      // Use the constructed URL with query params
+      method: "GET", // Change the method to GET
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        "Content-Type": "application/json", // Keep the Content-Type header for consistency
+      },
+    });
+    const responseData = await response.json();
+    console.log(responseData.teams);
+    return responseData.teams;
+  }
   const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
   if (!isInternetAvailable) {
     //show no internet connection component
@@ -33,6 +55,8 @@ const PlayerProfile = () => {
       );
     }
   }
+
+  console.log(playerProfileTable);
 
   // TODO: Stay logged in for 90 days and so much more
   return (
@@ -65,7 +89,7 @@ const PlayerProfile = () => {
         <div className={styles.myTeamsContainer}>
           <h2>My Teams</h2>
           <div className={styles.tableContainer}>
-            <MyTeamsTable />
+            <MyTeamsTable playerProfileTable={playerProfileTable} />
           </div>
         </div>
       </div>
