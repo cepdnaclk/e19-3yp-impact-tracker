@@ -146,3 +146,10 @@ export type PlayersWithTimeStamp = {
   timestamp: number;
   players: Players;
 };
+
+export type LoginInfo = {
+  teamId?: string;
+  teamName?: string;
+  email: string;
+
+}

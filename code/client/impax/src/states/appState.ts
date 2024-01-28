@@ -105,7 +105,7 @@ export const useAppState = create<AppState>()((set) => ({
   playersImpactHistory: {} as PlayerImpactHistory,
 
   //TODO: Clashing of players with other dashbaords
-  playerDetails: localStorage.getItem("players") || {} ,
+  playerDetails: localStorage.getItem("players") as Players | {} as Players,
   setPlayerDetails: (players: Players) => {
     set({ playerDetails: players });
     const timestamp = new Date().getTime();
@@ -148,7 +148,7 @@ export const useAppState = create<AppState>()((set) => ({
       const timestamp = new Date().getTime();
       const playersWithTimestamp: PlayersWithTimeStamp = {
         timestamp,
-        players:playerDetails,
+        players: playerDetails,
       };
       localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
       return { playerDetails };
@@ -172,7 +172,7 @@ export const useAppState = create<AppState>()((set) => ({
       const timestamp = new Date().getTime();
       const playersWithTimestamp: PlayersWithTimeStamp = {
         timestamp,
-        players:playerDetails,
+        players: playerDetails,
       };
       localStorage.setItem("players", JSON.stringify(playersWithTimestamp));
       return { playerDetails };
@@ -252,11 +252,11 @@ export const useAppState = create<AppState>()((set) => ({
           playerImpactHistory,
         };
         const sessionsToBeUploaded: SessionToBeUploaded[] =
-          JSON.parse(localStorage.getItem("sessionToBeUploaded") as string) ||
+          JSON.parse(localStorage.getItem("sessionsToBeUploaded") as string) ||
           [];
         sessionsToBeUploaded.push(savedSession);
         localStorage.setItem(
-          "sessionToBeUploaded",
+          "sessionsToBeUploaded",
           JSON.stringify(sessionsToBeUploaded)
         );
       }

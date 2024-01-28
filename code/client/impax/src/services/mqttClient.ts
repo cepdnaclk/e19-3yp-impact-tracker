@@ -48,7 +48,8 @@ class MqttClient {
       this.handleMessage(topic, message)
     );
 
-    setInterval(checkBuddiesAvailability);
+    // setInterval(checkBuddiesAvailability);
+    // Done by the hub now
   }
 
   private handleConnect = () => {

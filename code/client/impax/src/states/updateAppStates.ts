@@ -177,6 +177,7 @@ export const flushStates = () => {
 
 //update Players in state and local storage
 export const updatePlayersDetails = (players: Players) => {
+  console.log("Updating players details", players);
   useAppState.setState({ playerDetails: players });
   const timestamp = new Date().getTime();
   const playersWithTimestamp: PlayersWithTimeStamp = {
@@ -191,6 +192,8 @@ export const validateTimestampAndSetPlayerDetails = (message: string) => {
   const playersWithTimestamp: PlayersWithTimeStamp = JSON.parse(
     message
   ) as PlayersWithTimeStamp;
+
+  console.log("playersWithTimestamp: ", playersWithTimestamp);
   const players: Players = playersWithTimestamp.players;
   const timestamp: number = playersWithTimestamp.timestamp;
 

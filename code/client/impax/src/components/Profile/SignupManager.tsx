@@ -3,6 +3,7 @@ import { useSignupState } from "../../states/formState";
 import { useForm, type FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../config/config";
+import { showErrorPopup } from "../../utils/popup";
 
 const SignupManager = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
@@ -46,10 +47,15 @@ const SignupManager = () => {
       !responseData.managerExists &&
       !responseData.managerVerified
     ) {
-      setError("teamId", {
-        type: "manual",
-        message: "You are not approved to join this team!",
-      });
+      await showErrorPopup(
+        "Not Aproved",
+        "You are not approved to join this team!"
+      );
+
+      // setError("teamId", {
+      //   type: "manual",
+      //   message: "You are not approved to join this team!",
+      // });
       console.log(errors.teamId);
     } else if (
       responseData.teamExists &&

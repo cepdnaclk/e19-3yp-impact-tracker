@@ -7,6 +7,8 @@ import { useLoginState } from "../../../states/profileState";
 import { useSignupState } from "../../../states/formState";
 import MyTeamsTable from "./MyTeamsTable";
 import { useNavigate } from "react-router-dom";
+import { useAppState } from "../../../states/appState";
+import NoInternetConnection from "../../StatusScreens/NoInternetConnection";
 
 const PlayerProfile = () => {
   // Get team-id
@@ -18,6 +20,20 @@ const PlayerProfile = () => {
   const loginInfo = useLoginState((state) => state.loginInfo);
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
   const navigate = useNavigate();
+
+  const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
+  if (!isInternetAvailable) {
+    //show no internet connection component
+    if (!isInternetAvailable) {
+      return (
+        <main>
+          <Title title={"Player Profile"} Icon={FaRegUserCircle} />
+          <NoInternetConnection />
+        </main>
+      );
+    }
+  }
+
   // TODO: Stay logged in for 90 days and so much more
   return (
     <main>
