@@ -26,7 +26,11 @@ const PlayerProfile = () => {
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
   const navigate = useNavigate();
 
-  const { data: myTeamsData, isLoading } = useQuery({
+  const {
+    data: myTeamsData,
+    isLoading,
+    refetch: refetchPlayers,
+  } = useQuery({
     queryFn: () => fetchplayerProfileTableData(),
     queryKey: ["data"],
   });
@@ -93,7 +97,10 @@ const PlayerProfile = () => {
                 <Spinner />
               </div>
             ) : (
-              <MyTeamsTable playerProfileTable={myTeamsData} />
+              <MyTeamsTable
+                playerProfileTable={myTeamsData}
+                handleActions={refetchPlayers}
+              />
             )}
           </div>
         </div>

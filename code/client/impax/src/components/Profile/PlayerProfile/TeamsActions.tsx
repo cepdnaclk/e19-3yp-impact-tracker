@@ -8,11 +8,11 @@ import { MyTeam } from "../../../types";
 import { renewAccessToken } from "../../../services/authService";
 import { BASE_URL } from "../../../config/config";
 
-const TeamActions: React.FC<MyTeam> = ({
-  team_id,
-  team_name,
-  verification,
+const TeamActions: React.FC<{ myTeam: MyTeam; handleActions: () => void }> = ({
+  myTeam,
+  handleActions,
 }) => {
+  const { team_id, team_name, verification } = myTeam;
   const denyTeam = async () => {
     // renew access Token
     console.log("I am here");
@@ -30,9 +30,14 @@ const TeamActions: React.FC<MyTeam> = ({
         },
       }
     );
-    // const responseData = await response.json();
+    const responseData = await response.json();
+    if (response.ok) {
+      // for debugging
+      handleActions();
+      console.log("response OK", responseData);
+    }
     console.log("Hello", response);
-    // return response;
+    return response;
   };
 
   return (

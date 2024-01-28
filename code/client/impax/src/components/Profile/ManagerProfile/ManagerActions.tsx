@@ -7,9 +7,14 @@ import AlertModal from "../../Modal/AlertModal";
 import { BASE_URL } from "../../../config/config";
 import { renewAccessToken } from "../../../services/authService";
 
-const ManagerActions: React.FC<{ name: string; email: string }> = ({
+const ManagerActions: React.FC<{
+  name: string;
+  email: string;
+  handleAction: () => void;
+}> = ({
   // name,
   email,
+  handleAction,
 }) => {
   // const [openEdit, setOpenEdit] = useState<boolean>(false);
   const removeManager = async () => {
@@ -28,6 +33,7 @@ const ManagerActions: React.FC<{ name: string; email: string }> = ({
     const responseData = await response.json();
     if (response.ok) {
       // for debugging
+      handleAction();
       console.log("response OK", responseData);
     }
   };

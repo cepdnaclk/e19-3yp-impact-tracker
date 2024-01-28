@@ -35,7 +35,11 @@ const ManagerProfile = () => {
 
   const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
 
-  const { data: managerProfileData, isLoading } = useQuery({
+  const {
+    data: managerProfileData,
+    isLoading,
+    refetch: refetchManagers,
+  } = useQuery({
     queryFn: () => fetchManagersTableData(),
     queryKey: ["data"],
   });
@@ -178,7 +182,11 @@ const ManagerProfile = () => {
                 <Spinner />
               </div>
             ) : (
-              <ManagersTable managerProfileData={managerProfileData} />
+              <ManagersTable
+                managerProfileData={managerProfileData}
+                handleAction={refetchManagers}
+                key={managerProfileData.length}
+              />
             )}
           </div>
         </div>
