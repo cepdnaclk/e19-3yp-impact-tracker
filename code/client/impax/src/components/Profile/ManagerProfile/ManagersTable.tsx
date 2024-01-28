@@ -15,7 +15,6 @@ import { FaSort } from "react-icons/fa";
 import { Manager } from "../../../types";
 import { Verification } from "../../PlayerManagement/PlayersTable/Verification/Verification";
 import ManagerActions from "./ManagerActions";
-import { managers } from "./managersData";
 
 const columns: ColumnDef<Manager>[] = [
   {

@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { renewAccessToken } from "../../../services/authService";
 import { BASE_URL } from "../../../config/config";
 import Spinner from "../../StatusScreens/Spinner";
+import { Manager } from "../../../types";
 
 const ManagerProfile = () => {
   // Get team-id
@@ -36,7 +37,7 @@ const ManagerProfile = () => {
     queryFn: () => fetchManagersTableData(),
     queryKey: ["data"],
   });
-  async function fetchManagersTableData(): Promise<MyTeam[]> {
+  async function fetchManagersTableData(): Promise<Manager[]> {
     // Renew access Token
     await renewAccessToken();
     const response = await fetch(`${BASE_URL}/player/myTeams`, {
@@ -145,7 +146,7 @@ const ManagerProfile = () => {
                 <Spinner />
               </div>
             ) : (
-              <ManagersTable managerProfileTable={managerProfileData} />
+              <ManagersTable managerProfileData={managerProfileData} />
             )}
           </div>
         </div>
