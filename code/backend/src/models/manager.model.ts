@@ -74,4 +74,20 @@ class ManagerRequestBody {
   }
 }
 
-export { ManagerExistsResponse, Manager, ManagerResponse, ManagerRequestBody };
+class ManagerTeamResponse {
+  public managerEmail: string;
+  public teamId: string;
+  public accepted: string;
+
+  public constructor(
+    managerEmail: string,
+    teamId: string,
+    accepted: string
+  ) {
+    this.managerEmail = managerEmail;
+    this.teamId = teamId;
+    this.accepted = accepted;
+  }
+}
+
+export { ManagerExistsResponse, Manager, ManagerResponse, ManagerRequestBody, ManagerTeamResponse };

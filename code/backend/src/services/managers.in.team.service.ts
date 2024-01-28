@@ -1,6 +1,7 @@
 import ManagerTeamModel from "../db/managers.in.team.schema";
 import PlayerTeamModel from "../db/players.in.team.schema";
 import SessionModel from "../db/session.schema";
+import { ManagerTeamResponse } from "../models/manager.model";
 import { Impact, SessionResponse } from "../models/session.model";
 import { AnalyticsSummaryTeam, ImpactStats, TeamPlayerResponse, ImpactDirection} from "../types/types";
 
@@ -9,9 +10,10 @@ class ManagersInTeamService {
   async addManagerToTeam(
     managerEmail: string,
     teamId: string
-  ): Promise<boolean> {
+  ): Promise<ManagerTeamResponse> {
     try {
       // check entry exists
+      // don't need really
       const managerTeam = await ManagerTeamModel.findOne({
         managerEmail: managerEmail,
         teamId: teamId,
@@ -30,12 +32,16 @@ class ManagersInTeamService {
       // Save the manager to the database
       const savedManager = await managerTeamInstance.save();
 
-      return true;
+      const managerResponse = new ManagerTeamResponse(
+        savedManager.managerEmail,
+        savedManager.teamId,
+        savedManager.accepted
+      );
+      return managerResponse;
     } catch (error) {
       console.error(error);
       throw error;
     }
-    return false;
   }
 
   // check the manager exits in that team

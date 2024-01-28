@@ -5,6 +5,7 @@ import {
 } from "../models/manager.model";
 import ManagerModel from "../db/manager.schema";
 import authService from "./auth.service";
+import ManagerTeamModel from "../db/managers.in.team.schema";
 
 class ManagerService {
   // delete manager
@@ -106,8 +107,8 @@ class ManagerService {
     teamId: string
   ): Promise<boolean> {
     try {
-      const manager = await ManagerModel.findOne({
-        email: managerEmail,
+      const manager = await ManagerTeamModel.findOne({
+        managerEmail: managerEmail,
         teamId: teamId,
       });
       const managerExists = !!manager;

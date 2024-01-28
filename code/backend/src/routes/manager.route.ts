@@ -43,8 +43,8 @@ router.post("/add", async (req: Request, res: Response) => {
       teamId
     );
 
-    if (state == true) {
-      res.send({ message: HttpMsg.MANAGER_ADD_SUCCESS });
+    if (state) {
+      res.send(HttpMsg.MANAGER_ADD_SUCCESS + " " + state);
     } else {
       res.send({ message: HttpMsg.MANAGER_ADD_FAILED });
     }
@@ -60,12 +60,13 @@ router.post("/add", async (req: Request, res: Response) => {
 });
 
 // Endpoint to check if a manager with a specific email exists
-router.get("/exists/email/:email", async (req: Request, res: Response) => {
+router.get("/exists/:email/:teamId", async (req: Request, res: Response) => {
   // Extract email parameter from the request
   const email = req.params.email;
+  const teamId = req.params.teamId;
 
   // Check if email parameter is missing
-  if (!email) {
+  if (!email || !teamId) {
     console.log(HttpMsg.BAD_REQUEST);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
     return;
@@ -79,13 +80,22 @@ router.get("/exists/email/:email", async (req: Request, res: Response) => {
   }
 
   try {
-    // Check if a manager with the given email exists
-    const exists: boolean = await managerController.checkManagerExists(email);
-    const existsResponse: ManagerExistsResponse = new ManagerExistsResponse(
-      exists
-    );
+    // Check if a manager with the given email exists in team
+    const exists: boolean = await managerController.checkManagerExistsInTeam(email, teamId);
+    // const existsResponse: ManagerExistsResponse = new ManagerExistsResponse(
+    //   exists
+    // );
+    if (exists) {
+      res.send(exists);
+    }else{
+      const teamExistsRes = await teamController.checkTeamExist(teamId);
 
-    res.send(existsResponse);
+      if (teamExistsRes.teamExists){
+        throw new Error(HttpMsg.MANAGER_DEOS_NOT_EXIST);
+      }else{
+        throw new Error(HttpMsg.TEAM_NOT_FOUND);
+      }
+    }
   } catch (err) {
     if (err instanceof Error) {
       // If 'err' is an instance of Error, send the error message

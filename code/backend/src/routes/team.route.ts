@@ -47,8 +47,7 @@ router.get("/exists/teamId/:id", async (req: Request, res: Response) => {
 });
 
 // Endpoint to validate both Team ID and email existence
-router.get(
-  "/exists",
+router.get("/exists",
   async (req: Request<{}, {}, {}, TeamManagerInterface>, res: Response) => {
     // Extract Team ID and email from query parameters
     const teamId = req.query.teamId;
