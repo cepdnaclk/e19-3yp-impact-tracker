@@ -1,10 +1,18 @@
 import PlayerModel from "../db/player.schema";
 import authService from "./auth.service";
 import { PlayerRequestBody, PlayerResponse } from "../models/player.model";
-import { TeamResponseWithIsVerified, TeamResponseWithJerseyId } from "../models/team.model";
+import {
+  TeamResponseWithIsVerified,
+  TeamResponseWithJerseyId,
+} from "../models/team.model";
 import PlayerTeamModel from "../db/players.in.team.schema";
 import TeamModel from "../db/team.schema";
-import { AnalyticsSummary, ImpactStats, ImpactDirection, SessionAnalytics } from "../types/types";
+import {
+  AnalyticsSummary,
+  ImpactStats,
+  ImpactDirection,
+  SessionAnalytics,
+} from "../types/types";
 import { Impact, ImpactPlayer, SessionResponse } from "../models/session.model";
 import SessionModel from "../db/session.schema";
 
@@ -38,16 +46,13 @@ class PlayerService {
   }
 
   // Is this use?
-  async addPlayer(
-    firstName: string,
-    lastName: string,
-    email: string,) {
+  async addPlayer(firstName: string, lastName: string, email: string) {
     try {
       const playerInstanceNoPassword = new PlayerModel({
         firstName: firstName,
         lastName: lastName,
         email: email,
-        password: null
+        password: null,
       });
 
       // Save the player to the database
@@ -58,52 +63,50 @@ class PlayerService {
       console.error(error);
       throw new Error("Error adding player");
     }
-
   }
   async createPlayer(
-    email: string, 
+    email: string,
     password: string,
     invitationToken: string
-    ): Promise<PlayerResponse> {
-      try {
-        const playerInstance = new PlayerModel({
-          email: email,
-          invitationToken: invitationToken,
-          isVerified: "pending",
-        });
-  
-        // Save the player to the database
-        const savedPlayer = await playerInstance.save();
+  ): Promise<PlayerResponse> {
+    try {
+      const playerInstance = new PlayerModel({
+        email: email,
+        invitationToken: invitationToken,
+        isVerified: "pending",
+      });
 
-        await authService.createAuth(
-          email,
-          password,
-        );
+      // Save the player to the database
+      const savedPlayer = await playerInstance.save();
+
+      await authService.createAuth(email, password);
 
       // Create a PalyerResponse object
       const playerResponse: PlayerResponse = new PlayerResponse(
         playerInstance.email,
-        playerInstance.isVerified,
+        playerInstance.isVerified
       );
-  
-        return playerResponse;
-      } catch (error) {
-        console.error(error);
-        throw new Error("Error adding player");
-      }
-  
+
+      return playerResponse;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error adding player");
+    }
   }
-  async updatePlayerPassword(email: string, password: string): Promise<boolean> {
-      const player = await PlayerModel.findOne({ email: email });
-  
-      if (player) {
-        const playerResponse = await authService.createAuth(
-          player.email,
-          password,
-        );
-        return playerResponse;
-      }
-      return false;
+  async updatePlayerPassword(
+    email: string,
+    password: string
+  ): Promise<boolean> {
+    const player = await PlayerModel.findOne({ email: email });
+
+    if (player) {
+      const playerResponse = await authService.createAuth(
+        player.email,
+        password
+      );
+      return playerResponse;
+    }
+    return false;
   }
   async getPlayer(email: string): Promise<PlayerResponse> {
     try {
@@ -118,7 +121,7 @@ class PlayerService {
       // Create a PlayerResponse object
       const playerResponse = new PlayerResponse(
         playerInstance.email,
-        playerInstance.isVerified,
+        playerInstance.isVerified
       );
 
       return playerResponse;
@@ -128,29 +131,48 @@ class PlayerService {
     }
   }
 
-  async getTeamsForPlayer(email: string): Promise<Array<TeamResponseWithIsVerified>> {
+  async getTeamsForPlayer(
+    email: string
+  ): Promise<Array<TeamResponseWithIsVerified>> {
     try {
       // Fetch playerTeams
-      const playerTeams = await PlayerTeamModel.find({ playerEmail: email }, 'teamId isVerified');
-  
+      const playerTeams = await PlayerTeamModel.find(
+        { playerEmail: email },
+        "teamId isVerified"
+      );
+
       if (playerTeams.length === 0) {
         return [];
       }
 
-      const teamIds = playerTeams.map(playerTeam => playerTeam.teamId);
-      
+      const teamIds = playerTeams.map((playerTeam) => playerTeam.teamId);
+
       // Fetch teams from TeamModel
-      const teams = await TeamModel.find({ teamId: { $in: teamIds } }, 'teamId teamName isVerified -_id');
+      const teams = await TeamModel.find(
+        { teamId: { $in: teamIds } },
+        "teamId teamName isVerified -_id"
+      );
 
       const teamsWithIsVerified: Array<TeamResponseWithIsVerified> = teams
-        .map(team => {
-          const matchingPlayerTeam = playerTeams.find(playerTeam => playerTeam.teamId === team.teamId);
+        .map((team) => {
+          const matchingPlayerTeam = playerTeams.find(
+            (playerTeam) => playerTeam.teamId === team.teamId
+          );
           return matchingPlayerTeam
-            ? new TeamResponseWithIsVerified(team.teamId, team.teamName, matchingPlayerTeam.isVerified)
+            ? new TeamResponseWithIsVerified(
+                team.teamId,
+                team.teamName,
+                matchingPlayerTeam.isVerified
+              )
             : null;
         })
-        .filter((teamWithIsVerified): teamWithIsVerified is TeamResponseWithIsVerified => teamWithIsVerified !== null);
-      
+        .filter(
+          (
+            teamWithIsVerified
+          ): teamWithIsVerified is TeamResponseWithIsVerified =>
+            teamWithIsVerified !== null
+        );
+
       console.log(teamsWithIsVerified);
       return teamsWithIsVerified;
     } catch (error) {
@@ -158,86 +180,101 @@ class PlayerService {
       throw new Error("Error while fetching teams for player");
     }
   }
-  
-  async getAnalyticsSummary(email: string, duration:number): Promise<AnalyticsSummary>{
 
+  async getAnalyticsSummary(
+    email: string,
+    duration: number
+  ): Promise<AnalyticsSummary> {
     let analyticsSummary: AnalyticsSummary = {
       summaryData: [
         {
           title: "Cumulative Impacts",
           value: 0,
-          trend: '--',
+          trend: "--",
         },
         {
           title: "Impacts Recorded",
           value: 0,
-          trend: '--',
+          trend: "--",
         },
         {
           title: "Average Impact",
           value: 0,
-          trend: '--',
+          trend: "--",
         },
         {
           title: "Highest Impact",
           value: 0,
-          trend: '--',
+          trend: "--",
         },
         {
           title: "Dominant Direction",
-          value: '--',
-          trend: '--',
-        }
+          value: "--",
+          trend: "--",
+        },
       ],
       histogramData: {
-        left: new Array(10).fill(0),
-        right: new Array(10).fill(0),
-        front: new Array(10).fill(0),
-        back: new Array(10).fill(0),
+        Left: new Array(10).fill(0),
+        Right: new Array(10).fill(0),
+        Front: new Array(10).fill(0),
+        Back: new Array(10).fill(0),
       },
       criticalSessions: [],
     };
 
-    try{
-      
+    try {
       // Fetch playerTeams
-      const playerTeams = await PlayerTeamModel.find({ playerEmail: email }, 'teamId jerseyId');
-  
+      const playerTeams = await PlayerTeamModel.find(
+        { playerEmail: email },
+        "teamId jerseyId"
+      );
+
       if (playerTeams.length === 0) {
         // Should be change after finish this all
         // return [];
         console.log("No teams found for player");
       }
 
-      const teamIds = playerTeams.map(playerTeam => playerTeam.teamId);
-      
+      const teamIds = playerTeams.map((playerTeam) => playerTeam.teamId);
+
       // Fetch teams from TeamModel
-      const teams = await TeamModel.find({ teamId: { $in: teamIds } }, 'teamId jerseyId -_id');
+      const teams = await TeamModel.find(
+        { teamId: { $in: teamIds } },
+        "teamId jerseyId -_id"
+      );
 
       //Array of player's Team id and jerseyId in the team
       const teamResponsesWithJerseyId: Array<TeamResponseWithJerseyId> = teams
-        .map(team => {
-          const matchingPlayerTeam = playerTeams.find(playerTeam => playerTeam.teamId === team.teamId);
+        .map((team) => {
+          const matchingPlayerTeam = playerTeams.find(
+            (playerTeam) => playerTeam.teamId === team.teamId
+          );
           return matchingPlayerTeam
-            ? new TeamResponseWithJerseyId(team.teamId, matchingPlayerTeam.jerseyId)
+            ? new TeamResponseWithJerseyId(
+                team.teamId,
+                matchingPlayerTeam.jerseyId
+              )
             : null;
         })
-        .filter((teamWithJerseyId): teamWithJerseyId is TeamResponseWithJerseyId => teamWithJerseyId !== null);
-  
+        .filter(
+          (teamWithJerseyId): teamWithJerseyId is TeamResponseWithJerseyId =>
+            teamWithJerseyId !== null
+        );
+
       console.log(teamResponsesWithJerseyId);
-      
+
       // Initialize To store Impact stats for previous and current duration
       let impactStatsPrev: ImpactStats = {
         impactsCumulative: 0,
         impactsRecorded: 0,
         highestImpact: 0,
         directionCount: {
-          front: 0,
-          back: 0,
-          left: 0,
-          right: 0
+          Front: 0,
+          Back: 0,
+          Left: 0,
+          Right: 0,
         },
-        sessionAnalytics: []
+        sessionAnalytics: [],
       };
 
       let impactStatsCurr: ImpactStats = {
@@ -245,12 +282,12 @@ class PlayerService {
         impactsRecorded: 0,
         highestImpact: 0,
         directionCount: {
-          front: 0,
-          back: 0,
-          left: 0,
-          right: 0
+          Front: 0,
+          Back: 0,
+          Left: 0,
+          Right: 0,
         },
-        sessionAnalytics: []
+        sessionAnalytics: [],
       };
 
       // Flag to check whether player has at least one impact in the previous and current duration
@@ -258,9 +295,9 @@ class PlayerService {
       let flagCurrent: boolean = false;
 
       // Get Time period need to be get analytics
-      const now = Date.now(); 
-      const previous= now - (2 * duration); // timestamp of 2 * duration ago
-      const current= now - (duration); // timestamp of 2 * duration ago
+      const now = Date.now();
+      const previous = now - 2 * duration; // timestamp of 2 * duration ago
+      const current = now - duration; // timestamp of 2 * duration ago
 
       //get sessions by teamId in teamResponsesWithJerseyId
       for (const team of teamResponsesWithJerseyId) {
@@ -269,323 +306,367 @@ class PlayerService {
         let sessions: Array<SessionResponse> = [];
         sessions = sessions.concat(await getSessionsForTeam(team.teamId));
 
-        
-    
-        console.log(team.teamId, sessions );
+        console.log(team.teamId, sessions);
 
         let filteredSessionsPrevious: Array<SessionResponse> = [];
-        
-        if (previous>=0){
-          filteredSessionsPrevious = sessions.filter(session => {
+
+        if (previous >= 0) {
+          filteredSessionsPrevious = sessions.filter((session) => {
             const createdAt = new Date(session.createdAt).getTime();
             return createdAt >= previous && createdAt <= current;
           });
 
-          impactStatsPrev = await calculationForSessionsPrev(filteredSessionsPrevious, impactStatsPrev, team.jerseyId, flagPrev);
+          impactStatsPrev = await calculationForSessionsPrev(
+            filteredSessionsPrevious,
+            impactStatsPrev,
+            team.jerseyId,
+            flagPrev
+          );
           // console.log("impactStatsPrev:", flagPrev);
         }
-        console.log("Previous" + team.teamId );
+        console.log("Previous" + team.teamId);
         console.log(filteredSessionsPrevious);
-        
-        
-        const filteredSessionsCurrent = sessions.filter(session => {
+
+        const filteredSessionsCurrent = sessions.filter((session) => {
           const createdAt = new Date(session.createdAt).getTime();
           return createdAt >= current && createdAt <= now;
         });
-        console.log("Current" + team.teamId );
+        console.log("Current" + team.teamId);
         console.log(filteredSessionsCurrent);
 
-        
-        
-
         impactStatsCurr = await calculationForSessions(
-          filteredSessionsCurrent, 
-          impactStatsCurr, 
-          team.jerseyId, 
+          filteredSessionsCurrent,
+          impactStatsCurr,
+          team.jerseyId,
           analyticsSummary.histogramData,
           analyticsSummary.criticalSessions,
-          flagCurrent);
-        
+          flagCurrent
+        );
+
         console.log("impactStatsCurr:", flagCurrent);
-        
-        
       }
 
       console.log("impactStatsPrev:", flagPrev);
-     
-      if (flagPrev || flagCurrent){
+
+      if (flagPrev || flagCurrent) {
+        console.log("flagPrev || flagCurrent");
         // Fill up the analytics summary from impact stats ==> values
-        analyticsSummary.summaryData[0].value = impactStatsCurr.impactsCumulative;
+        analyticsSummary.summaryData[0].value =
+          impactStatsCurr.impactsCumulative;
         analyticsSummary.summaryData[1].value = impactStatsCurr.impactsRecorded;
-        analyticsSummary.summaryData[2].value = Math.round(impactStatsCurr.impactsCumulative / impactStatsCurr.impactsRecorded);
+        analyticsSummary.summaryData[2].value = Math.round(
+          impactStatsCurr.impactsCumulative / impactStatsCurr.impactsRecorded
+        );
         analyticsSummary.summaryData[3].value = impactStatsCurr.highestImpact;
 
+        const allValuesZero = Object.values(
+          impactStatsCurr.directionCount
+        ).every((value) => value === 0);
 
-        const allValuesZero = Object.values(impactStatsCurr.directionCount).every((value) => value === 0);
-
-        if (!allValuesZero){
-          const maxValueCurr = Math.max(...Object.values(impactStatsCurr.directionCount));
-          const maxKeyCurr = Object.keys(impactStatsCurr.directionCount).find(key => impactStatsCurr.directionCount[key as keyof typeof impactStatsCurr.directionCount] === maxValueCurr);
+        if (!allValuesZero) {
+          const maxValueCurr = Math.max(
+            ...Object.values(impactStatsCurr.directionCount)
+          );
+          const maxKeyCurr = Object.keys(impactStatsCurr.directionCount).find(
+            (key) =>
+              impactStatsCurr.directionCount[
+                key as keyof typeof impactStatsCurr.directionCount
+              ] === maxValueCurr
+          );
           analyticsSummary.summaryData[4].value = maxKeyCurr as string;
         }
 
-
         // All time no need of trend
-        if (previous>=0){
-
-
+        if (previous >= 0) {
           // Fill up the analytics summary from impact stats ==> trends
-          analyticsSummary.summaryData[0].trend = Math.round((impactStatsCurr.impactsCumulative - impactStatsPrev.impactsCumulative)*100/impactStatsPrev.impactsCumulative);
-          analyticsSummary.summaryData[1].trend = Math.round((impactStatsCurr.impactsRecorded - impactStatsPrev.impactsRecorded)*100/impactStatsPrev.impactsRecorded);
+          analyticsSummary.summaryData[0].trend = Math.round(
+            ((impactStatsCurr.impactsCumulative -
+              impactStatsPrev.impactsCumulative) *
+              100) /
+              impactStatsPrev.impactsCumulative
+          );
+          analyticsSummary.summaryData[1].trend = Math.round(
+            ((impactStatsCurr.impactsRecorded -
+              impactStatsPrev.impactsRecorded) *
+              100) /
+              impactStatsPrev.impactsRecorded
+          );
 
-          const averageImpactPrev = impactStatsPrev.impactsCumulative / impactStatsPrev.impactsRecorded;
-          const averageImpactCurr = impactStatsCurr.impactsCumulative / impactStatsCurr.impactsRecorded;
-          analyticsSummary.summaryData[2].trend = Math.round((averageImpactCurr - averageImpactPrev)*100/averageImpactPrev);
-          analyticsSummary.summaryData[3].trend = Math.round((impactStatsCurr.highestImpact - impactStatsPrev.highestImpact)*100/impactStatsPrev.highestImpact);
+          const averageImpactPrev =
+            impactStatsPrev.impactsCumulative / impactStatsPrev.impactsRecorded;
+          const averageImpactCurr =
+            impactStatsCurr.impactsCumulative / impactStatsCurr.impactsRecorded;
+          analyticsSummary.summaryData[2].trend = Math.round(
+            ((averageImpactCurr - averageImpactPrev) * 100) / averageImpactPrev
+          );
+          analyticsSummary.summaryData[3].trend = Math.round(
+            ((impactStatsCurr.highestImpact - impactStatsPrev.highestImpact) *
+              100) /
+              impactStatsPrev.highestImpact
+          );
 
-          const allValuesZero = Object.values(impactStatsCurr.directionCount).every((value) => value === 0);
+          const allValuesZero = Object.values(
+            impactStatsCurr.directionCount
+          ).every((value) => value === 0);
 
-          if (!allValuesZero){
-          
-            const maxValuePrev = Math.max(...Object.values(impactStatsPrev.directionCount));
-            const maxKeyPrev = Object.keys(impactStatsPrev.directionCount).find(key => impactStatsPrev.directionCount[key as keyof typeof impactStatsPrev.directionCount] === maxValuePrev);
-            analyticsSummary.summaryData[4].trend = maxKeyPrev as ImpactDirection;
+          if (!allValuesZero) {
+            const maxValuePrev = Math.max(
+              ...Object.values(impactStatsPrev.directionCount)
+            );
+            const maxKeyPrev = Object.keys(impactStatsPrev.directionCount).find(
+              (key) =>
+                impactStatsPrev.directionCount[
+                  key as keyof typeof impactStatsPrev.directionCount
+                ] === maxValuePrev
+            );
+            analyticsSummary.summaryData[4].trend =
+              maxKeyPrev as ImpactDirection;
             // console.log("maxKey:");
             // console.log(maxKeyPrev, maxValuePrev);
-            
-            // Sort the critical sessions array by cumulative impact in descending order
-            analyticsSummary["criticalSessions"].sort((a, b) => b.cumulative - a.cumulative);
 
+            // Sort the critical sessions array by cumulative impact in descending order
+            analyticsSummary["criticalSessions"].sort(
+              (a, b) => b.cumulative - a.cumulative
+            );
           }
           // console.log( analyticsSummary["criticalSessions"]);
 
           // console.log("analyticsSummary:");
           // console.log(analyticsSummary);
-        
-        
-        }else{
-          analyticsSummary.summaryData[0].trend = '--';
-          analyticsSummary.summaryData[1].trend = '--';
-          analyticsSummary.summaryData[2].trend = '--';
-          analyticsSummary.summaryData[3].trend = '--';
-          analyticsSummary.summaryData[4].trend = '--';
+        } else {
+          analyticsSummary.summaryData[0].trend = "--";
+          analyticsSummary.summaryData[1].trend = "--";
+          analyticsSummary.summaryData[2].trend = "--";
+          analyticsSummary.summaryData[3].trend = "--";
+          analyticsSummary.summaryData[4].trend = "--";
         }
-
-      }else{
+      } else {
         analyticsSummary.criticalSessions = [];
       }
       console.log("analyticsSummary:");
 
-
       return analyticsSummary;
-}catch (error) {
-      console.error(error);
-      throw new Error("Error while fetching teams for player");
-    }
-  }   
-}
-
-  // Map the sessions to SessionResponse objects
-  async function getSessionsForTeam(teamId: string): Promise<Array<SessionResponse>> {
-    try {
-      // Fetch sessions from the database
-      const sessions = await SessionModel.find({ teamId });
-  
-      // Map the sessions to SessionResponse objects
-      const sessionResponses = sessions.map(session => {
-        return new SessionResponse(
-          session.teamId,
-          session.sessionId,
-          session.sessionName,
-          session.createdAt,
-          session.updatedAt,
-          session.impactHistory.map(player => {
-            return new ImpactPlayer(
-              player.jerseyId,
-              player.impact.map(impact => {
-                return new Impact(
-                  impact.magnitude,
-                  impact.direction,
-                  impact.timestamp,
-                  impact.isConcussion
-                );
-              })
-            );
-          })
-        );
-      });
-  
-      return sessionResponses;
     } catch (error) {
       console.error(error);
-      throw new Error("Error while fetching sessions for team");
+      throw new Error("Error while fetching teams for player");
     }
   }
+}
 
-  //Calculate the analytics for each sesseions
-  async function calculationForSessions(
-    sessions: Array<SessionResponse>, 
-    stats: ImpactStats, 
-    jerseyId: Number,
-    histogramData: AnalyticsSummary["histogramData"],
-    criticalSessions: AnalyticsSummary["criticalSessions"],
-    flagCurrent: boolean
-    ): Promise<ImpactStats> {
-    try{
+// Map the sessions to SessionResponse objects
+async function getSessionsForTeam(
+  teamId: string
+): Promise<Array<SessionResponse>> {
+  try {
+    // Fetch sessions from the database
+    const sessions = await SessionModel.find({ teamId });
 
-      console.log("Curr#####");
-      // For each session
-      for (const session of sessions) {
-        // console.log("Session: " + session.sessionId);
+    // Map the sessions to SessionResponse objects
+    const sessionResponses = sessions.map((session) => {
+      return new SessionResponse(
+        session.teamId,
+        session.sessionId,
+        session.sessionName,
+        session.createdAt,
+        session.updatedAt,
+        session.impactHistory.map((player) => {
+          return new ImpactPlayer(
+            player.jerseyId,
+            player.impact.map((impact) => {
+              return new Impact(
+                impact.magnitude,
+                impact.direction,
+                impact.timestamp,
+                impact.isConcussion
+              );
+            })
+          );
+        })
+      );
+    });
 
-        //For storing session analytics
-        let sessionAnalyticsItem: SessionAnalytics = {
-          name: session.sessionName,
-          date: new Date(session.createdAt).toLocaleDateString("en-US", {
-            
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          }),
-          cumulative: 0,
-          average: 0,
-          highest: 0,
-        };
+    return sessionResponses;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error while fetching sessions for team");
+  }
+}
 
-        let impactCountForSession:number = 0;
-        for (const impactPlayer of session.impactHistory) {
+//Calculate the analytics for each sesseions
+async function calculationForSessions(
+  sessions: Array<SessionResponse>,
+  stats: ImpactStats,
+  jerseyId: Number,
+  histogramData: AnalyticsSummary["histogramData"],
+  criticalSessions: AnalyticsSummary["criticalSessions"],
+  flagCurrent: boolean
+): Promise<ImpactStats> {
+  try {
+    console.log("Curr#####");
+    // For each session
+    for (const session of sessions) {
+      // console.log("Session: " + session.sessionId);
 
-          console.log(impactPlayer.jerseyId, jerseyId)
-          if (impactPlayer.jerseyId === jerseyId) {
+      //For storing session analytics
+      let sessionAnalyticsItem: SessionAnalytics = {
+        name: session.sessionName,
+        date: new Date(session.createdAt).toLocaleDateString("en-US", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }),
+        cumulative: 0,
+        average: 0,
+        highest: 0,
+      };
 
-            // Player has at least one impact in the current duration
-            flagCurrent = true;
+      let impactCountForSession: number = 0;
+      for (const impactPlayer of session.impactHistory) {
+        console.log(impactPlayer.jerseyId, jerseyId);
+        if (impactPlayer.jerseyId === jerseyId) {
+          // Player has at least one impact in the current duration
+          console.log("impactPlayer.jerseyId, jerseyId Current");
+          console.log(impactPlayer.jerseyId, jerseyId);
+          flagCurrent = true;
 
-            // For each impact in the impact Player
-            for (const impact of impactPlayer.impact) {
+          // For each impact in the impact Player
+          for (const impact of impactPlayer.impact) {
+            //Session Analytics
+            impactCountForSession += 1;
+            console.log("impactCountForSession: " + impactCountForSession);
 
-              //Session Analytics
-              impactCountForSession += 1;
-              console.log("impactCountForSession: " + impactCountForSession);
+            sessionAnalyticsItem.cumulative += impact.magnitude;
+            console.log(
+              "sessionAnalyticsItem.cumulative: " +
+                sessionAnalyticsItem.cumulative
+            );
 
-              sessionAnalyticsItem.cumulative += impact.magnitude;
-              console.log("sessionAnalyticsItem.cumulative: " + sessionAnalyticsItem.cumulative);
-
-              if (sessionAnalyticsItem.highest < impact.magnitude){
-                sessionAnalyticsItem.highest = impact.magnitude;
-                console.log("sessionAnalyticsItem.highest: " + sessionAnalyticsItem.highest);
-              }
-
-              sessionAnalyticsItem.average = sessionAnalyticsItem.cumulative/impactCountForSession;
-              console.log("sessionAnalyticsItem.average: " + sessionAnalyticsItem.average);
-
-              console.log("sessionAnalyticsItem###########3:")
-              console.log(sessionAnalyticsItem);
-
-              // Update the impact stats
-              stats.impactsCumulative += impact.magnitude;
-              console.log("stats.impactsCumulative: " + stats.impactsCumulative);
-
-              stats.impactsRecorded += 1;
-              console.log("stats.impactsRecorded: " + stats.impactsRecorded);
-              if (stats.highestImpact < impact.magnitude) {
-
-                stats.highestImpact = impact.magnitude;
-                console.log("stats.highestImpact: " + stats.highestImpact);
-              }
-              stats.directionCount[impact.direction as keyof typeof stats.directionCount] += 1;
-              console.log("stats.directionCount: " + stats.directionCount);
-
-              const index = Math.floor(impact.magnitude / 20);
-              console.log("index: " + index);
-              console.log(impact.direction as keyof typeof histogramData)
-              histogramData[impact.direction as keyof typeof histogramData][index] += 1;
-              console.log("histogramData:");
-              console.log(impact.magnitude, impact.direction);
-              console.log(histogramData);
-              
-
-              console.log(stats)
+            if (sessionAnalyticsItem.highest < impact.magnitude) {
+              sessionAnalyticsItem.highest = impact.magnitude;
+              console.log(
+                "sessionAnalyticsItem.highest: " + sessionAnalyticsItem.highest
+              );
             }
-            console.log("End of each impact in the impact Player Loop");
 
-            // Round off the average impact
-            
+            sessionAnalyticsItem.average =
+              sessionAnalyticsItem.cumulative / impactCountForSession;
+            console.log(
+              "sessionAnalyticsItem.average: " + sessionAnalyticsItem.average
+            );
+
+            console.log("sessionAnalyticsItem###########3:");
+            console.log(sessionAnalyticsItem);
+
+            // Update the impact stats
+            stats.impactsCumulative += impact.magnitude;
+            console.log("stats.impactsCumulative: " + stats.impactsCumulative);
+
+            stats.impactsRecorded += 1;
+            console.log("stats.impactsRecorded: " + stats.impactsRecorded);
+            if (stats.highestImpact < impact.magnitude) {
+              stats.highestImpact = impact.magnitude;
+              console.log("stats.highestImpact: " + stats.highestImpact);
+            }
+            stats.directionCount[
+              impact.direction as keyof typeof stats.directionCount
+            ] += 1;
+            console.log("stats.directionCount: " + stats.directionCount);
+
+            const index = Math.floor(impact.magnitude / 20);
+            console.log("index: " + index);
+            console.log(impact.direction as keyof typeof histogramData);
+
+            histogramData[impact.direction as keyof typeof histogramData][
+              index
+            ] += 1;
+            console.log(histogramData);
+            console.log("histogramData:");
+            console.log(impact.magnitude, impact.direction);
+            console.log(histogramData);
+
+            console.log(stats);
           }
+          console.log("End of each impact in the impact Player Loop");
 
-
+          // Round off the average impact
         }
+      }
 
-        sessionAnalyticsItem.average = Math.round(sessionAnalyticsItem.average);
-        console.log("sessionAnalyticsItem.average: " + sessionAnalyticsItem.average);
+      sessionAnalyticsItem.average = Math.round(sessionAnalyticsItem.average);
+      console.log(
+        "sessionAnalyticsItem.average: " + sessionAnalyticsItem.average
+      );
 
-        console.log("End of each impactPlayer in the session Loop");
-        
-        // If length of crirtical sessions<3 => directly push to the critical sessions
-        // Else: sort by cumulative impact => remove the least one and push only if least<current cumulative
-        if(flagCurrent){
-          if (criticalSessions.length < 3) {
-            criticalSessions.push(sessionAnalyticsItem);
+      console.log("End of each impactPlayer in the session Loop");
 
-          }else {
-            // Sort the critical sessions array by cumulative impact in descending order
-            criticalSessions.sort((a, b) => b.cumulative - a.cumulative);
+      // If length of crirtical sessions<3 => directly push to the critical sessions
+      // Else: sort by cumulative impact => remove the least one and push only if least<current cumulative
+      if (flagCurrent) {
+        if (criticalSessions.length < 3) {
+          criticalSessions.push(sessionAnalyticsItem);
+        } else {
+          // Sort the critical sessions array by cumulative impact in descending order
+          criticalSessions.sort((a, b) => b.cumulative - a.cumulative);
           console.log(sessionAnalyticsItem);
 
-            if (sessionAnalyticsItem.cumulative > criticalSessions[criticalSessions.length - 1].cumulative) {
-              criticalSessions.pop();
-              criticalSessions.push(sessionAnalyticsItem);
-            }
-          }
-        }
-        // console.log(criticalSessions);
-      }
-      return stats;
-    }catch (error) {
-      console.error(error);
-      throw new Error("Error while fetching teams for player");
-    }
-  }
-
-  //Calculate the analytics for each sesseions for previous
-  async function calculationForSessionsPrev(
-    sessions: Array<SessionResponse>, 
-    stats: ImpactStats, 
-    jerseyId: Number,
-    flagPrev: boolean
-    ): Promise<ImpactStats> {
-    try{
-      // console.log("Previous##")
-      // console.log(sessions);
-      for (const session of sessions) {
-        // console.log("Session: " + session.sessionId);
-        for (const impactPlayer of session.impactHistory) {
-          if (impactPlayer.jerseyId === jerseyId) {
-
-            // Player has at least one impact in the previous duration
-            flagPrev = true;
-            // For each impact in the impact Player
-            for (const impact of impactPlayer.impact) {
-
-              // Update the impact stats
-              stats.impactsCumulative += impact.magnitude;
-              stats.impactsRecorded += 1;
-              if (stats.highestImpact < impact.magnitude) {
-                stats.highestImpact = impact.magnitude;
-              }
-              stats.directionCount[impact.direction as keyof typeof stats.directionCount] += 1;
-              
-
-              // console.log(stats)
-            }
+          if (
+            sessionAnalyticsItem.cumulative >
+            criticalSessions[criticalSessions.length - 1].cumulative
+          ) {
+            criticalSessions.pop();
+            criticalSessions.push(sessionAnalyticsItem);
           }
         }
       }
-      return stats;
-    }catch (error) {
-      console.error(error);
-      throw new Error("Error while fetching teams for player");
+      // console.log(criticalSessions);
     }
+    return stats;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error while fetching teams for player");
   }
+}
+
+//Calculate the analytics for each sesseions for previous
+async function calculationForSessionsPrev(
+  sessions: Array<SessionResponse>,
+  stats: ImpactStats,
+  jerseyId: Number,
+  flagPrev: boolean
+): Promise<ImpactStats> {
+  try {
+    // console.log("Previous##")
+    // console.log(sessions);
+    for (const session of sessions) {
+      // console.log("Session: " + session.sessionId);
+      for (const impactPlayer of session.impactHistory) {
+        console.log("impactPlayer.jerseyId, jerseyId");
+        console.log(impactPlayer.jerseyId, jerseyId);
+        if (impactPlayer.jerseyId === jerseyId) {
+          // Player has at least one impact in the previous duration
+          flagPrev = true;
+          // For each impact in the impact Player
+          for (const impact of impactPlayer.impact) {
+            // Update the impact stats
+            stats.impactsCumulative += impact.magnitude;
+            stats.impactsRecorded += 1;
+            if (stats.highestImpact < impact.magnitude) {
+              stats.highestImpact = impact.magnitude;
+            }
+            stats.directionCount[
+              impact.direction as keyof typeof stats.directionCount
+            ] += 1;
+
+            // console.log(stats)
+          }
+        }
+      }
+    }
+    return stats;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error while fetching teams for player");
+  }
+}
 
 export default new PlayerService();
