@@ -14,7 +14,6 @@ const SignupManager = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-    setError,
   } = useForm();
   const onSubmit = async (data: FieldValues) => {
     const { teamId, email } = data;
