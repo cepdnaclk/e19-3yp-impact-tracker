@@ -44,9 +44,11 @@ router.post("/add", async (req: Request, res: Response) => {
     );
 
     if (state) {
-      res.send(HttpMsg.MANAGER_ADD_SUCCESS);
+      res.status(HttpCode.OK).send({ message: HttpMsg.MANAGER_ADD_SUCCESS });
     } else {
-      res.send({ message: HttpMsg.MANAGER_ADD_FAILED });
+      res
+        .status(HttpCode.BAD_REQUEST)
+        .send({ message: HttpMsg.MANAGER_ADD_FAILED });
     }
   } catch (err) {
     if (err instanceof Error) {
@@ -266,6 +268,7 @@ router.delete("/remove", async (req: Request, res: Response) => {
 
     // Send a success response to the client
     res.send({ message: "Manager removed from team successfully" });
+    res.status(HttpCode.OK).send({ message: HttpMsg.MANAGER_REMOVE_SUCCESS });
   } catch (error) {
     if (error instanceof Error) {
       // If 'error' is an instance of Error, send the error message
@@ -302,6 +305,7 @@ router.get("/getTeamPlayers", async (req: Request, res: Response) => {
     if (managerExists) {
       const teamPlayerResponse = await managerController.getPlayers(teamId);
       res.send(teamPlayerResponse);
+      res.status(HttpCode.OK);
     } else {
       throw new Error(HttpMsg.MANAGER_DEOS_NOT_EXIST);
     }
@@ -342,6 +346,7 @@ router.get("/getTeamManagers", async (req: Request, res: Response) => {
     if (managerExists) {
       const teamPlayerResponse = await managerController.getManagers(teamId);
       res.send(teamPlayerResponse);
+      res.status(HttpCode.OK);
     } else {
       throw new Error(HttpMsg.MANAGER_DEOS_NOT_EXIST);
     }
@@ -417,9 +422,15 @@ router.put("/join-team", async (req: Request, res: Response) => {
             isVerified: manager.isVerified,
           });
           res.send(managerResponse);
+          res
+            .status(HttpCode.OK)
+            .send({ message: HttpMsg.MANAGER_JOINED_SUCCESS });
         }
       } else {
-        res.send(HttpMsg.MANAGER_DEOS_NOT_EXIST);
+        res
+          .status(HttpCode.BAD_REQUEST)
+          .send({ message: HttpMsg.MANAGER_DEOS_NOT_EXIST });
+        // res.send(HttpMsg.MANAGER_DEOS_NOT_EXIST);
       }
     }
   } catch (err) {
@@ -464,6 +475,7 @@ router.get(
           req.params.duration
         );
         res.send(teamAnalyticsResponse);
+        res.status(HttpCode.OK);
       } else {
         throw new Error(HttpMsg.MANAGER_DEOS_NOT_EXIST);
       }
