@@ -1,4 +1,9 @@
-import { Manager, ManagerResponse, ManagerTeamResponse } from "../models/manager.model";
+import {
+  Manager,
+  ManagerResponse,
+  ManagerTeamResponse,
+  ManagersArrayResponse,
+} from "../models/manager.model";
 import TeamModel from "../db/team.schema";
 import managerService from "../services/manager.service";
 import managersInTeamService from "../services/managers.in.team.service";
@@ -92,7 +97,7 @@ class ManagerController {
       // check the manager exits in that team
       const managerExists = await managerService.checkManagerExistsInTeam(
         managerEmail,
-        teamId 
+        teamId
       );
 
       const newManagerExists = await managerService.checkManagerExistsInTeam(
@@ -100,7 +105,7 @@ class ManagerController {
         teamId
       );
 
-      if (newManagerExists){
+      if (newManagerExists) {
         throw new Error("New Manager already exists in the team");
       }
 
@@ -176,34 +181,51 @@ class ManagerController {
   }
 
   // get all the teamPlayers with their details
-  async getPlayers(teamId: string): Promise<{ [jerseyId: number]: TeamPlayerResponse }>{
-
-    try{
+  async getPlayers(
+    teamId: string
+  ): Promise<{ [jerseyId: number]: TeamPlayerResponse }> {
+    try {
       const response = await managersInTeamService.getPlayersInTeam(teamId);
       // console.log(response);
       return response;
-    }catch(error) {
+    } catch (error) {
       console.error(error);
       throw error;
     }
+  }
 
+  // get all the teamManagers with their details
+  async getManagers(teamId: string): Promise<Array<ManagersArrayResponse>> {
+    try {
+      const response = await managersInTeamService.getManagersInTeam(teamId);
+      // console.log(response);
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
   //get Team Analytics
-  async getTeamAnalytics(teamId: string, duration:string): Promise<AnalyticsSummaryTeam> {
-
+  async getTeamAnalytics(
+    teamId: string,
+    duration: string
+  ): Promise<AnalyticsSummaryTeam> {
     // 'Last Week' , 'Last Month' , 'All Time'
     let durationNumber: number = 0;
 
-    if (duration == "All Time"){
+    if (duration == "All Time") {
       durationNumber = Date.now();
-    } else if (duration == "Last Month"){
+    } else if (duration == "Last Month") {
       durationNumber = 30 * 24 * 60 * 60 * 1000;
-    } else if (duration == "Last Week"){
+    } else if (duration == "Last Week") {
       durationNumber = 7 * 24 * 60 * 60 * 1000;
     }
     try {
-      const response = await managersInTeamService.getTeamAnalytics(teamId, durationNumber);
+      const response = await managersInTeamService.getTeamAnalytics(
+        teamId,
+        durationNumber
+      );
       return response;
     } catch (error) {
       console.error(error);

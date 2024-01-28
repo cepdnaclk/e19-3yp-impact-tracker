@@ -2,7 +2,10 @@ import ManagerModel from "../db/manager.schema";
 // import ManagerTeamModel from "../db/managers.in.team.schema";
 import PlayerTeamModel from "../db/players.in.team.schema";
 import SessionModel from "../db/session.schema";
-import { ManagerTeamResponse } from "../models/manager.model";
+import {
+  ManagerTeamResponse,
+  ManagersArrayResponse,
+} from "../models/manager.model";
 import { Impact, SessionResponse } from "../models/session.model";
 import {
   AnalyticsSummaryTeam,
@@ -137,6 +140,52 @@ class ManagersInTeamService {
       }
 
       return teamPlayers;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  // get the players in the team
+  async getManagersInTeam(
+    teamId: string
+  ): Promise<Array<ManagersArrayResponse>> {
+    const managers: Array<ManagersArrayResponse> = [];
+
+    try {
+      // Get the player teams for the given team ID
+      const managerTeams = await ManagerModel.find(
+        { teamId: teamId },
+        "teamId email -_id"
+      );
+
+      // For each player team, get the player details
+      for (const managerTeam of managerTeams) {
+        const manager = await ManagerModel.findOne(
+          { email: managerTeam.email, teamId: teamId },
+          "email isVerified firstName lastName -_id"
+        );
+
+        if (manager) {
+          // Check if the manager has a first and last name
+          if (manager.firstName && manager.lastName) {
+            // Add the manager details to the managers array with the full name
+            managers.push({
+              name: manager.firstName + " " + manager.lastName,
+              email: manager.email,
+              verification: manager.isVerified,
+            });
+          } else {
+            // Add the manager details to the managers array with only the email and verification status
+            managers.push({
+              email: manager.email,
+              verification: manager.isVerified,
+            });
+          }
+        }
+      }
+
+      return managers;
     } catch (error) {
       console.error(error);
       throw error;
