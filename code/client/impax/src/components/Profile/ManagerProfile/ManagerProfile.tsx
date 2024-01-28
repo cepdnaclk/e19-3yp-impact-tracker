@@ -67,20 +67,20 @@ const ManagerProfile = () => {
     const response = await fetch(`${BASE_URL}/manager/add`, {
       method: "POST",
       body: JSON.stringify({
-        email: data.email,
+        managerEmail: data.email,
       }),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     });
-    const responseData = await response.json();
+    // const responseData = await response.json();
     setAddManagerOpen(false);
     if (response.ok) {
       // for debugging
-      console.log("response OK", responseData);
+      console.log("response OK", response);
     } else {
-      await showErrorPopup("Error", responseData.message);
+      await showErrorPopup("Error", "Please Try Again!");
     }
 
     reset();
