@@ -53,6 +53,8 @@ const PlayerAnalytics = () => {
     }
   }
 
+  console.log(AnalyticsSummaryPlayer);
+
   return (
     <main>
       <Title Icon={MdBarChart} title="Player Analytics" />
@@ -122,7 +124,7 @@ const PlayerAnalytics = () => {
             <div className={styles.criticalSessions}>
               <h2>Critical Sessions</h2>
               {AnalyticsSummaryPlayer?.criticalSessions?.length == 0 && (
-                <p>No sessions recorded</p>
+                <p className={styles.noSessions}>No sessions recorded</p>
               )}
               {AnalyticsSummaryPlayer?.criticalSessions?.map((session) => (
                 <div

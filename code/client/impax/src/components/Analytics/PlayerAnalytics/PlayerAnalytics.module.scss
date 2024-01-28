@@ -142,6 +142,9 @@ $button-bg: rgb(14, 61, 127);
     font-size: 1.2em;
     margin-left: 1em;
   }
+  .noSessions {
+    margin-left: 1.2em;
+  }
   .criticalSessionContainer {
     margin-top: 1em;
   }
@@ -162,8 +165,8 @@ $button-bg: rgb(14, 61, 127);
 
 .spinnerContainer {
   display: flex;
-  justify-content: start;
-  align-items: start;
+  justify-content: center;
+  align-items: center;
   height: 10em;
   width: 100%;
 }
