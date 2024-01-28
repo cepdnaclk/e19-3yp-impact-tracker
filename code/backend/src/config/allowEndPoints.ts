@@ -16,7 +16,7 @@ const excludedRoutes = [
 
 const excludedRoutesStartWith = [
   { method: "GET", path: "/team/exists/teamId" },
-  { method: "GET", path: "/manager/exists/email" },
+  { method: "GET", path: "/manager/exists" },
   { method: "GET", path: "/manager/accept-invitation/token" },
   { method: "GET", path: "/player/accept-invitation/token" },
   { method: "GET", path: "/player/verify-email/token" },
