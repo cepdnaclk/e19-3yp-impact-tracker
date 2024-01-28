@@ -1,12 +1,7 @@
 import { create } from "zustand";
+import { LoginInfo } from "../types";
 
 
-
-interface loginInfo{
-  teamId: string;
-  teamName: string;
-  email: string;
-}
 interface tokens{
     accessToken: string;
     refreshToken: string;
@@ -14,8 +9,8 @@ interface tokens{
 
 
 interface LoginState {
-  loginInfo:loginInfo;
-  setLoginInfo: (loginInfo: loginInfo) => void;
+  loginInfo:LoginInfo;
+  setLoginInfo: (loginInfo: LoginInfo) => void;
   tokens: tokens;
   setTokens: (token: tokens) => void;
   
@@ -26,8 +21,12 @@ interface LoginState {
 
 
 export const useLoginState = create<LoginState>()((set) => ({
-  loginInfo: {teamId: "", teamName: "", email: ""},
-  setLoginInfo: (loginInfo) => set({ loginInfo: loginInfo}),
+  // loginInfo: {teamId: "", teamName: "", email: ""},
+  loginInfo: JSON.parse(localStorage.getItem("loginInfo") || "{}"),
+  setLoginInfo: (loginInfo) => {
+    set({ loginInfo: loginInfo});
+    localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+},
   tokens: {accessToken: "", refreshToken: ""},
     setTokens: (tokens) => {set({tokens: tokens});
     localStorage.setItem("accessToken", tokens.accessToken);

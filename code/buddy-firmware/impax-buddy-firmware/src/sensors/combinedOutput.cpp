@@ -82,9 +82,9 @@ String CombinedOutput::getDirection()
         else if (std::abs(aY) >= std::abs(aX) && std::abs(aY) >= std::abs(aZ))
         {
             if (aY > 0)
-                return "Top";
+                return "Front"; // TOP
             else
-                return "Bottom";
+                return "Back"; // BOTTOM
         }
         else
         {

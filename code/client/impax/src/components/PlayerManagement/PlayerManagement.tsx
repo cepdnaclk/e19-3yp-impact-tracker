@@ -25,7 +25,7 @@ import NoInternetConnection from "../StatusScreens/NoInternetConnection";
 import { useAppState } from "../../states/appState";
 import DialogModal from "../Modal/DialogModal";
 import { BASE_URL } from "../../config/config";
-import { showPopup } from "../../utils/errorPopup";
+import { showErrorPopup } from "../../utils/popup";
 
 export type Player = {
   jerseyId: number;
@@ -166,10 +166,14 @@ const PlayerManagement = () => {
     //TODO: player with same id exists, show error to user and return
     if (data.jersey_number in playerDetails) {
       // alert("Player already exists");
-      showPopup("Player already exists", "Try with different jersey number");
+      showErrorPopup(
+        "Player already exists",
+        "Try with different jersey number"
+      );
 
       return;
     }
+    console.log(data);
     const response = await fetch(`${BASE_URL}/player/add`, {
       method: "POST",
       body: JSON.stringify({
@@ -250,13 +254,13 @@ const PlayerManagement = () => {
                   placeholder="Johnathan Doe"
                 />
                 <label htmlFor="email">
-                  Player's Email (Optional)
+                  Player's Email
                   <span className={styles.additionalInfo}>
                     Link Impax Account
                   </span>
                 </label>
                 <input
-                  {...register("email", { required: false })}
+                  {...register("email", { required: true })}
                   type="email"
                   name="email"
                   id="email"

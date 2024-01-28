@@ -21,7 +21,7 @@ const SignupSuccess = ({ title, description }: Props) => {
         <Btn
           type="submit"
           onClick={() => {
-            navigate("/");
+            navigate("/SignUp");
           }}
           Icon={FaRegUserCircle}
           buttonStyle="primary"

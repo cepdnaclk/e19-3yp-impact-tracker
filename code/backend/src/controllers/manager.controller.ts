@@ -1,4 +1,4 @@
-import { Manager, ManagerResponse } from "../models/manager.model";
+import { Manager, ManagerResponse, ManagerTeamResponse } from "../models/manager.model";
 import TeamModel from "../db/team.schema";
 import managerService from "../services/manager.service";
 import managersInTeamService from "../services/managers.in.team.service";
@@ -6,6 +6,7 @@ import { sendVerificationEmail } from "../email/managerVerifyEmail";
 import { sendInvitationEmail } from "../email/managerInviteEmail";
 import { v4 as uuidv4 } from "uuid";
 import { AnalyticsSummaryTeam, TeamPlayerResponse } from "../types/types";
+import { HttpMsg } from "../exceptions/http.codes.mgs";
 
 class ManagerController {
   async createManager(
@@ -86,16 +87,25 @@ class ManagerController {
     managerEmail: string,
     newManagerEmail: string,
     teamId: string
-  ): Promise<boolean> {
+  ): Promise<ManagerTeamResponse> {
     try {
       // check the manager exits in that team
       const managerExists = await managerService.checkManagerExistsInTeam(
         managerEmail,
+        teamId 
+      );
+
+      const newManagerExists = await managerService.checkManagerExistsInTeam(
+        newManagerEmail,
         teamId
       );
 
+      if (newManagerExists){
+        throw new Error("New Manager already exists in the team");
+      }
+
       if (!managerExists) {
-        throw new Error("Manager does not exist in the team");
+        throw new Error(HttpMsg.MANAGER_DEOS_NOT_EXIST);
       }
 
       // Generate an invitation token
@@ -112,7 +122,8 @@ class ManagerController {
 
       const managerTeamAdded = await managersInTeamService.addManagerToTeam(
         newManagerEmail,
-        teamId
+        teamId,
+        invitationToken
       );
 
       const teamInstance = await TeamModel.findOne({ teamId });
@@ -139,7 +150,6 @@ class ManagerController {
 
       throw error;
     }
-    return false;
   }
 
   // delete manager

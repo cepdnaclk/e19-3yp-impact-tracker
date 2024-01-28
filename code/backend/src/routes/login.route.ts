@@ -36,6 +36,7 @@ router.post("/manager", async (req: Request, res: Response) => {
 
   // check manager is in team
   const exist = await teamController.checkManagerExistsInTeam(userName, teamId);
+  
   if (!exist) {
     console.log(HttpMsg.MANAGER_LOGIN_FAILED);
     res

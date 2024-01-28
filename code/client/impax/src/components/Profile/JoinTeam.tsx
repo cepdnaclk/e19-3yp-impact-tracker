@@ -4,7 +4,7 @@ import Hero from "./Hero";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../config/config";
-import { showPopup } from "../../utils/errorPopup.ts";
+import { showErrorPopup } from "../../utils/popup.ts";
 
 const JoinTeam = () => {
   const setIsSignup = useSignupState((state) => state.setIsSignup);
@@ -43,7 +43,7 @@ const JoinTeam = () => {
     if (response.ok) {
       navigate("/signup/manager/success");
     } else {
-      await showPopup("Invalid Credentials", "Please Try Again");
+      await showErrorPopup("Invalid Credentials", "Please Try Again");
     }
     reset();
   };
@@ -58,7 +58,7 @@ const JoinTeam = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.inputContainer}>
               <label htmlFor="yourName">Your Name</label>
-              {errors.firstName && <p>{`${errors.firstName.message}`}</p>}
+              {errors.yourName && <p>{`${errors.yourName.message}`}</p>}
               <input
                 {...register("yourName", {
                   required: "Your name is required",

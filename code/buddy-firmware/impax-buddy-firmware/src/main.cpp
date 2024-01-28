@@ -33,6 +33,8 @@ void buddyCheckTurnOffHandle()
         ledStatus = LED_OFF;
         led(ledStatus);
 
+        buddyMQTT.publish(buddyMQTT.topics.BATTERY.c_str(), 0);
+
         delay(1000);
         gpio_hold_en(GPIO_NUM_0);
         gpio_hold_en(GPIO_NUM_2);

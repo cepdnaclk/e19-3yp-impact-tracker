@@ -33,7 +33,7 @@
     "react-select": "^5.8.0",
     "sass": "^1.69.5",
     "serialport": "^12.0.0",
-    "sweetalert2": "^11.10.4",
+    "sweetalert2": "^11.6.13",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
@@ -56,5 +56,6 @@
     "vite-plugin-electron": "^0.14.0",
     "vite-plugin-electron-renderer": "^0.14.5"
   },
-  "main": "dist-electron/main.js"
+  "main": "dist-electron/main.js",
+  "postinstall": "electron-builder install-app-deps"
 }

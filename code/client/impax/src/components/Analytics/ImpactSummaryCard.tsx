@@ -39,7 +39,7 @@ const ImpactSummaryCard: React.FC<{ metric: Metric; timeSpan: TimeSpan }> = ({
             <span className={cardStyles.metaUnits}>{metric.metaUnits}</span>
           )}
         </p>
-        {timeSpan != "All Time" && metric.trend && (
+        {timeSpan != "All Time" && metric.trend !== undefined && (
           <p className={cardStyles.trend}>
             {trendElement}
             <span className={cardStyles.duration}>{timeSpan}</span>

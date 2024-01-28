@@ -12,6 +12,7 @@ import NoMqttConnection from "../StatusScreens/NoMqttConnection";
 import { syncDevice } from "../../utils/serialCom";
 import DialogModal from "../Modal/DialogModal";
 import { FieldValues, useForm } from "react-hook-form";
+import { showErrorPopup, showSuccessPopup } from "../../utils/popup";
 
 const Devices: React.FC = () => {
   const buddies: Buddies = useAppState((state) => state.buddiesStatus);
@@ -53,9 +54,14 @@ const Devices: React.FC = () => {
 
   const onSubmit = async (data: FieldValues) => {
     console.log(data);
-    await syncDevice(data.SSID, data.password);
+    const deviceStatus = await syncDevice(data.SSID, data.password);
     reset();
     setAddBuddyOpen(false);
+    if (deviceStatus) {
+      await showSuccessPopup("Success", "Configuration Successful!");
+    } else {
+      await showErrorPopup("Error", "Please Try Again!");
+    }
   };
   if (!isMqttOnline) {
     return (
@@ -117,11 +123,6 @@ const Devices: React.FC = () => {
                 children="Add New Buddy"
                 Icon={IoAdd}
                 disabled={isSubmitting}
-                // onClick={() => {
-                //   syncDevice();
-                //   //TODO: if success, close modal, else show error
-                //   setAddBuddyOpen(false);
-                // }}
               />
             </form>
           </DialogModal>

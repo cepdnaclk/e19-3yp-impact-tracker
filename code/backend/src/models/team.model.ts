@@ -21,6 +21,18 @@ class TeamIdEmailExistsResponse {
   }
 }
 
+class TeamIdEmailExistsResponseWithIsVerified {
+  public teamExists: boolean = false;
+  public managerExists: boolean = false;
+  public isVerified: string;
+
+  public constructor(teamExists: boolean, managerExists: boolean, isVerified: string) {
+    this.teamExists = teamExists;
+    this.managerExists = managerExists;
+    this.isVerified = isVerified;
+  }
+}
+
 class Team {
   public teamId: string;
   public teamName: string;
@@ -34,24 +46,24 @@ class Team {
 }
 
 class TeamResponse {
-  public teamId: string;
-  public teamName: string;
+  public team_id: string;
+  public team_name: string;
 
   public constructor(team: Team) {
-    this.teamId = team.teamId;
-    this.teamName = team.teamName;
+    this.team_id = team.teamId;
+    this.team_name = team.teamName;
   }
 }
 
 class TeamResponseWithIsVerified {
-  public teamId: string;
-  public teamName: string;
-  public isVerified: string;
+  public team_id: string;
+  public team_name: string;
+  public verification: string;
 
   constructor(teamId: string, teamName: string, isVerified: string) {
-    this.teamId = teamId;
-    this.teamName = teamName;
-    this.isVerified = isVerified;
+    this.team_id = teamId;
+    this.team_name = teamName;
+    this.verification = isVerified;
   }
 }
 
@@ -82,6 +94,7 @@ export {
   TeamIdExistsResponse,
   TeamManagerInterface,
   TeamIdEmailExistsResponse,
+  TeamIdEmailExistsResponseWithIsVerified,
   Team,
   TeamResponse,
   TeamManagerResponse,

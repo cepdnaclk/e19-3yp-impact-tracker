@@ -26,14 +26,18 @@ export const updateBuddy = (buddy_id: number, battery: number) => {
   //updateSet
   useAppState.setState((prevState) => {
     const buddiesStatus = { ...prevState.buddiesStatus };
+    const playerMap = { ...prevState.playerMap };
 
     if (battery === 0) {
       delete buddiesStatus[buddy_id];
+      console.log("Deleted buddy", buddy_id);
+      delete playerMap[buddy_id];
+      MqttClient.getInstance().publishPlayerMap(playerMap);
     } else {
       buddiesStatus[buddy_id] = buddyStatus;
     }
 
-    return { buddiesStatus };
+    return { buddiesStatus, playerMap };
   });
 };
 
@@ -177,6 +181,7 @@ export const flushStates = () => {
 
 //update Players in state and local storage
 export const updatePlayersDetails = (players: Players) => {
+  console.log("Updating players details", players);
   useAppState.setState({ playerDetails: players });
   const timestamp = new Date().getTime();
   const playersWithTimestamp: PlayersWithTimeStamp = {
@@ -191,6 +196,8 @@ export const validateTimestampAndSetPlayerDetails = (message: string) => {
   const playersWithTimestamp: PlayersWithTimeStamp = JSON.parse(
     message
   ) as PlayersWithTimeStamp;
+
+  console.log("playersWithTimestamp: ", playersWithTimestamp);
   const players: Players = playersWithTimestamp.players;
   const timestamp: number = playersWithTimestamp.timestamp;
 
