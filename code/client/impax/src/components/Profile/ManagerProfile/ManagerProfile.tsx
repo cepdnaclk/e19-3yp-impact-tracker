@@ -40,7 +40,7 @@ const ManagerProfile = () => {
   async function fetchManagersTableData(): Promise<Manager[]> {
     // Renew access Token
     await renewAccessToken();
-    const response = await fetch(`${BASE_URL}/player/myTeams`, {
+    const response = await fetch(`${BASE_URL}/manager/getTeamManagers`, {
       // Use the constructed URL with query params
       method: "GET", // Change the method to GET
       headers: {
@@ -49,7 +49,8 @@ const ManagerProfile = () => {
       },
     });
     const responseData = await response.json();
-    return responseData.teams;
+    console.log(responseData);
+    return responseData;
   }
 
   if (!isInternetAvailable) {
