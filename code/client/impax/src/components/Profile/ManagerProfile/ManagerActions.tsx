@@ -4,12 +4,34 @@ import styles from "./ManagerActions.module.scss";
 
 import Btn from "../../Buttons/Btn";
 import AlertModal from "../../Modal/AlertModal";
+import { BASE_URL } from "../../../config/config";
+import { renewAccessToken } from "../../../services/authService";
 
 const ManagerActions: React.FC<{ name: string; email: string }> = ({
   // name,
   email,
 }) => {
   // const [openEdit, setOpenEdit] = useState<boolean>(false);
+  const removeManager = async () => {
+    // react Delete request
+    renewAccessToken();
+    const response = await fetch(`${BASE_URL}/manager/remove`, {
+      method: "DELETE",
+      body: JSON.stringify({
+        email: email,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+    const responseData = await response.json();
+    if (response.ok) {
+      // for debugging
+      console.log("response OK", responseData);
+    }
+  };
+
   return (
     <div className={styles.actions}>
       {/* <DialogModal
@@ -90,6 +112,7 @@ const ManagerActions: React.FC<{ name: string; email: string }> = ({
             buttonStyle="secondary"
             Icon={FaTrash}
             iconSizeEm={1}
+            onClick={() => removeManager()}
           >
             Remove
           </Btn>
