@@ -271,7 +271,7 @@
 
 
 
-    "/manager/exists/email/{email}": {
+    "/manager/exists/{email}/{teamId}": {
       "get": {
         "tags": ["ManagerEndpoints"],
         "summary": "Check if a manager email exists - Open",
@@ -284,6 +284,15 @@
               "type": "string"
             },
             "example": "example@example.com"
+          },
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "exampleTeamId"
           }
         ],
         "responses": {
@@ -291,7 +300,9 @@
             "description": "Success",
             "content": {
               "application/json": {
-                "$ref": "#/components/schemas/ManagerExistsResponse"
+                "schema": {
+                  "type": "boolean"
+                }
               }
             }
           },
