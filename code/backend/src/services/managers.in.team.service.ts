@@ -1,5 +1,5 @@
 import ManagerModel from "../db/manager.schema";
-import ManagerTeamModel from "../db/managers.in.team.schema";
+// import ManagerTeamModel from "../db/managers.in.team.schema";
 import PlayerTeamModel from "../db/players.in.team.schema";
 import SessionModel from "../db/session.schema";
 import { ManagerTeamResponse } from "../models/manager.model";
@@ -17,7 +17,7 @@ class ManagersInTeamService {
       // check entry exists
       // don't need really
       const managerTeam = await ManagerModel.findOne({
-        managerEmail: managerEmail,
+        email: managerEmail,
         teamId: teamId,
       });
 
@@ -32,6 +32,7 @@ class ManagersInTeamService {
         invitationToken: invitationToken,
       });
 
+      
       // Save the manager to the database
       const savedManager = await managerInstance.save();
 
@@ -54,8 +55,8 @@ class ManagersInTeamService {
   ): Promise<boolean> {
     try {
       // check entry exists
-      const managerTeam = await ManagerTeamModel.findOne({
-        managerEmail: managerEmail,
+      const managerTeam = await ManagerModel.findOne({
+        email: managerEmail,
         teamId: teamId,
       });
 
@@ -78,8 +79,8 @@ class ManagersInTeamService {
   ): Promise<boolean> {
     try {
       // check entry exists
-      const managerTeam = await ManagerTeamModel.findOne({
-        managerEmail: managerEmail,
+      const managerTeam = await ManagerModel.findOne({
+        email: managerEmail,
         teamId: teamId,
       });
 
@@ -87,8 +88,8 @@ class ManagersInTeamService {
         throw new Error("Manager does not exist in the team");
       }
 
-      await ManagerTeamModel.deleteOne({
-        managerEmail: managerEmail,
+      await ManagerModel.deleteOne({
+        email: managerEmail,
         teamId: teamId,
       });
 
