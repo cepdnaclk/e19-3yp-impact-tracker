@@ -23,6 +23,7 @@
 body {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 *, *:before, *:after {
@@ -48,7 +49,7 @@ body {
   font-weight: 900;
   line-height: 1.2em;
   text-align: inherit;
-  max-width: 43.75rem;
+  max-width: fit-content;
   margin: 0 0 1rem 0;
   color: var(--headerColor);
   position: relative;
@@ -1915,21 +1916,23 @@ body {
       #meet-us-1021 .cs-picture {
           width: 100%;
           /* 246px - 500px */
-          height: clamp(15.375rem, 40vw, 32.25rem);
+          height: clamp(15rem, 20vw, 20rem);
           overflow: hidden;
-          display: block;
-          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position:relative;
           transition: background-color 0.3s;
           z-index: -1;
       }
       #meet-us-1021 .cs-picture img {
-          position: absolute;
+          position: relative;
           top: 0;
           left: 0;
           height: 100%;
-          width: 100%;
+          width:60%;
           /* makes it behave like a background imahe */
-          object-fit: cover;
+          object-fit: contain;
           /* makes the image position itself at the top of the parent */
           object-position: top;
           transition:
@@ -2398,9 +2401,163 @@ body {
     }
   }
                               
-                              
+/* =================================================================
+                            Video Gallery
+================================================================= */                            
 
 
+    .section-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px; 
+    }
+
+    .section-header h1 {
+      font: 400 32px "Montserrat", sans-serif;
+      text-transform: uppercase;
+    }
+    #video-gallery {
+      padding: var(--sectionPadding);
+      position: relative;
+      z-index: 1;
+  }
+  #video-gallery:before {
+      /* static tiled pattern  */
+      content: "";
+      height: 100%;
+      width: 100%;
+      opacity: 0.08;
+      background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
+      background-size: auto;
+      background-position: center;
+      background-repeat: repeat;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+  } 
+
+    .video-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+      grid-gap: 15px;
+      max-width: 1100px;
+      padding: 15px; 
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .video-gallery .gallery-item {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      background: #000;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .video-gallery .gallery-item img {
+      position: relative;
+      display: block;
+      width: 115%;
+      height: 300px;
+      object-fit: cover;
+      opacity: .5;
+      /*transition: opacity .35s, transform .35s;*/
+      transition: all 350ms ease-in-out;
+      transform: translate3d(-23px, 0, 0);
+      /*backface-visibility: hidden;*/
+    }
+
+    .north-cascades-img {
+      object-position: 50% 30%;
+    }
+
+    .video-gallery .gallery-item .gallery-item-caption {
+      padding: 32px;
+      font-size: 1em;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    .video-gallery .gallery-item .gallery-item-caption,
+    .video-gallery .gallery-item .gallery-item-caption > a {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .video-gallery .gallery-item h2 {
+      font-weight: 300;
+      overflow: hidden;
+      padding: 12px 0;
+    }
+
+    .video-gallery .gallery-item h2,
+    .video-gallery .gallery-item p {
+      position: relative;
+      margin: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .video-gallery .gallery-item p {
+      letter-spacing: 1px;
+      font-size: 12px;
+      padding: 12px 0;
+      opacity: 0;
+      transition: opacity 0.35s, transform 0.35s;
+      transform: translate3d(10%, 0, 0);
+    }
+
+    .video-gallery .gallery-item:hover img {
+      opacity: 0.3;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .video-gallery .gallery-item .gallery-item-caption {
+      text-align: left;
+    }
+
+    .video-gallery .gallery-item h2::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 15%;
+      height: 1px;
+      background: #fff;
+      transition: transform 0.3s;
+      transform: translate3d(-100%, 0, 0);
+    }
+
+    .video-gallery .gallery-item:hover h2::after {
+      transform: translate3d(0, 0, 0);
+    }
+
+    .video-gallery .gallery-item:hover p {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    /*
+    @media screen and (max-width: 784px) {
+      .video-gallery {
+        width: 100%;
+        padding: 15px;    
+
+      }
+      .video-gallery .gallery-item {
+        width: 95%;
+        margin: 0 auto; 
+        width: 100%;
+      }
+    }
+    */
             
 
 
