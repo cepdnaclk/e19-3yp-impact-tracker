@@ -291,8 +291,10 @@ class PlayerService {
       };
 
       // Flag to check whether player has at least one impact in the previous and current duration
-      let flagPrev: boolean = false;
-      let flagCurrent: boolean = false;
+      const flagsObject = {
+        flagPrev: false,
+        flagCurr: false,
+      };
 
       // Get Time period need to be get analytics
       const now = Date.now();
@@ -320,7 +322,7 @@ class PlayerService {
             filteredSessionsPrevious,
             impactStatsPrev,
             team.jerseyId,
-            flagPrev
+            flagsObject
           );
           // console.log("impactStatsPrev:", flagPrev);
         }
@@ -340,15 +342,15 @@ class PlayerService {
           team.jerseyId,
           analyticsSummary.histogramData,
           analyticsSummary.criticalSessions,
-          flagCurrent
+          flagsObject
         );
-
-        console.log("impactStatsCurr:", flagCurrent);
+        console.log("After calling calculationForSessions");
+        console.log("FLAGCurr:", flagsObject.flagCurr);
       }
 
-      console.log("impactStatsPrev:", flagPrev);
+      console.log("FLAGPrev:", flagsObject.flagPrev);
 
-      if (flagPrev || flagCurrent) {
+      if (flagsObject.flagPrev || flagsObject.flagCurr) {
         console.log("flagPrev || flagCurrent");
         // Fill up the analytics summary from impact stats ==> values
         analyticsSummary.summaryData[0].value =
@@ -377,7 +379,7 @@ class PlayerService {
         }
 
         // All time no need of trend
-        if (previous >= 0) {
+        if (previous >= 0 && flagsObject.flagPrev) {
           // Fill up the analytics summary from impact stats ==> trends
           analyticsSummary.summaryData[0].trend = Math.round(
             ((impactStatsCurr.impactsCumulative -
@@ -499,7 +501,7 @@ async function calculationForSessions(
   jerseyId: Number,
   histogramData: AnalyticsSummary["histogramData"],
   criticalSessions: AnalyticsSummary["criticalSessions"],
-  flagCurrent: boolean
+  flagsObject: { flagCurr: boolean; flagPrev: boolean }
 ): Promise<ImpactStats> {
   try {
     console.log("Curr#####");
@@ -526,26 +528,26 @@ async function calculationForSessions(
         if (impactPlayer.jerseyId === jerseyId) {
           // Player has at least one impact in the current duration
           console.log("impactPlayer.jerseyId, jerseyId Current");
-          console.log(impactPlayer.jerseyId, jerseyId);
-          flagCurrent = true;
 
+          flagsObject.flagCurr = true;
+          console.log("flagCurrebt:" + flagsObject.flagCurr);
           // For each impact in the impact Player
           for (const impact of impactPlayer.impact) {
             //Session Analytics
             impactCountForSession += 1;
-            console.log("impactCountForSession: " + impactCountForSession);
+            // console.log("impactCountForSession: " + impactCountForSession);
 
             sessionAnalyticsItem.cumulative += impact.magnitude;
-            console.log(
-              "sessionAnalyticsItem.cumulative: " +
-                sessionAnalyticsItem.cumulative
-            );
+            // // console.log(
+            //   "sessionAnalyticsItem.cumulative: " +
+            //     sessionAnalyticsItem.cumulative
+            // );
 
             if (sessionAnalyticsItem.highest < impact.magnitude) {
               sessionAnalyticsItem.highest = impact.magnitude;
-              console.log(
-                "sessionAnalyticsItem.highest: " + sessionAnalyticsItem.highest
-              );
+              // console.log(
+              //   "sessionAnalyticsItem.highest: " + sessionAnalyticsItem.highest
+              // );
             }
 
             sessionAnalyticsItem.average =
@@ -555,17 +557,17 @@ async function calculationForSessions(
             );
 
             console.log("sessionAnalyticsItem###########3:");
-            console.log(sessionAnalyticsItem);
+            // console.log(sessionAnalyticsItem);
 
             // Update the impact stats
             stats.impactsCumulative += impact.magnitude;
-            console.log("stats.impactsCumulative: " + stats.impactsCumulative);
+            // console.log("stats.impactsCumulative: " + stats.impactsCumulative);
 
             stats.impactsRecorded += 1;
-            console.log("stats.impactsRecorded: " + stats.impactsRecorded);
+            // console.log("stats.impactsRecorded: " + stats.impactsRecorded);
             if (stats.highestImpact < impact.magnitude) {
               stats.highestImpact = impact.magnitude;
-              console.log("stats.highestImpact: " + stats.highestImpact);
+              // console.log("stats.highestImpact: " + stats.highestImpact);
             }
             stats.directionCount[
               impact.direction as keyof typeof stats.directionCount
@@ -573,35 +575,37 @@ async function calculationForSessions(
             console.log("stats.directionCount: " + stats.directionCount);
 
             const index = Math.floor(impact.magnitude / 20);
-            console.log("index: " + index);
-            console.log(impact.direction as keyof typeof histogramData);
+            // console.log("index: " + index);
+            // console.log(impact.direction as keyof typeof histogramData);
 
             histogramData[impact.direction as keyof typeof histogramData][
               index
             ] += 1;
-            console.log(histogramData);
-            console.log("histogramData:");
-            console.log(impact.magnitude, impact.direction);
-            console.log(histogramData);
+            // console.log(histogramData);
+            // console.log("histogramData:");
+            // console.log(impact.magnitude, impact.direction);
+            // console.log(histogramData);
 
-            console.log(stats);
+            // console.log(stats);
           }
           console.log("End of each impact in the impact Player Loop");
-
+          console.log("flagCurrebt:" + flagsObject.flagCurr);
           // Round off the average impact
         }
       }
 
       sessionAnalyticsItem.average = Math.round(sessionAnalyticsItem.average);
-      console.log(
-        "sessionAnalyticsItem.average: " + sessionAnalyticsItem.average
-      );
+      // console.log(
+      //   "sessionAnalyticsItem.average: " + sessionAnalyticsItem.average
+      // );
 
       console.log("End of each impactPlayer in the session Loop");
 
       // If length of crirtical sessions<3 => directly push to the critical sessions
       // Else: sort by cumulative impact => remove the least one and push only if least<current cumulative
-      if (flagCurrent) {
+
+      console.log("flagCurrent:" + flagsObject.flagCurr);
+      if (flagsObject.flagCurr) {
         if (criticalSessions.length < 3) {
           criticalSessions.push(sessionAnalyticsItem);
         } else {
@@ -632,7 +636,7 @@ async function calculationForSessionsPrev(
   sessions: Array<SessionResponse>,
   stats: ImpactStats,
   jerseyId: Number,
-  flagPrev: boolean
+  flagsObject: { flagCurr: boolean; flagPrev: boolean }
 ): Promise<ImpactStats> {
   try {
     // console.log("Previous##")
@@ -644,7 +648,7 @@ async function calculationForSessionsPrev(
         console.log(impactPlayer.jerseyId, jerseyId);
         if (impactPlayer.jerseyId === jerseyId) {
           // Player has at least one impact in the previous duration
-          flagPrev = true;
+          flagsObject.flagPrev = true;
           // For each impact in the impact Player
           for (const impact of impactPlayer.impact) {
             // Update the impact stats
