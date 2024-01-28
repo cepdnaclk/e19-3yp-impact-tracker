@@ -144,17 +144,17 @@ class ManagersInTeamService {
         {
           title: "Sessions",
           value: 0,
-          trend: 0,
+          trend: '--',
         },
         {
           title: "Impacts Recorded",
           value: 0,
-          trend: 0,
+          trend: '--',
         },
         {
           title: "Contributing Players",
           value: 0,
-          trend: 0,
+          trend: '--',
         },
         {
           title: "Highest Contributor",
@@ -167,7 +167,7 @@ class ManagersInTeamService {
     try {
       // Find the all the sessions for the team
       const sessions = await SessionModel.find({ teamId: teamId });
-      // console.log(sessions);
+      console.log(sessions);
 
       //get all the playrs of the team (players in team)
       const teamPlayers = await this.getPlayersInTeam(teamId);
@@ -257,11 +257,11 @@ class ManagersInTeamService {
       await this.calculationForSessions(filteredSessionsCurrent, analyticsSummary.tableData);
       await this.calculationForSessions(filteredSessionsPrevious, tableDataPrev);
 
-      // console.log("analyticsSummary.tableData:");
-      // console.log(analyticsSummary.tableData);
-      // console.log("tableDataPrev:");
-      // console.log(tableDataPrev);
-      // console.log(filteredSessionsCurrent);
+      console.log("analyticsSummary.tableData:");
+      console.log(analyticsSummary.tableData);
+      console.log("tableDataPrev:");
+      console.log(tableDataPrev);
+      console.log(filteredSessionsCurrent);
 
       await this.calculationSummaryData(tableDataPrev, analyticsSummary.tableData, analyticsSummary.summaryData, jerseyIds);
 
@@ -324,7 +324,7 @@ class ManagersInTeamService {
                 }
 
                 playerData.average_impact = playerData.cumulative_impact / playerData.impacts_recorded;
-                
+
                 directionCount[impact.direction as keyof typeof directionCount] += 1;
 
                 // console.log(playerData)
@@ -346,10 +346,13 @@ class ManagersInTeamService {
           const maxValueCurr = Math.max(...Object.values(directionCount));
           const maxKeyCurr = Object.keys(directionCount).find(key => directionCount[key as keyof typeof directionCount] === maxValueCurr);
           playerData.dominant_direction = maxKeyCurr as ImpactDirection;
+          console.log("maxValueCurr: "+maxValueCurr);
+          console.log("maxKeyCurr: "+maxKeyCurr);
+          console.log("playerData.dominant_direction: " + playerData.dominant_direction);
         }
         
-
-        // console.log(playerData);
+        console.log("playerData:")
+        console.log(playerData);
       }
     }catch (error) {
       console.error(error);
