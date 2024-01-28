@@ -17,6 +17,8 @@ import { renewAccessToken } from "../../../services/authService";
 import { BASE_URL } from "../../../config/config";
 import Spinner from "../../StatusScreens/Spinner";
 import { Manager } from "../../../types";
+import { FieldValues, useForm } from "react-hook-form";
+import { showErrorPopup } from "../../../utils/popup";
 
 const ManagerProfile = () => {
   // Get team-id
@@ -52,6 +54,37 @@ const ManagerProfile = () => {
     console.log(responseData);
     return responseData;
   }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm();
+
+  const onSubmit = async (data: FieldValues) => {
+    renewAccessToken();
+    const response = await fetch(`${BASE_URL}/manager/remove`, {
+      method: "DELETE",
+      body: JSON.stringify({
+        email: data.email,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+    const responseData = await response.json();
+    setAddManagerOpen(false);
+    if (response.ok) {
+      // for debugging
+      console.log("response OK", responseData);
+    } else {
+      await showErrorPopup("Error", responseData.message);
+    }
+
+    reset();
+  };
 
   if (!isInternetAvailable) {
     //show no internet connection component
@@ -110,10 +143,7 @@ const ManagerProfile = () => {
             >
               <form
                 className={styles.addManagerForm}
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setAddManagerOpen(false);
-                }}
+                onSubmit={handleSubmit(onSubmit)}
               >
                 {/* <label htmlFor="manager_name">Manager Name</label>
                 <input
@@ -130,12 +160,13 @@ const ManagerProfile = () => {
                   </span> */}
                 </label>
                 <input
+                  {...register("email", { required: true })}
                   type="email"
                   name="email"
                   id="email"
                   placeholder="johndoe@gmail.com"
                 />
-                <Btn type="submit" Icon={FaPlus}>
+                <Btn disabled={isSubmitting} type="submit" Icon={FaPlus}>
                   Invite Manager
                 </Btn>
               </form>
