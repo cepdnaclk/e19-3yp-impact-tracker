@@ -1,3 +1,4 @@
+import ManagerModel from "../db/manager.schema";
 import ManagerTeamModel from "../db/managers.in.team.schema";
 import PlayerTeamModel from "../db/players.in.team.schema";
 import SessionModel from "../db/session.schema";
@@ -9,12 +10,13 @@ class ManagersInTeamService {
   // create team manager instance
   async addManagerToTeam(
     managerEmail: string,
-    teamId: string
+    teamId: string,
+    invitationToken: string
   ): Promise<ManagerTeamResponse> {
     try {
       // check entry exists
       // don't need really
-      const managerTeam = await ManagerTeamModel.findOne({
+      const managerTeam = await ManagerModel.findOne({
         managerEmail: managerEmail,
         teamId: teamId,
       });
@@ -23,19 +25,20 @@ class ManagersInTeamService {
         throw new Error("Manager already exists in the team");
       }
 
-      const managerTeamInstance = new ManagerTeamModel({
-        managerEmail: managerEmail,
+      const managerInstance = new ManagerModel({
+        email: managerEmail,
         teamId: teamId,
-        accepted: "pending",
+        isVerified: "pending",
+        invitationToken: invitationToken,
       });
 
       // Save the manager to the database
-      const savedManager = await managerTeamInstance.save();
+      const savedManager = await managerInstance.save();
 
       const managerResponse = new ManagerTeamResponse(
-        savedManager.managerEmail,
+        savedManager.email,
         savedManager.teamId,
-        savedManager.accepted
+        savedManager.isVerified
       );
       return managerResponse;
     } catch (error) {
@@ -56,11 +59,11 @@ class ManagersInTeamService {
         teamId: teamId,
       });
 
-      if (!managerTeam) {
+      if (managerTeam) {
+        return true;
+      }else{
         return false;
       }
-
-      return true;
     } catch (error) {
       console.error(error);
       throw error;

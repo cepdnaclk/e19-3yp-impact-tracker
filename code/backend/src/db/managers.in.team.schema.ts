@@ -10,7 +10,7 @@ const verificationStatusValidator = function(value: string) {
   if (!['pending', 'verified', 'rejected'].includes(value)) {
     throw new Error('Invalid verification status');
   }
-};
+}; 
 
 const managerTeamSchema = new Schema({
   managerEmail: String,

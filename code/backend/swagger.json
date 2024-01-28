@@ -265,12 +265,6 @@
       }
     },
 
-    
-
-
-
-
-
     "/manager/exists/{email}/{teamId}": {
       "get": {
         "tags": ["ManagerEndpoints"],
@@ -1197,14 +1191,10 @@
         "properties": {
           "managerEmail": {
             "type": "string"
-          },
-          "teamId": {
-            "type": "string"
           }
         },
         "example": {
-          "managerEmail": "example@example.com",
-          "teamId": "teamId"
+          "managerEmail": "example@example.com"
         }
       },
 

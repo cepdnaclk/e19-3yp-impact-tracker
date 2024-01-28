@@ -92,7 +92,7 @@ class ManagerController {
       // check the manager exits in that team
       const managerExists = await managerService.checkManagerExistsInTeam(
         managerEmail,
-        teamId
+        teamId 
       );
 
       const newManagerExists = await managerService.checkManagerExistsInTeam(
@@ -122,7 +122,8 @@ class ManagerController {
 
       const managerTeamAdded = await managersInTeamService.addManagerToTeam(
         newManagerEmail,
-        teamId
+        teamId,
+        invitationToken
       );
 
       const teamInstance = await TeamModel.findOne({ teamId });

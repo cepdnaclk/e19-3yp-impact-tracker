@@ -41,10 +41,10 @@ router.post("/add", async (req: Request, res: Response) => {
       managerEmail,
       newManagerEmail,
       teamId
-    );
+    ); 
 
     if (state) {
-      res.send(HttpMsg.MANAGER_ADD_SUCCESS + " " + state);
+      res.send(HttpMsg.MANAGER_ADD_SUCCESS);
     } else {
       res.send({ message: HttpMsg.MANAGER_ADD_FAILED });
     }
