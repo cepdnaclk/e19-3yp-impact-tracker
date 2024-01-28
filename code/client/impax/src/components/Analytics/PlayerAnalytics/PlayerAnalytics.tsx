@@ -128,20 +128,22 @@ const PlayerAnalytics = () => {
               {AnalyticsSummaryPlayer?.criticalSessions?.length == 0 && (
                 <p className={styles.noSessions}>No sessions recorded</p>
               )}
-              {AnalyticsSummaryPlayer?.criticalSessions?.map((session) => (
-                <div
-                  className={styles.criticalSessionContainer}
-                  key={session.name}
-                >
-                  <CriticalSession
-                    name={session.name}
-                    date={session.date}
-                    cumulative={session.cumulative}
-                    average={session.average}
-                    highest={session.highest}
-                  />
-                </div>
-              ))}
+              {AnalyticsSummaryPlayer?.criticalSessions
+                ?.sort((a, b) => b.cumulative - a.cumulative)
+                .map((session) => (
+                  <div
+                    className={styles.criticalSessionContainer}
+                    key={session.name}
+                  >
+                    <CriticalSession
+                      name={session.name}
+                      date={session.date}
+                      cumulative={session.cumulative}
+                      average={session.average}
+                      highest={session.highest}
+                    />
+                  </div>
+                ))}
             </div>
           </div>
         </>

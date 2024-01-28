@@ -15,45 +15,49 @@ import { MyTeam } from "../../../types";
 import { Verification } from "../../PlayerManagement/PlayersTable/Verification/Verification";
 import TeamActions from "./TeamsActions";
 
-const columns: ColumnDef<MyTeam>[] = [
-  {
-    accessorKey: "team_id",
-    size: 60,
-    id: "team_id",
-    header: "Team ID",
-  },
+const MyTeamsTable: React.FC<{
+  playerProfileTable: MyTeam[];
+  handleActions: () => void;
+}> = ({ playerProfileTable, handleActions }) => {
+  const columns: ColumnDef<MyTeam>[] = [
+    {
+      accessorKey: "team_id",
+      size: 60,
+      id: "team_id",
+      header: "Team ID",
+    },
 
-  {
-    accessorKey: "team_name",
-    header: "Team Name",
-    id: "team_name",
-    size: 80,
-  },
+    {
+      accessorKey: "team_name",
+      header: "Team Name",
+      id: "team_name",
+      size: 80,
+    },
 
-  {
-    accessorKey: "verification",
-    header: "Verification",
-    id: "verification",
-    size: 10,
-    cell: ({ row }) => <Verification status={row.getValue("verification")} />,
-  },
-  {
-    accessorKey: "edit",
-    header: "",
-    id: "edit",
-    size: 20,
-    cell: ({ row }) => (
-      <TeamActions
-        team_id={row.getValue("team_id")}
-        team_name={row.getValue("team_name")}
-        verification={row.getValue("verification")}
-      />
-    ),
-  },
-];
-const MyTeamsTable: React.FC<{ playerProfileTable: MyTeam[] }> = ({
-  playerProfileTable,
-}) => {
+    {
+      accessorKey: "verification",
+      header: "Verification",
+      id: "verification",
+      size: 10,
+      cell: ({ row }) => <Verification status={row.getValue("verification")} />,
+    },
+    {
+      accessorKey: "edit",
+      header: "",
+      id: "edit",
+      size: 20,
+      cell: ({ row }) => (
+        <TeamActions
+          myTeam={{
+            team_id: row.getValue("team_id"),
+            team_name: row.getValue("team_name"),
+            verification: row.getValue("verification"),
+          }}
+          handleActions={handleActions}
+        />
+      ),
+    },
+  ];
   const [data] = React.useState(() => [...playerProfileTable]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(

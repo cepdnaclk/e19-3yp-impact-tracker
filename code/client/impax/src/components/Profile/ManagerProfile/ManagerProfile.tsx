@@ -12,6 +12,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NoInternetConnection from "../../StatusScreens/NoInternetConnection";
 import { useAppState } from "../../../states/appState";
+import { useQuery } from "@tanstack/react-query";
+import { renewAccessToken } from "../../../services/authService";
+import { BASE_URL } from "../../../config/config";
+import Spinner from "../../StatusScreens/Spinner";
+import { Manager } from "../../../types";
+import { FieldValues, useForm } from "react-hook-form";
+import { showErrorPopup } from "../../../utils/popup";
 
 const ManagerProfile = () => {
   // Get team-id
@@ -27,6 +34,62 @@ const ManagerProfile = () => {
   const [addManagerOpen, setAddManagerOpen] = useState<boolean>(false);
 
   const isInternetAvailable = useAppState((state) => state.isInternetAvailable);
+
+  const {
+    data: managerProfileData,
+    isLoading,
+    refetch: refetchManagers,
+  } = useQuery({
+    queryFn: () => fetchManagersTableData(),
+    queryKey: ["data"],
+  });
+  async function fetchManagersTableData(): Promise<Manager[]> {
+    // Renew access Token
+    await renewAccessToken();
+    const response = await fetch(`${BASE_URL}/manager/getTeamManagers`, {
+      // Use the constructed URL with query params
+      method: "GET", // Change the method to GET
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        "Content-Type": "application/json", // Keep the Content-Type header for consistency
+      },
+    });
+    const responseData = await response.json();
+    console.log(responseData);
+    return responseData;
+  }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm();
+
+  const onSubmit = async (data: FieldValues) => {
+    renewAccessToken();
+    const response = await fetch(`${BASE_URL}/manager/add`, {
+      method: "POST",
+      body: JSON.stringify({
+        managerEmail: data.email,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+    // const responseData = await response.json();
+    setAddManagerOpen(false);
+    if (response.ok) {
+      // for debugging
+      console.log("response OK", response);
+    } else {
+      await showErrorPopup("Error", "Please Try Again!");
+    }
+
+    reset();
+  };
+
   if (!isInternetAvailable) {
     //show no internet connection component
     if (!isInternetAvailable) {
@@ -84,10 +147,7 @@ const ManagerProfile = () => {
             >
               <form
                 className={styles.addManagerForm}
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setAddManagerOpen(false);
-                }}
+                onSubmit={handleSubmit(onSubmit)}
               >
                 {/* <label htmlFor="manager_name">Manager Name</label>
                 <input
@@ -104,19 +164,30 @@ const ManagerProfile = () => {
                   </span> */}
                 </label>
                 <input
+                  {...register("email", { required: true })}
                   type="email"
                   name="email"
                   id="email"
                   placeholder="johndoe@gmail.com"
                 />
-                <Btn type="submit" Icon={FaPlus}>
+                <Btn disabled={isSubmitting} type="submit" Icon={FaPlus}>
                   Invite Manager
                 </Btn>
               </form>
             </DialogModal>
           </div>
           <div className={styles.managersTableContainer}>
-            <ManagersTable />
+            {isLoading || managerProfileData === undefined ? (
+              <div className={styles.spinnerContainer}>
+                <Spinner />
+              </div>
+            ) : (
+              <ManagersTable
+                managerProfileData={managerProfileData}
+                handleAction={refetchManagers}
+                key={managerProfileData.length}
+              />
+            )}
           </div>
         </div>
       </div>
