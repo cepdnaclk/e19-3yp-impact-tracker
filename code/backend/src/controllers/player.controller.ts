@@ -51,6 +51,7 @@ class PlayerController {
         const teamInstance = await TeamModel.findOne({ teamId });
         const teamName = teamInstance?.teamName; // Add null check using optional chaining operator
 
+
         const playerInTeamResponse = await playersInTeamService.addPlayerToTeam(
           newPlayerEmail, 
           teamId,
@@ -60,7 +61,9 @@ class PlayerController {
         );
 
         // Send the invitation email
+        
         await sendInvitationEmail(fullName, newPlayerEmail, invitationToken, teamName!);
+        
         return playerInTeamResponse
       }
 
@@ -106,6 +109,7 @@ class PlayerController {
         //   password
         // );
         
+  
         // Create a player with an invitation token
         const invitationToken = generateInvitationToken();
         const playerResponse = await playerService.createPlayer(email, password, invitationToken);
