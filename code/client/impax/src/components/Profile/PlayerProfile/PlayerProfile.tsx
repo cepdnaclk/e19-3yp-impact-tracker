@@ -12,6 +12,8 @@ import NoInternetConnection from "../../StatusScreens/NoInternetConnection";
 import { useQuery } from "@tanstack/react-query";
 import { renewAccessToken } from "../../../services/authService";
 import { BASE_URL } from "../../../config/config";
+import { MyTeam } from "../../../types";
+import Spinner from "../../StatusScreens/Spinner";
 
 const PlayerProfile = () => {
   // Get team-id
@@ -24,11 +26,11 @@ const PlayerProfile = () => {
   const setLoginInfo = useLoginState((state) => state.setLoginInfo);
   const navigate = useNavigate();
 
-  const { data: playerProfileTable, isLoading } = useQuery({
+  const { data: myTeamsData, isLoading } = useQuery({
     queryFn: () => fetchplayerProfileTableData(),
-    queryKey: ["playerProfileData"],
+    queryKey: ["data"],
   });
-  async function fetchplayerProfileTableData() {
+  async function fetchplayerProfileTableData(): Promise<MyTeam[]> {
     // Renew access Token
     await renewAccessToken();
     const response = await fetch(`${BASE_URL}/player/myTeams`, {
@@ -55,8 +57,6 @@ const PlayerProfile = () => {
       );
     }
   }
-
-  console.log(playerProfileTable);
 
   // TODO: Stay logged in for 90 days and so much more
   return (
@@ -89,7 +89,13 @@ const PlayerProfile = () => {
         <div className={styles.myTeamsContainer}>
           <h2>My Teams</h2>
           <div className={styles.tableContainer}>
-            <MyTeamsTable playerProfileTable={playerProfileTable} />
+            {isLoading || myTeamsData === undefined ? (
+              <div className={styles.spinnerContainer}>
+                <Spinner />
+              </div>
+            ) : (
+              <MyTeamsTable playerProfileTable={myTeamsData} />
+            )}
           </div>
         </div>
       </div>

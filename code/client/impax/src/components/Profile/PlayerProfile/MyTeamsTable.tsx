@@ -13,11 +13,7 @@ import {
 } from "@tanstack/react-table";
 import { MyTeam } from "../../../types";
 import { Verification } from "../../PlayerManagement/PlayersTable/Verification/Verification";
-import { myTeams } from "./myTeams";
 import TeamActions from "./TeamsActions";
-import { useQuery } from "@tanstack/react-query";
-import { renewAccessToken } from "../../../services/authService";
-import { BASE_URL } from "../../../config/config";
 
 const columns: ColumnDef<MyTeam>[] = [
   {
