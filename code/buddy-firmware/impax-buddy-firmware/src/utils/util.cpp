@@ -69,8 +69,8 @@ int getBatteryStatus()
 
     if (voltage > VOLTAGE_UPPER_LIMIT || percentage > 100)
         return 100;
-    else if (voltage <= VOLTAGE_LOWER_LIMIT || percentage <= 0)
-        return 0;
+    else if (voltage <= VOLTAGE_LOWER_LIMIT || percentage <= 1)
+        return 1;
 
     return percentage;
 }
