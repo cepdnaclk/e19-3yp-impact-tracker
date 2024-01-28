@@ -42,7 +42,6 @@ const PlayerProfile = () => {
       },
     });
     const responseData = await response.json();
-    console.log(responseData.teams);
     return responseData.teams;
   }
   const isInternetAvailable = useAppState((state) => state.isInternetAvailable);

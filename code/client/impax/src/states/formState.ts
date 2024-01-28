@@ -52,7 +52,7 @@ export const useSignupState = create<SignupState>()((set) => ({
   },
 
   isLoggedInManager: localStorage.getItem("isLoggedInManager") === "true",
-  // isLoggedInManager: false,
+  // isLoggedInManager: true,
 
   setIsLoggedInManager: (isLoggedInManager) => {
     set({ isLoggedInManager: isLoggedInManager }),
