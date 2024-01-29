@@ -16,6 +16,7 @@ import {
 } from "../types/types";
 import SessionModel from "../db/session.schema";
 import ManagerModel from "../db/manager.schema";
+import authService from "./auth.service";
 
 class TeamService {
   // delete team
@@ -133,8 +134,17 @@ class TeamService {
           email: email,
           teamId: teamId,
         });
+        const managerAuth = await authService.checkAuthExistsForManager(
+          email,
+          teamId
+        );
+
         if (manager) {
-          teamIdEmailExistsResponseWithIsVerified.managerExists = true;
+          if (!managerAuth) {
+            teamIdEmailExistsResponseWithIsVerified.managerExists = false;
+          } else {
+            teamIdEmailExistsResponseWithIsVerified.managerExists = true;
+          }
           teamIdEmailExistsResponseWithIsVerified.isVerified =
             manager.isVerified;
         }

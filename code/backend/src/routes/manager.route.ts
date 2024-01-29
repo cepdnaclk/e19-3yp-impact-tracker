@@ -400,8 +400,13 @@ router.put("/join-team", async (req: Request, res: Response) => {
         email: email,
         teamId: teamId,
       });
+      const managerAuth = await authService.checkAuthExistsForManager(
+        email,
+        teamId
+      );
 
-      if (manager) {
+      console.log(manager, managerAuth);
+      if (manager && !managerAuth) {
         if (manager.isVerified == "pending") {
           throw new Error(HttpMsg.MANAGER_NOT_VERIFIED);
         } else {
