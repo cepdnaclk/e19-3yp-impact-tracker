@@ -31,7 +31,7 @@ const JoinTeam = () => {
     // console.log(data);
     console.log(request);
     // TODO: Change the URL to the backend
-    const response = await fetch(`${BASE_URL}/%%%%%`, {
+    const response = await fetch(`${BASE_URL}/manager/join-team`, {
       method: "POST",
       body: JSON.stringify(request),
       headers: {
