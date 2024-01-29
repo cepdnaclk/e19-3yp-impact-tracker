@@ -397,11 +397,43 @@
         }
       }
     },
+
+    "/manager/remove": {
+      "delete": {
+        "tags": ["ManagerEndpoints"],
+        "summary": "Remove a manager from a team by email and Team ID - Access Token required (Only Manager can access)",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ManagerRemoveRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Manager removed from team successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/manager/getTeamPlayers": {
       "get": {
         "tags": ["ManagerEndpoints"],
         "summary": "Get all players of a team - Access Token required",
-        
+
         "responses": {
           "200": {
             "description": "Success",
@@ -490,9 +522,34 @@
         }
       }
     },
+    "/manager/getTeamManagers": {
+      "get": {
+        "tags": ["ManagerEndpoints"],
+        "summary": "Get all managers of a team - Access Token required",
 
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/TeamManagersResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
 
-    
     "/player": {
       "post": {
         "tags": ["PlayerEndpoints"],
@@ -524,7 +581,7 @@
       "get": {
         "tags": ["PlayerEndpoints"],
         "summary": "Get player details",
-        
+
         "responses": {
           "200": {
             "description": "Success",
@@ -546,7 +603,6 @@
           }
         }
       }
-
     },
 
     "/player/myTeams": {
@@ -576,7 +632,7 @@
         }
       }
     },
-    
+
     "/player/analytics-summary/{duration}": {
       "get": {
         "tags": ["PlayerEndpoints"],
@@ -658,7 +714,6 @@
             "content": {
               "application/json": {
                 "$ref": "#/components/schemas/PlayerResponse"
-                
               }
             }
           },
@@ -674,7 +729,7 @@
           }
         }
       }
-    },    
+    },
     "/player/remove": {
       "delete": {
         "tags": ["PlayerEndpoints"],
@@ -756,11 +811,6 @@
         }
       }
     },
-    
-
-
-
-
 
     "/hub/credetials": {
       "post": {
@@ -880,7 +930,7 @@
         }
       }
     },
-    
+
     "/login/player": {
       "post": {
         "tags": ["LoginEndpoints"],
@@ -1002,16 +1052,10 @@
                   "type": "string"
                 },
                 "value": {
-                  "anyOf": [
-                    { "type": "string" },
-                    { "type": "number" }
-                  ]
+                  "anyOf": [{ "type": "string" }, { "type": "number" }]
                 },
                 "trend": {
-                  "anyOf": [
-                    { "type": "string" },
-                    { "type": "number" }
-                  ]
+                  "anyOf": [{ "type": "string" }, { "type": "number" }]
                 }
               }
             }
@@ -1019,32 +1063,30 @@
           "tableData": {
             "type": "object",
             "properties": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "impactsRecorded": {
-                    "type": "number"
-                  },
-                  "cumulativeImpact": {
-                    "type": "number"
-                  },
-                  "highestImpact": {
-                    "type": "number"
-                  },
-                  "averageImpact": {
-                    "type": "number"
-                  },
-                  "dominantDirection": {
-                    "type": "number"
-                  },
-                  "concussions": {
-                    "type": "number"
-                  }
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "impactsRecorded": {
+                  "type": "number"
+                },
+                "cumulativeImpact": {
+                  "type": "number"
+                },
+                "highestImpact": {
+                  "type": "number"
+                },
+                "averageImpact": {
+                  "type": "number"
+                },
+                "dominantDirection": {
+                  "type": "number"
+                },
+                "concussions": {
+                  "type": "number"
                 }
-                
-              
+              }
             }
           }
         },
@@ -1077,31 +1119,28 @@
             }
           ],
           "tableData": {
-              "69": {
-                "name": "Angelo Mathews",
-                "impactsRecorded": 50,
-                "cumulativeImpact": 850,
-                "highestImpact": 25,
-                "averageImpact": 20,
-                "dominantDirection": "Left",
-                "concussions": 2
-              },
-              "55": {
-                "name": "Kusal Perera",
-                "impactsRecorded": 50,
-                "cumulativeImpact": 850,
-                "highestImpact": 25,
-                "averageImpact": 20,
-                "dominantDirection": "Left",
-                "concussions": 2
-              }
-            
+            "69": {
+              "name": "Angelo Mathews",
+              "impactsRecorded": 50,
+              "cumulativeImpact": 850,
+              "highestImpact": 25,
+              "averageImpact": 20,
+              "dominantDirection": "Left",
+              "concussions": 2
+            },
+            "55": {
+              "name": "Kusal Perera",
+              "impactsRecorded": 50,
+              "cumulativeImpact": 850,
+              "highestImpact": 25,
+              "averageImpact": 20,
+              "dominantDirection": "Left",
+              "concussions": 2
+            }
           }
-          
         }
-    }, 
+      },
 
-      
       "SessionRequest": {
         "type": "object",
         "properties": {
@@ -1150,7 +1189,7 @@
           }
         }
       },
-      
+
       "HubRequest": {
         "type": "object",
         "properties": {
@@ -1249,8 +1288,28 @@
             "email": "kusal_perera@gmail.com",
             "verification": "verified"
           }
-          
         }
+      },
+      "TeamManagersResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "schemas": {
+            "$ref": "#/components/schemas/ManagersResponse"
+          }
+        },
+        "example": [
+          {
+            "name": "Angelo Mathews",
+            "email": "angelomathews@gmail.com",
+            "verification": "verified"
+          },
+          {
+            "name": "Kusal Perera",
+            "email": "kusal_perera@gmail.com",
+            "verification": "verified"
+          }
+        ]
       },
 
       "Player": {
@@ -1271,140 +1330,136 @@
         }
       },
 
-
       "AnalyticsSummary": {
-          "type": "object",
-          "properties": {
-            "summaryData": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string"
-                  },
-                  "value": {
-                    "anyOf": [
-                      { "type": "string" },
-                      { "type": "number" }
-                    ]
-                  },
-                  "trend": {
-                    "anyOf": [
-                      { "type": "number" },
-                      { "$ref": "#/components/schemas/ImpactDirection" }
-                    ]
-                  }
-                }
-              }
-            },
-            "histogramData": {
+        "type": "object",
+        "properties": {
+          "summaryData": {
+            "type": "array",
+            "items": {
               "type": "object",
               "properties": {
-                "left": {
-                  "type": "array",
-                  "items": {
-                    "type": "number"
-                  }
+                "title": {
+                  "type": "string"
                 },
-                "right": {
-                  "type": "array",
-                  "items": {
-                    "type": "number"
-                  }
+                "value": {
+                  "anyOf": [{ "type": "string" }, { "type": "number" }]
                 },
-                "front": {
-                  "type": "array",
-                  "items": {
-                    "type": "number"
-                  }
-                },
-                "back": {
-                  "type": "array",
-                  "items": {
-                    "type": "number"
-                  }
-                }
-              }
-            },
-            "criticalSessions": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "session_name": {
-                    "type": "string"
-                  },
-                  "session_date": {
-                    "type": "string"
-                  },
-                  "cumulative_impact": {
-                    "type": "number"
-                  },
-                  "average_impact": {
-                    "type": "number"
-                  },
-                  "largest_impact": {
-                    "type": "number"
-                  }
+                "trend": {
+                  "anyOf": [
+                    { "type": "number" },
+                    { "$ref": "#/components/schemas/ImpactDirection" }
+                  ]
                 }
               }
             }
           },
-          "example": {
-            "summaryData": [
-              {
-                "title": "Cumulative Impacts",
-                "value": "850 g",
-                "trend": -20
+          "histogramData": {
+            "type": "object",
+            "properties": {
+              "left": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
               },
-              {
-                "title": "Impacts Recorded",
-                "value": "50",
-                "trend": 20
+              "right": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
               },
-              {
-                "title": "Average Impact",
-                "value": "43 g",
-                "trend": 40
+              "front": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
               },
-              {
-                "title": "Dominant Direction",
-                "value": "Left",
-                "trend": 10
+              "back": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
               }
-            ],
-            "histogramData": {
-              "left": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0],
-              "right": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0],
-              "front": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0],
-              "back": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0]
-            },
-            "criticalSessions": [
-              {
-                "session_name": "Session 1",
-                "session_date": "2024-01-22",
-                "cumulative_impact": 50,
-                "average_impact": 20,
-                "largest_impact": 25
-              },
-              {
-                "session_name": "Session 2",
-                "session_date": "2024-01-23",
-                "cumulative_impact": 70,
-                "average_impact": 20,
-                "largest_impact": 20
-              },
-              {
-                "session_name": "Session 3",
-                "session_date": "2024-01-24",
-                "cumulative_impact": 90,
-                "average_impact": 20,
-                "largest_impact": 25
+            }
+          },
+          "criticalSessions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "session_name": {
+                  "type": "string"
+                },
+                "session_date": {
+                  "type": "string"
+                },
+                "cumulative_impact": {
+                  "type": "number"
+                },
+                "average_impact": {
+                  "type": "number"
+                },
+                "largest_impact": {
+                  "type": "number"
+                }
               }
-            ]
+            }
           }
-      }, 
+        },
+        "example": {
+          "summaryData": [
+            {
+              "title": "Cumulative Impacts",
+              "value": "850 g",
+              "trend": -20
+            },
+            {
+              "title": "Impacts Recorded",
+              "value": "50",
+              "trend": 20
+            },
+            {
+              "title": "Average Impact",
+              "value": "43 g",
+              "trend": 40
+            },
+            {
+              "title": "Dominant Direction",
+              "value": "Left",
+              "trend": 10
+            }
+          ],
+          "histogramData": {
+            "left": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0],
+            "right": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0],
+            "front": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0],
+            "back": [0, 1, 4, 0, 0, 0, 0, 0, 0, 0]
+          },
+          "criticalSessions": [
+            {
+              "session_name": "Session 1",
+              "session_date": "2024-01-22",
+              "cumulative_impact": 50,
+              "average_impact": 20,
+              "largest_impact": 25
+            },
+            {
+              "session_name": "Session 2",
+              "session_date": "2024-01-23",
+              "cumulative_impact": 70,
+              "average_impact": 20,
+              "largest_impact": 20
+            },
+            {
+              "session_name": "Session 3",
+              "session_date": "2024-01-24",
+              "cumulative_impact": 90,
+              "average_impact": 20,
+              "largest_impact": 25
+            }
+          ]
+        }
+      },
 
       "ImpactDirection": {
         "type": "string",
@@ -1423,7 +1478,7 @@
           "jerseyId": 80
         }
       },
-  
+
       "PlayerRemoveResponse": {
         "type": "object",
         "properties": {
@@ -1438,14 +1493,13 @@
       "PlayerTeamRequest": {
         "type": "object",
         "properties": {
-          
           "jerseyId": {
             "type": "number"
           },
           "fullName": {
             "type": "string"
           },
-          
+
           "playerEmail": {
             "type": "string"
           }
@@ -1459,18 +1513,17 @@
       "PlayerTeamResponse": {
         "type": "object",
         "properties": {
-          
           "jerseyId": {
             "type": "number"
           },
           "fullName": {
             "type": "string"
           },
-          
+
           "playerEmail": {
             "type": "string"
           },
-          "teamId":{
+          "teamId": {
             "type": "string"
           }
         },
@@ -1552,10 +1605,7 @@
           }
         }
       },
-      
 
-
-      
       "LoginResponse": {
         "type": "object",
         "properties": {
@@ -1629,6 +1679,37 @@
           "teamId": "exampleTeamId",
           "firstName": "John",
           "lastName": "Doe",
+          "email": "example@example.com"
+        }
+      },
+      "ManagersResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "verification": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "John Doe",
+          "email": "example@example.com",
+          "verification": "verified"
+        }
+      },
+      "ManagerRemoveRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": ["email"],
+        "example": {
           "email": "example@example.com"
         }
       },
@@ -1711,10 +1792,6 @@
         }
       },
 
-
-
-      
-
       "SessionDetailsResponse": {
         "type": "object",
         "properties": {
@@ -1756,9 +1833,8 @@
           "players": ["player1", "player2"]
         }
       }
-      
-      },
-    
+    },
+
     "requestBodies": {
       "TeamCreateRequest": {
         "content": {
@@ -1801,6 +1877,15 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/PlayerRemoveRequest"
+            }
+          }
+        }
+      },
+      "ManagerRemoveRequest": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ManagerRemoveRequest"
             }
           }
         }

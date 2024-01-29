@@ -128,6 +128,8 @@ def on_message(client, userdata, msg):
                     impact["isConcussion"] = True
                     break
 
+            client.publish(f'player/{player_id}/impact_history',
+                           json.dumps(data_buffer[int(player_id)]), retain=True)
         except Exception as e:
             print(f"Error in handling concussion data: {str(e)}")
 
@@ -157,6 +159,13 @@ def end_session():
     print("Clearing Data_buffer")
     global session_started, start_time, data_buffer, player_device_mapping
     session_started = False
+
+    # zero payload messages to clear retained messages
+    for player_id in data_buffer:
+        impact_topic = f'player/{player_id}/impact_with_timestamp'
+        impact_history_topic = f'player/{player_id}/impact_history'
+        client.publish(impact_topic, "", retain=True)
+        client.publish(impact_history_topic, "", retain=True)
 
     # for entry in data_buffer:
     #     client.publish(session_data, json.dumps(entry), retain=True)

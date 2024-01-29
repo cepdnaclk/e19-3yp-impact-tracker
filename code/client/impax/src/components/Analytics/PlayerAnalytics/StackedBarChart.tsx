@@ -4,10 +4,10 @@ import { ChartOptions } from "chart.js";
 import { HistogramData } from "../../../types";
 
 export const StackedBarChart: React.FC<HistogramData> = ({
-  left,
-  right,
-  front,
-  back,
+  Left,
+  Right,
+  Front,
+  Back,
 }) => {
   const xVals = [10, 30, 50, 70, 90, 110, 130, 150, 170, 190];
 
@@ -24,10 +24,10 @@ export const StackedBarChart: React.FC<HistogramData> = ({
   //   Math.floor(Math.random() * 50)
   // );
 
-  const dataLeft = xVals.map((k, i) => ({ x: k, y: left[i] }));
-  const dataRight = xVals.map((k, i) => ({ x: k, y: right[i] }));
-  const dataFront = xVals.map((k, i) => ({ x: k, y: front[i] }));
-  const dataBack = xVals.map((k, i) => ({ x: k, y: back[i] }));
+  const dataLeft = xVals.map((k, i) => ({ x: k, y: Left[i] }));
+  const dataRight = xVals.map((k, i) => ({ x: k, y: Right[i] }));
+  const dataFront = xVals.map((k, i) => ({ x: k, y: Front[i] }));
+  const dataBack = xVals.map((k, i) => ({ x: k, y: Back[i] }));
 
   const backgroundColorLeft = Array(xVals.length).fill(
     "rgba(255, 99, 180, 0.2)"
