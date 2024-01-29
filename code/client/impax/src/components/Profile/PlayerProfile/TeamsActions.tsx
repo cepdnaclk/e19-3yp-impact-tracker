@@ -40,6 +40,32 @@ const TeamActions: React.FC<{ myTeam: MyTeam; handleActions: () => void }> = ({
     return response;
   };
 
+  const acceptTeam = async () => {
+    // renew access Token
+    renewAccessToken();
+
+    const token = localStorage.getItem("accessToken");
+
+    const response = await fetch(
+      `${BASE_URL}/player/accept-invite/${team_id}/${1}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const responseData = await response.json();
+    if (response.ok) {
+      // for debugging
+      handleActions();
+      console.log("response OK", responseData);
+    }
+    console.log("Hello", response);
+    return response;
+  };
+
   return (
     <div className={styles.actions}>
       <AlertModal
@@ -59,6 +85,9 @@ const TeamActions: React.FC<{ myTeam: MyTeam; handleActions: () => void }> = ({
         description={`You will be added to ${team_name}`}
         cancel={
           <Btn
+            onClick={() => {
+              acceptTeam();
+            }}
             Icon={FaTimes}
             buttonStyle="primary"
             iconSizeEm={1}
