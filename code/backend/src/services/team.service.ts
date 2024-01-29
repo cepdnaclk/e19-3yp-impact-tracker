@@ -9,7 +9,11 @@ Team;
 import TeamModel from "../db/team.schema";
 // import ManagerTeamModel from "../db/managers.in.team.schema";
 import managersInTeamService from "./managers.in.team.service";
-import { AnalyticsSummaryTeam, ImpactStats, ImpactDirection } from "../types/types";
+import {
+  AnalyticsSummaryTeam,
+  ImpactStats,
+  ImpactDirection,
+} from "../types/types";
 import SessionModel from "../db/session.schema";
 import ManagerModel from "../db/manager.schema";
 
@@ -43,11 +47,11 @@ class TeamService {
       // Save the manager to the database
       const savedTeam = await teamInstance.save();
 
-      await managersInTeamService.addManagerToTeam(
-        team.teamManager,
-        team.teamId,
-        "accessToken"
-      );
+      // await managersInTeamService.addManagerToTeam(
+      //   team.teamManager,
+      //   team.teamId,
+      //   "accessToken"
+      // );
 
       // Create a TeamResponse object
       const teamResponse = new TeamResponse({
@@ -103,18 +107,14 @@ class TeamService {
     // }
 
     // Initialize response with both flags set to false
-    const teamIdEmailExistsResponseWithIsVerified = new TeamIdEmailExistsResponseWithIsVerified(
-      false,
-      false,
-      "pending"
-    );
+    const teamIdEmailExistsResponseWithIsVerified =
+      new TeamIdEmailExistsResponseWithIsVerified(false, false, "pending");
 
     try {
       // Check if team exists
       // const team = await TeamModel.findOne({ teamId: teamId , managerEmail: email});
       // console.log(team, email, teamId);
 
-      
       // const teams = await ManagerModel.find({ email: email });
 
       // const team = teams.find(team => team.teamId === teamId);
@@ -123,7 +123,7 @@ class TeamService {
       if (team) {
         console.log(team);
       } else {
-        console.log('Team not found');
+        console.log("Team not found");
       }
       if (team) {
         teamIdEmailExistsResponseWithIsVerified.teamExists = true;
@@ -135,7 +135,8 @@ class TeamService {
         });
         if (manager) {
           teamIdEmailExistsResponseWithIsVerified.managerExists = true;
-          teamIdEmailExistsResponseWithIsVerified.isVerified = manager.isVerified;
+          teamIdEmailExistsResponseWithIsVerified.isVerified =
+            manager.isVerified;
         }
       }
     } catch (error) {
@@ -165,7 +166,5 @@ class TeamService {
 
     return teamIdExistsResponse;
   }
-
-
 }
 export default new TeamService();
