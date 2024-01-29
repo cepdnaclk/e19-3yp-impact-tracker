@@ -41,6 +41,7 @@ const TeamActions: React.FC<{ myTeam: MyTeam; handleActions: () => void }> = ({
   };
 
   const acceptTeam = async () => {
+    console.log("Sending request to accept team");
     // renew access Token
     renewAccessToken();
 
@@ -56,14 +57,9 @@ const TeamActions: React.FC<{ myTeam: MyTeam; handleActions: () => void }> = ({
         },
       }
     );
-    const responseData = await response.json();
-    if (response.ok) {
-      // for debugging
-      handleActions();
-      console.log("response OK", responseData);
-    }
+    // const responseData = await response.json();
+    handleActions();
     console.log("Hello", response);
-    return response;
   };
 
   return (
@@ -77,6 +73,7 @@ const TeamActions: React.FC<{ myTeam: MyTeam; handleActions: () => void }> = ({
             Icon={FaCheck}
             iconSizeEm={1.2}
             disabled={verification === "verified"}
+            onClick={() => acceptTeam()}
           >
             Accept
           </Btn>
@@ -85,9 +82,6 @@ const TeamActions: React.FC<{ myTeam: MyTeam; handleActions: () => void }> = ({
         description={`You will be added to ${team_name}`}
         cancel={
           <Btn
-            onClick={() => {
-              acceptTeam();
-            }}
             Icon={FaTimes}
             buttonStyle="primary"
             iconSizeEm={1}

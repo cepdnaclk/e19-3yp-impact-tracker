@@ -6,7 +6,7 @@ import {
   setPlayerMap,
   setSessionDetails,
   updatePlayersImpactHistory,
-  checkBuddiesAvailability,
+  // checkBuddiesAvailability,
   flushStates,
   validateTimestampAndSetPlayerDetails,
 } from "../states/updateAppStates";

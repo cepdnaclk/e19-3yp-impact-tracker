@@ -35,6 +35,7 @@ const PlayerProfile = () => {
     queryKey: ["data"],
   });
   async function fetchplayerProfileTableData(): Promise<MyTeam[]> {
+    console.log("Fetching Profile Table...");
     // Renew access Token
     await renewAccessToken();
     const response = await fetch(`${BASE_URL}/player/myTeams`, {
@@ -100,6 +101,7 @@ const PlayerProfile = () => {
               <MyTeamsTable
                 playerProfileTable={myTeamsData}
                 handleActions={refetchPlayers}
+                key={Date.now()}
               />
             )}
           </div>
