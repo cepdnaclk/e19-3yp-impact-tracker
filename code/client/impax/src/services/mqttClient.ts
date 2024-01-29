@@ -6,7 +6,7 @@ import {
   setPlayerMap,
   setSessionDetails,
   updatePlayersImpactHistory,
-  checkBuddiesAvailability,
+  // checkBuddiesAvailability,
   flushStates,
   validateTimestampAndSetPlayerDetails,
 } from "../states/updateAppStates";
@@ -71,6 +71,9 @@ class MqttClient {
 
   private handleMessage = (topic: string, message: Buffer) => {
     console.log(`Received message on topic ${topic}: ${message}`);
+
+    // Zero Payload Ignore
+    if (message.toString().length === 0) return;
     switch (true) {
       case /^player_map$/.test(topic):
         setPlayerMap(message.toString());

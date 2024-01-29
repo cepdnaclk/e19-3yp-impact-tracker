@@ -16,7 +16,7 @@ export type Role = "player" | "manager";
 
 export type Impact = {
   magnitude: number;
-  direction: "left" | "right" | "front" | "back";
+  direction: "Left" | "Right" | "Front" | "Back";
   timestamp: number;
   isConcussion?: boolean;
 };
@@ -82,10 +82,10 @@ export type TimeSpan = "Last Week" | "Last Month" | "All Time";
 
 //for player analytics
 export type HistogramData = {
-  left: number[];
-  right: number[];
-  front: number[];
-  back: number[];
+  Left: number[];
+  Right: number[];
+  Front: number[];
+  Back: number[];
 };
 
 //for player critical sessions

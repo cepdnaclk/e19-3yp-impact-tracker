@@ -4,6 +4,8 @@ import styles from "./status.module.scss";
 import Hero from "../Profile/Hero";
 import { useSignupState } from "../../states/formState";
 import { useNavigate } from "react-router-dom";
+import Btn from "../Buttons/Btn";
+import { FaRegCircleUser } from "react-icons/fa6";
 
 const teamExists = () => {
   const navigate = useNavigate();
@@ -15,16 +17,16 @@ const teamExists = () => {
           <FaCheckCircle className={styles.icon} />
           You already have an account!
         </h2>
-        <button
+        <Btn
+          Icon={FaRegCircleUser}
           onClick={() => {
             setIsSignup(false);
-            navigate("/profile");
+            navigate("login/manager");
           }}
           type="submit"
-          className={styles.nextBtn}
         >
           Login
-        </button>
+        </Btn>
       </div>
       <Hero />
     </main>

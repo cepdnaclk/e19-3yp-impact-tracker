@@ -48,7 +48,8 @@ router.get("/exists/teamId/:id", async (req: Request, res: Response) => {
 });
 
 // Endpoint to validate both Team ID and email existence
-router.get("/exists",
+router.get(
+  "/exists",
   async (req: Request<{}, {}, {}, TeamManagerInterface>, res: Response) => {
     // Extract Team ID and email from query parameters
     const teamId = req.query.teamId;
@@ -175,6 +176,8 @@ router.post("/manager", async (req, res) => {
     teamId
   );
 
+  // console.log(exists);
+
   if (exists) {
     console.log(HttpMsg.MANAGER_EXISTS);
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.MANAGER_EXISTS });
@@ -193,8 +196,6 @@ router.post("/manager", async (req, res) => {
       "",
       "pending"
     );
-
-    
 
     // Create the Team and get the response
     const teamResponse: TeamResponse | undefined =
@@ -278,7 +279,6 @@ router.get("/:id", async (req: Request, res: Response) => {
     res.status(HttpCode.BAD_REQUEST).send({ message: HttpMsg.BAD_REQUEST });
   }
 });
-
 
 // Export the router for use in other files
 export default router;

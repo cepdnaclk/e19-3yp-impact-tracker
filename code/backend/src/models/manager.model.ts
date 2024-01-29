@@ -51,7 +51,7 @@ class ManagerRequestBody {
   public firstName: string;
   public lastName: string;
   public email: string;
-  public password: string; 
+  public password: string;
   public invitationToken: string;
   public isVerified: string;
 
@@ -79,15 +79,30 @@ class ManagerTeamResponse {
   public teamId: string;
   public accepted: string;
 
-  public constructor(
-    managerEmail: string,
-    teamId: string,
-    accepted: string
-  ) {
+  public constructor(managerEmail: string, teamId: string, accepted: string) {
     this.managerEmail = managerEmail;
     this.teamId = teamId;
     this.accepted = accepted;
   }
 }
 
-export { ManagerExistsResponse, Manager, ManagerResponse, ManagerRequestBody, ManagerTeamResponse };
+class ManagersArrayResponse {
+  public name?: string;
+  public email: string;
+  public verification: string;
+
+  public constructor(email: string, name: string, verification: string) {
+    this.name = name;
+    this.email = email;
+    this.verification = verification;
+  }
+}
+
+export {
+  ManagerExistsResponse,
+  Manager,
+  ManagerResponse,
+  ManagerRequestBody,
+  ManagerTeamResponse,
+  ManagersArrayResponse,
+};
