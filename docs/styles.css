@@ -2559,6 +2559,758 @@ body {
       }
     }
 
+    /*----------------------------------------------------------------
+      End points
+     --------------------------------------------------------------- */
+@import url("https://fonts.googleapis.com/css?family=Roboto:100|Ovo");
+
+#end-points {
+  padding: var(--sectionPadding);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+@keyframes floatAnimation {
+  0% {
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(-2em);
+  }
+  100% {
+      transform: translateY(0);
+  }
+}
+@keyframes floatAnimation2 {
+  0% {
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(-1em);
+  }
+  100% {
+      transform: translateY(0);
+  }
+}
+#end-points:before {
+    /* static tiled pattern  */
+    content: "";
+    height: 100%;
+    width: 100%;
+    opacity: 0.08;
+    background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
+    background-size: auto;
+    background-position: center;
+    background-repeat: repeat;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+#end-points img {
+  width: 100%;
+  height: auto;
+}
+
+#end-points p:first-of-type {
+  margin-top: 0;
+}
+
+#end-points h2.cs-title {
+  margin-top: 0;
+  text-align: center;
+  justify-content: center;
+  max-width: 100%;
+  }
+
+.clearfix::after {
+  clear: both;
+  content: "";
+  display: block;
+}
+
+.wrapper {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.wrapper:after {
+  content: " ";
+  display: block;
+  clear: both;
+}
+
+.btn, button.btn, [type=button].btn, [type=reset].btn, [type=submit].btn {
+  background-color: white;
+  border: 1px solid silver;
+  color: silver;
+}
+.btn:hover, .btn:focus {
+  background-color: black;
+  border: 1px solid white;
+}
+
+.btn, button.btn, [type=button].btn, [type=reset].btn, [type=submit].btn {
+  padding: 9px 35px;
+  display: inline-block;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 1.2s;
+}
+.btn > span, [type=button].btn > span, [type=reset].btn > span, [type=submit].btn > span {
+  line-height: 1.8;
+}
+
+.btn--inline {
+  vertical-align: baseline;
+  font-size: inherit;
+  line-height: inherit;
+  height: auto;
+  padding: 0.1em 0.5em;
+}
+
+.btn--small {
+  font-size: 1em;
+}
+
+.btn--large {
+  font-size: 2rem;
+}
+
+.btn--huge {
+  font-size: 3rem;
+}
+
+.btn--full {
+  width: 100%;
+}
+
+.btn--rounded {
+  border-radius: 5rem;
+}
+
+/**
+medium
+xx-small
+x-small|small
+large
+x-large
+xx-large
+smaller
+larger
+
+*/
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/** # Dummy images
+
+Random images from https://picsum.photos/, classified by tags
+
+Usage:
+```
+  .dummy-background{
+    @include dummy-image('800/450', sea);
+  }
+```
+
+$dummy-img-provider-url {string} - image provider url  
+$dummy-images {map} - list images id's by categories
+
+@link - https://picsum.photos/
+
+Styleguide tools.dummy.images
+*/
+.img1 {
+  background-image: url(https://unsplash.it/800?image=1070);
+}
+
+/* .img2 {
+  background-image: url(https://unsplash.it/800?image=1060);
+} */
+
+.img3 {
+  background-image: url(https://unsplash.it/800?image=1059);
+}
+
+.img4 {
+  background-image: url(https://unsplash.it/800?image=1025);
+}
+
+.img5 {
+  background-image: url(https://unsplash.it/800?image=998);
+}
+
+.bg1 {
+  background: url(http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/low_contrast_linen.png) repeat;
+}
+
+/** # Cards
+
+https://www.nngroup.com/articles/cards-component/
+
+Definition:
+A card is container for a few short, related pieces of information.
+It roughly resembles a playing card in size and shape, and is intended as a linked,
+short representation of a conceptual unit.
+
+
+Card actions   : https://material.io/guidelines/components/cards.html#cards-actions
+
+
+## Cards Bootstrap V4 revisited
+
+
+Markup:
+<div class="card" style="width:300px;">
+  <img class="card-thumbnail top" width="300" />
+  <div class="card-content">
+    <h4 class="title">Card title</h4>
+    <p class="subtitle"></p>
+    <p class="description">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Button</a>
+  </div>
+</div>
+<h3>Card with Caps : Header & Footer</h3>
+<div class="card" style="width:300px;">
+  <div class="card-header">
+    Featured
+  </div>
+  <div class="card-content">
+    <h4 class="title">Card title</h4>
+    <p class="subtitle"></p>
+    <p class="description">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Button</a>
+  </div>
+  <div class="card-footer">
+    <a href="#" class="action">Button</a>
+    Card footer
+  </div>
+</div>
+<h3>Card with Images Caps</h3>
+<div class="card" style="width:300px;">
+  <img class="card-thumbnail top" width="300" />
+  <div class="card-content">
+    <h4 class="title">Card title</h4>
+    <p class="description">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    <p class="description"><small class="text-muted">Last updated 3 mins ago</small></p>
+  </div>
+</div>
+<div class="card" style="width:300px;">
+  <div class="card-content">
+    <h4 class="title">Card title</h4>
+    <p class="description">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    <p class="description"><small class="text-muted">Last updated 3 mins ago</small></p>
+  </div>
+  <img class="card-thumbnail top" width="300" />
+</div>
+
+@see - <http://v4-alpha.getbootstrap.com/components/card/>
+@see - https://vitalcss.com/layouts/ Exemple de structure et de declinaisons pour le card component
+@see - http://zurb.com/article/1456/5-common-mistakes-designers-make-when-usi
+@see - https://www.nngroup.com/articles/cards-component/
+@see - http://line25.com/inspiration/card-grid-layouts-websites
+@see - https://designshack.net/articles/layouts/the-complete-guide-to-an-effective-card-style-interface-design/
+@see - https://codepen.io/sdthornton/pen/wBZdXq - MaterialDesigns shadow boxs
+@bug - Sur l'élément title, le text overflow flex-childs https://css-tricks.com/flexbox-truncated-text/
+@param $card-border-radius (3px !default)  -
+@param $card-spacer-x (1em !default)  -
+@param $card-spacer-y (1em !default)  -
+@param $card-bg  (white !default)  -
+@param $card-border-width (1px !default)  -
+@param $card-border-color (silver !default)  -
+@param $card-cap-bg (lighten($black, 80)!default)  -
+@param $card-cap-color (white !default)  -
+@param $unstyled-components (false !default)  -
+
+Styleguide addons.uikit.cards
+*/
+* {
+  box-sizing: border-box;
+}
+
+#page {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 0.375em;
+}
+#page:after {
+  content: " ";
+  display: block;
+  clear: both;
+}
+head {
+  display: block;
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  z-index: 999;
+  color: #333;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+head:before {
+  content: "|||";
+  display: block;
+  padding: 5px 10px;
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+head:hover {
+  background: rgba(255, 255, 255, 0.5);
+  color: red;
+}
+
+head:hover ~ #page, head:hover ~ body #page {
+  position: relative;
+}
+head:hover ~ #page:before, head:hover ~ body #page:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: " ";
+  z-index: 998;
+  background-image: linear-gradient(to right, rgba(102, 102, 255, 0.25), rgba(179, 179, 255, 0.25) 80%, transparent 0%), linear-gradient(to bottom, #000 1px, transparent 1px);
+  background-size: 12.8205128205%, 100% 1.5em;
+  background-origin: content-box;
+  background-clip: content-box;
+  background-position: left top;
+}
+@media (min-width: 481px) {
+  #page {
+    padding: 0;
+  }
+}
+
+.card {
+  position: relative;
+  max-width: 100%;
+  display: block;
+  margin-bottom: 2.5641025641%;
+  background-color: #ffffff;
+}
+.card-media {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+.card-media img {
+  min-width: 100%;
+  height: 100%;
+}
+.card-content {
+  display: block;
+  padding: 1em;
+}
+.card-content .title, .card-content .subtitle, .card-content .description {
+  display: inline-block;
+  width: 100%;
+}
+.card-content .title {
+  padding-bottom: 0.75em;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-content .title > * {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+}
+.card-content .subtitle {
+  position: relative;
+  margin-top: -15px;
+  margin-bottom: 0.75em;
+}
+.card-content .description:last-child {
+  margin-bottom: 0;
+}
+.card-content .btn {
+  max-width: 100%;
+  word-break: break-word;
+  white-space: initial;
+}
+.card-header {
+  padding: 0.75em;
+}
+.card-footer {
+  padding: 0.75em;
+}
+
+.card-list-legacy {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.card-list-legacy:after {
+  content: " ";
+  display: block;
+  clear: both;
+}
+head:hover ~ .card-list-legacy, head:hover ~ body .card-list-legacy {
+  position: relative;
+}
+head:hover ~ .card-list-legacy:before, head:hover ~ body .card-list-legacy:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: " ";
+  z-index: 998;
+  /* background-image: linear-gradient(to right, rgba(102, 102, 255, 0.25), rgba(179, 179, 255, 0.25) 80%, transparent 80%), linear-gradient(to bottom, #000 1px, transparent 1px);
+  background-size: 12.8205128205%, 100% 1.5em;
+  background-origin: content-box;
+  background-clip: content-box;
+  background-position: left top; */
+}
+.card-list-legacy > .card {
+  width: 100%;
+  float: left;
+  margin-left: 0;
+  margin-right: 0;
+}
+.card-list-legacy > .card .card-media {
+  width: 37.5%;
+  float: left;
+  padding-left: 1.25%;
+  padding-right: 1.25%;
+}
+.card-list-legacy > .card .card-content {
+  width: 62.5%;
+  float: left;
+  padding-left: 1.25%;
+  padding-right: 1.25%;
+}
+
+/** # Cards layouts
+
+.card-list - vue de l'objet card en mode liste
+.card-list.media-right - le visuel est à droite
+.card-list.media-left - le visuel est à gauche
+.card-list.media-alternate - alterne les visuels gauche/droite
+.card-grid - vue de l'objet card en grille
+.card-grid.media-top - visuels en haut
+.card-grid.media-bottom - visuel en bas
+
+Markup
+<div class="$modifierClass">
+  <div class="card">
+    <div class="card-media"><img src="https://images.unsplash.com/photo-1465414829459-d228b58caf6e"/></div>
+    <div class="card-content">
+      <div class="title">
+        <h2>Card title</h2>
+      </div>
+      <div class="subtitle">My card subtitle</div>
+      <div class="description">Card description , la description peut être un texte très long et parfois peut intéressant</div>
+    </div>
+    <div class="card-footer"></div>
+  </div>
+  <div class="card">
+    <div class="card-media"><img src="https://images.unsplash.com/photo-1465414829459-d228b58caf6e"/></div>
+    <div class="card-content">
+      <div class="title">
+        <h2>Card title</h2>
+      </div>
+      <div class="subtitle">My card subtitle</div>
+      <div class="description">Card description , la description peut être un texte très long et parfois peut intéressant</div>
+    </div>
+    <div class="card-footer"></div>
+  </div>
+  <div class="card">
+    <div class="card-media"><img src="https://images.unsplash.com/photo-1465414829459-d228b58caf6e"/></div>
+    <div class="card-content">
+      <div class="title">
+        <h2>Card title</h2>
+      </div>
+      <div class="subtitle">My card subtitle</div>
+      <div class="description">Card description , la description peut être un texte très long et parfois peut intéressant</div>
+    </div>
+    <div class="card-footer"></div>
+  </div>
+  <div class="card">
+     <div class="card-media">
+       <img src="https://images.unsplash.com/photo-1485871811272-aa71f1f55124"/>
+      </div>
+    <div class="card-content">
+      <div class="title">
+        <h2>Card title, le titre sur plusieures lignes</h2>
+      </div>
+      <div class="subtitle">My card subtitle, plus court</div>
+      <div class="description">Card description , la description peut être un texte très long et parfois peut intéressant</div>
+    </div>
+    <div class="card-footer"></div>
+  </div>
+</div>
+
+Styleguide cards.layouts
+*/
+.card-list {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.card-list:after {
+  content: " ";
+  display: block;
+  clear: both;
+}
+head:hover ~ .card-list, head:hover ~ body .card-list {
+  position: relative;
+}
+head:hover ~ .card-list:before, head:hover ~ body .card-list:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: " ";
+  z-index: 998;
+  background-image: linear-gradient(to right, rgba(102, 102, 255, 0.25), rgba(179, 179, 255, 0.25) 80%, transparent 80%), linear-gradient(to bottom, #000 1px, transparent 1px);
+  background-size: 12.8205128205%, 100% 1.5em;
+  background-origin: content-box;
+  background-clip: content-box;
+  background-position: left top;
+}
+.card-list > .card {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  align-self: center;
+  margin-left: 0.75em;
+  margin-right: 0.75em;
+}
+.card-list > .card .card-header,
+.card-list > .card .card-footer {
+  width: 100%;
+  float: left;
+  padding-left: 1.25%;
+  padding-right: 1.25%;
+}
+.card-list > .card .card-media {
+  padding-bottom: 0%;
+}
+@media (min-width: 780px) {
+  .card-list > .card {
+    flex-wrap: nowrap;
+  }
+  .card-list > .card .card-media {
+    padding-right: 45%;
+    padding-left: 0;
+    padding-bottom: 40%;
+  }
+  .card-list > .card .card-content {
+    padding: 1.5em;
+  }
+}
+@media (min-width: 780px) {
+  .card-list.media-right > .card .card-content, .card-list > .card.media-right .card-content, .card-list.media-alternate > .card:nth-child(2n) .card-content {
+    order: 3;
+  }
+  .card-list.media-right > .card .card-media, .card-list > .card.media-right .card-media, .card-list.media-alternate > .card:nth-child(2n) .card-media {
+    padding-left: 45%;
+    padding-right: 0;
+    order: 4;
+  }
+  .card-list.media-right > .card .card-footer, .card-list > .card.media-right .card-footer, .card-list.media-alternate > .card:nth-child(2n) .card-footer {
+    order: 5;
+  }
+}
+.card-list > .card.media-left {
+  flex-flow: row;
+}
+
+.card-grid {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 1.5em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.card-grid:after {
+  content: " ";
+  display: block;
+  clear: both;
+}
+head:hover ~ .card-grid, head:hover ~ body .card-grid {
+  position: relative;
+}
+head:hover ~ .card-grid:before, head:hover ~ body .card-grid:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: " ";
+  z-index: 998;
+  background-image: linear-gradient(to right, rgba(102, 102, 255, 0.25), rgba(179, 179, 255, 0.25) 80%, transparent 80%), linear-gradient(to bottom, #000 1px, transparent 1px);
+  background-size: 12.8205128205%, 100% 1.5em;
+  background-origin: content-box;
+  background-clip: content-box;
+  background-position: left top;
+}
+.card-grid:after {
+  content: "";
+  flex: auto;
+}
+.card-grid > .card {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.75em;
+  margin-right: 0.75em;
+}
+.card-grid > .card .card-media {
+  padding-bottom: 0%;
+}
+@media (min-width: 481px) and (max-width: 780px) {
+  .card-grid > .card {
+    width: 46.6666666667%;
+    float: left;
+    margin-left: 1.6666666667%;
+    margin-right: 1.6666666667%;
+  }
+  .card-grid > .card .card-media {
+    padding-bottom: 0%;
+  }
+}
+@media (min-width: 781px) {
+  .card-grid > .card {
+    width: 31.1111111111%;
+    float: left;
+    margin-left: 1.1111111111%;
+    margin-right: 1.1111111111%;
+  }
+  .card-grid > .card .card-media {
+    padding-bottom: 0%;
+  }
+}
+.card-grid.media-bottom > .card, .card-grid .card.media-bottom {
+  flex-direction: column-reverse;
+}
+.card-grid.media-top > .card, .card-grid .card.media-top {
+  flex-direction: column;
+}
+
+.l-masonry {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  max-width: 960px;
+  counter-reset: element;
+  margin: 0 auto;
+}
+.l-masonry .card {
+  margin: 0 0 1rem 0;
+  flex: 0 0 auto;
+  overflow: hidden;
+  width: 100%;
+}
+@media (min-width: 481px) and (max-width: 767px) {
+  .l-masonry .card {
+    width: calc(50% - 1rem);
+  }
+}
+@media (min-width: 768px) {
+  .l-masonry .card {
+    width: calc(33.3333333333% - 1rem);
+  }
+}
+.l-masonry .card-media {
+  padding-bottom: 80%;
+}
+
+.t-light-shadows .card-content .title, h1 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: 400;
+  text-align: left;
+  color: #222;
+}
+
+.t-light-shadows .card-content p, .t-light-shadows .card-content .btn {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: 100;
+}
+
+h1 {
+  text-align: center;
+  padding: 0.75em 0;
+  margin: 0.75em 15%;
+  border-top: 1px solid silver;
+  border-bottom: 1px solid silver;
+}
+@media (min-width: 481px) {
+  h1 {
+    margin: 1.5em 30%;
+  }
+}
+h1 small {
+  display: inline-block;
+  width: 100%;
+  font-size: 0.5em;
+} 
+
+.t-light-shadows .card {
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.15);
+}
+.t-light-shadows .card-content {
+  transition: all 0.5s ease-out;
+}
+.t-light-shadows .card-content .description:before {
+  content: "";
+  display: block;
+  height: 0.25rem;
+  width: 4rem;
+  background-color: #888888;
+  margin-bottom: 0.75em;
+}
+.t-light-shadows .angle-bottom .card .card-media,
+.t-light-shadows .card-media.angle-bottom {
+  -webkit-clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%);
+          clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%);
+  transition: all 0.5s ease;
+}
+.t-light-shadows .angle-bottom .card:hover .card-media,
+.t-light-shadows .angle-bottom .card.hover .card-media {
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+.t-light-shadows .angle-bottom .card:hover .card-content,
+.t-light-shadows .angle-bottom .card.hover .card-content {
+  transform: translateY(-30%);
+  background-color: rgba(255, 255, 255, 0.75);
+}
+.t-light-shadows .angle-bottom .card:hover .title,
+.t-light-shadows .angle-bottom .card.hover .title {
+  margin: 15% 0;
+}
+
     
    
             
