@@ -1,6 +1,9 @@
 import PlayerModel from "../db/player.schema";
 import PlayerTeamModel from "../db/players.in.team.schema";
-import { PlayerInTeamResponse, PlayerTeamRequest } from "../models/player.model";
+import {
+  PlayerInTeamResponse,
+  PlayerTeamRequest,
+} from "../models/player.model";
 
 class PlayerInTeamService {
   // create team player instance
@@ -10,7 +13,6 @@ class PlayerInTeamService {
     jerseyId: number,
     fullName: string,
     invitationToken: string
-
   ): Promise<PlayerInTeamResponse> {
     try {
       // check entry exists in player in teams
@@ -32,7 +34,6 @@ class PlayerInTeamService {
         isVerified: "pending",
       });
 
-
       // Save the manager to the database
       const savedManager = await playerTeamInstance.save();
       const playerInTeamResponse = new PlayerInTeamResponse(
@@ -40,7 +41,7 @@ class PlayerInTeamService {
         teamId,
         jerseyId,
         fullName,
-        "pending",
+        "pending"
       );
 
       return playerInTeamResponse;
@@ -49,8 +50,6 @@ class PlayerInTeamService {
       throw error;
     }
   }
-
-  
 
   async checkPlayerExistsInTeam(
     jerseyId: number,
@@ -73,59 +72,56 @@ class PlayerInTeamService {
     return false;
   }
   async updatePlayerInTeam(
-    playerTeamRequest : PlayerTeamRequest
-    ): Promise<PlayerInTeamResponse>{
-      const existingPlayer = await PlayerTeamModel.findOne({ 
-        jerseyId: playerTeamRequest.jerseyId});
+    playerTeamRequest: PlayerTeamRequest,
+    teamId: string
+  ): Promise<PlayerInTeamResponse> {
+    const existingPlayer = await PlayerTeamModel.findOne({
+      teamId: teamId,
+      jerseyId: playerTeamRequest.jerseyId,
+    });
 
-      if (existingPlayer) {
-        // Update properties based on your requirements
-        // existingPlayer.playerEmail = playerTeamRequest.playerEmail;
-        existingPlayer.jerseyId = playerTeamRequest.jerseyId;
-        existingPlayer.fullName = playerTeamRequest.fullName; 
-        
-    
-        await existingPlayer.save();
+    // console.log(existingPlayer);
+    if (existingPlayer) {
+      // Update properties based on your requirements
+      // existingPlayer.playerEmail = playerTeamRequest.playerEmail;
+      existingPlayer.jerseyId = playerTeamRequest.jerseyId;
+      existingPlayer.fullName = playerTeamRequest.fullName;
+      existingPlayer.playerEmail = playerTeamRequest.playerEmail;
 
-        const playerInTeamResponse = new PlayerInTeamResponse(
-          existingPlayer.playerEmail,
-          existingPlayer.teamId,
-          existingPlayer.jerseyId,
-          existingPlayer.fullName,
-          existingPlayer.isVerified,
-        );
-        return playerInTeamResponse;
+      await existingPlayer.save();
 
-      } else {
-        // Handle case where player is not found
-        throw new Error("Player not found");
-
-      }
+      const playerInTeamResponse = new PlayerInTeamResponse(
+        existingPlayer.playerEmail,
+        existingPlayer.teamId,
+        existingPlayer.jerseyId,
+        existingPlayer.fullName,
+        existingPlayer.isVerified
+      );
+      return playerInTeamResponse;
+    } else {
+      // Handle case where player is not found
+      throw new Error("Player not found");
+    }
   }
 
-  async removePlayerInTeam(
-    jerseyId: number,
-    teamId: string
-  ): Promise<boolean>{
-    try{
-
+  async removePlayerInTeam(jerseyId: number, teamId: string): Promise<boolean> {
+    try {
       const playerInTeam = await PlayerTeamModel.findOne({
         teamId: teamId,
-        jerseyId: jerseyId
-      })
+        jerseyId: jerseyId,
+      });
 
-      if (playerInTeam != null){
+      if (playerInTeam != null) {
         await playerInTeam.deleteOne();
         return true;
-      }else{
-        return false
+      } else {
+        return false;
       }
-
-    }catch (error) {
-        console.error(error);
-        throw error;
-      }
-      return false;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+    return false;
   }
 }
 export default new PlayerInTeamService();
