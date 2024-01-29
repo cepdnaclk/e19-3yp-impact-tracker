@@ -61,13 +61,14 @@ class ManagersInTeamService {
     teamId: string
   ): Promise<boolean> {
     try {
+      console.log(managerEmail, teamId);
       // check entry exists
       const managerTeam = await ManagerModel.find({
         email: managerEmail,
         teamId: teamId,
       });
       console.log(managerTeam);
-      if (managerTeam) {
+      if (managerTeam.length !== 0) {
         return true;
       } else {
         return false;
