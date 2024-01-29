@@ -158,12 +158,13 @@ router.put("/update", async (req: Request, res: Response) => {
   }
 
   try {
-    const player = await PlayerTeamModel.find({
-      jesryId: jerseyId,
+    // console.log(jerseyId, teamId);
+    const player = await PlayerTeamModel.findOne({
       teamId: teamId,
+      jerseyId: jerseyId,
     });
 
-    console.log(player);
+    // console.log(player);
 
     const playerTeamRequest = new PlayerTeamRequest(
       newPlayerEmail,
@@ -171,9 +172,11 @@ router.put("/update", async (req: Request, res: Response) => {
       fullName
     );
 
+    // console.log(playerTeamRequest);
+
     let playerInTeamResponse;
 
-    if (player.length === 1) {
+    if (player) {
       playerInTeamResponse = await playerController.updatePlayer(
         playerTeamRequest,
         managerEmail,
