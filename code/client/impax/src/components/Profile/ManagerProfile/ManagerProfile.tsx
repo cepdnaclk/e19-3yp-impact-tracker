@@ -83,6 +83,7 @@ const ManagerProfile = () => {
     if (response.ok) {
       // for debugging
       console.log("response OK", response);
+      refetchManagers();
     } else {
       await showErrorPopup("Error", "Please Try Again!");
     }
