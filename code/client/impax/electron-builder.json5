@@ -36,8 +36,8 @@
     deleteAppDataOnUninstall: false,
   },
   linux: {
-    icon: "public/Icon.ico",
-    target: ["AppImage"],
+    icon: "public/Icon.png",
+    target: ["deb"],
     artifactName: "${productName}-Linux-${version}.${ext}",
   },
 }

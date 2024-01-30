@@ -7,6 +7,7 @@
   "description": "Impax is an head impact tracking and monitoring system for athletes",
   "private": true,
   "version": "1.0.1",
+  "homepage": "./",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
