@@ -5,6 +5,10 @@
 <html>
 <head>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="video-gallery.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <script src="./func.js">
   </script>
 </head>
@@ -55,6 +59,9 @@
                                 <li class="cs-drop-li">
                                     <a href="#SolutionArchitecture" class="cs-li-link cs-drop-link">Solution Architecture</a>
                                 </li>
+                                <li class="cs-drop-li">
+                                    <a href="#end-points" class="cs-li-link cs-drop-link">End Points</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="cs-li cs-dropdown" tabindex="0">
@@ -64,10 +71,10 @@
                             </span>
                             <ul class="cs-drop-ul">
                                 <li class="cs-drop-li">
-                                    <a href="#Solution" class="cs-li-link cs-drop-link">Infrastructure</a>
+                                    <a href="#Hardware" class="cs-li-link cs-drop-link">Hardware Infrastructure</a>
                                 </li>
                                 <li class="cs-drop-li">
-                                    <a href="#SolutionArchitecture" class="cs-li-link cs-drop-link">3D Designs</a>
+                                    <a href="#video-gallery" class="cs-li-link cs-drop-link">3D Designs</a>
                                 </li>
                             </ul>
                         </li>
@@ -202,13 +209,13 @@
                 <picture class="cs-left-image">
                     <source media="(max-width: 600px)" srcset="assets/img/dashboard.jpg">
                     <source media="(min-width: 601px)" srcset="assets/img/dashboard.jpg">
-                    <img loading="lazy" decoding="async" src="assets/img/dashboard.jpg" alt="cleaning" width="211" height="211" aria-hidden="true">
+                    <img loading="lazy" decoding="async" src="assets/img/dashboard.jpg" alt="dashboard" width="211" height="211" aria-hidden="true">
                 </picture>
                 <!--Bottom Circle Image-->
                 <picture class="cs-bottom-image">
-                    <source media="(max-width: 600px)" srcset="assets/img/Hardware-hub.png">
-                    <source media="(min-width: 601px)" srcset="assets/img/Hardware-hub.png">
-                    <img loading="lazy" decoding="async" src="assets/img/Hardware-hub.png" alt="cleaning" width="180" height="180" aria-hidden="true">
+                    <source media="(max-width: 600px)" srcset="assets/img/3D-buddy-img.jpg">
+                    <source media="(min-width: 601px)" srcset="assets/img/3D-buddy-img.jpg">
+                    <img loading="lazy" decoding="async" src="assets/img/3D-buddy-img.jpg" alt="hub" width="180" height="180" aria-hidden="true">
                 </picture>
                 <!--Main Person Image-->
                 <!--To make your own crops of people, use https://www.remove.bg/ to remove the background of any image-->
@@ -247,15 +254,37 @@
     <section id="SolutionArchitecture">
         <div class="cs-container">
             <h2 class="cs-title">High Level Solution Architecture</h2>
+            <div class="grid-picture">
             <picture class="cs-picture">
                 <source media="(max-width: 767px)" srcset="assets/img/solution architecture.png">
                 <source media="(min-width: 768px)" srcset="assets/img/solution architecture.png">
                 <img aria-hidden="true" loading="lazy" decoding="async" src="assets/img/solution architecture.png" alt="Solution Architecture">
             </picture> 
+            <div class="picture-label">
+                <p>
+                    During sports sessions, wearable devices and dashboards establish a local area network connected to the hub, 
+                    utilizing MQTT for real-time impact data transmission. Managers monitor impacts in real-time on their dashboards 
+                    and can mark potential concussions based on their expertise. 
+                </p>
+                <p>
+                    Post-session, session details, including impact data 
+                    and concussion markers, are sent to the backend and stored in a secure database. Players access their analytics 
+                    dashboard to retrieve personalized impact histories, while managers utilize a separate analytics dashboard for 
+                    reviewing their players' impact histories. 
+                </p>
+                <p>
+                    This architecture ensures seamless information flow during sessions, 
+                    real-time monitoring, expert intervention, and comprehensive analytics for informed decision-making by both players 
+                    and managers.
+                </p>        
+            </div>
         </div>
     </section>
     
-    
+    <!--===========================================-->
+    <!--                End Points                  -->
+    <!--===========================================-->
+
     <section id="end-points">
         
         <!-- Force doctype to use empty attributes-->
@@ -277,49 +306,96 @@
             </select>
         </div> -->
         <div class="t-light-shadows" id="page">
-            <h2 class="cs-title">End Points</h2>
+            <h2 class="cs-title">System End Points</h2>
             <div class="card-grid" id="main">
-            <div class="card">
-                <div class="card-media">
-                    <img src="http://placehold.it/">
+                <div class="card">
+                    <div class="card-media">
+                        <img src="assets/img/dashboard-screenshot.png">
+                    </div>
+                    <div class="card-content fixie">
+                        <div class="title">
+                            <h2>Desktop Dashboard</h2>
+                        </div>
+                        <div class="description">
+                            <p>
+                                <ul>
+                                    <li>
+                                        User-friendly cross-platform desktop application to view the real-time effects and further 
+                                analyze the data from Impax buddies.
+                                    </li>
+                                    <li>
+                                        Seperate dashboards for players and team managers.
+                                    </li>
+                                    <li>
+                                        Players can get the analysis of their impact history.
+                                    </li>
+
+                                </ul>
+                             </p>
+                        </div>
+                        <!-- <a class="btn" onclick="openModal('assets/img/dashboard-screenshot.png')">Inspect</a> -->
+                    </div>
                 </div>
-                <div class="card-content fixie">
-                <div class="title">
-                    <h2>Desktop Dashboard</h2>
+
+                <div class="card">
+                    <div class="card-media">
+                        <img src="assets/img/hub-labled.jpg">
+                    </div>
+                    <div class="card-content fixie">
+                        <div class="title">
+                            <h2>ImpaX Hub</h2>
+                        </div>
+                        <div class="description">
+                            <p>
+                                <ul>
+                                    <li>
+                                        Middleware for  the communication between buddy devices and the desktop dashboards during a session.
+                                    </li>
+                                    <li>
+                                        With optimized single range and dual LED indicators, it ensures reliable communication between devices and dashboards.
+                                    </li>
+                                </ul>
+                            </p>                        
+                        </div>
+                        <!-- <a class="btn" onclick="openModal('assets/img/hub-labled.jpg')">Inspect</a> -->
+                    </div>
                 </div>
-                <div class="description">
-                    <p>Managers can monitor the ongoing game with manager dashboard and players can check their analytics afterwards.</p>
-                </div><a class="btn">Inspect</a>
+
+                <div class="card">
+                    <div class="card-media">
+                        <img src="assets/img/buddy-labled.jpg">
+                    </div>
+                    <div class="card-content fixie">
+                        <div class="title">
+                            <h2>ImpaX Buddy</h2>
+                        </div>
+                        <div class="description">
+                            <p>
+                                <ul>
+                                    <li>
+                                        Wearable device worn on the head of the athlete, which sends real-time information on impacts.
+                                    </li>
+                                    <li>
+                                        It consists of gyroscope sensor and accelerometer to measure the impact.
+                                    </li>
+                                </ul>  
+                            </p>                     
+                        </div>
+                        <!-- <a class="btn" onclick="openModal('assets/img/buddy-labled.jpg')">Inspect</a> -->
+                    </div>
                 </div>
+
+
             </div>
-            <div class="card">
-                <div class="card-media">
-                    <img src="assets/img/3D-hub-img.jpg">
-                </div>
-                <div class="card-content fixie">
-                <div class="title">
-                    <h2>Impax Hub</h2>
-                </div>
-                <div class="description">
-                    <p>Impax Hub acts as the middleware for the communication between buddy devices and the desktop dashboards during a 
-                        session. With optimized signal range and dual LED indicators, it ensures reliable communication between devices 
-                        and dashboards.</p>
-                </div><a class="btn">Inspect</a>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-media">
-                    <img src="assets/img/3D-buddy-img.jpg">
-                </div>
-                <div class="card-content fixie">
-                <div class="title">
-                    <h2>Impax Buddy</h2>
-                </div>
-                <div class="description">
-                    <p>The wearable device that can be attached to the head gear.</p>
-                </div><a class="btn">Inspect</a>
-                </div>
-            </div>
+        </div>
+
+        <div id="myModal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="modalImg">
+        </div>
+        
+        
+    
             <!-- <div class="card">
                 <div class="card-media"></div>
                 <div class="card-content fixie">
@@ -404,7 +480,8 @@
                             
                         </h3>
                         <p class="cs-item-p">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                            Compact single-board computer with wireless connectivity, ideal for low-power projects and IoT applications.
+
                         </p>
                     </div>
                 </li>
@@ -420,7 +497,8 @@
                         
                         </h3>
                         <p class="cs-item-p">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                            Wireless microcontroller with integrated Wi-Fi and Bluetooth capabilities, suitable for IoT projects and sensor interfacing.
+
                         </p>
                     </div>
                 </li>
@@ -435,7 +513,8 @@
                             <span class="cs-name">3.7V 1000mah 30C Lipo Battery</span>
                         </h3>
                         <p class="cs-item-p">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                             High-capacity, high-discharge, Smaller in size lithium-polymer battery for portable power applications.
+
                         </p>
                     </div>
                 </li>
@@ -450,7 +529,8 @@
                             <span class="cs-name">Accelerometer MPU6050 Module</span>
                         </h3>
                         <p class="cs-item-p">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                            Triple-axis accelerometer and gyroscope sensor module for motion sensing and orientation tracking.
+
                         </p>
                     </div>
                 </li>
@@ -465,7 +545,8 @@
                             <span class="cs-name">Triple Axis Accelerometer</span>
                         </h3>
                         <p class="cs-item-p">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                            Sensor for measuring acceleration in three dimensions, commonly used in motion and tilt-sensing applications.
+
                         </p>
                     </div>
                 </li>
@@ -480,22 +561,23 @@
                             <span class="cs-name">3.7V 18650 Rechargable Battery</span>
                         </h3>
                         <p class="cs-item-p">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
-                        </p>
+                            Rechargable and smaller in size. Used to power the Impax hub.
+                         </p>
+                     
                     </div>
                 </li>
                 <li class="cs-item">
                     <picture class="cs-picture"  aria-hidden="true">
-                        <source media="(min-width: 601px)" srcset="assets/img/accelerometer.jpg">
-                        <source media="(max-width: 600px)" srcset="assets/img/accelerometer.jpg">
-                        <img loading="lazy" decoding="async" src="assets/img/accelerometer.jpg" alt="food" width="160" height="160">
+                        <source media="(min-width: 601px)" srcset="assets/img/buck-booster.webp">
+                        <source media="(max-width: 600px)" srcset="assets/img/buck-booster.webp">
+                        <img loading="lazy" decoding="async" src="assets/img/buck-booster.webp" alt="food" width="160" height="160">
                         </picture>
                         <div class="cs-info">
                         <h3 class="cs-h3">
-                            <span class="cs-name">Triple Axis Accelerometer</span>
+                            <span class="cs-name">Buck booster Converter</span>
                         </h3>
                         <p class="cs-item-p">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                           Used to step up the voltage from 3.7V to 5V for the operation of the Raspberry pi Zero W module.
                         </p>
                     </div>
                 </li>
@@ -510,7 +592,8 @@
                             <span class="cs-name">TP 4056 Lithium Battery Charger Module</span>
                         </h3>
                         <p class="cs-item-p">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                            Provide overcharge protection for the 18650 rechargable battery.
+
                         </p>
                     </div>
                 </li>
@@ -579,7 +662,65 @@
         
             </div>
         </div>   
-    </section>                        
+    </section>   
+    <section id="video-gallery">
+        <div class="content">
+    
+            <div class="section-header">
+            <h2 class="cs-title">Video Demonstration</h1>  
+            </div>
+            
+            <div class="video-gallery">
+            
+            <div class="gallery-item ">
+            <img src="assets/img/3D-hub-img.jpg" alt="3d model-hub"/>
+                <div class="gallery-item-caption">
+                <!--<div>-->
+                    <h2>Video Demonstration</h2>
+                    <!-- <p>14410 feet of adventure</p> -->
+                <!--</div>-->
+                <a class="vimeo-popup" href="assets/img/Demonstration.mp4"></a>
+                </div>
+            </div>
+        
+            <!-- <div class="gallery-item">
+                <img src="assets\img\3D-buddy-img.jpg" alt="3d model-buddy"/>
+                <div class="gallery-item-caption">
+                <div>-->
+                    <!-- <h2>Impax-Buddy</h2> -->
+                    <!-- <p>Mountains, rain forests, wild coastlines</p> -->
+                <!--</div>-->
+                <!-- <a class="vimeo-popup" href="assets/img/3d-buddy.mp4"></a>
+                </div> -->
+            <!-- </div> --> 
+            
+            <!-- <div class="gallery-item">
+            <img src="https://assets.codepen.io/156905/northcascadespark.jpg" class="north-cascades-img" alt="North Cascades National Park"/>
+                <div class="gallery-item-caption"> -->
+                <!--<div>-->
+                    <!-- <h2>North Cascades</h2>
+                    <p>The mountains are calling</p> -->
+                <!--</div>-->
+                <!-- <a class="vimeo-popup" href="https://vimeo.com/3653567"></a>
+                </div>
+            </div>
+         -->
+            <!-- <div class="gallery-item">
+                <img src="https://assets.codepen.io/156905/mountsthelens.jpg" alt="Mount St Helens"/>
+                <div class="gallery-item-caption"> -->
+                <!--<div>-->
+                    <!-- <h2>Mount St. Helens</h2>
+                    <p>The one and only</p> -->
+                <!--</div>-->
+                <!-- <a class="vimeo-popup" href="https://vimeo.com/171540296"></a>
+                </div>
+            </div>
+             -->
+        
+        
+            </div>
+        </div>   
+    </section>                      
 
 
 
