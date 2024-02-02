@@ -43,13 +43,18 @@ class LoginController {
     }
 
     const email = loginReq.userName;
-    const player = await PlayerModel.findOne({ email });
-    if (player?.isVerified == "pending" || player?.isVerified == "rejected") {
+    const manager = await ManagerModel.findOne({
+      teamId: loginReq.teamId,
+      email: email,
+    });
+    console.log(300);
+    console.log(manager);
+
+    console.log(manager?.isVerified);
+
+    if (manager?.isVerified == "pending" || manager?.isVerified == "rejected") {
       throw new Error(HttpMsg.MANAGER_NOT_VERIFIED);
     }
-
-    
-  
 
     try {
       // create refresh token
@@ -84,9 +89,6 @@ class LoginController {
       loginReq.password
     );
 
-    
-    
-
     if (!isMatch) {
       throw new Error(HttpMsg.PASSWORD_INCORRECT);
     }
@@ -96,7 +98,6 @@ class LoginController {
     if (player?.isVerified == "pending" || player?.isVerified == "rejected") {
       throw new Error(HttpMsg.PLAYER_NOT_VERIFIED);
     }
-
 
     try {
       // create refresh token

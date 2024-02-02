@@ -93,6 +93,8 @@ class TeamController {
           managerEmail,
           teamId
         );
+
+      // console.log(managerExists);
       return managerExists;
     } catch (error) {
       console.error(error);

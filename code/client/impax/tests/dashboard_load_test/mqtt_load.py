@@ -3,11 +3,11 @@ import time
 import random
 
 # MQTT broker settings
-broker_address = "localhost"
+broker_address = "192.168.4.1"
 broker_port = 1883
 
 # Number of buddy devices
-num_buddies = 5
+num_buddies = 30
 
 # Impact frequency (chance for a buddy to publish an impact each cycle)
 impact_frequency = 10
@@ -58,7 +58,7 @@ while True:
         if random.random() < impact_frequency:
             magnitude = random.randint(14, 100)
             direction = random.choice(
-                ["left", "right", "front", "back", "top", "bottom"])
+                ["left", "right", "front", "back", "top", "bottom"]).capitalize()
             topic = f"buddy/{client_id_str.split('_')[1]}/impact"
             client.publish(
                 topic, f"{magnitude} {direction}", retain=True)

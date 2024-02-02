@@ -1,0 +1,117 @@
+body {
+  font-family: "Raleway", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 120px;
+  padding-top: 10em;
+}
+
+.container .mockup-container {
+  overflow: hidden;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container .mockup-container .mockup-img {
+  height: 60dvh;
+  margin-top: -2em;
+  object-fit: contain;
+}
+.logo {
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.requirements {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2em;
+  margin-bottom: 20px;
+}
+
+.requirement {
+  padding: 16px;
+  border: 1px solid #eee;
+  background-color: #fbfbfb;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); */
+}
+
+.requirement h3 {
+  text-align: left;
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.requirement h3 img {
+  width: 20px;
+}
+
+.requirement ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.requirement li {
+  margin: 10px 0;
+  font-weight: 500;
+  font-size: 1em;
+}
+
+.requirement li span {
+  display: block;
+  margin-top: 0.2em;
+  font-weight: 400;
+  font-size: 0.8em;
+}
+
+.download-link {
+  width: 100%;
+}
+.button {
+  width: 100%;
+  margin-top: 2em;
+  border: none;
+  border-radius: 8px;
+  padding: 1em 1em;
+  background-color: #2a2a2a;
+  color: white;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "Raleway", sans-serif;
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+}
+
+.button:hover {
+  background-color: #882626;
+}

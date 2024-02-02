@@ -23,19 +23,23 @@
 body {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: "Raleway", sans-serif;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   /* prevents padding from affecting height and width */
   box-sizing: border-box;
 }
 .cs-topper {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   font-size: var(--topperFontSize);
   line-height: 1.2em;
   text-transform: uppercase;
   text-align: inherit;
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   font-weight: 700;
   color: var(--primary);
   margin-bottom: 0.25rem;
@@ -44,18 +48,18 @@ body {
 
 .cs-title {
   font-size: var(--headerFontSize);
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   font-weight: 900;
   line-height: 1.2em;
   text-align: inherit;
-  max-width: 43.75rem;
+  max-width: fit-content;
   margin: 0 0 1rem 0;
   color: var(--headerColor);
   position: relative;
 }
 
 .cs-text {
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   font-size: var(--bodyFontSize);
   line-height: 1.5em;
   text-align: inherit;
@@ -66,268 +70,268 @@ body {
 }
 @keyframes slideUp {
   from {
-      transform: translateY(80%);
+    transform: translateY(80%);
   }
   to {
-      transform: translateY(0);
+    transform: translateY(0);
   }
 }
 @keyframes slideDown {
   from {
-      transform: translateY(20%);
+    transform: translateY(20%);
   }
   to {
-      transform: translateY(100%);
+    transform: translateY(100%);
   }
 }
-                          
+
 @media only screen and (min-width: 0rem) {
   #hero-229 {
-      /* Centers button */
-      text-align: center;
-      /* changes on tablet */
-      padding: 0 1rem;
-      position: relative;
-      z-index: 1;
-      /* prevents overflow from the lines extending past the screen width */
-      overflow: hidden;
+    /* Centers button */
+    text-align: center;
+    /* changes on tablet */
+    padding: 0 1rem;
+    position: relative;
+    z-index: 1;
+    /* prevents overflow from the lines extending past the screen width */
+    overflow: hidden;
   }
   #hero-229 .cs-picture {
-      /* Background Image */
-      width: 100%;
-      height: 100%;
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -2;
+    /* Background Image */
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -2;
   }
   #hero-229 .cs-picture:before {
-      /* Black Color Overlay */
-      content: "";
-      width: 100%;
-      height: 100%;
-      background: #000;
-      opacity: 0.6;
-      position: absolute;
-      display: block;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      /* prevents the cursor from interacting with it */
-      pointer-events: none;
+    /* Black Color Overlay */
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.6;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    /* prevents the cursor from interacting with it */
+    pointer-events: none;
   }
   #hero-229 .cs-picture img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      /* Makes image act like a background-image */
-      object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    /* Makes image act like a background-image */
+    object-fit: cover;
   }
   #hero-229 .cs-container {
-      width: 100%;
-      max-width: 80rem;
-      /* we put the padding top and bottom on the container instead of #Hero so the pseudo element lines go to the top and bottom of the section */
-      /* 144px - 280px - leaving extra space for the navigation */
-      /* changes on tablet */
-      padding: clamp(9rem, 25.95vw, 17.5rem) 0;
-      margin: auto;
-      position: relative;
+    width: 100%;
+    max-width: 80rem;
+    /* we put the padding top and bottom on the container instead of #Hero so the pseudo element lines go to the top and bottom of the section */
+    /* 144px - 280px - leaving extra space for the navigation */
+    /* changes on tablet */
+    padding: clamp(9rem, 25.95vw, 17.5rem) 0;
+    margin: auto;
+    position: relative;
   }
   #hero-229 .cs-container:before {
-      /* Left Line */
-      content: "";
-      width: 1px;
-      height: 100%;
-      background: -moz-linear-gradient(
-          top,
-          rgba(250, 251, 252, 0.5) 0%,
-          rgba(250, 251, 252, 0) 100%
-      ); /* FF3.6-15 */
-      background: -webkit-linear-gradient(
-          top,
-          rgba(250, 251, 252, 0.5) 0%,
-          rgba(250, 251, 252, 0) 100%
-      ); /* Chrome10-25,Safari5.1-6 */
-      opacity: 1;
-      position: absolute;
-      display: block;
-      top: 0;
-      left: 0;
+    /* Left Line */
+    content: "";
+    width: 1px;
+    height: 100%;
+    background: -moz-linear-gradient(
+      top,
+      rgba(250, 251, 252, 0.5) 0%,
+      rgba(250, 251, 252, 0) 100%
+    ); /* FF3.6-15 */
+    background: -webkit-linear-gradient(
+      top,
+      rgba(250, 251, 252, 0.5) 0%,
+      rgba(250, 251, 252, 0) 100%
+    ); /* Chrome10-25,Safari5.1-6 */
+    opacity: 1;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
   }
   #hero-229 .cs-flex-group {
-      /* 60px - 220px */
-      margin-bottom: clamp(3.75rem, 15.5vw, 13.75rem);
-      margin: auto;
-      width: 80vw;
-      /* 464px - 562px */
-      max-width: clamp(29rem, 60vw, 35.125rem);
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      flex-wrap: wrap;
-      column-gap: 1.25rem;
-      box-sizing: border-box;
+    /* 60px - 220px */
+    margin-bottom: clamp(3.75rem, 15.5vw, 13.75rem);
+    margin: auto;
+    width: 80vw;
+    /* 464px - 562px */
+    max-width: clamp(29rem, 60vw, 35.125rem);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+    column-gap: 1.25rem;
+    box-sizing: border-box;
   }
   #hero-229 .cs-topper {
-      /* 13px - 16px */
-      font-size: clamp(0.8125rem, 1.6vw, 1rem);
-      line-height: 1.2em;
-      text-transform: uppercase;
-      text-align: center;
-      letter-spacing: 0.1rem;
-      font-weight: 700;
-      color: var(--primaryLight);
-      margin-bottom: 1rem;
-      display: block;
+    /* 13px - 16px */
+    font-size: clamp(0.8125rem, 1.6vw, 1rem);
+    line-height: 1.2em;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 0.1rem;
+    font-weight: 700;
+    color: var(--primaryLight);
+    margin-bottom: 1rem;
+    display: block;
   }
   #hero-229 .cs-title {
-      /* 39px - 61px */
-      font-size: clamp(2.4375rem, 6.4vw, 3.8125rem);
-      font-weight: 900;
-      line-height: 1.2em;
-      text-align: center;
-      width: 100%;
-      /* 32px - 40px */
-      margin: 0 auto clamp(2rem, 4vw, 2.5rem) 0;
-      color: var(--bodyTextColorWhite);
-      position: relative;
+    /* 39px - 61px */
+    font-size: clamp(2.4375rem, 6.4vw, 3.8125rem);
+    font-weight: 900;
+    line-height: 1.2em;
+    text-align: center;
+    width: 100%;
+    /* 32px - 40px */
+    margin: 0 auto clamp(2rem, 4vw, 2.5rem) 0;
+    color: var(--bodyTextColorWhite);
+    position: relative;
   }
   #hero-229 .cs-text {
-      /* 16px - 20px */
-      font-size: clamp(1rem, 1.95vw, 1.25rem);
-      line-height: 1.5em;
-      text-align: center;
-      width: 100%;
-      /* 32px - 40px */
-      margin: 0 auto clamp(2rem, 4vw, 2.5rem) 0;
-      /* 40px - 48px */
-      margin-bottom: clamp(2.5rem, 4vw, 3rem);
-      color: var(--bodyTextColorWhite);
+    /* 16px - 20px */
+    font-size: clamp(1rem, 1.95vw, 1.25rem);
+    line-height: 1.5em;
+    text-align: center;
+    width: 100%;
+    /* 32px - 40px */
+    margin: 0 auto clamp(2rem, 4vw, 2.5rem) 0;
+    /* 40px - 48px */
+    margin-bottom: clamp(2.5rem, 4vw, 3rem);
+    color: var(--bodyTextColorWhite);
   }
   #hero-229 .cs-button-solid {
-      font-size: 1rem;
-      /* 46px - 56px */
-      line-height: clamp(2.875rem, 5.5vw, 3.5rem);
-      width: 11.25rem;
-      text-decoration: none;
-      font-weight: 700;
-      margin: 0 0 1rem 0;
-      color: #fff;
-      padding: 0;
-      background-color: var(--primary);
-      display: inline-block;
-      position: relative;
-      z-index: 1;
+    font-size: 1rem;
+    /* 46px - 56px */
+    line-height: clamp(2.875rem, 5.5vw, 3.5rem);
+    width: 11.25rem;
+    text-decoration: none;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    color: #fff;
+    padding: 0;
+    background-color: var(--primary);
+    display: inline-block;
+    position: relative;
+    z-index: 1;
   }
   #hero-229 .cs-button-solid:before {
-      content: "";
-      position: absolute;
-      display: block;
-      height: 100%;
-      width: 0%;
-      background: #000;
-      opacity: 1;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      transition: width 0.3s;
+    content: "";
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: #000;
+    opacity: 1;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: width 0.3s;
   }
   #hero-229 .cs-button-solid:hover:before {
-      width: 100%;
+    width: 100%;
   }
   #hero-229 .cs-button-transparent {
-      font-size: 1rem;
-      /* 46px - 56px */
-      line-height: clamp(2.875rem, 5.5vw, 3.5rem);
-      width: 11.25rem;
-      /* 46px - 56px */
-      height: clamp(2.875rem, 5.5vw, 3.5rem);
-      text-decoration: none;
-      font-weight: 700;
-      margin: 0;
-      color: #fff;
-      padding: 0;
-      background-color: transparent;
-      border: 1px solid var(--bodyTextColorWhite);
-      box-sizing: border-box;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      z-index: 1;
+    font-size: 1rem;
+    /* 46px - 56px */
+    line-height: clamp(2.875rem, 5.5vw, 3.5rem);
+    width: 11.25rem;
+    /* 46px - 56px */
+    height: clamp(2.875rem, 5.5vw, 3.5rem);
+    text-decoration: none;
+    font-weight: 700;
+    margin: 0;
+    color: #fff;
+    padding: 0;
+    background-color: transparent;
+    border: 1px solid var(--bodyTextColorWhite);
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
   }
   #hero-229 .cs-button-transparent:before {
-      content: "";
-      position: absolute;
-      display: block;
-      background: #000;
-      opacity: 1;
-      /* so it sits on top of the border */
-      top: -1px;
-      left: -1px;
-      right: -1px;
-      bottom: -1px;
-      z-index: -1;
-      transform-origin: left;
-      /* this is what creates the grow affect on hover */
-      transform: scaleX(0);
-      transition: transform 0.3s;
+    content: "";
+    position: absolute;
+    display: block;
+    background: #000;
+    opacity: 1;
+    /* so it sits on top of the border */
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    z-index: -1;
+    transform-origin: left;
+    /* this is what creates the grow affect on hover */
+    transform: scaleX(0);
+    transition: transform 0.3s;
   }
   #hero-229 .cs-button-transparent:hover:before {
-      transform: scaleX(1);
+    transform: scaleX(1);
   }
   #hero-229 .cs-button-transparent .cs-img {
-      display: block;
-      margin-right: 0.75rem;
+    display: block;
+    margin-right: 0.75rem;
   }
 }
 /* Tablet - 768px */
 @media only screen and (min-width: 48rem) {
   #hero-229 {
-      /* 32px - 40px */
-      padding: 0 clamp(2rem, 5vw, 2.5rem);
+    /* 32px - 40px */
+    padding: 0 clamp(2rem, 5vw, 2.5rem);
   }
   #hero-229 .cs-container:after {
-      /* Right Line */
-      content: "";
-      width: 1px;
-      height: 100%;
-      background: -moz-linear-gradient(
-          top,
-          rgba(250, 251, 252, 0) 0%,
-          rgba(250, 251, 252, 0.5) 100%
-      ); /* FF3.6-15 */
-      background: -webkit-linear-gradient(
-          top,
-          rgba(250, 251, 252, 0) 0%,
-          rgba(250, 251, 252, 0.5) 100%
-      ); /* Chrome10-25,Safari5.1-6 */
-      opacity: 1;
-      position: absolute;
-      display: block;
-      top: 0;
-      right: 0;
+    /* Right Line */
+    content: "";
+    width: 1px;
+    height: 100%;
+    background: -moz-linear-gradient(
+      top,
+      rgba(250, 251, 252, 0) 0%,
+      rgba(250, 251, 252, 0.5) 100%
+    ); /* FF3.6-15 */
+    background: -webkit-linear-gradient(
+      top,
+      rgba(250, 251, 252, 0) 0%,
+      rgba(250, 251, 252, 0.5) 100%
+    ); /* Chrome10-25,Safari5.1-6 */
+    opacity: 1;
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
   }
   #hero-229 .cs-button-solid {
-      margin-bottom: 0;
+    margin-bottom: 0;
   }
 }
 /* Desktop Parallax Effect - 1300px */
 @media only screen and (min-width: 81.25rem) {
   #hero-229 {
-      background: url("assets/img/background.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      /* creates parallax effect on background image */
-      background-attachment: fixed;
-      /* remove img tag so we can make parallax work */
+    background: url("assets/img/background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* creates parallax effect on background image */
+    background-attachment: fixed;
+    /* remove img tag so we can make parallax work */
   }
   #hero-229 .cs-picture img {
-      display: none;
+    display: none;
   }
 }
 
@@ -669,7 +673,8 @@ body {
     align-items: center;
     gap: 0.75rem;
     overflow: hidden;
-    transition: padding 0.3s, margin 0.3s, height 0.3s, opacity 0.3s, visibility 0.3s;
+    transition: padding 0.3s, margin 0.3s, height 0.3s, opacity 0.3s,
+      visibility 0.3s;
   }
   #cs-navigation .cs-drop-li {
     list-style: none;
@@ -1142,7 +1147,7 @@ body {
     z-index: 100;
   }
   #cs-navigation .cs-logo img {
-    width: 100%;
+    width: 60%;
     height: 100%;
     /* ensures the image never overflows the container. It stays contained within it's width and height and expands to fill it then stops once it reaches an edge */
     object-fit: contain;
@@ -1249,890 +1254,890 @@ body {
   <---   Side By Side Reverse     -->
   <--- -------------------------- -*/
 
-  /* Mobile - 360px */
-  @media only screen and (min-width: 0rem) {
-      #Problem {
-          padding: var(--sectionPadding);
-          overflow: hidden;
-          position: relative;
-          z-index: 1;
-      }
-      @keyframes floatAnimation {
-          0% {
-              transform: translateY(0);
-          }
-          50% {
-              transform: translateY(-2em);
-          }
-          100% {
-              transform: translateY(0);
-          }
-      }
-      @keyframes floatAnimation2 {
-          0% {
-              transform: translateY(0);
-          }
-          50% {
-              transform: translateY(-1em);
-          }
-          100% {
-              transform: translateY(0);
-          }
-      }
-      #Problem .cs-container {
-          width: 100%;
-          /* changes to 1280px at desktop */
-          max-width: 34.375rem;
-          margin: auto;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          /* 48px - 56px */
-          gap: clamp(3rem, 3vw, 3.5rem);
-      }
-      #Problem:before {
-        /* static tiled pattern */
-        content: "";
-        height: 100%;
-        width: 100%;
-        opacity: 0.08;
-        background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
-        background-size: auto;
-        background-position: center;
-        background-repeat: repeat;
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: -1;
+/* Mobile - 360px */
+@media only screen and (min-width: 0rem) {
+  #Problem {
+    padding: var(--sectionPadding);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+  @keyframes floatAnimation {
+    0% {
+      transform: translateY(0);
     }
-      #Problem .cs-content {
-          /* set text align to left if content needs to be left aligned */
-          text-align: justify;
-          width: 100%;
-          max-width: 33.875rem;
-          display: flex;
-          flex-direction: column;
-          /* centers content horizontally, set to flex-start to left align */
-          align-items: flex-start;
-      }
-
-      #Problem .cs-text {
-          margin-bottom: 1rem;
-      }
-      #Problem .cs-text:last-of-type {
-          margin-bottom: 2rem;
-      }
-      #Problem .cs-button-solid {
-          font-size: 1rem;
-          /* 46px - 56px */
-          line-height: clamp(2.875rem, 5.5vw, 3.5rem);
-          text-decoration: none;
-          font-weight: 700;
-          text-align: center;
-          margin: 0;
-          color: #fff;
-          min-width: 9.375rem;
-          padding: 0 1.5rem;
-          background-color: var(--primary);
-          border-radius: 0.25rem;
-          display: inline-block;
-          position: relative;
-          z-index: 1;
-          /* prevents padding from adding to the width */
-          box-sizing: border-box;
-      }
-      #Problem .cs-button-solid:before {
-          content: "";
-          position: absolute;
-          height: 100%;
-          width: 0%;
-          background: #000;
-          opacity: 1;
-          top: 0;
-          left: 0;
-          z-index: -1;
-          border-radius: 0.25rem;
-          transition: width 0.3s;
-      }
-      #Problem .cs-button-solid:hover:before {
-          width: 100%;
-      }
-      #Problem .cs-image-group {
-          /* everything in the group is in ems so we can scale them down with this min/max font size tied to the view width */
-          font-size: min(2.3vw, 1em);
-          width: 36.1875em;
-          height: 36.75em;
-          position: relative;
-          /* sends it to the top above the content */
-          order: -1;
-      }
-      #Problem .cs-splash {
-          width: 35.625em;
-          height: 36.625em;
-          opacity: 0.1;
-          position: absolute;
-          left: 0.3125em;
-          top: 0;
-      }
-      #Problem .cs-blob {
-          width: 24.5em;
-          height: 31.0625em;
-          position: absolute;
-          right: 0em;
-          top: 0.625em;
-      }
-      #Problem .cs-lightning {
-          width: 4em;
-          height: 6.4375em;
-          position: absolute;
-          right: 2.5em;
-          top: 0.5em;
-          transform: rotate(23deg);
-      }
-      #Problem .cs-left-image {
-          width: 13.1875em;
-          height: 13.1875em;
-          border-radius: 50%;
-          /* cover the 1px gap between border and image */
-          background-color: #f7f7f7;
-          border: 12px solid #610404;
-          /* clips image to the circle */
-          overflow: hidden;
-          position: absolute;
-          left: -0.75em;
-          top: 8.1875em;
-          z-index: 10;
-          animation-name: floatAnimation2;
-          animation-duration: 6s;
-          animation-timing-function: ease-in-out;
-          animation-fill-mode: forwards;
-          animation-iteration-count: infinite;
-      }
-      #Problem .cs-left-image img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          /* makes it act like a background image */
-          object-fit: cover;
-      }
-      #Problem .cs-bottom-image {
-          width: 11.25em;
-          height: 11.25em;
-          border-radius: 50%;
-          /* cover the 1px gap between border and image */
-          background-color: #fafafa;
-          border: 12px solid #610404;
-          /* clips image to the circle */
-          overflow: hidden;
-          position: absolute;
-          right: 11.25em;
-          bottom: -0.75em;
-          z-index: 10;
-          animation-name: floatAnimation;
-          animation-duration: 10s;
-          animation-delay: 1s;
-          animation-timing-function: ease-in-out;
-          animation-fill-mode: forwards;
-          animation-iteration-count: infinite;
-      }
-      #Problem .cs-bottom-image img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          /* makes it act like a background image */
-          object-fit: cover;
-      }
-      #Problem .cs-person {
-          width: 24.125em;
-          height: auto;
-          position: absolute;
-          right: 2.875em;
-          bottom: 4.0625em;
-      }
-      #Problem .cs-person img {
-          width: 100%;
-          height: auto;
-      }
-      #Problem .cs-mask {
-          width: 23.9375em;
-          height: 10.8125em;
-          position: absolute;
-          right: -2.0625em;
-          bottom: 2.6875em;
-          z-index: 2;
-      }
-      /* Style for the bullet list */
-      #Problem ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-      }
-
-      /* Style for the list items */
-      #Problem li {
-          margin-bottom: 10px;
-          padding-left: 20px;
-          position: relative;
-          font-size: 16px;
-          line-height: 1.6;
-          color: #333;
-      }
-
-      /* Style for the custom bullet point */
-      #Problem li::before {
-          content: "\2713"; /* Unicode character for a checkmark */
-          color: #610404; /* Change the color as needed */
-          font-size: 20px;
-          position: absolute;
-          left: 0;
-          top: 50%;
-          transform: translateY(-50%);
-      }
+    50% {
+      transform: translateY(-2em);
+    }
+    100% {
+      transform: translateY(0);
+    }
   }
-  /* Small Desktop - 1024px */
-  @media only screen and (min-width: 64rem) {
-      #Problem .cs-container {
-          max-width: 80rem;
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: flex-start;
-      }
-      #Problem .cs-ul {
-          margin-top: 1rem;
-      }
-      #Problem .cs-image-group {
-          font-size: min(1.1vw, 1em);
-          /* prevents flexbox from squishing it */
-          flex: none;
-      }
+  @keyframes floatAnimation2 {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-1em);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  #Problem .cs-container {
+    width: 100%;
+    /* changes to 1280px at desktop */
+    max-width: 34.375rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* 48px - 56px */
+    gap: clamp(3rem, 3vw, 3.5rem);
+  }
+  #Problem:before {
+    /* static tiled pattern */
+    content: "";
+    height: 100%;
+    width: 100%;
+    opacity: 0.08;
+    background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
+    background-size: auto;
+    background-position: center;
+    background-repeat: repeat;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  #Problem .cs-content {
+    /* set text align to left if content needs to be left aligned */
+    text-align: justify;
+    width: 100%;
+    max-width: 33.875rem;
+    display: flex;
+    flex-direction: column;
+    /* centers content horizontally, set to flex-start to left align */
+    align-items: flex-start;
   }
 
-  /*-- -------------------------- -->
+  #Problem .cs-text {
+    margin-bottom: 1rem;
+  }
+  #Problem .cs-text:last-of-type {
+    margin-bottom: 2rem;
+  }
+  #Problem .cs-button-solid {
+    font-size: 1rem;
+    /* 46px - 56px */
+    line-height: clamp(2.875rem, 5.5vw, 3.5rem);
+    text-decoration: none;
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
+    color: #fff;
+    min-width: 9.375rem;
+    padding: 0 1.5rem;
+    background-color: var(--primary);
+    border-radius: 0.25rem;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    /* prevents padding from adding to the width */
+    box-sizing: border-box;
+  }
+  #Problem .cs-button-solid:before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    background: #000;
+    opacity: 1;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 0.25rem;
+    transition: width 0.3s;
+  }
+  #Problem .cs-button-solid:hover:before {
+    width: 100%;
+  }
+  #Problem .cs-image-group {
+    /* everything in the group is in ems so we can scale them down with this min/max font size tied to the view width */
+    font-size: min(2.3vw, 1em);
+    width: 36.1875em;
+    height: 36.75em;
+    position: relative;
+    /* sends it to the top above the content */
+    order: -1;
+  }
+  #Problem .cs-splash {
+    width: 35.625em;
+    height: 36.625em;
+    opacity: 0.1;
+    position: absolute;
+    left: 0.3125em;
+    top: 0;
+  }
+  #Problem .cs-blob {
+    width: 24.5em;
+    height: 31.0625em;
+    position: absolute;
+    right: 0em;
+    top: 0.625em;
+  }
+  #Problem .cs-lightning {
+    width: 4em;
+    height: 6.4375em;
+    position: absolute;
+    right: 2.5em;
+    top: 0.5em;
+    transform: rotate(23deg);
+  }
+  #Problem .cs-left-image {
+    width: 13.1875em;
+    height: 13.1875em;
+    border-radius: 50%;
+    /* cover the 1px gap between border and image */
+    background-color: #f7f7f7;
+    border: 12px solid #610404;
+    /* clips image to the circle */
+    overflow: hidden;
+    position: absolute;
+    left: -0.75em;
+    top: 8.1875em;
+    z-index: 10;
+    animation-name: floatAnimation2;
+    animation-duration: 6s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+  }
+  #Problem .cs-left-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    /* makes it act like a background image */
+    object-fit: cover;
+  }
+  #Problem .cs-bottom-image {
+    width: 11.25em;
+    height: 11.25em;
+    border-radius: 50%;
+    /* cover the 1px gap between border and image */
+    background-color: #fafafa;
+    border: 12px solid #610404;
+    /* clips image to the circle */
+    overflow: hidden;
+    position: absolute;
+    right: 11.25em;
+    bottom: -0.75em;
+    z-index: 10;
+    animation-name: floatAnimation;
+    animation-duration: 10s;
+    animation-delay: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+  }
+  #Problem .cs-bottom-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    /* makes it act like a background image */
+    object-fit: cover;
+  }
+  #Problem .cs-person {
+    width: 24.125em;
+    height: auto;
+    position: absolute;
+    right: 2.875em;
+    bottom: 4.0625em;
+  }
+  #Problem .cs-person img {
+    width: 100%;
+    height: auto;
+  }
+  #Problem .cs-mask {
+    width: 23.9375em;
+    height: 10.8125em;
+    position: absolute;
+    right: -2.0625em;
+    bottom: 2.6875em;
+    z-index: 2;
+  }
+  /* Style for the bullet list */
+  #Problem ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Style for the list items */
+  #Problem li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  /* Style for the custom bullet point */
+  #Problem li::before {
+    content: "\2713"; /* Unicode character for a checkmark */
+    color: #610404; /* Change the color as needed */
+    font-size: 20px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+/* Small Desktop - 1024px */
+@media only screen and (min-width: 64rem) {
+  #Problem .cs-container {
+    max-width: 80rem;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  #Problem .cs-ul {
+    margin-top: 1rem;
+  }
+  #Problem .cs-image-group {
+    font-size: min(1.1vw, 1em);
+    /* prevents flexbox from squishing it */
+    flex: none;
+  }
+}
+
+/*-- -------------------------- -->
   <---   Side By Side Solution    -->
   <--- -------------------------- -*/
 
-  /* Mobile - 360px */
-  @media only screen and (min-width: 0rem) {
-      #Solution{
-          padding: var(--sectionPadding);
-          overflow: hidden;
-          position: relative;
-          z-index: 1;
-      }
-      @keyframes floatAnimation {
-          0% {
-              transform: translateY(0);
-          }
-          50% {
-              transform: translateY(-2em);
-          }
-          100% {
-              transform: translateY(0);
-          }
-      }
-      @keyframes floatAnimation2 {
-          0% {
-              transform: translateY(0);
-          }
-          50% {
-              transform: translateY(-1em);
-          }
-          100% {
-              transform: translateY(0);
-          }
-      }
-      #Solution .cs-container {
-          width: 100%;
-          /* changes to 1280px at desktop */
-          max-width: 34.375rem;
-          margin: auto;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          /* 48px - 56px */
-          gap: clamp(3rem, 3vw, 3.5rem);
-      }
-      #Solution .cs-content {
-          /* set text align to left if content needs to be left aligned */
-          text-align: justify;
-          width: 100%;
-          max-width: 33.875rem;
-          display: flex;
-          flex-direction: column;
-          /* centers content horizontally, set to flex-start to left align */
-          align-items: flex-start;
-      }
-      #Solution:before {
-        /* static tiled pattern */
-        content: "";
-        height: 100%;
-        width: 100%;
-        opacity: 0.08;
-        background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
-        background-size: auto;
-        background-position: center;
-        background-repeat: repeat;
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: -1;
+/* Mobile - 360px */
+@media only screen and (min-width: 0rem) {
+  #Solution {
+    padding: var(--sectionPadding);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+  @keyframes floatAnimation {
+    0% {
+      transform: translateY(0);
     }
-
-      #Solution .cs-text {
-          margin-bottom: 1rem;
-      }
-      #Solution .cs-text:last-of-type {
-          margin-bottom: 2rem;
-      }
-      #Solution .cs-button-solid {
-          font-size: 1rem;
-          /* 46px - 56px */
-          line-height: clamp(2.875rem, 5.5vw, 3.5rem);
-          text-decoration: none;
-          font-weight: 700;
-          text-align: center;
-          margin: 0;
-          color: #fff;
-          min-width: 9.375rem;
-          padding: 0 1.5rem;
-          background-color: var(--primary);
-          border-radius: 0.25rem;
-          display: inline-block;
-          position: relative;
-          z-index: 1;
-          /* prevents padding from adding to the width */
-          box-sizing: border-box;
-      }
-      #Solution .cs-button-solid:before {
-          content: "";
-          position: absolute;
-          height: 100%;
-          width: 0%;
-          background: #000;
-          opacity: 1;
-          top: 0;
-          left: 0;
-          z-index: -1;
-          border-radius: 0.25rem;
-          transition: width 0.3s;
-      }
-      #Solution .cs-button-solid:hover:before {
-          width: 100%;
-      }
-      #Solution .cs-image-group {
-          /* everything in the group is in ems so we can scale them down with this min/max font size tied to the view width */
-          font-size: min(2.3vw, 1em);
-          width: 36.1875em;
-          height: 36.75em;
-          position: relative;
-          /* sends it to the top above the content */
-          order: -1;
-      }
-      #Solution .cs-splash {
-          width: 35.625em;
-          height: 36.625em;
-          opacity: 0.1;
-          position: absolute;
-          left: 0.3125em;
-          top: 0;
-      }
-      #Solution .cs-blob {
-          width: 24.5em;
-          height: 31.0625em;
-          position: absolute;
-          right: 0em;
-          top: 0.625em;
-      }
-      #Solution .cs-lightning {
-          width: 4em;
-          height: 6.4375em;
-          position: absolute;
-          right: 2.5em;
-          top: 0.5em;
-          transform: rotate(23deg);
-      }
-      #Solution .cs-left-image {
-          width: 13.1875em;
-          height: 13.1875em;
-          border-radius: 50%;
-          /* cover the 1px gap between border and image */
-          background-color: #f7f7f7;
-          border: 12px solid #610404;
-          /* clips image to the circle */
-          overflow: hidden;
-          position: absolute;
-          left: -0.75em;
-          top: 8.1875em;
-          z-index: 10;
-          animation-name: floatAnimation2;
-          animation-duration: 6s;
-          animation-timing-function: ease-in-out;
-          animation-fill-mode: forwards;
-          animation-iteration-count: infinite;
-      }
-      #Solution .cs-left-image img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          /* makes it act like a background image */
-          object-fit: cover;
-      }
-      #Solution .cs-bottom-image {
-          width: 11.25em;
-          height: 11.25em;
-          border-radius: 50%;
-          /* cover the 1px gap between border and image */
-          background-color: #fafafa;
-          border: 12px solid #610404;
-          /* clips image to the circle */
-          overflow: hidden;
-          position: absolute;
-          right: 11.25em;
-          bottom: -0.75em;
-          z-index: 10;
-          animation-name: floatAnimation;
-          animation-duration: 10s;
-          animation-delay: 1s;
-          animation-timing-function: ease-in-out;
-          animation-fill-mode: forwards;
-          animation-iteration-count: infinite;
-      }
-      #Solution .cs-bottom-image img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          /* makes it act like a background image */
-          object-fit: cover;
-      }
-      #Solution .cs-person {
-          width: 24.125em;
-          height: auto;
-          position: absolute;
-          right: 2.875em;
-          bottom: 4.0625em;
-      }
-      #Solution .cs-person img {
-          width: 100%;
-          height: auto;
-      }
-      #Solution .cs-mask {
-          width: 23.9375em;
-          height: 10.8125em;
-          position: absolute;
-          right: -2.0625em;
-          bottom: 2.6875em;
-          z-index: 2;
-      }
-      /* Style for the bullet list */
-      #Solution ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-      }
-
-      /* Style for the list items */
-      #Solution li {
-          margin-bottom: 10px;
-          padding-left: 20px;
-          position: relative;
-          font-size: 16px;
-          line-height: 1.6;
-          color: #333;
-      }
-
-      /* Style for the custom bullet point */
-      #Solution li::before {
-          content: "\2713"; /* Unicode character for a checkmark */
-          color: #610404; /* Change the color as needed */
-          font-size: 20px;
-          position: absolute;
-          left: 0;
-          top: 50%;
-          transform: translateY(-50%);
-      }
+    50% {
+      transform: translateY(-2em);
+    }
+    100% {
+      transform: translateY(0);
+    }
   }
-  /* Small Desktop - 1024px */
-  @media only screen and (min-width: 64rem) {
-      #Solution .cs-container {
-          max-width: 80rem;
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: flex-start;
-      }
-      #Solution .cs-ul {
-          margin-top: 1rem;
-      }
-      #Solution .cs-image-group {
-          font-size: min(1.1vw, 1em);
-          /* prevents flexbox from squishing it */
-          flex: none;
-      }
+  @keyframes floatAnimation2 {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-1em);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  #Solution .cs-container {
+    width: 100%;
+    /* changes to 1280px at desktop */
+    max-width: 34.375rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* 48px - 56px */
+    gap: clamp(3rem, 3vw, 3.5rem);
+  }
+  #Solution .cs-content {
+    /* set text align to left if content needs to be left aligned */
+    text-align: justify;
+    width: 100%;
+    max-width: 33.875rem;
+    display: flex;
+    flex-direction: column;
+    /* centers content horizontally, set to flex-start to left align */
+    align-items: flex-start;
+  }
+  #Solution:before {
+    /* static tiled pattern */
+    content: "";
+    height: 100%;
+    width: 100%;
+    opacity: 0.08;
+    background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
+    background-size: auto;
+    background-position: center;
+    background-repeat: repeat;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
   }
 
-  /*-- -------------------------- -->
+  #Solution .cs-text {
+    margin-bottom: 1rem;
+  }
+  #Solution .cs-text:last-of-type {
+    margin-bottom: 2rem;
+  }
+  #Solution .cs-button-solid {
+    font-size: 1rem;
+    /* 46px - 56px */
+    line-height: clamp(2.875rem, 5.5vw, 3.5rem);
+    text-decoration: none;
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
+    color: #fff;
+    min-width: 9.375rem;
+    padding: 0 1.5rem;
+    background-color: var(--primary);
+    border-radius: 0.25rem;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    /* prevents padding from adding to the width */
+    box-sizing: border-box;
+  }
+  #Solution .cs-button-solid:before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    background: #000;
+    opacity: 1;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 0.25rem;
+    transition: width 0.3s;
+  }
+  #Solution .cs-button-solid:hover:before {
+    width: 100%;
+  }
+  #Solution .cs-image-group {
+    /* everything in the group is in ems so we can scale them down with this min/max font size tied to the view width */
+    font-size: min(2.3vw, 1em);
+    width: 36.1875em;
+    height: 36.75em;
+    position: relative;
+    /* sends it to the top above the content */
+    order: -1;
+  }
+  #Solution .cs-splash {
+    width: 35.625em;
+    height: 36.625em;
+    opacity: 0.1;
+    position: absolute;
+    left: 0.3125em;
+    top: 0;
+  }
+  #Solution .cs-blob {
+    width: 24.5em;
+    height: 31.0625em;
+    position: absolute;
+    right: 0em;
+    top: 0.625em;
+  }
+  #Solution .cs-lightning {
+    width: 4em;
+    height: 6.4375em;
+    position: absolute;
+    right: 2.5em;
+    top: 0.5em;
+    transform: rotate(23deg);
+  }
+  #Solution .cs-left-image {
+    width: 13.1875em;
+    height: 13.1875em;
+    border-radius: 50%;
+    /* cover the 1px gap between border and image */
+    background-color: #f7f7f7;
+    border: 12px solid #610404;
+    /* clips image to the circle */
+    overflow: hidden;
+    position: absolute;
+    left: -0.75em;
+    top: 8.1875em;
+    z-index: 10;
+    animation-name: floatAnimation2;
+    animation-duration: 6s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+  }
+  #Solution .cs-left-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    /* makes it act like a background image */
+    object-fit: cover;
+  }
+  #Solution .cs-bottom-image {
+    width: 11.25em;
+    height: 11.25em;
+    border-radius: 50%;
+    /* cover the 1px gap between border and image */
+    background-color: #fafafa;
+    border: 12px solid #610404;
+    /* clips image to the circle */
+    overflow: hidden;
+    position: absolute;
+    right: 11.25em;
+    bottom: -0.75em;
+    z-index: 10;
+    animation-name: floatAnimation;
+    animation-duration: 10s;
+    animation-delay: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+  }
+  #Solution .cs-bottom-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    /* makes it act like a background image */
+    object-fit: cover;
+  }
+  #Solution .cs-person {
+    width: 24.125em;
+    height: auto;
+    position: absolute;
+    right: 2.875em;
+    bottom: 4.0625em;
+  }
+  #Solution .cs-person img {
+    width: 100%;
+    height: auto;
+  }
+  #Solution .cs-mask {
+    width: 23.9375em;
+    height: 10.8125em;
+    position: absolute;
+    right: -2.0625em;
+    bottom: 2.6875em;
+    z-index: 2;
+  }
+  /* Style for the bullet list */
+  #Solution ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Style for the list items */
+  #Solution li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  /* Style for the custom bullet point */
+  #Solution li::before {
+    content: "\2713"; /* Unicode character for a checkmark */
+    color: #610404; /* Change the color as needed */
+    font-size: 20px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+/* Small Desktop - 1024px */
+@media only screen and (min-width: 64rem) {
+  #Solution .cs-container {
+    max-width: 80rem;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  #Solution .cs-ul {
+    margin-top: 1rem;
+  }
+  #Solution .cs-image-group {
+    font-size: min(1.1vw, 1em);
+    /* prevents flexbox from squishing it */
+    flex: none;
+  }
+}
+
+/*-- -------------------------- -->
   <---       Meet The Team        -->
   <--- -------------------------- -*/
 
-  /* Mobile - 360px */
-  @media only screen and (min-width: 0rem) {
-      #meet-us-1021 {
-          padding: var(--sectionPadding);
-          background-color: #1a1a1a;
-      }
-      #meet-us-1021 .cs-container {
-          width: 100%;
-          max-width: 80rem;
-          margin: auto;
-          position: relative;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          /* 48px - 64px */
-          gap: clamp(3rem, 6vw, 4rem);
-      }
-      #meet-us-1021 .cs-container {
-          width: 100%;
-          max-width: 80rem;
-          margin: auto;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          /* 48px - 64px */
-          gap: clamp(3rem, 6vw, 4rem);
-      }
-      #meet-us-1021 .cs-content {
-          /* set text align to left if content needs to be left aligned */
-          text-align: center;
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          /* centers content horizontally, set to flex-start to left align */
-          align-items: center;
-      }
-      #meet-us-1021 .cs-graphic {
-          width: 100%;
-          max-width: 26.82352941rem;
-          margin: 0 0 1rem 0;
-      }
-      #meet-us-1021 .cs-title {
-          font-size: var(--headerFontSize);
-          font-weight: 900;
-          line-height: 1.2em;
-          text-align: inherit;
-          max-width: 43.75rem;
-          margin: 0 0 1rem 0;
-          color: var(--headerColor);
-          position: relative;
-      }
-      #meet-us-1021 .cs-text {
-          font-size: var(--bodyFontSize);
-          line-height: 1.5em;
-          text-align: inherit;
-          width: 100%;
-          max-width: 40.625rem;
-          margin: 0;
-          color: var(--bodyTextColor);
-      }
-      #meet-us-1021 .cs-title,
-      #meet-us-1021 .cs-text {
-          color: var(--bodyTextColorWhite);
-      }
-      #meet-us-1021 .cs-text {
-          opacity: 0.8;
-      }
-      #meet-us-1021 .cs-card-group {
-          width: 100%;
-          padding: 0;
-          margin: 0;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: center;
-          flex-wrap: wrap;
-          /* 16px - 20px */
-          gap: clamp(1rem, 2vw, 1.25rem);
-      }
-      #meet-us-1021 .cs-item {
-          list-style: none;
-          width: 100%;
-          max-width: 25.8125rem;
-          position: relative;
-          z-index: 1;
-      }
-      #meet-us-1021 .cs-item:hover .cs-picture {
-          background-color: #000;
-      }
-      #meet-us-1021 .cs-item:hover .cs-picture img {
-          transform: scale(1.1);
-          opacity: 0.6;
-      }
-      #meet-us-1021 .cs-info {
-          width: 85.5%;
-          /* 16px - 24px */
-          padding: clamp(1rem, 2vw, 1.5rem);
-          margin: -3.75rem auto 0;
-          box-sizing: border-box;
-          background-color: #1a1a1a;
-          border-top: 4px solid var(--primary);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          z-index: 10;
-      }
-      #meet-us-1021 .cs-name {
-          /* 16px - 25px */
-          font-size: clamp(1rem, 2vw, 1.5625rem);
-          font-weight: 700;
-          line-height: 1.2em;
-          /* 4px - 8px */
-          margin: 0 0 clamp(0.25rem, 1vw, 0.5rem);
-          color: var(--bodyTextColorWhite);
-          display: block;
-          transition: color 0.3s;
-      }
-      #meet-us-1021 .cs-job {
-          /* 14px - 16px */
-          font-size: clamp(0.875rem, 1.5vw, 1rem);
-          line-height: 1.5em;
-          color: var(--bodyTextColorWhite);
-          opacity: 0.8;
-          display: block;
-      }
-      #meet-us-1021 .cs-picture {
-          width: 100%;
-          /* 246px - 500px */
-          height: clamp(15.375rem, 40vw, 32.25rem);
-          overflow: hidden;
-          display: block;
-          position: relative;
-          transition: background-color 0.3s;
-          z-index: -1;
-      }
-      #meet-us-1021 .cs-picture img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          /* makes it behave like a background imahe */
-          object-fit: cover;
-          /* makes the image position itself at the top of the parent */
-          object-position: top;
-          transition:
-              transform 0.6s,
-              opacity 0.3s;
-      }
+/* Mobile - 360px */
+@media only screen and (min-width: 0rem) {
+  #meet-us-1021 {
+    padding: var(--sectionPadding);
+    background-color: #1a1a1a;
   }
-  /* Tablet - 768px */
-  @media only screen and (min-width: 48rem) {
-      #meet-us-1021 .cs-card-group {
-          display: grid;
-          grid-template-columns: repeat(12, 1fr);
-          width: 100%;
-      }
-      #meet-us-1021 .cs-item {
-          grid-column: span 4;
-      }
+  #meet-us-1021 .cs-container {
+    width: 100%;
+    max-width: 80rem;
+    margin: auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* 48px - 64px */
+    gap: clamp(3rem, 6vw, 4rem);
   }
-  
-  /*-- -------------------------- -->
+  #meet-us-1021 .cs-container {
+    width: 100%;
+    max-width: 80rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* 48px - 64px */
+    gap: clamp(3rem, 6vw, 4rem);
+  }
+  #meet-us-1021 .cs-content {
+    /* set text align to left if content needs to be left aligned */
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* centers content horizontally, set to flex-start to left align */
+    align-items: center;
+  }
+  #meet-us-1021 .cs-graphic {
+    width: 100%;
+    max-width: 26.82352941rem;
+    margin: 0 0 1rem 0;
+  }
+  #meet-us-1021 .cs-title {
+    font-size: var(--headerFontSize);
+    font-weight: 900;
+    line-height: 1.2em;
+    text-align: inherit;
+    max-width: 43.75rem;
+    margin: 0 0 1rem 0;
+    color: var(--headerColor);
+    position: relative;
+  }
+  #meet-us-1021 .cs-text {
+    font-size: var(--bodyFontSize);
+    line-height: 1.5em;
+    text-align: inherit;
+    width: 100%;
+    max-width: 40.625rem;
+    margin: 0;
+    color: var(--bodyTextColor);
+  }
+  #meet-us-1021 .cs-title,
+  #meet-us-1021 .cs-text {
+    color: var(--bodyTextColorWhite);
+  }
+  #meet-us-1021 .cs-text {
+    opacity: 0.8;
+  }
+  #meet-us-1021 .cs-card-group {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    /* 16px - 20px */
+    gap: clamp(1rem, 2vw, 1.25rem);
+  }
+  #meet-us-1021 .cs-item {
+    list-style: none;
+    width: 100%;
+    max-width: 25.8125rem;
+    position: relative;
+    z-index: 1;
+  }
+  #meet-us-1021 .cs-item:hover .cs-picture {
+    background-color: #000;
+  }
+  #meet-us-1021 .cs-item:hover .cs-picture img {
+    transform: scale(1.1);
+    opacity: 0.6;
+  }
+  #meet-us-1021 .cs-info {
+    width: 85.5%;
+    /* 16px - 24px */
+    padding: clamp(1rem, 2vw, 1.5rem);
+    margin: -3.75rem auto 0;
+    box-sizing: border-box;
+    background-color: #1a1a1a;
+    border-top: 4px solid var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 10;
+  }
+  #meet-us-1021 .cs-name {
+    /* 16px - 25px */
+    font-size: clamp(1rem, 2vw, 1.5625rem);
+    font-weight: 700;
+    line-height: 1.2em;
+    /* 4px - 8px */
+    margin: 0 0 clamp(0.25rem, 1vw, 0.5rem);
+    color: var(--bodyTextColorWhite);
+    display: block;
+    transition: color 0.3s;
+  }
+  #meet-us-1021 .cs-job {
+    /* 14px - 16px */
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
+    line-height: 1.5em;
+    color: var(--bodyTextColorWhite);
+    opacity: 0.8;
+    display: block;
+  }
+  #meet-us-1021 .cs-picture {
+    width: 100%;
+    /* 246px - 500px */
+    height: clamp(15rem, 20vw, 20rem);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: background-color 0.3s;
+    z-index: -1;
+  }
+  #meet-us-1021 .cs-picture img {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 60%;
+    /* makes it behave like a background imahe */
+    object-fit: contain;
+    /* makes the image position itself at the top of the parent */
+    object-position: top;
+    transition: transform 0.6s, opacity 0.3s;
+  }
+}
+/* Tablet - 768px */
+@media only screen and (min-width: 48rem) {
+  #meet-us-1021 .cs-card-group {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    width: 100%;
+  }
+  #meet-us-1021 .cs-item {
+    grid-column: span 4;
+  }
+}
+
+/*-- -------------------------- -->
   <---            Menu            -->
   <--- -------------------------- -*/
 
-  /* Mobile - 360px */
-  @media only screen and (min-width: 0rem) {
-      #Hardware {
-          padding: var(--sectionPadding);
-          position: relative;
-          z-index: 1;
-      }
-      #Hardware:before {
-          /* static tiled pattern  */
-          content: "";
-          height: 100%;
-          width: 100%;
-          opacity: 0.08;
-          background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
-          background-size: auto;
-          background-position: center;
-          background-repeat: repeat;
-          display: block;
-          position: absolute;
-          top: 0;
-          left: 0;
-          z-index: -1;
-      } 
-      #Hardware .cs-container {
-          width: 100%;
-          max-width: 80em;
-          margin: auto;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          /* 48px - 64px */
-          gap: clamp(3rem, 7vw, 4rem);
-      }
-      #Hardware .cs-content {
-          /* set text align to left if content needs to be left aligned */
-          text-align: center;
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          /* centers content horizontally, set to flex-start to left align */
-          align-items: center;
-      }
-      #Hardware .cs-wrapper {
-          /* 120px - 181px */
-          width: clamp(7.5rem, 9vw, 11.3125rem);
-          margin-bottom: 0.75rem;
-          display: inline-flex;
-          justify-content: center;
-          align-items: center;
-          position: relative;
-      }
-      #Hardware .cs-wrapper:before {
-          /* left line */
-          content: "";
-          /* 90px - 155px */
-          width: clamp(5.625rem, 4vw, 9.6875rem);
-          height: 1px;
-          /* 12px - 24px */
-          margin-right: clamp(0.75rem, 2vw, 1.5rem);
-          background: #b4b2c7;
-          opacity: 1;
-          position: absolute;
-          display: block;
-          top: 50%;
-          right: 100%;
-          transform: translateY(-50%);
-      }
-      #Hardware .cs-wrapper:after {
-          /* right line */
-          content: "";
-          /* 90px - 155px */
-          width: clamp(5.625rem, 4vw, 9.6875rem);
-          height: 1px;
-          /* 12px - 24px */
-          margin-left: clamp(0.75rem, 2vw, 1.5rem);
-          background: #b4b2c7;
-          opacity: 1;
-          position: absolute;
-          display: block;
-          top: 50%;
-          left: 100%;
-          transform: translateY(-50%);
-      }
-      #Hardware .cs-wrapper img {
-          width: 100%;
-      }
+/* Mobile - 360px */
+@media only screen and (min-width: 0rem) {
+  #Hardware {
+    padding: var(--sectionPadding);
+    position: relative;
+    z-index: 1;
+  }
+  #Hardware:before {
+    /* static tiled pattern  */
+    content: "";
+    height: 100%;
+    width: 100%;
+    opacity: 0.08;
+    background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
+    background-size: auto;
+    background-position: center;
+    background-repeat: repeat;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  #Hardware .cs-container {
+    width: 100%;
+    max-width: 80em;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* 48px - 64px */
+    gap: clamp(3rem, 7vw, 4rem);
+  }
+  #Hardware .cs-content {
+    /* set text align to left if content needs to be left aligned */
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* centers content horizontally, set to flex-start to left align */
+    align-items: center;
+  }
+  #Hardware .cs-wrapper {
+    /* 120px - 181px */
+    width: clamp(7.5rem, 9vw, 11.3125rem);
+    margin-bottom: 0.75rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  #Hardware .cs-wrapper:before {
+    /* left line */
+    content: "";
+    /* 90px - 155px */
+    width: clamp(5.625rem, 4vw, 9.6875rem);
+    height: 1px;
+    /* 12px - 24px */
+    margin-right: clamp(0.75rem, 2vw, 1.5rem);
+    background: #b4b2c7;
+    opacity: 1;
+    position: absolute;
+    display: block;
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%);
+  }
+  #Hardware .cs-wrapper:after {
+    /* right line */
+    content: "";
+    /* 90px - 155px */
+    width: clamp(5.625rem, 4vw, 9.6875rem);
+    height: 1px;
+    /* 12px - 24px */
+    margin-left: clamp(0.75rem, 2vw, 1.5rem);
+    background: #b4b2c7;
+    opacity: 1;
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+  }
+  #Hardware .cs-wrapper img {
+    width: 100%;
+  }
 
-      #Hardware .cs-button-solid {
-          font-size: 1rem;
-          /* 46px - 56px */
-          line-height: clamp(2.875em, 5.5vw, 3.5em);
-          text-decoration: none;
-          font-weight: 700;
-          text-align: center;
-          margin: auto;
-          color: #fff;
-          min-width: 9.375rem;
-          padding: 0 2rem;
-          background-color: var(--primary);
-          display: inline-block;
-          position: relative;
-          z-index: 1;
-          /* prevents padding from adding to the width */
-          box-sizing: border-box;
-          transition: color 0.3s;
-      }
-      #Hardware .cs-button-solid:before {
-          content: "";
-          position: absolute;
-          height: 100%;
-          width: 0%;
-          background: #000;
-          opacity: 1;
-          top: 0;
-          left: 0;
-          z-index: -1;
-          transition: width 0.3s;
-      }
-      #Hardware .cs-button-solid:hover {
-          color: #fff;
-      }
-      #Hardware .cs-button-solid:hover:before {
-          width: 100%;
-      }
-      #Hardware .cs-card-group {
-          margin: 0;
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          column-gap: 1.25rem;
-          /* 32px - 60px */
-          row-gap: clamp(2rem, 6vw, 3.75rem);
-      }
-      #Hardware .cs-item {
-          list-style: none;
-          width: 100%;
-          max-width: 36.25rem;
-          margin: 0;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          /* 16px - 36px */
-          gap: clamp(1rem, 3vw, 2.25rem);
-      }
-      #Hardware .cs-picture {
-          /* 76px - 160px */
-          width: clamp(4.75rem, 14vw, 10rem);
-          height: clamp(4.75rem, 14vw, 10rem);
-          overflow: hidden;
-          display: block;
-          flex: none;
-          position: relative;
-      }
-      #Hardware .cs-picture img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          /* makes it act like a background image */
-          object-fit:scale-down;
-      }
-      #Hardware .cs-h3 {
-          /* 16px - 24px */
-          font-size: clamp(1rem, 2vw, 1.5rem);
-          line-height: 1.2em;
-          font-weight: 700;
-          text-align: left;
-          /* 8px - 16px */
-          margin: 0 0 clamp(0.5rem, 1.5vw, 1rem);
-          color: var(--headerColor);
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          position: relative;
-          gap: 0.75rem;
-      }
-      /* #Hardware .cs-h3:after {
+  #Hardware .cs-button-solid {
+    font-size: 1rem;
+    /* 46px - 56px */
+    line-height: clamp(2.875em, 5.5vw, 3.5em);
+    text-decoration: none;
+    font-weight: 700;
+    text-align: center;
+    margin: auto;
+    color: #fff;
+    min-width: 9.375rem;
+    padding: 0 2rem;
+    background-color: var(--primary);
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    /* prevents padding from adding to the width */
+    box-sizing: border-box;
+    transition: color 0.3s;
+  }
+  #Hardware .cs-button-solid:before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    background: #000;
+    opacity: 1;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: width 0.3s;
+  }
+  #Hardware .cs-button-solid:hover {
+    color: #fff;
+  }
+  #Hardware .cs-button-solid:hover:before {
+    width: 100%;
+  }
+  #Hardware .cs-card-group {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    column-gap: 1.25rem;
+    /* 32px - 60px */
+    row-gap: clamp(2rem, 6vw, 3.75rem);
+  }
+  #Hardware .cs-item {
+    list-style: none;
+    width: 100%;
+    max-width: 36.25rem;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* 16px - 36px */
+    gap: clamp(1rem, 3vw, 2.25rem);
+  }
+  #Hardware .cs-picture {
+    /* 76px - 160px */
+    width: clamp(4.75rem, 14vw, 10rem);
+    height: clamp(4.75rem, 14vw, 10rem);
+    overflow: hidden;
+    display: block;
+    flex: none;
+    position: relative;
+  }
+  #Hardware .cs-picture img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    /* makes it act like a background image */
+    object-fit: scale-down;
+  }
+  #Hardware .cs-h3 {
+    /* 16px - 24px */
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    line-height: 1.2em;
+    font-weight: 700;
+    text-align: left;
+    /* 8px - 16px */
+    margin: 0 0 clamp(0.5rem, 1.5vw, 1rem);
+    color: var(--headerColor);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    gap: 0.75rem;
+  }
+  /* #Hardware .cs-h3:after {
           content: "";
           width: 50%;
           height: 1px;
@@ -2142,269 +2147,463 @@ body {
           display: block;
           order: 1;
       } */
-      #Hardware .cs-name {
-          max-width: 13.75rem;
-          flex: none;
-      }
-      #Hardware .cs-price {
-          /* 16px - 25px */
-          font-size: clamp(1rem, 2vw, 1.5625rem);
-          /* 28px - 46px */
-          line-height: clamp(1.75rem, 4vw, 2.875rem);
-          font-weight: 700;
-          /* 8px - 12px */
-          padding: 0 clamp(0.5rem, 1vw, 0.75rem);
-          color: var(--primary);
-          background-color: #fff;
-          border-radius: 5rem;
-          border: 1px solid #b4b2c7;
-          display: flex;
-          align-items: center;
-          order: 3;
-      }
-      #Hardware .cs-item-p {
-          /* 14px - 16px */
-          font-size: clamp(0.875rem, 2vw, 1rem);
-          line-height: 1.5em;
-          text-align: left;
-          margin: 0;
-          color: var(--bodyTextColor);
-      }
+  #Hardware .cs-name {
+    max-width: 75%;
+    flex: none;
   }
-  /* Tablet - 768px */
-  @media only screen and (min-width: 48rem) {
-      #Hardware .cs-card-group {
-          flex-direction: row;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          column-gap: 1.25rem;
-      }
-      #Hardware .cs-item {
-          width: 48.5%;
-      }
+  #Hardware .cs-price {
+    /* 16px - 25px */
+    font-size: clamp(1rem, 2vw, 1.5625rem);
+    /* 28px - 46px */
+    line-height: clamp(1.75rem, 4vw, 2.875rem);
+    font-weight: 700;
+    /* 8px - 12px */
+    padding: 0 clamp(0.5rem, 1vw, 0.75rem);
+    color: var(--primary);
+    background-color: #fff;
+    border-radius: 5rem;
+    border: 1px solid #b4b2c7;
+    display: flex;
+    align-items: center;
+    order: 3;
   }
-  /*-- -------------------------- -->
+  #Hardware .cs-item-p {
+    /* 14px - 16px */
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    line-height: 1.5em;
+    text-align: left;
+    margin: 0;
+    color: var(--bodyTextColor);
+  }
+}
+/* Tablet - 768px */
+@media only screen and (min-width: 48rem) {
+  #Hardware .cs-card-group {
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    column-gap: 1.25rem;
+  }
+  #Hardware .cs-item {
+    width: 48.5%;
+  }
+}
+/*-- -------------------------- -->
   <---          Footer            -->
   <--- -------------------------- -*/
 
-  /* Mobile - 360px */
-  @media only screen and (min-width: 0rem) {
-      #cs-footer-274 {
-          padding: var(--sectionPadding);
-          /* Navigation Links */
-      }
-      #cs-footer-274 .cs-container {
-          width: 100%;
-          /* reset on tablet */
-          max-width: 34.375rem;
-          margin: auto;
-          display: flex;
-          justify-content: flex-start;
-          align-items: flex-start;
-          flex-wrap: wrap;
-          column-gap: 5.5rem;
-          row-gap: 2rem;
-      }
-      #cs-footer-274 .cs-logo-group {
-          /* takes up all the space, lets the other ul's wrap below it */
-          width: 100%;
-          position: relative;
-      }
-      #cs-footer-274 .cs-logo-group {
-          /* 44px - 52px */
-          margin-bottom: clamp(2.75rem, 6.8vw, 3.25rem);
-      }
-      #cs-footer-274 .cs-logo {
-          /* 210px - 240px */
-          width: clamp(13.125rem, 8vw, 15rem);
-          height: auto;
-          display: block;
-      }
-      #cs-footer-274 .cs-logo-img {
-          width: 100%;
-          height: auto;
-      }
-      #cs-footer-274 .cs-social {
-          display: inline-flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          gap: 0.75rem;
-          position: absolute;
-          top: 0;
-          right: 0;
-      }
-      #cs-footer-274 .cs-social-link {
-          width: 1.5rem;
-          height: 1.5rem;
-          background-color: #4e4b66;
-          border-radius: 50%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          position: relative;
-          z-index: 1;
-          transition:
-              transform 0.3s,
-              background-color 0.3s;
-      }
-      #cs-footer-274 .cs-social-link:hover {
-          background-color: var(--primary);
-          transform: translateY(-0.1875rem);
-      }
-      #cs-footer-274 .cs-social-img {
-          height: 0.8125rem;
-          width: auto;
-          display: block;
-      }
-      #cs-footer-274 .cs-nav {
-          padding: 0;
-          margin: 0;
-      }
-      #cs-footer-274 .cs-nav-li {
-          list-style: none;
-          margin: 0;
-          color: var(--bodyTextColor);
-      }
-      #cs-footer-274 .cs-header {
-          font-size: 1rem;
-          line-height: 1.5em;
-          font-weight: 700;
-          /* 16px - 20px */
-          margin-bottom: clamp(1rem, 2.7vw, 1.25rem);
-          color: var(--bodyTextColor);
-          position: relative;
-          display: block;
-      }
-      #cs-footer-274 .cs-nav-link {
-          font-size: 1rem;
-          text-decoration: none;
-          line-height: 1.5em;
-          color: var(--bodyTextColor);
-          position: relative;
-      }
-      #cs-footer-274 .cs-nav-link:before {
-          /* underline */
-          content: "";
-          width: 0%;
-          height: 0.125rem;
-          background: var(--bodyTextColor);
-          opacity: 1;
-          position: absolute;
-          display: block;
-          bottom: -0.125rem;
-          left: 0;
-          transition: width 0.3s;
-      }
-      #cs-footer-274 .cs-nav-link:hover:before {
-          width: 100%;
-      }
+/* Mobile - 360px */
+@media only screen and (min-width: 0rem) {
+  #cs-footer-274 {
+    padding: var(--sectionPadding);
+    /* Navigation Links */
   }
-  /* Tablet - 768px */
-  @media only screen and (min-width: 48rem) {
-      #cs-footer-274 .cs-container {
-          max-width: 80rem;
-          row-gap: 0;
-          /* 44px - 88px */
-          column-gap: clamp(2.75rem, calc(6%), 5.5rem);
-      }
-      #cs-footer-274 .cs-logo-group {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-      }
-      #cs-footer-274 .cs-social {
-          flex-direction: row;
-          position: relative;
-          top: auto;
-          right: auto;
-      }
+  #cs-footer-274 .cs-container {
+    width: 100%;
+    /* reset on tablet */
+    max-width: 34.375rem;
+    margin: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    column-gap: 5.5rem;
+    row-gap: 2rem;
   }
-  /* Small Desktop - 1024px */
-  @media only screen and (min-width: 64rem) {
-      #cs-footer-274 .cs-container {
-          justify-content: flex-end;
-      }
-      #cs-footer-274 .cs-logo-group {
-          width: auto;
-          margin: 0;
-          /* pushes the rest of the content to the right in a flexbox */
-          margin-right: auto;
-          flex-direction: column;
-      }
-      #cs-footer-274 .cs-logo-img {
-          margin-bottom: 2.75rem;
-      }
-      #cs-footer-274 .cs-nav {
-          margin-top: 0.75rem;
-      }
+  #cs-footer-274 .cs-logo-group {
+    /* takes up all the space, lets the other ul's wrap below it */
+    width: 100%;
+    position: relative;
   }
+  #cs-footer-274 .cs-logo-group {
+    /* 44px - 52px */
+    margin-bottom: clamp(2.75rem, 6.8vw, 3.25rem);
+  }
+  #cs-footer-274 .cs-logo {
+    /* 210px - 240px */
+    width: clamp(13.125rem, 8vw, 15rem);
+    height: auto;
+    display: block;
+  }
+  #cs-footer-274 .cs-logo-img {
+    width: 100%;
+    height: auto;
+  }
+  #cs-footer-274 .cs-social {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  #cs-footer-274 .cs-social-link {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: #4e4b66;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s, background-color 0.3s;
+  }
+  #cs-footer-274 .cs-social-link:hover {
+    background-color: var(--primary);
+    transform: translateY(-0.1875rem);
+  }
+  #cs-footer-274 .cs-social-img {
+    height: 0.8125rem;
+    width: auto;
+    display: block;
+  }
+  #cs-footer-274 .cs-nav {
+    padding: 0;
+    margin: 0;
+  }
+  #cs-footer-274 .cs-nav-li {
+    list-style: none;
+    margin: 0;
+    color: var(--bodyTextColor);
+  }
+  #cs-footer-274 .cs-header {
+    font-size: 1rem;
+    line-height: 1.5em;
+    font-weight: 700;
+    /* 16px - 20px */
+    margin-bottom: clamp(1rem, 2.7vw, 1.25rem);
+    color: var(--bodyTextColor);
+    position: relative;
+    display: block;
+  }
+  #cs-footer-274 .cs-nav-link {
+    font-size: 1rem;
+    text-decoration: none;
+    line-height: 1.5em;
+    color: var(--bodyTextColor);
+    position: relative;
+  }
+  #cs-footer-274 .cs-nav-link:before {
+    /* underline */
+    content: "";
+    width: 0%;
+    height: 0.125rem;
+    background: var(--bodyTextColor);
+    opacity: 1;
+    position: absolute;
+    display: block;
+    bottom: -0.125rem;
+    left: 0;
+    transition: width 0.3s;
+  }
+  #cs-footer-274 .cs-nav-link:hover:before {
+    width: 100%;
+  }
+}
+/* Tablet - 768px */
+@media only screen and (min-width: 48rem) {
+  #cs-footer-274 .cs-container {
+    max-width: 80rem;
+    row-gap: 0;
+    /* 44px - 88px */
+    column-gap: clamp(2.75rem, calc(6%), 5.5rem);
+  }
+  #cs-footer-274 .cs-logo-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  #cs-footer-274 .cs-social {
+    flex-direction: row;
+    position: relative;
+    top: auto;
+    right: auto;
+  }
+}
+/* Small Desktop - 1024px */
+@media only screen and (min-width: 64rem) {
+  #cs-footer-274 .cs-container {
+    justify-content: flex-end;
+  }
+  #cs-footer-274 .cs-logo-group {
+    width: auto;
+    margin: 0;
+    /* pushes the rest of the content to the right in a flexbox */
+    margin-right: auto;
+    flex-direction: column;
+  }
+  #cs-footer-274 .cs-logo-img {
+    margin-bottom: 2.75rem;
+  }
+  #cs-footer-274 .cs-nav {
+    margin-top: 0.75rem;
+  }
+}
 
-  /*-- -------------------------- -->
+/*-- -------------------------- -->
   <---   Solution Architecture    -->
   <--- -------------------------- -*/
-  @media only screen and (min-width: 0rem) {
-    #SolutionArchitecture {
-      padding: var(--sectionPadding);
-      overflow: hidden;
-      position: relative;
-      z-index: 1;
-    }
-    #SolutionArchitecture:before {
-        /* static tiled pattern  */
-        content: "";
-        height: 100%;
-        width: 100%;
-        opacity: 0.08;
-        background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
-        background-size: auto;
-        background-position: center;
-        background-repeat: repeat;
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: -1;
-    } 
-    #SolutionArchitecture .cs-container {
-        width: 100%;
-        max-width: 80em;
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        /* 48px - 64px */
-        gap: clamp(3rem, 7vw, 4rem);
-    }
-
-
-    /* Style for cs-picture in Solution Architecture section */
-    #SolutionArchitecture .cs-picture {
-      width: 100%;
-      max-width:80%;
-      height: auto;
-      margin: 0 auto;
-      display: block;
-    }
-    #SolutionArchitecture .cs-picture img {
-      /* position: absolute; */
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      /* makes it act like a background image */
-      object-fit:scale-down;
-      animation: slideUp 800ms ease-out;
-    }
+@media only screen and (min-width: 0rem) {
+  #SolutionArchitecture {
+    padding: var(--sectionPadding);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
   }
-                              
-                              
+  #SolutionArchitecture:before {
+    /* static tiled pattern  */
+    content: "";
+    height: 100%;
+    width: 100%;
+    opacity: 0.08;
+    background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
+    background-size: auto;
+    background-position: center;
+    background-repeat: repeat;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  #SolutionArchitecture .cs-container {
+    width: 100%;
+    max-width: 80em;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* 48px - 64px */
+    gap: clamp(3rem, 7vw, 4rem);
+  }
 
+  /* Style for cs-picture in Solution Architecture section */
+  #SolutionArchitecture .cs-picture {
+    width: 100%;
+    max-width: 80%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+  }
+  #SolutionArchitecture .cs-picture img {
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    /* makes it act like a background image */
+    object-fit: scale-down;
+    animation: slideUp 800ms ease-out;
+  }
+}
 
-            
+/* =================================================================
+                            Video Gallery
+================================================================= */
 
+.section-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
 
-                              
-                                                             
+.section-header h1 {
+  font: 400 32px "Montserrat", sans-serif;
+  text-transform: uppercase;
+}
+#video-gallery {
+  padding: var(--sectionPadding);
+  position: relative;
+  z-index: 1;
+}
+#video-gallery:before {
+  /* static tiled pattern  */
+  content: "";
+  height: 100%;
+  width: 100%;
+  opacity: 0.08;
+  background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Food-Menu/static-pattern.png");
+  background-size: auto;
+  background-position: center;
+  background-repeat: repeat;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
 
-                              
+.video-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+  grid-gap: 15px;
+  max-width: 1100px;
+  padding: 15px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.video-gallery .gallery-item {
+  position: relative;
+  width:fit-content;
+  align-items: center;
+  height: 300px;
+  background: #000;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.video-gallery .gallery-item img {
+  position: relative;
+  display: block;
+  width: 115%;
+  height: 300px;
+  object-fit: cover;
+  opacity: 0.5;
+  /*transition: opacity .35s, transform .35s;*/
+  transition: all 350ms ease-in-out;
+  transform: translate3d(-23px, 0, 0);
+  /*backface-visibility: hidden;*/
+}
+
+.north-cascades-img {
+  object-position: 50% 30%;
+}
+
+.video-gallery .gallery-item .gallery-item-caption {
+  padding: 32px;
+  font-size: 1em;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.video-gallery .gallery-item .gallery-item-caption,
+.video-gallery .gallery-item .gallery-item-caption > a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.video-gallery .gallery-item h2 {
+  font-weight: 300;
+  overflow: hidden;
+  padding: 12px 0;
+}
+
+.video-gallery .gallery-item h2,
+.video-gallery .gallery-item p {
+  position: relative;
+  margin: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.video-gallery .gallery-item p {
+  letter-spacing: 1px;
+  font-size: 12px;
+  padding: 12px 0;
+  opacity: 0;
+  transition: opacity 0.35s, transform 0.35s;
+  transform: translate3d(10%, 0, 0);
+}
+
+.video-gallery .gallery-item:hover img {
+  opacity: 0.3;
+  transform: translate3d(0, 0, 0);
+}
+
+.video-gallery .gallery-item .gallery-item-caption {
+  text-align: left;
+}
+
+.video-gallery .gallery-item h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 15%;
+  height: 1px;
+  background: #fff;
+  transition: transform 0.3s;
+  transform: translate3d(-100%, 0, 0);
+}
+
+.video-gallery .gallery-item:hover h2::after {
+  transform: translate3d(0, 0, 0);
+}
+
+.video-gallery .gallery-item:hover p {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@media screen and (max-width: 784px) {
+  .video-gallery {
+    width: 100%;
+    padding: 15px;
+  }
+  .video-gallery .gallery-item {
+    width: 95%;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+/* Add modal styles as needed */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 50px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  max-width: 80%;
+  max-height: 80%;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.grid-picture {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 4em;
+}
+
+@media (max-width: 768px) {
+  .grid-picture {
+  grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
+  }
+}

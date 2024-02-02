@@ -13,6 +13,7 @@
   extraResources: ["src/assets"],
   mac: {
     target: ["dmg"],
+    icon: "public/Icon.ico",
     artifactName: "${productName}-Mac-${version}-Installer.${ext}",
   },
   win: {
@@ -35,7 +36,8 @@
     deleteAppDataOnUninstall: false,
   },
   linux: {
-    target: ["AppImage"],
+    icon: "public/Icon.png",
+    target: ["deb"],
     artifactName: "${productName}-Linux-${version}.${ext}",
   },
 }

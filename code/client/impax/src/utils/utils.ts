@@ -12,6 +12,7 @@ export function generateStringId(input: string): string {
   const words = input.split(" ");
   const id = words.map((word) => word[0]).join("");
   const currentDate = new Date().toISOString().split("T")[0];
-  const stringId = `${id}-${currentDate}`;
+  const timestamp = Date.now().toString().split("").slice(0, 5).join("");
+  const stringId = `${id}-${currentDate}-${timestamp}`;
   return stringId;
 }

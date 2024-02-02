@@ -15,56 +15,61 @@ import { FaSort } from "react-icons/fa";
 import { Manager } from "../../../types";
 import { Verification } from "../../PlayerManagement/PlayersTable/Verification/Verification";
 import ManagerActions from "./ManagerActions";
-import { managers } from "./managersData";
 
-const columns: ColumnDef<Manager>[] = [
-  {
-    //TODO:Until verified manager will not have a name
-    accessorKey: "name",
-    size: 100,
-    header: ({ column }) => {
-      return (
-        <button
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Name <FaSort className={styles.icon} />
-        </button>
-      );
+const ManagersTable: React.FC<{
+  managerProfileData: Manager[];
+  handleAction: () => void;
+}> = ({ managerProfileData, handleAction }) => {
+  const columns: ColumnDef<Manager>[] = [
+    {
+      //TODO:Until verified manager will not have a name
+      accessorKey: "name",
+      size: 100,
+      header: ({ column }) => {
+        return (
+          <button
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Name <FaSort className={styles.icon} />
+          </button>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          row.getValue("name") ?? <span className={styles.noName}>---</span>
+        );
+      },
     },
-    cell: ({ row }) => {
-      return row.getValue("name") ?? <span className={styles.noName}>---</span>;
+
+    {
+      accessorKey: "email",
+      header: "Email",
+      id: "email",
+      size: 100,
     },
-  },
 
-  {
-    accessorKey: "email",
-    header: "Email",
-    id: "email",
-    size: 100,
-  },
-
-  {
-    accessorKey: "verification",
-    header: "Verification",
-    id: "verification",
-    size: 10,
-    cell: ({ row }) => <Verification status={row.getValue("verification")} />,
-  },
-  {
-    accessorKey: "edit",
-    header: "",
-    id: "edit",
-    size: 3,
-    cell: ({ row }) => (
-      <ManagerActions
-        name={row.getValue("name")}
-        email={row.getValue("email")}
-      />
-    ),
-  },
-];
-const ManagersTable = () => {
-  const [data] = React.useState(() => [...managers]);
+    {
+      accessorKey: "verification",
+      header: "Verification",
+      id: "verification",
+      size: 10,
+      cell: ({ row }) => <Verification status={row.getValue("verification")} />,
+    },
+    {
+      accessorKey: "edit",
+      header: "",
+      id: "edit",
+      size: 3,
+      cell: ({ row }) => (
+        <ManagerActions
+          name={row.getValue("name")}
+          email={row.getValue("email")}
+          handleAction={handleAction}
+        />
+      ),
+    },
+  ];
+  const [data] = React.useState(() => [...managerProfileData]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []

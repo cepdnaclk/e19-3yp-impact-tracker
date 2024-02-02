@@ -32,7 +32,7 @@ const LoginManager = () => {
         },
       });
       const responseData = await response.json();
-      return responseData.teamName;
+      return responseData.team_name;
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +60,7 @@ const LoginManager = () => {
       });
       const teamName = await getTeamInfo(teamId, responseData.accessToken);
 
-      setLoginInfo({ teamId, teamName: teamName, email });
+      setLoginInfo({ teamId, teamName, email });
 
       // FETCH PLAYERS array and store it in local storage
 

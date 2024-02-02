@@ -15,8 +15,10 @@ import { useAppState } from "../../../states/appState";
 import NoInternetConnection from "../../StatusScreens/NoInternetConnection";
 import ImpactSummarySkeleton from "../ImpactSummarySkeleton";
 import Spinner from "../../StatusScreens/Spinner";
+import { useLoginState } from "../../../states/profileState";
 const PlayerAnalytics = () => {
   const [timeSpan, setTimeSpan] = useState<TimeSpan>("Last Week");
+  const loginInfo = useLoginState((state) => state.loginInfo);
 
   const { data: AnalyticsSummaryPlayer, isLoading } = useQuery({
     queryFn: () => fetchAnalyticsSummaryPlayer(),
@@ -53,13 +55,15 @@ const PlayerAnalytics = () => {
     }
   }
 
+  console.log(AnalyticsSummaryPlayer);
+
   return (
     <main>
       <Title Icon={MdBarChart} title="Player Analytics" />
       <div className={styles.summary}>
         <div className={styles.info}>
-          <h2>John Doe's Individual Analytics</h2>{" "}
-          <span>0 marked concussion</span>
+          <h2>Analyze your Individual Impacts</h2>{" "}
+          <span>{loginInfo.email}</span>
         </div>
         <div className={styles.controls}>
           <DropdownMenu.Root>
@@ -122,22 +126,24 @@ const PlayerAnalytics = () => {
             <div className={styles.criticalSessions}>
               <h2>Critical Sessions</h2>
               {AnalyticsSummaryPlayer?.criticalSessions?.length == 0 && (
-                <p>No sessions recorded</p>
+                <p className={styles.noSessions}>No sessions recorded</p>
               )}
-              {AnalyticsSummaryPlayer?.criticalSessions?.map((session) => (
-                <div
-                  className={styles.criticalSessionContainer}
-                  key={session.name}
-                >
-                  <CriticalSession
-                    name={session.name}
-                    date={session.date}
-                    cumulative={session.cumulative}
-                    average={session.average}
-                    highest={session.highest}
-                  />
-                </div>
-              ))}
+              {AnalyticsSummaryPlayer?.criticalSessions
+                ?.sort((a, b) => b.cumulative - a.cumulative)
+                .map((session) => (
+                  <div
+                    className={styles.criticalSessionContainer}
+                    key={session.name}
+                  >
+                    <CriticalSession
+                      name={session.name}
+                      date={session.date}
+                      cumulative={session.cumulative}
+                      average={session.average}
+                      highest={session.highest}
+                    />
+                  </div>
+                ))}
             </div>
           </div>
         </>
