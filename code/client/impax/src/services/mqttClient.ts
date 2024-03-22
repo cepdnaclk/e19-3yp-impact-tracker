@@ -29,9 +29,9 @@ class MqttClient {
 
     this.topics = [
       "test/#",
-      "buddy/+/status",
-      "buddy/+/impact",
       //"buddy/+/impact_with_timestamp",
+      "buddy/+/impact",
+      "buddy/+/status",
       "session",
       "player/+/impact_history",
       "player/+/impact_with_timestamp",
